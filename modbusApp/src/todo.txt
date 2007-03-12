@@ -1,0 +1,15 @@
+To do:
+
+- Test bi records on read coil
+- Test bi records on read register
+- Test bo records on write coil
+- Test bo records on write register
+- Test longin records on read coil
+- Test longin records on read register
+- Test waveform records on read read coils
+- Test waveform records on read registers
+- Test waveform records on write coils
+- Test waveform records on write registers
+- Test callbacks (I/O Intr)
+
+- Write documentation

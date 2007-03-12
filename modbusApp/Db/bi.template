@@ -1,0 +1,8 @@
+# bi record input template
+record(bi,"$(P)$(R)") {
+    field(DTYP,"asynUInt32Digital")
+    field(INP,"@asynMask($(PORT) $(OFFSET) $(MASK))")
+    field(SCAN,"$(SCAN)")
+    field(ZNAM,"0")
+    field(ONAM,"1")
+}

@@ -1,0 +1,13 @@
+file "../../db/bi.template"
+{
+pattern
+{P,       R,        PORT,      OFFSET,    MASK,      SCAN}
+{GAS:,    bi_0,     GAS_Xn,     0,        0x0001,    ".1 second"}
+{GAS:,    bi_1,     GAS_Xn,     0,        0x0002,    ".1 second"}
+{GAS:,    bi_2,     GAS_Xn,     0,        0x0004,    ".1 second"}
+{GAS:,    bi_3,     GAS_Xn,     0,        0x0008,    ".1 second"}
+{GAS:,    bi_4,     GAS_Xn,     0,        0x0010,    ".1 second"}
+{GAS:,    bi_5,     GAS_Xn,     0,        0x0020,    ".1 second"}
+{GAS:,    bi_6,     GAS_Xn,     0,        0x0040,    ".1 second"}
+{GAS:,    bi_7,     GAS_Xn,     0,        0x0080,    ".1 second"}
+}
