@@ -10,7 +10,10 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------------------
 # Create and install (or just install) into <top>/db
 # databases, templates, substitutions like this
-DB += bi.template
+DB += bi_word.template
+DB += bo_word.template
+DB += bi_bit.template
+DB += bo_bit.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
