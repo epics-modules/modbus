@@ -95,11 +95,11 @@ display {
 		height=29
 	}
 	display[0] {
-		label="PLC Test"
-		name="plcTest.adl"
-		args="P=GSECARS:, A=GAS:"
+		label="GAS Test"
+		name="GAS_Test.adl"
+		args="P=GAS:"
 	}
 	clr=14
 	bclr=4
-	label="PLCTest"
+	label="GAS_Test"
 }
