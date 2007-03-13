@@ -1,9 +1,10 @@
 To do:
 
-- Test bi records on read coil
-- Test bi records on read register
-- Test bo records on write coil
-- Test bo records on write register
+- Make readOnce on outputs, using readMsec flag DONE
+- Test bi records on read coil DONE
+- Test bi records on read register  DONE
+- Test bo records on write coil DONE
+- Test bo records on write register DONE
 - Test longin records on read coil
 - Test longin records on read register
 - Test waveform records on read read coils
@@ -11,5 +12,8 @@ To do:
 - Test waveform records on write coils
 - Test waveform records on write registers
 - Test callbacks (I/O Intr)
+- Add histogram reading
+- Add extra control (poll time, etc.)
+- Watchdog?
 
 - Write documentation
