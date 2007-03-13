@@ -48,7 +48,7 @@
 #define PLC_MODICON 0
 #define PLC_SIEMENS 1
 
-#define MAX_READ_POINTS   125      /* max read group length */
+#define MAX_READ_WORDS  125        /* Modbus limit on number of words to read */
 #define TIMEHISTLENGTH 200         /* length of time histogram */
 #define MAX_TCP_MESSAGE_SIZE 1500
 #define MAX_CONNECT_RETRY  5
@@ -79,12 +79,6 @@ static modbusCommandStruct modbusCommands[MAX_MODBUS_COMMANDS] = {
     {modbusReadHistogramCommand,   MODBUS_READ_HISTOGRAM_COMMAND_STRING},  /* int32Array, read */
 };
 
-typedef union MIXED_str
-{
-    unsigned short i;
-    unsigned char  c[2];
-} MIXED;
-
 typedef struct modbusTCPStr *PLC_ID;
 
 typedef struct modbusTCPStr
@@ -92,7 +86,7 @@ typedef struct modbusTCPStr
     PLC_ID pNext;            /* Pointer to next asyn port server */
     char *portName;         /* asyn port name for this server */
     char *tcpPortName;      /* asyn port name for the asyn TCP port */
-    int plc_type;
+    char *plcType;
     asynUser  *pasynUserOctet;
     asynInterface asynCommon;
     asynInterface asynDrvUser;
@@ -105,11 +99,14 @@ typedef struct modbusTCPStr
     void *asynInt32InterruptPvt;
     int modbusFunction;
     int modbusStartAddress;
-    int modbusLength;
-    unsigned short int *memStart;    /* memory buffer */
+    int modbusLength;            /* Number of words or bits of Modbus data */
+    unsigned short *data;        /* Memory buffer */
+    unsigned short *prevData;    /* Previous contents of memory buffer */
     char modbusRequest[MAX_TCP_MESSAGE_SIZE];      /* Modbus request message */
     char modbusReply[MAX_TCP_MESSAGE_SIZE];        /* Modbus reply message */
     double pollTime;
+    int readOnceFunction;
+    int readOnceDone;
     epicsThreadId readTaskId;        /* id of read task */
     int checkTaskId;       /* id of watchdog check task */
     int abort;
@@ -117,7 +114,7 @@ typedef struct modbusTCPStr
     int writeOK;
     int readBad;
     int writeBad;
-    double maxReadTime;
+    int maxReadTime;
     int last_readok;
     int noupd_count;
     int read_retry;
@@ -134,16 +131,10 @@ typedef struct modbusTCPStr
     int keepaliveOffset;
     int watchdogLast;
     int watchdogOk;
-    int allReadOnceDone;
 } modbusTCPStr_t;
 
-union fourbytes {
-    float floatdata;
-    unsigned long longdata;
-    unsigned char bytedata[4];
-};
-
-/* local variable declarations */
+
+/* local variable declarations */
 static PLC_ID pFirstPlc;
 static PLC_ID diagPlc;
 
@@ -257,7 +248,7 @@ static asynInt32Array drvInt32Array = {
 /*
 ** drvModbusTCPAsynConfigure() - create and init an asyn port driver for a PLC
 **                                                                    
-** SYNOPSIS    int plctcpDrvCreate                                        
+** SYNOPSIS    int plctcpDrvConfigure                                        
 **                {                                                     
 **                char *portName      asyn port name for this server              
 **                char *tcpPort       asyn port name for TCP server
@@ -273,16 +264,19 @@ static asynInt32Array drvInt32Array = {
 */
 
 int drvModbusTCPAsynConfigure(char *portName, char *tcpPortName, char *plcType,
-                              int modbusFunction, int modbusStartAddress, int modbusLength,
-                              int pollMsec)
+                           int modbusFunction, int modbusStartAddress, int modbusLength,
+                           int pollMsec)
 {
     int status;
     PLC_ID pPlc;
     char readThreadName[100];
+    int needReadThread;
+    int readLength;
 
     pPlc = callocMustSucceed(1, sizeof(*pPlc), "drvModbusTCPAsynConfigure");
     pPlc->portName = epicsStrDup(portName);
     pPlc->tcpPortName = epicsStrDup(tcpPortName);
+    pPlc->plcType = epicsStrDup(plcType);
     pPlc->modbusFunction = modbusFunction;
     pPlc->modbusStartAddress = modbusStartAddress;
     pPlc->modbusLength = modbusLength;
@@ -371,24 +365,71 @@ int drvModbusTCPAsynConfigure(char *portName, char *tcpPortName, char *plcType,
                      pPlc->pasynUserTrace->errorMessage);
         return(-1);
     }
-
+    
+    readLength = 0;
+    needReadThread = 0;
+    pPlc->readOnceFunction = 0;
+   switch(pPlc->modbusFunction) {
+        case MODBUS_READ_COILS:
+        case MODBUS_READ_DISCRETE_INPUTS:
+            readLength = pPlc->modbusLength/16;
+            needReadThread = 1;
+            break;
+        case MODBUS_READ_HOLDING_REGISTERS:
+        case MODBUS_READ_INPUT_REGISTERS:
+            readLength = pPlc->modbusLength;
+            needReadThread = 1;
+            break;
+        case MODBUS_WRITE_SINGLE_COIL:
+        case MODBUS_WRITE_MULTIPLE_COILS:
+            readLength = pPlc->modbusLength/16;
+            if (pollMsec != 0) pPlc->readOnceFunction = MODBUS_READ_COILS;
+            break;
+       case MODBUS_WRITE_SINGLE_REGISTER:
+       case MODBUS_WRITE_MULTIPLE_REGISTERS:
+            readLength = pPlc->modbusLength;
+            if (pollMsec != 0) pPlc->readOnceFunction = MODBUS_READ_HOLDING_REGISTERS;
+            break;
+       default:
+            asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                      "%s::drvModbusTCPAsynConfid PLC %s unsupported Modbus function %d\n",
+                      driver, pPlc->portName, pPlc->modbusFunction);
+            return(asynError);
+    }
+    
     /* Make sure memory length is valid for this modbusFunction FIX THIS */
-    if (pPlc->modbusLength > MAX_READ_POINTS) {
+    if (readLength > MAX_READ_WORDS) {
         errlogPrintf("drvModbusTCPConfigure, memory length too large\n");
         return(-1);
     }
-    pPlc->memStart = callocMustSucceed(pPlc->modbusLength, sizeof(short), "drvModbusTCPAsynConfigure");
+    
+    /* Note that we always allocate modbusLength words of memory.  In theory we could use modbusLength bits for bit
+     * operations, doModbusIO puts one bit per word for simplicity.  Also write operations without readOnce do not
+     * need the memory, but it is at most 250 bytes, so we don't worry about it */
+    if (pPlc->modbusLength != 0) {
+        pPlc->data = callocMustSucceed(pPlc->modbusLength, sizeof(unsigned short), "drvModbusTCPAsynConfigure");
+        pPlc->prevData = callocMustSucceed(pPlc->modbusLength, sizeof(unsigned short), "drvModbusTCPAsynConfigure");
+    }
     pPlc->pNext = NULL;
-    pPlc->plc_type = PLC_MODICON;  /* FIX THIS */
     pPlc->plcwatch_disconn = 1;    /* default: watchdog task disconnects */
     pPlc->max_noupd_count = 2;     /* ... after 10 seconds of no communication */
     pPlc->auto_reconnect = DEFAULT_RECONNECT;
  
+    /* If this is an output function do a readOnce operation if required */
+    if (pPlc->readOnceFunction) {
+        status = doModbusIO(pPlc, pPlc->readOnceFunction, pPlc->modbusStartAddress, 
+                            pPlc->data, pPlc->modbusLength);
+        if (status != asynSuccess) {
+            asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                      "%s::drvModbusTCPAsynConfigure PLC %s error=%d performing readOnce operation %d\n",
+                      driver, pPlc->portName, status, pPlc->readOnceFunction);
+            return(asynError);
+        }
+        pPlc->readOnceDone = 1;
+    }
+    
     /* Create the thread to read registers if this is a read function code */
-    if (pPlc->modbusFunction == MODBUS_READ_COILS ||
-        pPlc->modbusFunction == MODBUS_READ_DISCRETE_INPUTS ||
-        pPlc->modbusFunction == MODBUS_READ_INPUT_REGISTERS ||
-        pPlc->modbusFunction == MODBUS_READ_HOLDING_REGISTERS) {
+    if (needReadThread) {
         epicsSnprintf(readThreadName, 100, "%sRead", pPlc->portName);
         pPlc->readTaskId = epicsThreadCreate(readThreadName,
            epicsThreadPriorityMedium,
@@ -403,44 +444,44 @@ int drvModbusTCPAsynConfigure(char *portName, char *tcpPortName, char *plcType,
 
 /* asynDrvUser routines */
 static asynStatus drvUserCreate(void *drvPvt, asynUser *pasynUser,
-    const char *drvInfo,
-    const char **pptypeName, size_t *psize)
+                                const char *drvInfo,
+                                const char **pptypeName, size_t *psize)
 {
-  int i;
-  char *pstring;
+    int i;
+    char *pstring;
 
-  for (i=0; i<MAX_MODBUS_COMMANDS; i++) {
-    pstring = modbusCommands[i].commandString;
-    if (epicsStrCaseCmp(drvInfo, pstring) == 0) {
-      pasynUser->reason = modbusCommands[i].command;
-      if (pptypeName) *pptypeName = epicsStrDup(pstring);
-      if (psize) *psize = sizeof(modbusCommands[i].command);
-      asynPrint(pasynUser, ASYN_TRACE_FLOW,
-          "drvModbusTCPAsyn::drvUserCreate, command=%s\n", pstring);
-      return(asynSuccess);
+    for (i=0; i<MAX_MODBUS_COMMANDS; i++) {
+        pstring = modbusCommands[i].commandString;
+        if (epicsStrCaseCmp(drvInfo, pstring) == 0) {
+            pasynUser->reason = modbusCommands[i].command;
+            if (pptypeName) *pptypeName = epicsStrDup(pstring);
+            if (psize) *psize = sizeof(modbusCommands[i].command);
+            asynPrint(pasynUser, ASYN_TRACE_FLOW,
+                      "drvModbusTCPAsyn::drvUserConfigure, command=%s\n", pstring);
+            return(asynSuccess);
+        }
     }
-  }
-  asynPrint(pasynUser, ASYN_TRACE_ERROR,
-      "drvModbusTCPAsyn::drvUserCreate, unknown command=%s\n", drvInfo);
-  return(asynError);
+    asynPrint(pasynUser, ASYN_TRACE_ERROR,
+              "drvModbusTCPAsyn::drvUserConfigure, unknown command=%s\n", drvInfo);
+    return(asynError);
 }
 
 static asynStatus drvUserGetType(void *drvPvt, asynUser *pasynUser,
-    const char **pptypeName, size_t *psize)
+                                 const char **pptypeName, size_t *psize)
 {
-  int command = pasynUser->reason;
+    int command = pasynUser->reason;
 
-  *pptypeName = NULL;
-  *psize = 0;
-  if (pptypeName)
-    *pptypeName = epicsStrDup(modbusCommands[command].commandString);
-  if (psize) *psize = sizeof(command);
-  return(asynSuccess);
+    *pptypeName = NULL;
+    *psize = 0;
+    if (pptypeName)
+        *pptypeName = epicsStrDup(modbusCommands[command].commandString);
+    if (psize) *psize = sizeof(command);
+    return(asynSuccess);
 }
 
 static asynStatus drvUserDestroy(void *drvPvt, asynUser *pasynUser)
 {
-  return(asynSuccess);
+    return(asynSuccess);
 }
 
 
@@ -451,25 +492,25 @@ static asynStatus drvUserDestroy(void *drvPvt, asynUser *pasynUser)
 /* Connect */
 static asynStatus asynConnect(void *drvPvt, asynUser *pasynUser)
 {
-  PLC_ID pPvt = (PLC_ID)drvPvt;
-  int signal;
+    PLC_ID pPvt = (PLC_ID)drvPvt;
+    int signal;
   
-  pasynManager->getAddr(pasynUser, &signal);
-  if (signal < pPvt->modbusLength) {
-    pasynManager->exceptionConnect(pasynUser);
-    return(asynSuccess);
-  } else {
-    return(asynError);
-  }
+    pasynManager->getAddr(pasynUser, &signal);
+    if (signal < pPvt->modbusLength) {
+        pasynManager->exceptionConnect(pasynUser);
+        return(asynSuccess);
+    } else {
+        return(asynError);
+    }
 }
 
 /* Disconnect */
 static asynStatus asynDisconnect(void *drvPvt, asynUser *pasynUser)
 {
-  /* Does nothing for now.  
-   * May be used if connection management is implemented */
-  pasynManager->exceptionDisconnect(pasynUser);
-  return(asynSuccess);
+    /* Does nothing for now.  
+     * May be used if connection management is implemented */
+    pasynManager->exceptionDisconnect(pasynUser);
+    return(asynSuccess);
 }
 
 
@@ -478,26 +519,20 @@ static void asynReport(void *drvPvt, FILE *fp, int details)
 {
     PLC_ID pPlc = (PLC_ID)drvPvt;
 
-    fprintf(fp, "Support for PLCs using Modbus/TCP\n");
-    fprintf(fp, "PLC: %s (%p) asyn TCP server: %s modbusFunction %d, modbusStartAddress %o, modbusLength %d\n", 
-            pPlc->portName, pPlc, pPlc->tcpPortName, pPlc->modbusFunction, pPlc->modbusStartAddress, pPlc->modbusLength);
-    if (pPlc->plc_type == PLC_MODICON) { fprintf(fp, "    type MODICON\n"); }
-    else { fprintf(fp, "    type SIEMENS\n"); }
-    fprintf(fp, "\nMessage statistics:\nwrite: ok %d bad %d\nread:  ok %d bad %d\n",
-            pPlc->writeOK, pPlc->writeBad, pPlc->readOK, pPlc->readBad);
-
-    if (details > 0) {
-        fprintf(fp, "      pollTime %f\n", pPlc->pollTime);
-        fprintf(fp, "      watchdog disconnect %ld\n      auto reconnect %d\n      disconnect count %ld\n",
-                pPlc->plcwatch_disconn, pPlc->auto_reconnect, pPlc->max_noupd_count);
-        if (pPlc->watchdogOffset > 0)
-            fprintf(fp, "      PLC watchdog location %d\n", pPlc->watchdogOffset+1);
-        if (pPlc->keepaliveOffset > 0)
-            fprintf(fp, "      keep alive location %d\n", pPlc->keepaliveOffset+1);
-        fprintf(fp, "\nTiming Report for PLC: %s  last read cycle: %ld msec\n", 
-            pPlc->portName, pPlc->readmsec);
-
+    fprintf(fp, "modbusTCP port: %s\n", pPlc->portName);
+    if (details) {
+        fprintf(fp, "    asyn TCP server:    %s\n", pPlc->tcpPortName);
+        fprintf(fp, "    modbusFunction:     %d\n", pPlc->modbusFunction);
+        fprintf(fp, "    modbusStartAddress: %o\n", pPlc->modbusStartAddress);
+        fprintf(fp, "    modbusLength:       %o\n", pPlc->modbusLength);
+        fprintf(fp, "    plcType:            %s\n", pPlc->plcType);
+        fprintf(fp, "    read:               ok %d bad %d\n", pPlc->readOK, pPlc->readBad);
+        fprintf(fp, "    write:              ok %d bad %d\n", pPlc->writeOK, pPlc->writeBad);
+        fprintf(fp, "    pollTime:           %f\n", pPlc->pollTime);
+        fprintf(fp, "    time for last read: %ld msec\n", pPlc->readmsec);
+        fprintf(fp, "    Max. read time:     %d msec\n", pPlc->maxReadTime);
     }
+
 }
 
 
@@ -508,8 +543,8 @@ static asynStatus readUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 *va
                               epicsUInt32 mask)
 {
     PLC_ID pPlc = (PLC_ID)drvPvt;
-    int offset, wordOffset, bitOffset=0;
-
+    int offset;
+    
 
     if (pasynUser->reason != modbusDataCommand) {
         asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
@@ -521,15 +556,33 @@ static asynStatus readUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 *va
     pasynManager->getAddr(pasynUser, &offset);
 
     *value = 0;
+    if (offset >= pPlc->modbusLength) {
+        asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                  "%s::readUInt32D PLC %s invalid memory request %d, max=%d\n",
+                  driver, pPlc->portName, offset, pPlc->modbusLength);
+        return(asynError);
+    }
+
     switch(pPlc->modbusFunction) {
         case MODBUS_READ_COILS:
-            wordOffset = offset/16;
-            bitOffset = offset % 16;
-            break;
         case MODBUS_READ_DISCRETE_INPUTS:
+             *value = pPlc->data[offset];
+             break;
+         case MODBUS_WRITE_SINGLE_COIL:
+         case MODBUS_WRITE_MULTIPLE_COILS:
+             if (!pPlc->readOnceDone) return(asynError);
+             *value = pPlc->data[offset];
+             break;
         case MODBUS_READ_HOLDING_REGISTERS:
         case MODBUS_READ_INPUT_REGISTERS:
-            wordOffset = offset;
+            *value = pPlc->data[offset];
+            if ((mask != 0 ) && (mask != 0xFFFF)) *value &= mask;
+            break;
+        case MODBUS_WRITE_SINGLE_REGISTER:
+        case MODBUS_WRITE_MULTIPLE_REGISTERS:
+            if (!pPlc->readOnceDone) return(asynError);
+            *value = pPlc->data[offset];
+            if ((mask != 0 ) && (mask != 0xFFFF)) *value &= mask;
             break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
@@ -537,21 +590,7 @@ static asynStatus readUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 *va
                       driver, pPlc->portName, pPlc->modbusFunction);
             return(asynError);
     }
-    if (wordOffset >= pPlc->modbusLength) {
-        asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
-                  "%s::readUInt32D PLC %s invalid memory request %d, max=%d\n",
-                  driver, pPlc->portName, wordOffset, pPlc->modbusLength);
-        return(asynError);
-    }
     
-    *value = *(pPlc->memStart + wordOffset);
-    if (pPlc->modbusFunction == MODBUS_READ_COILS) {
-        *value = (*value >> bitOffset) & 1;
-    } else {
-        if ((mask != 0 ) && (mask == 0xFFFF)) *value &= mask;
-    }
-    asynPrint(pasynUser, ASYN_TRACEIO_DRIVER,
-              "%s::readUInt32D, *value=%x\n", driver, *value);
     return(asynSuccess);
 }
 
@@ -562,7 +601,7 @@ static asynStatus writeUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 va
     PLC_ID pPlc = (PLC_ID)drvPvt;
     int offset;
     int modbusAddress;
-    unsigned short data = value;
+    unsigned short reg, data = value;
     asynStatus status;
 
 
@@ -596,14 +635,14 @@ static asynStatus writeUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 va
                                     &data, 1);
             } else {
                 status = doModbusIO(pPlc, MODBUS_READ_HOLDING_REGISTERS, modbusAddress, 
-                                    &data, 1);
+                                    &reg, 1);
                 if (status != asynSuccess) return(status);
                 /* Set bits that are set in the value and set in the mask */
-                data |=  (data & mask);
+                reg |=  (data & mask);
                 /* Clear bits that are clear in the value and set in the mask */
-                data  &= (data | ~mask);
+                reg  &= (data | ~mask);
                 status = doModbusIO(pPlc, pPlc->modbusFunction, modbusAddress, 
-                                    &data, 1);
+                                    &reg, 1);
             }
             if (status != asynSuccess) return(status);
             break;
@@ -699,12 +738,12 @@ static void plcRead(PLC_ID pPlc)
 {
 
     asynStatus status;
-    
+
     /* Loop in the background */    
     while (1)
     {
         status = doModbusIO(pPlc, pPlc->modbusFunction, pPlc->modbusStartAddress, 
-                            pPlc->memStart, pPlc->modbusLength);
+                            pPlc->data, pPlc->modbusLength);
         epicsThreadSleep(pPlc->pollTime);
     }
 }
@@ -733,7 +772,9 @@ static int doModbusIO(PLC_ID pPlc, int function, int start, unsigned short *data
     unsigned short cmdLength;
     unsigned char  destId=0xFF;
     unsigned short modbusEncoding=0;
-    unsigned short *pIn, *pOut;
+    unsigned char  *pCharIn;
+    unsigned short *pShortIn, *pShortOut;
+    unsigned short bitOutput;
     asynStatus status;
     int i;
     epicsTimeStamp startTime, endTime;
@@ -741,6 +782,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start, unsigned short *data
     int eomReason;
     double dT;
     int msec;
+    unsigned char mask;
 
     /* First build the parts of the message that are independent of the function type */
     readReq = (modbusReadRequest *)pPlc->modbusRequest;
@@ -749,15 +791,43 @@ static int doModbusIO(PLC_ID pPlc, int function, int start, unsigned short *data
     readReq->mbapHeader.destId        = destId;
 
    switch (function) {
-        /* Need to handle all function codes here FIX THIS */
+        case MODBUS_READ_COILS:
+        case MODBUS_READ_DISCRETE_INPUTS:
         case MODBUS_READ_HOLDING_REGISTERS:
         case MODBUS_READ_INPUT_REGISTERS:
+            readReq = (modbusReadRequest *)pPlc->modbusRequest;
             cmdLength = sizeof(modbusReadRequest) - sizeof(modbusMBAPHeader) + 2;
             readReq->mbapHeader.cmdLength = htons(cmdLength);
             readReq->fcode = function;
             readReq->startReg = htons((unsigned short)start);
             readReq->numRead = htons((unsigned short)len);
             requestSize = sizeof(modbusReadRequest);
+            break;
+        case MODBUS_WRITE_SINGLE_COIL:
+            writeSingleReq = (modbusWriteSingleRequest *)pPlc->modbusRequest;
+            cmdLength = sizeof(modbusWriteSingleRequest) - sizeof(modbusMBAPHeader) + 2;
+            writeSingleReq->mbapHeader.cmdLength = htons(cmdLength);
+            writeSingleReq->fcode = function;
+            writeSingleReq->startReg = htons((unsigned short)start);
+            if (*data) bitOutput = 0xFF00;
+            else       bitOutput = 0;
+            writeSingleReq->data = htons(bitOutput);
+            requestSize = sizeof(modbusWriteSingleRequest);
+            asynPrint(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
+                      "%s::doModbusIO PLC %s WRITE_SINGLE_COIL address=%o value=%x\n",
+                      driver, pPlc->portName, start, bitOutput);
+            break;
+        case MODBUS_WRITE_SINGLE_REGISTER:
+            writeSingleReq = (modbusWriteSingleRequest *)pPlc->modbusRequest;
+            cmdLength = sizeof(modbusWriteSingleRequest) - sizeof(modbusMBAPHeader) + 2;
+            writeSingleReq->mbapHeader.cmdLength = htons(cmdLength);
+            writeSingleReq->fcode = function;
+            writeSingleReq->startReg = htons((unsigned short)start);
+            writeSingleReq->data = htons((unsigned short)*data);
+            requestSize = sizeof(modbusWriteSingleRequest);
+            asynPrint(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
+                      "%s::doModbusIO PLC %s WRITE_SINGLE_REGISTER address=%o value=%x\n",
+                      driver, pPlc->portName, start, data);
             break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR, 
@@ -803,39 +873,68 @@ static int doModbusIO(PLC_ID pPlc, int function, int start, unsigned short *data
     dT = epicsTimeDiffInSeconds(&endTime, &startTime);
     msec = dT*1000;
     pPlc->readmsec = msec;
+    if (msec > pPlc->maxReadTime) pPlc->maxReadTime = msec;
     if (pPlc->enbHist) {
-        if (dT > pPlc->maxReadTime) pPlc->maxReadTime = dT;
-        if (msec >= TIMEHISTLENGTH) pPlc->timeLong++;
+         if (msec >= TIMEHISTLENGTH) pPlc->timeLong++;
         else if (msec >= 0) {
             pPlc->timeHist[msec] = (pPlc->timeHist[msec] > 1000000 ? 0 : pPlc->timeHist[msec] + 1.);
         }
     }
 
-   /* See if there is a Modbus exception */
-   readResp = (modbusReadResponse *)pPlc->modbusReply;
-   if (readResp->fcode & MODBUS_EXCEPTION_FCN) {
-       exceptionResp = (modbusExceptionResponse *)pPlc->modbusReply;
-       asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
-                 "%s::doModbusIO: %s Modbus exception=%d\n", 
-                 driver, pPlc->portName, exceptionResp->exception);
-       return(asynError);
-   }
-   
-   /* Make sure the function code in the response is the same as the one in the request? */
-       
-   switch (function) {
+    /* See if there is a Modbus exception */
+    readResp = (modbusReadResponse *)pPlc->modbusReply;
+    if (readResp->fcode & MODBUS_EXCEPTION_FCN) {
+        exceptionResp = (modbusExceptionResponse *)pPlc->modbusReply;
+        asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                  "%s::doModbusIO: %s Modbus exception=%d\n", 
+                  driver, pPlc->portName, exceptionResp->exception);
+        return(asynError);
+    }
+
+    /* Make sure the function code in the response is the same as the one in the request? */
+
+    switch (function) {
         /* Need to handle all function codes here FIX THIS */
+        case MODBUS_READ_COILS:
+        case MODBUS_READ_DISCRETE_INPUTS:
+            readResp = (modbusReadResponse *)pPlc->modbusReply;
+            nread = readResp->byteCount;
+            pCharIn = (unsigned char *)&readResp->data;
+            pShortOut = (unsigned short *)data;
+            mask = 0x01;
+            /* Subtract 1 because it will be incremented first time */
+            pCharIn--;
+            /* We assume we got len bits back, since we are only told bytes */
+            for (i=0; i<len; i++) {
+                if (i%8 == 0) {
+                    mask = 0x01;
+                    pCharIn++;
+                }
+                *pShortOut++ = (*pCharIn & mask) ? 1:0;
+                mask = mask << 1;
+            }
+            asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
+                        (char *)data, len*2, 
+                        "%s::doModbusIO PLC %s READ_COILS\n",
+                        driver, pPlc->portName);
+            break;
         case MODBUS_READ_HOLDING_REGISTERS:
         case MODBUS_READ_INPUT_REGISTERS:
             readResp = (modbusReadResponse *)pPlc->modbusReply;
             nread = readResp->byteCount/2;
-            pIn = (unsigned short *)&readResp->data;
-            pOut = (unsigned short *)pPlc->memStart;
+            pShortIn = (unsigned short *)&readResp->data;
+            pShortOut = (unsigned short *)data;
             for (i=0; i<nread; i++) { 
-                *pOut++ = ntohs(*pIn++);
+                *pShortOut++ = ntohs(*pShortIn++);
             }
-            asynPrint(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
-                      "data=", pPlc->memStart, nread);
+            asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
+                        (char *)data, nread, 
+                        "%s::doModbusIO PLC %s READ_REGISTERS",
+                        driver, pPlc->portName);
+            break;
+        case MODBUS_WRITE_SINGLE_COIL:
+        case MODBUS_WRITE_SINGLE_REGISTER:
+            /* Nothing to do */
             break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
@@ -843,21 +942,6 @@ static int doModbusIO(PLC_ID pPlc, int function, int start, unsigned short *data
                       driver, function);
             break;
     }
-
-   /* Do the asynTraceIO printing if required */
-   asynPrint(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
-        "%s::doModbusIO: %s\n"
-        "TransactId   = %d\n"
-        "ProtocolType = %d\n"
-        "CmdLength    = %d\n"
-        "DestId       = %d\n"
-        "fcode        = %d\n",
-        driver, pPlc->portName,
-        readResp->mbapHeader.transactId,
-        readResp->mbapHeader.protocolType,
-        readResp->mbapHeader.cmdLength,
-        readResp->mbapHeader.destId,
-        readResp->fcode);
 
     return asynSuccess;
 }
