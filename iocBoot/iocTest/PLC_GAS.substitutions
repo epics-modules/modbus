@@ -1,13 +1,184 @@
-file "../../db/bi.template"
+file "../../db/bi_bit.template"
 {
 pattern
-{P,       R,        PORT,      OFFSET,    MASK,      SCAN}
-{GAS:,    bi_0,     GAS_Xn,     0,        0x0001,    ".1 second"}
-{GAS:,    bi_1,     GAS_Xn,     0,        0x0002,    ".1 second"}
-{GAS:,    bi_2,     GAS_Xn,     0,        0x0004,    ".1 second"}
-{GAS:,    bi_3,     GAS_Xn,     0,        0x0008,    ".1 second"}
-{GAS:,    bi_4,     GAS_Xn,     0,        0x0010,    ".1 second"}
-{GAS:,    bi_5,     GAS_Xn,     0,        0x0020,    ".1 second"}
-{GAS:,    bi_6,     GAS_Xn,     0,        0x0040,    ".1 second"}
-{GAS:,    bi_7,     GAS_Xn,     0,        0x0080,    ".1 second"}
+# These are the Xn inputs done with bit access X0-X7
+{P,       R,       PORT,           OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{GAS:,    X0B,     GAS_Xn_Bit,     0,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X1B,     GAS_Xn_Bit,     1,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X2B,     GAS_Xn_Bit,     2,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X3B,     GAS_Xn_Bit,     3,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X4B,     GAS_Xn_Bit,     4,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X5B,     GAS_Xn_Bit,     5,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X6B,     GAS_Xn_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X7B,     GAS_Xn_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_word.template"
+{
+pattern
+# These are the Xn inputs done with word access X0-X7
+{P,       R,       PORT,            OFFSET,    MASK,     ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{GAS:,    X0W,     GAS_Xn_Word,     0,        0x0001,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X1W,     GAS_Xn_Word,     0,        0x0002,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X2W,     GAS_Xn_Word,     0,        0x0004,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X3W,     GAS_Xn_Word,     0,        0x0008,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X4W,     GAS_Xn_Word,     0,        0x0010,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X5W,     GAS_Xn_Word,     0,        0x0020,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X6W,     GAS_Xn_Word,     0,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    X7W,     GAS_Xn_Word,     0,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_bit.template"
+{
+pattern
+# These are the Yn inputs done with bit access Y0-Y7
+{P,       R,         PORT,              OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{GAS:,    Y0InB,     GAS_Yn_In_Bit,     0,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y1InB,     GAS_Yn_In_Bit,     1,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y2InB,     GAS_Yn_In_Bit,     2,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y3InB,     GAS_Yn_In_Bit,     3,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y4InB,     GAS_Yn_In_Bit,     4,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y5InB,     GAS_Yn_In_Bit,     5,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y6InB,     GAS_Yn_In_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y7InB,     GAS_Yn_In_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_word.template"
+{
+pattern
+# These are the Yn inputs done with word access Y0-Y7
+{P,       R,         PORT,               OFFSET,    MASK,     ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{GAS:,    Y0InW,     GAS_Yn_In_Word,     0,        0x0001,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y1InW,     GAS_Yn_In_Word,     0,        0x0002,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y2InW,     GAS_Yn_In_Word,     0,        0x0004,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y3InW,     GAS_Yn_In_Word,     0,        0x0008,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y4InW,     GAS_Yn_In_Word,     0,        0x0010,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y5InW,     GAS_Yn_In_Word,     0,        0x0020,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y6InW,     GAS_Yn_In_Word,     0,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    Y7InW,     GAS_Yn_In_Word,     0,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bo_bit.template"
+{
+pattern
+# These are the Yn outputs done with bit access.  Y0-Y7 
+{P,       R,          PORT,               OFFSET,   ZNAM,   ONAM}
+{GAS:,    Y0OutB,     GAS_Yn_Out_Bit,     0,        Low,    High}
+{GAS:,    Y1OutB,     GAS_Yn_Out_Bit,     1,        Low,    High}
+{GAS:,    Y2OutB,     GAS_Yn_Out_Bit,     2,        Low,    High}
+{GAS:,    Y3OutB,     GAS_Yn_Out_Bit,     3,        Low,    High}
+{GAS:,    Y4OutB,     GAS_Yn_Out_Bit,     4,        Low,    High}
+{GAS:,    Y5OutB,     GAS_Yn_Out_Bit,     5,        Low,    High}
+{GAS:,    Y6OutB,     GAS_Yn_Out_Bit,     6,        Low,    High}
+{GAS:,    Y7OutB,     GAS_Yn_Out_Bit,     7,        Low,    High}
+}
+
+file "../../db/bo_word.template"
+{
+pattern
+# These are the Yn outputs done with word access.  Y0-Y7 
+{P,       R,          PORT,                OFFSET,   MASK,      ZNAM,   ONAM}
+{GAS:,    Y0OutW,     GAS_Yn_Out_Word,     0,        0x0001,    Low,    High}
+{GAS:,    Y1OutW,     GAS_Yn_Out_Word,     0,        0x0002,    Low,    High}
+{GAS:,    Y2OutW,     GAS_Yn_Out_Word,     0,        0x0004,    Low,    High}
+{GAS:,    Y3OutW,     GAS_Yn_Out_Word,     0,        0x0008,    Low,    High}
+{GAS:,    Y4OutW,     GAS_Yn_Out_Word,     0,        0x0010,    Low,    High}
+{GAS:,    Y5OutW,     GAS_Yn_Out_Word,     0,        0x0020,    Low,    High}
+{GAS:,    Y6OutW,     GAS_Yn_Out_Word,     0,        0x0040,    Low,    High}
+{GAS:,    Y7OutW,     GAS_Yn_Out_Word,     0,        0x0080,    Low,    High}
+}
+
+file "../../db/bi_bit.template"
+{
+pattern
+# These are the Cn inputs done with bit access C0-C7
+{P,       R,       PORT,                OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{GAS:,    C0InB,     GAS_Cn_In_Bit,     0,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C1InB,     GAS_Cn_In_Bit,     1,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C2InB,     GAS_Cn_In_Bit,     2,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C3InB,     GAS_Cn_In_Bit,     3,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C4InB,     GAS_Cn_In_Bit,     4,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C5InB,     GAS_Cn_In_Bit,     5,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C6InB,     GAS_Cn_In_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C7InB,     GAS_Cn_In_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_bit.template"
+{
+pattern
+# These are the Cn inputs done with bit access C200-C207
+{P,       R,           PORT,              OFFSET,      ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{GAS:,    C200InB,     GAS_Cn_In_Bit,     0200,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C201InB,     GAS_Cn_In_Bit,     0201,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C202InB,     GAS_Cn_In_Bit,     0202,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C203InB,     GAS_Cn_In_Bit,     0203,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C204InB,     GAS_Cn_In_Bit,     0204,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C205InB,     GAS_Cn_In_Bit,     0205,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C206InB,     GAS_Cn_In_Bit,     0206,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C207InB,     GAS_Cn_In_Bit,     0207,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+
+file "../../db/bi_word.template"
+{
+pattern
+# These are the Cn inputs done with word access C0-C8
+{P,       R,         PORT,               OFFSET,   MASK,      ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{GAS:,    C0InW,     GAS_Cn_In_Word,     0,        0x0001,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C1InW,     GAS_Cn_In_Word,     0,        0x0002,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C2InW,     GAS_Cn_In_Word,     0,        0x0004,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C3InW,     GAS_Cn_In_Word,     0,        0x0008,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C4InW,     GAS_Cn_In_Word,     0,        0x0010,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C5InW,     GAS_Cn_In_Word,     0,        0x0020,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C6InW,     GAS_Cn_In_Word,     0,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C7InW,     GAS_Cn_In_Word,     0,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_word.template"
+{
+pattern
+# These are the Cn inputs done with word access C200-C207
+{P,       R,           PORT,               OFFSET,   MASK,      ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{GAS:,    C200InW,     GAS_Cn_In_Word,     8,        0x0001,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C201InW,     GAS_Cn_In_Word,     8,        0x0002,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C202InW,     GAS_Cn_In_Word,     8,        0x0004,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C203InW,     GAS_Cn_In_Word,     8,        0x0008,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C204InW,     GAS_Cn_In_Word,     8,        0x0010,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C205InW,     GAS_Cn_In_Word,     8,        0x0020,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C206InW,     GAS_Cn_In_Word,     8,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{GAS:,    C207InW,     GAS_Cn_In_Word,     8,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+
+file "../../db/bo_bit.template"
+{
+pattern
+# These are the Cn outputs done with bit access.  C200-C207 
+{P,       R,            PORT,               OFFSET,      ZNAM,   ONAM}
+{GAS:,    C200OutB,     GAS_Cn_Out_Bit,     0200,        Low,    High}
+{GAS:,    C201OutB,     GAS_Cn_Out_Bit,     0201,        Low,    High}
+{GAS:,    C202OutB,     GAS_Cn_Out_Bit,     0202,        Low,    High}
+{GAS:,    C203OutB,     GAS_Cn_Out_Bit,     0203,        Low,    High}
+{GAS:,    C204OutB,     GAS_Cn_Out_Bit,     0204,        Low,    High}
+{GAS:,    C205OutB,     GAS_Cn_Out_Bit,     0205,        Low,    High}
+{GAS:,    C206OutB,     GAS_Cn_Out_Bit,     0206,        Low,    High}
+{GAS:,    C207OutB,     GAS_Cn_Out_Bit,     0207,        Low,    High}
+}
+
+
+
+
+file "../../db/bo_word.template"
+{
+pattern
+# These are the Cn outputs done with word access.  C200-207 
+{P,       R,            PORT,                OFFSET,   MASK,      ZNAM,   ONAM}
+{GAS:,    C200OutW,     GAS_Cn_Out_Word,     8,        0x0001,    Low,    High}
+{GAS:,    C201OutW,     GAS_Cn_Out_Word,     8,        0x0002,    Low,    High}
+{GAS:,    C202OutW,     GAS_Cn_Out_Word,     8,        0x0004,    Low,    High}
+{GAS:,    C203OutW,     GAS_Cn_Out_Word,     8,        0x0008,    Low,    High}
+{GAS:,    C204OutW,     GAS_Cn_Out_Word,     8,        0x0010,    Low,    High}
+{GAS:,    C205OutW,     GAS_Cn_Out_Word,     8,        0x0020,    Low,    High}
+{GAS:,    C206OutW,     GAS_Cn_Out_Word,     8,        0x0040,    Low,    High}
+{GAS:,    C207OutW,     GAS_Cn_Out_Word,     8,        0x0080,    Low,    High}
 }
