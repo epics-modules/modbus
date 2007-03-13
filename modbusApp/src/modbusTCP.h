@@ -21,8 +21,6 @@
 
 #define MODBUS_EXCEPTION_FCN            0x80
 
-#pragma pack(1)
-
 /* All Modbus messages over TCP/IP are preceeded by a header */
 
 typedef struct modbusMBAPHeader_str
@@ -31,7 +29,7 @@ typedef struct modbusMBAPHeader_str
     unsigned short protocolType;
     unsigned short cmdLength;
     unsigned char  destId;
-} modbusMBAPHeader;
+} __attribute__ ((packed)) modbusMBAPHeader;
 
 
 /*---------------------------------------------*/
@@ -44,7 +42,7 @@ typedef struct modbusReadRequest_str
     unsigned char    fcode;
     unsigned short   startReg;
     unsigned short   numRead;
-} modbusReadRequest;
+} __attribute__ ((packed)) modbusReadRequest;
 
 typedef struct modbusReadResponse_str
 {
@@ -52,49 +50,49 @@ typedef struct modbusReadResponse_str
     unsigned char  fcode;
     unsigned char  byteCount;
     unsigned char  data[1];
-} modbusReadResponse;
+} __attribute__ ((packed)) modbusReadResponse;
 
 typedef struct modbusWriteSingleRequest_str
 {
     modbusMBAPHeader mbapHeader;
     unsigned char  fcode;
-    unsigned short regStart;
+    unsigned short startReg;
     unsigned short data;
-} modbusWriteSingleRequest;
+} __attribute__ ((packed)) modbusWriteSingleRequest;
 
 
 typedef struct modbusWriteSingleResponse_str
 {
     modbusMBAPHeader mbapHeader;
     unsigned char  fcode;
-    unsigned short regStart;
+    unsigned short startReg;
     unsigned short data;
-} modbusWriteSingleResponse;
+} __attribute__ ((packed)) modbusWriteSingleResponse;
 
 typedef struct modbusWriteMultipleRequest_str
 {
     modbusMBAPHeader mbapHeader;
     unsigned char  fcode;
-    unsigned short regStart;
+    unsigned short startReg;
     unsigned short numOutput;
     unsigned char  byteCount;
     unsigned char  data[1];
-} modbusWriteMultipleRequest;
+} __attribute__ ((packed)) modbusWriteMultipleRequest;
 
 
 typedef struct modbusWriteMultipleResponse_str
 {
     modbusMBAPHeader mbapHeader;
     unsigned char  fcode;
-    unsigned short regStart;
+    unsigned short startReg;
     unsigned short numOutput;
-} modbusWriteMultipleResponse;
+} __attribute__ ((packed)) modbusWriteMultipleResponse;
 
 typedef struct modbusExceptionResponse_str
 {
     modbusMBAPHeader mbapHeader;
     unsigned char  fcode;
     unsigned char  exception;
-} modbusExceptionResponse;
+} __attribute__ ((packed)) modbusExceptionResponse;
 
 #endif 
