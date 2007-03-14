@@ -1,0 +1,184 @@
+file "../../db/bi_bit.template"
+{
+pattern
+# These are the Xn inputs done with bit access X0-X7
+{P,           R,       PORT,          OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYU:K1:,    X0B,     K1_Xn_Bit,     0,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X1B,     K1_Xn_Bit,     1,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X2B,     K1_Xn_Bit,     2,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X3B,     K1_Xn_Bit,     3,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X4B,     K1_Xn_Bit,     4,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X5B,     K1_Xn_Bit,     5,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X6B,     K1_Xn_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X7B,     K1_Xn_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_word.template"
+{
+pattern
+# These are the Xn inputs done with word access X0-X7
+{P,           R,       PORT,           OFFSET,    MASK,     ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYU:K1:,    X0W,     K1_Xn_Word,     0,        0x0001,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X1W,     K1_Xn_Word,     0,        0x0002,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X2W,     K1_Xn_Word,     0,        0x0004,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X3W,     K1_Xn_Word,     0,        0x0008,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X4W,     K1_Xn_Word,     0,        0x0010,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X5W,     K1_Xn_Word,     0,        0x0020,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X6W,     K1_Xn_Word,     0,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    X7W,     K1_Xn_Word,     0,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_bit.template"
+{
+pattern
+# These are the Yn inputs done with bit access Y0-Y7
+{P,           R,         PORT,             OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYU:K1:,    Y0InB,     K1_Yn_In_Bit,     0,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y1InB,     K1_Yn_In_Bit,     1,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y2InB,     K1_Yn_In_Bit,     2,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y3InB,     K1_Yn_In_Bit,     3,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y4InB,     K1_Yn_In_Bit,     4,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y5InB,     K1_Yn_In_Bit,     5,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y6InB,     K1_Yn_In_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y7InB,     K1_Yn_In_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_word.template"
+{
+pattern
+# These are the Yn inputs done with word access Y0-Y7
+{P,           R,         PORT,              OFFSET,    MASK,     ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYU:K1:,    Y0InW,     K1_Yn_In_Word,     0,        0x0001,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y1InW,     K1_Yn_In_Word,     0,        0x0002,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y2InW,     K1_Yn_In_Word,     0,        0x0004,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y3InW,     K1_Yn_In_Word,     0,        0x0008,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y4InW,     K1_Yn_In_Word,     0,        0x0010,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y5InW,     K1_Yn_In_Word,     0,        0x0020,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y6InW,     K1_Yn_In_Word,     0,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    Y7InW,     K1_Yn_In_Word,     0,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bo_bit.template"
+{
+pattern
+# These are the Yn outputs done with bit access.  Y0-Y7 
+{P,           R,          PORT,              OFFSET,   ZNAM,   ONAM}
+{KOYU:K1:,    Y0OutB,     K1_Yn_Out_Bit,     0,        Low,    High}
+{KOYU:K1:,    Y1OutB,     K1_Yn_Out_Bit,     1,        Low,    High}
+{KOYU:K1:,    Y2OutB,     K1_Yn_Out_Bit,     2,        Low,    High}
+{KOYU:K1:,    Y3OutB,     K1_Yn_Out_Bit,     3,        Low,    High}
+{KOYU:K1:,    Y4OutB,     K1_Yn_Out_Bit,     4,        Low,    High}
+{KOYU:K1:,    Y5OutB,     K1_Yn_Out_Bit,     5,        Low,    High}
+{KOYU:K1:,    Y6OutB,     K1_Yn_Out_Bit,     6,        Low,    High}
+{KOYU:K1:,    Y7OutB,     K1_Yn_Out_Bit,     7,        Low,    High}
+}
+
+file "../../db/bo_word.template"
+{
+pattern
+# These are the Yn outputs done with word access.  Y0-Y7 
+{P,           R,          PORT,               OFFSET,   MASK,      ZNAM,   ONAM}
+{KOYU:K1:,    Y0OutW,     K1_Yn_Out_Word,     0,        0x0001,    Low,    High}
+{KOYU:K1:,    Y1OutW,     K1_Yn_Out_Word,     0,        0x0002,    Low,    High}
+{KOYU:K1:,    Y2OutW,     K1_Yn_Out_Word,     0,        0x0004,    Low,    High}
+{KOYU:K1:,    Y3OutW,     K1_Yn_Out_Word,     0,        0x0008,    Low,    High}
+{KOYU:K1:,    Y4OutW,     K1_Yn_Out_Word,     0,        0x0010,    Low,    High}
+{KOYU:K1:,    Y5OutW,     K1_Yn_Out_Word,     0,        0x0020,    Low,    High}
+{KOYU:K1:,    Y6OutW,     K1_Yn_Out_Word,     0,        0x0040,    Low,    High}
+{KOYU:K1:,    Y7OutW,     K1_Yn_Out_Word,     0,        0x0080,    Low,    High}
+}
+
+file "../../db/bi_bit.template"
+{
+pattern
+# These are the Cn inputs done with bit access C0-C7
+{P,           R,         PORT,             OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYU:K1:,    C0InB,     K1_Cn_In_Bit,     0,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C1InB,     K1_Cn_In_Bit,     1,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C2InB,     K1_Cn_In_Bit,     2,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C3InB,     K1_Cn_In_Bit,     3,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C4InB,     K1_Cn_In_Bit,     4,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C5InB,     K1_Cn_In_Bit,     5,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C6InB,     K1_Cn_In_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C7InB,     K1_Cn_In_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_bit.template"
+{
+pattern
+# These are the Cn inputs done with bit access C200-C207
+{P,           R,           PORT,             OFFSET,      ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYU:K1:,    C200InB,     K1_Cn_In_Bit,     0200,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C201InB,     K1_Cn_In_Bit,     0201,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C202InB,     K1_Cn_In_Bit,     0202,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C203InB,     K1_Cn_In_Bit,     0203,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C204InB,     K1_Cn_In_Bit,     0204,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C205InB,     K1_Cn_In_Bit,     0205,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C206InB,     K1_Cn_In_Bit,     0206,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C207InB,     K1_Cn_In_Bit,     0207,        Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+
+file "../../db/bi_word.template"
+{
+pattern
+# These are the Cn inputs done with word access C0-C8
+{P,        R,         PORT,              OFFSET,   MASK,      ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYU:K1:,    C0InW,     K1_Cn_In_Word,     0,        0x0001,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C1InW,     K1_Cn_In_Word,     0,        0x0002,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C2InW,     K1_Cn_In_Word,     0,        0x0004,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C3InW,     K1_Cn_In_Word,     0,        0x0008,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C4InW,     K1_Cn_In_Word,     0,        0x0010,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C5InW,     K1_Cn_In_Word,     0,        0x0020,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C6InW,     K1_Cn_In_Word,     0,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C7InW,     K1_Cn_In_Word,     0,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+file "../../db/bi_word.template"
+{
+pattern
+# These are the Cn inputs done with word access C200-C207
+{P,           R,           PORT,              OFFSET,   MASK,      ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYU:K1:,    C200InW,     K1_Cn_In_Word,     8,        0x0001,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C201InW,     K1_Cn_In_Word,     8,        0x0002,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C202InW,     K1_Cn_In_Word,     8,        0x0004,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C203InW,     K1_Cn_In_Word,     8,        0x0008,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C204InW,     K1_Cn_In_Word,     8,        0x0010,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C205InW,     K1_Cn_In_Word,     8,        0x0020,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C206InW,     K1_Cn_In_Word,     8,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+{KOYU:K1:,    C207InW,     K1_Cn_In_Word,     8,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  ".1 second"}
+}
+
+
+file "../../db/bo_bit.template"
+{
+pattern
+# These are the Cn outputs done with bit access.  C200-C207 
+{P,           R,            PORT,              OFFSET,      ZNAM,   ONAM}
+{KOYU:K1:,    C200OutB,     K1_Cn_Out_Bit,     0200,        Low,    High}
+{KOYU:K1:,    C201OutB,     K1_Cn_Out_Bit,     0201,        Low,    High}
+{KOYU:K1:,    C202OutB,     K1_Cn_Out_Bit,     0202,        Low,    High}
+{KOYU:K1:,    C203OutB,     K1_Cn_Out_Bit,     0203,        Low,    High}
+{KOYU:K1:,    C204OutB,     K1_Cn_Out_Bit,     0204,        Low,    High}
+{KOYU:K1:,    C205OutB,     K1_Cn_Out_Bit,     0205,        Low,    High}
+{KOYU:K1:,    C206OutB,     K1_Cn_Out_Bit,     0206,        Low,    High}
+{KOYU:K1:,    C207OutB,     K1_Cn_Out_Bit,     0207,        Low,    High}
+}
+
+
+
+
+file "../../db/bo_word.template"
+{
+pattern
+# These are the Cn outputs done with word access.  C200-207 
+{P,           R,            PORT,               OFFSET,   MASK,      ZNAM,   ONAM}
+{KOYU:K1:,    C200OutW,     K1_Cn_Out_Word,     8,        0x0001,    Low,    High}
+{KOYU:K1:,    C201OutW,     K1_Cn_Out_Word,     8,        0x0002,    Low,    High}
+{KOYU:K1:,    C202OutW,     K1_Cn_Out_Word,     8,        0x0004,    Low,    High}
+{KOYU:K1:,    C203OutW,     K1_Cn_Out_Word,     8,        0x0008,    Low,    High}
+{KOYU:K1:,    C204OutW,     K1_Cn_Out_Word,     8,        0x0010,    Low,    High}
+{KOYU:K1:,    C205OutW,     K1_Cn_Out_Word,     8,        0x0020,    Low,    High}
+{KOYU:K1:,    C206OutW,     K1_Cn_Out_Word,     8,        0x0040,    Low,    High}
+{KOYU:K1:,    C207OutW,     K1_Cn_Out_Word,     8,        0x0080,    Low,    High}
+}
