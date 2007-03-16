@@ -12,7 +12,6 @@
  */
 
 #define MODBUS_DATA_COMMAND_STRING            "DATA"            /* int32, write (default) */
-#define MODBUS_START_HISTOGRAM_COMMAND_STRING "START_HISTOGRAM" /* int32, write */
-#define MODBUS_STOP_HISTOGRAM_COMMAND_STRING  "STOP_HISTOGRAM"  /* int32, write */
+#define MODBUS_ENABLE_HISTOGRAM_COMMAND_STRING "ENABLE_HISTOGRAM" /* UInt32D, write/read */
 #define MODBUS_READ_HISTOGRAM_COMMAND_STRING  "READ_HISTOGRAM"  /* int32Array, read */
 
