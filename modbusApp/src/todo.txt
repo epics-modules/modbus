@@ -5,14 +5,14 @@ To do:
 - Test bi records on read register  DONE
 - Test bo records on write coil DONE
 - Test bo records on write register DONE
-- Test longin records on read coil
-- Test longin records on read register
-- Test waveform records on read read coils
-- Test waveform records on read registers
+- Test longin records on read coil DONE
+- Test longin records on read register DONE
+- Test waveform records on read read coils DONE
+- Test waveform records on read registers DONE
 - Test waveform records on write coils
 - Test waveform records on write registers
-- Test callbacks (I/O Intr)
-- Add histogram reading
+- Test callbacks (I/O Intr) DONE (need to do add waveforms in asyn)
+- Add histogram reading DONE
 - Add extra control (poll time, etc.)
 - Watchdog?
 
