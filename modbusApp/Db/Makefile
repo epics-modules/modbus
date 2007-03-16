@@ -14,6 +14,13 @@ DB += bi_word.template
 DB += bo_word.template
 DB += bi_bit.template
 DB += bo_bit.template
+DB += longin.template
+DB += longout.template
+DB += intarray_in.template
+DB += intarray_out.template
+DB += histogram.template
+DB += asynRecord.template
+DB += poll_delay.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
