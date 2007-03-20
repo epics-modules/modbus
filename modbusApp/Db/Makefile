@@ -18,7 +18,7 @@ DB += longin.template
 DB += longout.template
 DB += intarray_in.template
 DB += intarray_out.template
-DB += histogram.template
+DB += statistics.template
 DB += asynRecord.template
 DB += poll_delay.template
 
