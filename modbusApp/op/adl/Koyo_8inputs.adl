@@ -5,8 +5,8 @@ file {
 }
 display {
 	object {
-		x=145
-		y=189
+		x=280
+		y=100
 		width=250
 		height=395
 	}
@@ -382,9 +382,9 @@ text {
 		args="P=$(P), R=$(PORT)Asyn"
 	}
 	display[1] {
-		label="Time histogram"
-		name="modbusTCPHistogram.adl"
-		args="P=$(P), R=$(PORT)Hist"
+		label="I/O Statistics"
+		name="modbusTCPStatistics.adl"
+		args="P=$(P), R=$(PORT)"
 	}
 	display[2] {
 		label="Array"

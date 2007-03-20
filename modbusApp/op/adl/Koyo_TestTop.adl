@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=37
-		y=73
-		width=256
-		height=177
+		x=100
+		y=100
+		width=170
+		height=130
 	}
 	clr=14
 	bclr=4
@@ -87,98 +87,109 @@ display {
 		1a7309,
 	}
 }
-"related display" {
+composite {
 	object {
-		x=50
-		y=47
+		x=9
+		y=12
 		width=152
-		height=30
+		height=106
 	}
-	display[0] {
-		label="X0-X7 inputs (bit access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO:K1:,R=X,A=B,L=X0L,PORT=XnB,AC=Bit"
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=12
+				y=12
+				width=146
+				height=30
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Koyo Test"
+			align="horiz. centered"
+		}
+		"related display" {
+			object {
+				x=9
+				y=51
+				width=152
+				height=30
+			}
+			display[0] {
+				label="X0-X7 inputs (bit access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO:K1:,R=X,A=B,L=X0L,PORT=XnB,AC=Bit"
+			}
+			display[1] {
+				label="X0-X7 inputs (word access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO:K1:,R=X,A=W,L=XnL,PORT=XnW,AC=Word"
+			}
+			display[2] {
+				label="Y0-Y7 inputs (bit access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO:K1:,R=Y,A=InB,L=Y0InBL,PORT=YnInB,AC=Bit"
+			}
+			display[3] {
+				label="Y0-Y7 inputs (word access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO:K1:,R=Y,A=InW,L=YnInWL,PORT=YnInW,AC=Word"
+			}
+			display[4] {
+				label="C0-C7 inputs (bit access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO:K1:,R=C,A=InB,L=C0InBL,PORT=CnInB,AC=Bit"
+			}
+			display[5] {
+				label="C0-C7 inputs (word access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO:K1:,R=C,A=InW,L=CnInWL,PORT=CnInW,AC=Word"
+			}
+			display[6] {
+				label="C200-C207 inputs (bit access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO:K1:,R=C20,A=InB,L=C200InBL,PORT=CnInB,AC=Bit"
+			}
+			display[7] {
+				label="C200-C207 inputs (word access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO:K1:,R=C20,A=InW,L=C20nInWL,PORT=CnInW,AC=Word"
+			}
+			clr=14
+			bclr=4
+			label="Inputs"
+		}
+		"related display" {
+			object {
+				x=9
+				y=88
+				width=152
+				height=30
+			}
+			display[0] {
+				label="Y0-Y7 outputs (bit access)"
+				name="Koyo_8outputs.adl"
+				args="P=KOYO:K1:,R=Y,A=OutB,L=Y0OutBL,PORT=YnOutB,AC=Bit"
+			}
+			display[1] {
+				label="Y0-Y7 outputs (word access)"
+				name="Koyo_8outputs.adl"
+				args="P=KOYO:K1:,R=Y,A=OutW,L=YnOutWL,PORT=YnOutW,AC=Word"
+			}
+			display[2] {
+				label="C200-C207 outputs (bit access)"
+				name="Koyo_8outputs.adl"
+				args="P=KOYO:K1:,R=C20,A=OutB,L=C200OutBL,PORT=C20nOutB,AC=Bit"
+			}
+			display[3] {
+				label="C200-C207 outputs (word access)"
+				name="Koyo_8outputs.adl"
+				args="P=KOYO:K1:,R=C20,A=OutW,L=C20nOutWL,PORT=CnOutW,AC=Word"
+			}
+			clr=14
+			bclr=4
+			label="Outputs"
+		}
 	}
-	display[1] {
-		label="X0-X7 inputs (word access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO:K1:,R=X,A=W,L=XnL,PORT=XnW,AC=Word"
-	}
-	display[2] {
-		label="Y0-Y7 inputs (bit access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO:K1:,R=Y,A=InB,L=Y0InBL,PORT=YnInB,AC=Bit"
-	}
-	display[3] {
-		label="Y0-Y7 inputs (word access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO:K1:,R=Y,A=InW,L=YnInWL,PORT=YnInW,AC=Word"
-	}
-	display[4] {
-		label="C0-C7 inputs (bit access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO:K1:,R=C,A=InB,L=C0InBL,PORT=CnInB,AC=Bit"
-	}
-	display[5] {
-		label="C0-C7 inputs (word access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO:K1:,R=C,A=InW,L=CnInWL,PORT=CnInW,AC=Word"
-	}
-	display[6] {
-		label="C200-C207 inputs (bit access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO:K1:,R=C20,A=InB,L=C200InBL,PORT=CnInB,AC=Bit"
-	}
-	display[7] {
-		label="C200-C207 inputs (word access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO:K1:,R=C20,A=InW,L=C20nInWL,PORT=CnInW,AC=Word"
-	}
-	clr=14
-	bclr=4
-	label="Inputs"
-}
-text {
-	object {
-		x=62
-		y=8
-		width=126
-		height=30
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Koyo Test"
-	align="horiz. centered"
-}
-"related display" {
-	object {
-		x=50
-		y=84
-		width=152
-		height=30
-	}
-	display[0] {
-		label="Y0-Y7 outputs (bit access)"
-		name="Koyo_8outputs.adl"
-		args="P=KOYO:K1:,R=Y,A=OutB,L=Y0OutBL,PORT=YnOutB,AC=Bit"
-	}
-	display[1] {
-		label="Y0-Y7 outputs (word access)"
-		name="Koyo_8outputs.adl"
-		args="P=KOYO:K1:,R=Y,A=OutW,L=YnOutWL,PORT=YnOutW,AC=Word"
-	}
-	display[2] {
-		label="C200-C207 outputs (bit access)"
-		name="Koyo_8outputs.adl"
-		args="P=KOYO:K1:,R=C20,A=OutB,L=C200OutBL,PORT=C20nOutB,AC=Bit"
-	}
-	display[3] {
-		label="C200-C207 outputs (word access)"
-		name="Koyo_8outputs.adl"
-		args="P=KOYO:K1:,R=C20,A=OutW,L=C20nOutWL,PORT=CnOutW,AC=Word"
-	}
-	clr=14
-	bclr=4
-	label="Outputs"
 }
