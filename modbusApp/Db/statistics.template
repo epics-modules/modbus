@@ -1,0 +1,50 @@
+# Template for I/O statistics
+
+record(bo,"$(P)$(R)HistEnable") {
+    field(DTYP,"asynUInt32Digital")
+    field(OUT,"@asynMask($(PORT) 0 0xFFFF)ENABLE_HISTOGRAM")
+    field(ZNAM,"Disable")
+    field(ONAM,"Enable")
+}
+
+record(bo, "$(P)$(R)Statistics") {
+    field(SCAN, "$(SCAN)")
+    field(FLNK, "$(P)$(R)Hist.PROC")
+}
+
+record(waveform,"$(P)$(R)Hist") {
+    field(DTYP,"asynInt32ArrayIn")
+    field(INP,"@asyn($(PORT) 0)READ_HISTOGRAM")
+    field(FTVL,"LONG")
+    field(NELM,"200")  # This number should match driver
+    field(FLNK,"$(P)$(R)ReadOK.PROC")
+}
+
+record(longin,"$(P)$(R)ReadOK") {
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT) 0)READ_OK")
+    field(FLNK,"$(P)$(R)WriteOK.PROC")
+}
+
+record(longin,"$(P)$(R)WriteOK") {
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT) 0)WRITE_OK")
+    field(FLNK,"$(P)$(R)IOErrors.PROC")
+}
+
+record(longin,"$(P)$(R)IOErrors") {
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT) 0)IO_ERRORS")
+    field(FLNK,"$(P)$(R)LastIOTime.PROC")
+}
+
+record(longin,"$(P)$(R)LastIOTime") {
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT) 0)LAST_IO_TIME")
+    field(FLNK,"$(P)$(R)MaxIOTime.PROC")
+}
+
+record(longin,"$(P)$(R)MaxIOTime") {
+    field(DTYP,"asynInt32")
+    field(INP,"@asyn($(PORT) 0)MAX_IO_TIME")
+}
