@@ -22,6 +22,10 @@ file "../../db/asynRecord.template" { pattern
 {P,           R,       PORT,          ADDR,     TMOD,  IFACE}
 {KOYO:K1:,    XnBAsyn, K1_Xn_Bit,     0,        Read,  asynUInt32Digital}
 }
+file "../../db/statistics.template" { pattern
+{P,           R,       PORT,       SCAN}
+{KOYO:K1:,    XnB,     K1_Xn_Bit,  "10 second"}
+} 
 file "../../db/poll_delay.template" { pattern
 {P,           R,            PORT}
 {KOYO:K1:,    XnBPollDelay, K1_Xn_Bit}
@@ -52,9 +56,9 @@ file "../../db/asynRecord.template" { pattern
 {P,           R,       PORT,          ADDR,     TMOD,  IFACE}
 {KOYO:K1:,    XnWAsyn, K1_Xn_Word,    0,        Read,  asynInt32}
 }
-file "../../db/histogram.template" { pattern
+file "../../db/statistics.template" { pattern
 {P,           R,       PORT,       SCAN}
-{KOYO:K1:,    XnWHist, K1_Xn_Word, "10 second"}
+{KOYO:K1:,    XnW,     K1_Xn_Word, "10 second"}
 }
 file "../../db/poll_delay.template" { pattern
 {P,           R,            PORT}
@@ -85,9 +89,9 @@ file "../../db/asynRecord.template" { pattern
 {P,           R,         PORT,             ADDR,     TMOD,  IFACE}
 {KOYO:K1:,    YnInBAsyn, K1_Yn_In_Bit,     0,        Read,  asynUInt32Digital}
 }
-file "../../db/histogram.template" { pattern
+file "../../db/statistics.template" { pattern
 {P,           R,         PORT,          SCAN}
-{KOYO:K1:,    YnInBHist, K1_Yn_In_Bit,  "10 second"}
+{KOYO:K1:,    YnInB,     K1_Yn_In_Bit,  "10 second"}
 }
 file "../../db/poll_delay.template" { pattern
 {P,           R,              PORT}
@@ -118,9 +122,9 @@ file "../../db/asynRecord.template" { pattern
 {P,           R,         PORT,             ADDR,     TMOD,  IFACE}
 {KOYO:K1:,    YnInWAsyn, K1_Yn_In_Word,    0,        Read,  asynInt32}
 }
-file "../../db/histogram.template" { pattern
+file "../../db/statistics.template" { pattern
 {P,           R,         PORT,          SCAN}
-{KOYO:K1:,    YnInWHist, K1_Yn_In_Word, "10 second"}
+{KOYO:K1:,    YnInW,     K1_Yn_In_Word, "10 second"}
 }
 file "../../db/poll_delay.template" { pattern
 {P,           R,               PORT}
@@ -151,9 +155,9 @@ file "../../db/asynRecord.template" { pattern
 {P,           R,          PORT,              ADDR,     TMOD,  IFACE}
 {KOYO:K1:,    YnOutBAsyn, K1_Yn_Out_Bit,     0,        Read,  asynUInt32Digital}
 }
-file "../../db/histogram.template" { pattern
+file "../../db/statistics.template" { pattern
 {P,           R,          PORT,           SCAN}
-{KOYO:K1:,    YnOutBHist, K1_Yn_Out_Bit,  "10 second"}
+{KOYO:K1:,    YnOutB,     K1_Yn_Out_Bit,  "10 second"}
 }
 
 file "../../db/bo_word.template" { pattern
@@ -180,9 +184,9 @@ file "../../db/asynRecord.template" { pattern
 {P,           R,          PORT,              ADDR,     TMOD,  IFACE}
 {KOYO:K1:,    YnOutWAsyn, K1_Yn_Out_Word,    0,        Read,  asynUInt32Digital}
 }
-file "../../db/histogram.template" { pattern
+file "../../db/statistics.template" { pattern
 {P,           R,          PORT,            SCAN}
-{KOYO:K1:,    YnOutWHist, K1_Yn_Out_Word,  "10 second"}
+{KOYO:K1:,    YnOutW,     K1_Yn_Out_Word,  "10 second"}
 }
 
 # These are the Cn inputs done with bit access C0-C7
@@ -209,9 +213,9 @@ file "../../db/asynRecord.template" { pattern
 {P,           R,         PORT,             ADDR,     TMOD,  IFACE}
 {KOYO:K1:,    CnInBAsyn, K1_Cn_In_Bit,     0,        Read,  asynUInt32Digital}
 }
-file "../../db/histogram.template" { pattern
+file "../../db/statistics.template" { pattern
 {P,           R,         PORT,          SCAN}
-{KOYO:K1:,    CnInBHist, K1_Cn_In_Bit,  "10 second"}
+{KOYO:K1:,    CnInB,     K1_Cn_In_Bit,  "10 second"}
 }
 file "../../db/poll_delay.template" { pattern
 {P,           R,              PORT}
@@ -260,9 +264,9 @@ file "../../db/asynRecord.template" { pattern
 {P,           R,         PORT,             ADDR,     TMOD,  IFACE}
 {KOYO:K1:,    CnInWAsyn, K1_Cn_In_Word,    0,        Read,  asynInt32}
 }
-file "../../db/histogram.template" { pattern
+file "../../db/statistics.template" { pattern
 {P,           R,         PORT,          SCAN}
-{KOYO:K1:,    CnInWHist, K1_Cn_In_Word, "10 second"}
+{KOYO:K1:,    CnInW,     K1_Cn_In_Word, "10 second"}
 }
 file "../../db/poll_delay.template" { pattern
 {P,           R,              PORT}
@@ -301,6 +305,22 @@ file "../../db/bo_bit.template" { pattern
 {KOYO:K1:,    C206OutB,     K1_Cn_Out_Bit,     0206,        Low,    High}
 {KOYO:K1:,    C207OutB,     K1_Cn_Out_Bit,     0207,        Low,    High}
 }
+file "../../db/longout.template" { pattern
+{P,           R,             PORT,             OFFSET}
+{KOYO:K1:,    C200OutBL,     K1_Cn_Out_Bit,    0200}
+}
+file "../../db/intarray_out.template" { pattern
+{P,           R,            PORT,             NELM}
+{KOYO:K1:,    CnOutBArray,  K1_Cn_Out_Bit,    0400}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,          PORT,              ADDR,     TMOD,  IFACE}
+{KOYO:K1:,    CnOutBAsyn, K1_Cn_Out_Bit,     0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,           R,          PORT,           SCAN}
+{KOYO:K1:,    CnOutB,     K1_Cn_Out_Bit,  "10 second"}
+}
 
 
 # These are the Cn outputs done with word access.  C200-207 
@@ -315,3 +335,20 @@ file "../../db/bo_word.template" { pattern
 {KOYO:K1:,    C206OutW,     K1_Cn_Out_Word,     8,        0x0040,    Low,    High}
 {KOYO:K1:,    C207OutW,     K1_Cn_Out_Word,     8,        0x0080,    Low,    High}
 }
+file "../../db/longout.template" { pattern
+{P,           R,            PORT,              OFFSET}
+{KOYO:K1:,    C20nOutWL,    K1_Cn_Out_Word,    8}
+}
+file "../../db/intarray_out.template" { pattern
+{P,           R,            PORT,              NELM}
+{KOYO:K1:,    CnOutWArray,  K1_Cn_Out_Word,    32}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,          PORT,              ADDR,     TMOD,  IFACE}
+{KOYO:K1:,    CnOutWAsyn, K1_Cn_Out_Word,    0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,           R,          PORT,            SCAN}
+{KOYO:K1:,    CnOutW,     K1_Cn_Out_Word,  "10 second"}
+}
+
