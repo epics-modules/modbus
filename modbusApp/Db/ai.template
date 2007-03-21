@@ -1,0 +1,13 @@
+# ai record template for register inputs
+record(ai, "$(P)$(R)") {
+    field(DTYP,"asynInt32")
+    field(INP,"@asynBounds($(PORT) $(OFFSET) $(DEVLOW) $(DEVHIGH))MODBUS_DATA")
+    field(LINR,"LINEAR")
+    field(EGUL,"$(EGUL)")
+    field(EGUF,"$(EGUF)")
+    field(HOPR,"$(EGUF)")
+    field(LOPR,"$(EGUL)")
+    field(PREC,"$(PREC)")
+    field(SCAN,"$(SCAN)")
+}
+
