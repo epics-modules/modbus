@@ -23,10 +23,16 @@
 #define MODBUS_LAST_IO_TIME_COMMAND_STRING     "LAST_IO_TIME"
 #define MODBUS_MAX_IO_TIME_COMMAND_STRING      "MAX_IO_TIME"
 
+typedef enum {
+    dataTypeBinary,
+    dataTypeBCD
+} modbusDataType;
+
 int drvModbusTCPAsynConfigure(char *portName, 
                               char *tcpPortName, 
                               int modbusFunction, 
                               int modbusStartAddress, 
                               int modbusLength,
+                              modbusDataType dataType,
                               int pollMsec, 
                               char *plcType);
