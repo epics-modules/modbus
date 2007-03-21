@@ -1,0 +1,164 @@
+# These are the Yn inputs done with bit access Y0-Y7
+file "../../db/bi_bit.template" { pattern
+{P,           R,         PORT,             OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYO2:,    Y0InB,     K2_Yn_In_Bit,     0,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    Y1InB,     K2_Yn_In_Bit,     1,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    Y2InB,     K2_Yn_In_Bit,     2,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    Y3InB,     K2_Yn_In_Bit,     3,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    Y4InB,     K2_Yn_In_Bit,     4,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    Y5InB,     K2_Yn_In_Bit,     5,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    Y6InB,     K2_Yn_In_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    Y7InB,     K2_Yn_In_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+}
+file "../../db/longin.template" { pattern
+{P,           R,         PORT,             OFFSET,   SCAN}
+{KOYO2:,    Y0InBL,     K2_Yn_In_Bit,     0,        "I/O Intr"}
+}
+file "../../db/intarray_in.template" { pattern
+{P,           R,           PORT,             NELM,     SCAN}
+{KOYO2:,    YnInBArray,  K2_Yn_In_Bit,     32,     ".1 second"}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,         PORT,             ADDR,     TMOD,  IFACE}
+{KOYO2:,    YnInBAsyn, K2_Yn_In_Bit,     0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,           R,         PORT,          SCAN}
+{KOYO2:,    YnInB,     K2_Yn_In_Bit,  "10 second"}
+}
+file "../../db/poll_delay.template" { pattern
+{P,           R,              PORT}
+{KOYO2:,    YnInBPollDelay, K2_Yn_In_Bit}
+}
+
+# These are the Yn outputs done with bit access.  Y0-Y7 
+file "../../db/bo_bit.template" { pattern
+{P,           R,          PORT,              OFFSET,   ZNAM,   ONAM}
+{KOYO2:,    Y0OutB,     K2_Yn_Out_Bit,     0,        Low,    High}
+{KOYO2:,    Y1OutB,     K2_Yn_Out_Bit,     1,        Low,    High}
+{KOYO2:,    Y2OutB,     K2_Yn_Out_Bit,     2,        Low,    High}
+{KOYO2:,    Y3OutB,     K2_Yn_Out_Bit,     3,        Low,    High}
+{KOYO2:,    Y4OutB,     K2_Yn_Out_Bit,     4,        Low,    High}
+{KOYO2:,    Y5OutB,     K2_Yn_Out_Bit,     5,        Low,    High}
+{KOYO2:,    Y6OutB,     K2_Yn_Out_Bit,     6,        Low,    High}
+{KOYO2:,    Y7OutB,     K2_Yn_Out_Bit,     7,        Low,    High}
+}
+file "../../db/longout.template" { pattern
+{P,           R,         PORT,             OFFSET}
+{KOYO2:,    Y0OutBL,     K2_Yn_Out_Bit,    0}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,          PORT,              ADDR,     TMOD,  IFACE}
+{KOYO2:,    YnOutBAsyn, K2_Yn_Out_Bit,     0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,           R,          PORT,           SCAN}
+{KOYO2:,    YnOutB,     K2_Yn_Out_Bit,  "10 second"}
+}
+
+# These are the Cn inputs done with bit access C0-C7
+file "../../db/bi_bit.template" { pattern
+{P,           R,         PORT,             OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYO2:,    C0InB,     K2_Cn_In_Bit,     0,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C1InB,     K2_Cn_In_Bit,     1,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C2InB,     K2_Cn_In_Bit,     2,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C3InB,     K2_Cn_In_Bit,     3,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C4InB,     K2_Cn_In_Bit,     4,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C5InB,     K2_Cn_In_Bit,     5,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C6InB,     K2_Cn_In_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C7InB,     K2_Cn_In_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+}
+file "../../db/longin.template" { pattern
+{P,           R,         PORT,             OFFSET,   SCAN}
+{KOYO2:,    C0InBL,     K2_Cn_In_Bit,     0,        "I/O Intr"}
+}
+file "../../db/intarray_in.template" { pattern
+{P,           R,           PORT,             NELM,     SCAN}
+{KOYO2:,    CnInBArray,  K2_Cn_In_Bit,     256,     ".1 second"}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,         PORT,             ADDR,     TMOD,  IFACE}
+{KOYO2:,    CnInBAsyn, K2_Cn_In_Bit,     0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,           R,         PORT,          SCAN}
+{KOYO2:,    CnInB,     K2_Cn_In_Bit,  "10 second"}
+}
+file "../../db/poll_delay.template" { pattern
+{P,           R,              PORT}
+{KOYO2:,    CnInBPollDelay, K2_Cn_In_Bit}
+}
+
+# These are the Cn inputs done with bit access C200-C207
+file "../../db/bi_bit.template" { pattern
+{P,           R,           PORT,             OFFSET,      ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{KOYO2:,    C200InB,     K2_Cn_In_Bit,     0200,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C201InB,     K2_Cn_In_Bit,     0201,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C202InB,     K2_Cn_In_Bit,     0202,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C203InB,     K2_Cn_In_Bit,     0203,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C204InB,     K2_Cn_In_Bit,     0204,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C205InB,     K2_Cn_In_Bit,     0205,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C206InB,     K2_Cn_In_Bit,     0206,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{KOYO2:,    C207InB,     K2_Cn_In_Bit,     0207,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+}
+file "../../db/longin.template" { pattern
+{P,           R,           PORT,             OFFSET,   SCAN}
+{KOYO2:,    C200InBL,     K2_Cn_In_Bit,     0200,        "I/O Intr"}
+}
+
+
+# These are the Cn outputs done with bit access.  C200-C207 
+file "../../db/bo_bit.template" { pattern
+{P,           R,            PORT,              OFFSET,      ZNAM,   ONAM}
+{KOYO2:,    C200OutB,     K2_Cn_Out_Bit,     0200,        Low,    High}
+{KOYO2:,    C201OutB,     K2_Cn_Out_Bit,     0201,        Low,    High}
+{KOYO2:,    C202OutB,     K2_Cn_Out_Bit,     0202,        Low,    High}
+{KOYO2:,    C203OutB,     K2_Cn_Out_Bit,     0203,        Low,    High}
+{KOYO2:,    C204OutB,     K2_Cn_Out_Bit,     0204,        Low,    High}
+{KOYO2:,    C205OutB,     K2_Cn_Out_Bit,     0205,        Low,    High}
+{KOYO2:,    C206OutB,     K2_Cn_Out_Bit,     0206,        Low,    High}
+{KOYO2:,    C207OutB,     K2_Cn_Out_Bit,     0207,        Low,    High}
+}
+file "../../db/longout.template" { pattern
+{P,           R,             PORT,             OFFSET}
+{KOYO2:,    C200OutBL,     K2_Cn_Out_Bit,    0200}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,          PORT,              ADDR,     TMOD,  IFACE}
+{KOYO2:,    CnOutBAsyn, K2_Cn_Out_Bit,     0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,           R,          PORT,           SCAN}
+{KOYO2:,    CnOutB,     K2_Cn_Out_Bit,  "10 second"}
+}
+
+# These are the V3000 (ADC) inputs done with word access.  V3000-V3003
+file "../../db/longin.template" { pattern
+{P,           R,            PORT,                 OFFSET,   SCAN}
+{KOYO2:,    V3000InWL,    K2_V3000_In_Word,     0,       "I/O Intr"}
+{KOYO2:,    V3001InWL,    K2_V3000_In_Word,     1,       "I/O Intr"}
+{KOYO2:,    V3002InWL,    K2_V3000_In_Word,     2,       "I/O Intr"}
+{KOYO2:,    V3003InWL,    K2_V3000_In_Word,     3,       "I/O Intr"}
+}
+file "../../db/ai.template" { pattern
+{P,         R,      PORT,               OFFSET, DEVLOW, DEVHIGH, EGUL,  EGUF,   PREC,   SCAN}
+{KOYO2:,    ADC1,   K2_V3000_In_Word,   0,      0,      0xFFF,   0.,    10.,    3,      "I/O Intr"}
+{KOYO2:,    ADC2,   K2_V3000_In_Word,   1,      0,      0xFFF,   0.,    10.,    3,      "I/O Intr"}
+}
+file "../../db/ai_average.template" { pattern
+{P,         R,      PORT,               OFFSET, DEVLOW, DEVHIGH, EGUL,  EGUF,   PREC,   SCAN}
+{KOYO2:,    ADC3,   K2_V3000_In_Word,   2,      0,      0xFFF,   0.,    10.,    3,      "1 second"}
+{KOYO2:,    ADC4,   K2_V3000_In_Word,   3,      0,      0xFFF,   0.,    10.,    3,      "1 second"}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,          PORT,              ADDR,        TMOD,  IFACE}
+{KOYO2:,    V3000InWAsyn, K2_V3000_In_Word,     0,        Read,  asynInt32}
+}
+file "../../db/statistics.template" { pattern
+{P,           R,          PORT,              SCAN}
+{KOYO2:,    V3000InW,     K2_V3000_In_Word,  "10 second"}
+}
+file "../../db/poll_delay.template" { pattern
+{P,           R,               PORT}
+{KOYO2:,    V3000InWPollDelay, K2_V3000_In_Word}
+}
