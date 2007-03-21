@@ -1,19 +1,9 @@
 To do:
 
-- Make readOnce on outputs, using readMsec flag DONE
-- Test bi records on read coil DONE
-- Test bi records on read register  DONE
-- Test bo records on write coil DONE
-- Test bo records on write register DONE
-- Test longin records on read coil DONE
-- Test longin records on read register DONE
-- Test waveform records on read read coils DONE
-- Test waveform records on read registers DONE
-- Test waveform records on write coils
-- Test waveform records on write registers
-- Test callbacks (I/O Intr) DONE (need to do add waveforms in asyn)
-- Add histogram reading DONE
-- Add extra control (poll time, etc.)
-- Watchdog?
+- Analog input, bipolar and BCD signed
+- Test waveform records on write coils ERRORS, FIX
+- Test waveform records on write registers  ERRORS?
+- Add waveform callbacks in asyn, test I/O Intr on input arrays
+- Report errors on communications errors
 
 - Write documentation
