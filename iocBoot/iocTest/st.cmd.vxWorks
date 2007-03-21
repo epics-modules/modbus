@@ -16,5 +16,5 @@ ld < modbusTCPApp.munch
 
 # Execute the same startup script for Koyo test as other architectures
 cd startup
-< st.cmd
+< Koyo1.cmd
 
