@@ -26,8 +26,8 @@ drvModbusTCPAsynConfigure("K2_Cn_In_Bit",       "Koyo2",    1,  06000,  0400,   
 drvModbusTCPAsynConfigure("K2_Cn_Out_Bit",      "Koyo2",    5,  06000,  0400,   0,  1,      "Koyo")
 
 # The DL205 has word access to the V3000 memory at Modbus offset 3000 (octal)
-# Access 32 words (V3000-V3040) as inputs.  Function code=3, data type BCD.
-drvModbusTCPAsynConfigure("K2_V3000_In_Word",   "Koyo2",    3,  03000,  040,    1,  100,    "Koyo")
+# Access 32 words (V3000-V3040) as inputs.  Function code=3, data type signed BCD.
+drvModbusTCPAsynConfigure("K2_V3000_In_Word",   "Koyo2",    3,  03000,  040,    3,  100,    "Koyo")
 
 # Hex trace format on TCP server
 asynSetTraceIOMask("Koyo2",0,4)
