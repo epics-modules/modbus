@@ -1,0 +1,427 @@
+<HTML>
+<HEAD>
+<TITLE>modbusTCP EPICS device/driver support</TITLE>
+</HEAD>
+
+<BODY>
+<CENTER>
+    <H1>Driver Support for Modbus/TCP Protocol under EPICS</H1>
+    <H2>Mark Rivers</H2>
+    <H2>March 22, 2007</H2>
+</CENTER>
+
+
+<HR>
+<H2><CENTER>Contents</H2></CENTER>
+<UL>
+<LI><A HREF="#Overview of Modbus">
+              Overview of Modbus</A>
+<LI><A HREF="#Driver architecture">
+              Driver architecture</A>
+<LI><A HREF="#asyn interfaces">
+              asyn interfaces</A>
+<LI><A HREF="#EPICS startup script">
+              EPICS startup script</A>
+<LI><A HREF="#EPICS device support">
+              EPICS device support</A>
+<LI><A HREF="#Debug tracing">
+              Debug tracing</A>
+<LI><A HREF="#medm screens">
+              medm screens</A>
+<LI><A HREF="#Differences from Triumf modtcp and plctcp package">
+              Differences from Triumf modtcp and plctcp package</A>
+<LI><A HREF="#Known problems">
+              Known problems</A>
+<LI><A HREF="#Offsets for Koyo PLCs">
+              Offsets for Koyo PLCs</A>
+</UL>
+
+<H2><CENTER><A NAME="Overview of Modbus">
+                     Overview of Modbus</A></H2></CENTER>
+
+Modbus functions<BR>
+
+
+<H2><CENTER><A NAME="Driver architecture">
+                     Driver architecture</A></H2></CENTER>
+
+Reads us poller thread<BR>
+
+EPICS reads are synchronous, don't block because they read the last cached value<BR>
+
+EPICS writes are asynchronous, block.<BR>
+
+Register writes with mask !=0 or 0xFFFF use read/modfy/write.  This is not guaranteed to
+prevent conflicts with PLC ladder logic or another Modbus client accessing same register. <BR>
+
+
+<H2><CENTER><A NAME="asyn interfaces">
+                     asyn interfaces</A></H2></CENTER>
+                     
+asyn Interface asynUInt32Digital<BR>
+Modbus function    Offset    Data type  drvUser   asyn EPICS device support <BR>
+1,2,5              bit       bit        MODBUS_DATA    bi, bo, mbbi, mbbo, mbbiDirect, mbboDirect <BR>
+
+Explain meaning of offsets <BR>
+
+<H2><CENTER><A NAME="EPICS startup script">
+                     EPICS startup script</A></H2></CENTER>
+
+drvAsynIPPortCreate <CR>
+
+Document drvModbusTCPAsynConfigure <BR>
+
+Poll delay on write non-zero means read once <BR>
+
+<H2><CENTER><A NAME="EPICS device support">
+                     EPICS device support</A></H2></CENTER>
+
+Uses standard asyn EPICS device support <BR>
+
+R4-8 needed to get asynRange support for ai, ao and callbacks on waveform records <BR>
+
+
+<H2><CENTER><A NAME="Debug tracing">
+                     Debug tracing</A></H2></CENTER>
+                     
+Can use asynTrace command or medm screen with asyn record <BR>
+
+
+<H2><CENTER><A NAME="medm screens">
+                     medm screens</A></H2></CENTER>
+
+Example screens for Koyo <BR>
+
+<H2><CENTER><A NAME="Differences from Triumf modtcp and plctcp package">
+                     Differences from Triumf modtcp and plctcp package</A></H2></CENTER>
+                     
+modtcp supports only Modbus functions 3 (read holding register) and 6 (write holding register).  modbusTCP supports most Modbus function codes,
+including 1, 2 and 5 for reading and writing coils (single bits) and 15 and 16 for writing multiple bits and multiple registers. <BR>
+
+Supports pseudo-interrupt mode on inputs.  The poller thread calls device support when there is a new value, so the EPICS records can have SCAN=I/O Intr
+and do not need to periodically read the inputs. <BR>
+
+Array operations on reads and writes using waveform records <BR>
+
+Uses asyn for underlying TCP/IP connections.  Reduces amount of code, and has good debugging and connection management <BR>
+
+Uses standard asyn interfaces and asyn device support.  Reduces code. <BR>
+
+Provides EPICS PVs for PLC status and statistics. <BR>
+
+Minus <BR>
+No watchdog yet. <BR>
+
+No Siemens PLC support.  It should be a separate driver, using drvModbusTCPAsyn.c as a starting point.  Cleaner to keep them separate. <BR>
+
+One thread per asyn port, which is a group of Modbus registers or coils.  This is more threads than modtcp, which had only 1 thread per PLC. There is an
+advantage, each can poll at a different rate, can have different Modbus function code, and a different data type. <BR>
+
+
+<H2><CENTER><A NAME="Known problems">
+                     Known problems</A></H2></CENTER>
+                     
+Analog input, bipolar and BCD signed need device support addtion <BR>
+
+Test waveform records on write coils ERRORS <BR>
+
+Test waveform records on write registers  ERRORS? <BR>
+
+Add waveform callbacks in asyn, test I/O Intr on input arrays <BR>
+
+Fix connection management, report communication errors to EPICS <BR>
+
+
+<H2><CENTER><A NAME="Offsets for Koyo PLCs">
+                     Offsets for Koyo PLCs</A></H2></CENTER>
+
+Take from Koyo manual <BR>
+ 
+
+
+<H3><SPAN style="FONT-WEIGHT: bold"><A 
+name=Functionality></A>Functionality:</SPAN></H3>
+<UL>
+  <LI>modtcp supports communications to more than one PLC out of &nbsp;one 
+  IOC.<BR>
+  <LI>reading data from PLC:<BR>A background task (one per PLC) &nbsp;reads 
+  groups of data from the PLC into an&nbsp; IOC memory buffer. Data are read in 
+  groups of <SPAN style="FONT-WEIGHT: bold; COLOR: rgb(255,0,0)">up to 
+  125</SPAN> registers.&nbsp; 
+  <LI>writing data to PLC:<BR>A background tasks (one per PLC) writes changed 
+  data from the IOC memory buffer to the PLC. Data transfer is not optimized, 
+  data are written one register per ethernet message. 
+  <LI>an [optional] watchdog task (one per PLC) can be used to set INVALID 
+  alarms on records, if the IOC &lt;--&gt; PLC communication is interrupted. 
+<BR>
+  <LI><SPAN style="COLOR: rgb(153,153,153)">the driver recovers from Ethernet 
+  interruptions or disconnects</SPAN> *** change in Version of 
+  8-Feb-2004:<BR>see section "Connection Failures" below<BR>
+  <LI>EPICS record support:<BR>
+  <OL>
+    <LI>bi, bo 
+    <LI>mbbi, mbbo 
+    <LI>mbbiDirect, mbboDirect 
+    <LI>ai, ao<BR>- for ai and ao records, both unipolar and bipolar (2's 
+    complement) data are supported<BR></LI></OL>
+  <LI>EPICS addressing: &nbsp; #Cx Sy @n [p] &nbsp;where<BR>
+  <OL>
+    <LI>x &nbsp; is the PLC register address relative to the output register 
+    base, i.e. C1 &lt;==&gt; 400001 
+    <LI>y &nbsp; is the bit number (0..15) in the PLC register. This is used 
+    for&nbsp; bi and bo records only. <BR>
+    <LI>n &nbsp; is the PLC index (0 for the first PLC) 
+    <LI>p &nbsp; is an optional bit-range identifier for analog records. p is 
+    specified in hex notation of the format [-]&lt;range&gt;, where the minus 
+    sign indicates a bipolar signal<BR>Default bit-range is 12 bits, 
+    unipolar<BR>Examples for the p parameter:<BR>- for a 16 bit unipolar signal 
+    set p to 0xffff<BR>- for an 11 bit unipolar signal set p to 0x7ff<BR>- for a 
+    16 bit bipolar (2's complement) signal, set p to -0x7fff<BR>- for a 12 bit 
+    bipolar (2's complement) signal, set p to -0x7ff<BR>- for an 11 bit bipolar 
+    (2's complement) signal, set p to -0x3ff<BR>For analog records with bipolar 
+    signals set (EGUL, EGUF) to (0, engineering value at &lt;range&gt;) 
+  </LI></OL></LI></UL><BR><A 
+href="http://isacwserv.triumf.ca/epics/modtcp/TRIUMFmodtcp.html#TRIUMF_Device_and_Driver_Support_for">top</A><BR><BR><BR><BR><BR><BR>
+<H3><SPAN style="FONT-WEIGHT: bold"><A name=Console_Interface></A>Interface 
+Functions:</SPAN></H3>The following commands are implemented for use in IOC 
+startup scripts and from the IOC consolse (you'll find probably a few more in 
+the source code). The example of an IOC startup script shows the typical use of 
+these functions. Please note in this example, that the polling of the PLC is 
+slowed down by setting the global variable moddelay to 20<BR><SPAN 
+style="FONT-WEIGHT: bold"><BR></SPAN>
+<H4><SPAN style="FONT-WEIGHT: bold">modtcpDrvCreate</SPAN> <BR></H4>Defines a 
+new PLC. The first call to this function creates PLC 0, the next PLC 1, 
+...<BR><BR>
+<TABLE style="WIDTH: 500px; TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 
+border=1>
+  <TBODY>
+  <TR>
+    <TH style="VERTICAL-ALIGN: top"><SPAN 
+      style="FONT-STYLE: italic"></SPAN><BR></TH>
+    <TH style="VERTICAL-ALIGN: top">Parameters:</TH>
+    <TH style="VERTICAL-ALIGN: top">type<BR></TH></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">1<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">PLC name<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">string<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">2<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">TCP/IP port<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">integer<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">3<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">PLC IP address<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">string<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">4<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">length of&nbsp; memory buffer<BR></TD>
+    <TD 
+style="VERTICAL-ALIGN: top">integer<BR></TD></TR></TBODY></TABLE>&nbsp;&nbsp;&nbsp; 
+<BR>Example:&nbsp;&nbsp;&nbsp; <BR><PRE>modtcpDrvCreate("itwplc",502,"142.90.132.94",4096)</PRE><SPAN 
+style="FONT-WEIGHT: bold"><BR><BR></SPAN>
+<H4><SPAN style="FONT-WEIGHT: bold">modtcpDrvReadGroup</SPAN> <BR></H4>Defines a 
+"read group",&nbsp; i.e. a contiguous set of registers to be read from the 
+PLC.<BR><BR>
+<TABLE style="WIDTH: 500px; TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 
+border=1>
+  <TBODY>
+  <TR>
+    <TH style="VERTICAL-ALIGN: top"><SPAN 
+      style="FONT-STYLE: italic"></SPAN><BR></TH>
+    <TH style="VERTICAL-ALIGN: top">Parameters:</TH>
+    <TH style="VERTICAL-ALIGN: top">type<BR></TH></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">1<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">PLC name<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">string<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">2<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">start of read group in PLC (1 &lt;==&gt; 
+      400001) <BR></TD>
+    <TD style="VERTICAL-ALIGN: top">integer<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">3<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">length of read group <SPAN 
+      style="FONT-WEIGHT: bold; COLOR: rgb(204,0,0)">(must be &lt;= 
+      125)</SPAN><SPAN style="FONT-WEIGHT: bold; COLOR: rgb(204,0,0)"></SPAN> 
+</TD>
+    <TD style="VERTICAL-ALIGN: top">integer<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">4<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">offset into memory buffer for 
+    storage<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">integer</TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">5<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">read-only-once flag (0 = read 
+      continuously)<BR></TD>
+    <TD 
+style="VERTICAL-ALIGN: top">integer<BR></TD></TR></TBODY></TABLE>&nbsp;&nbsp;&nbsp; 
+<BR>Example:&nbsp;&nbsp;&nbsp; <BR><PRE>modtcpDrvReadGroup("itwplc",1001,23,1001,0)</PRE><SPAN 
+style="FONT-WEIGHT: bold"><BR></SPAN>
+<H4><SPAN style="FONT-WEIGHT: bold">modtcpDrvWriteGroup</SPAN> <BR></H4>Defines 
+a "write group",&nbsp; i.e. a contiguous area of the memory buffer, which is 
+monitored for changes. Changed values are written to the PLC.<BR><BR>
+<TABLE style="WIDTH: 500px; TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 
+border=1>
+  <TBODY>
+  <TR>
+    <TH style="VERTICAL-ALIGN: top"><SPAN 
+      style="FONT-STYLE: italic"></SPAN><BR></TH>
+    <TH style="VERTICAL-ALIGN: top">Parameters:</TH>
+    <TH style="VERTICAL-ALIGN: top">type<BR></TH></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">1<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">PLC name<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">string<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">2<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">start of write group in PLC (1 &lt;==&gt; 
+      400001) <BR></TD>
+    <TD style="VERTICAL-ALIGN: top">integer<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">3<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">length of write group <SPAN 
+      style="FONT-WEIGHT: bold; COLOR: rgb(204,0,0)">(must be &lt;= 125)</SPAN> 
+    </TD>
+    <TD style="VERTICAL-ALIGN: top">integer<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">4<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">offset into memory buffer (start of data 
+      to write)<BR></TD>
+    <TD 
+style="VERTICAL-ALIGN: top">integer</TD></TR></TBODY></TABLE>&nbsp;&nbsp;&nbsp; 
+<BR>Example:&nbsp;&nbsp;&nbsp; <BR><PRE>modtcpDrvWriteGroup("itwplc",2001,23,2001)</PRE><SPAN 
+style="FONT-WEIGHT: bold"><BR></SPAN>
+<H4><SPAN style="FONT-WEIGHT: bold">modtcpWatchdog</SPAN> <BR></H4>Specifies a 
+watchdog location in the PLC, where the value is changing with each PLC 
+scan.<BR><BR>
+<TABLE style="WIDTH: 500px; TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 
+border=1>
+  <TBODY>
+  <TR>
+    <TH style="VERTICAL-ALIGN: top"><SPAN 
+      style="FONT-STYLE: italic"></SPAN><BR></TH>
+    <TH style="VERTICAL-ALIGN: top">Parameters:</TH>
+    <TH style="VERTICAL-ALIGN: top">type<BR></TH></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">1<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">PLC name<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">string<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">2<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">watchdog address (1 &lt;==&gt; 400001) 
+    <BR></TD>
+    <TD 
+style="VERTICAL-ALIGN: top">integer<BR></TD></TR></TBODY></TABLE>&nbsp;&nbsp;&nbsp; 
+<BR>Example:&nbsp;&nbsp;&nbsp; <BR><PRE>modtcpWatchdog("itwplc",3001)</PRE><SPAN 
+style="FONT-WEIGHT: bold"><BR></SPAN>
+<H4><SPAN style="FONT-WEIGHT: bold">modtcpKeepAlive</SPAN> <BR></H4>Specifies a 
+location in the PLC, to which the driver writes a changed value every 5 
+seconds<BR><BR>
+<TABLE style="WIDTH: 500px; TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 
+border=1>
+  <TBODY>
+  <TR>
+    <TH style="VERTICAL-ALIGN: top"><SPAN 
+      style="FONT-STYLE: italic"></SPAN><BR></TH>
+    <TH style="VERTICAL-ALIGN: top">Parameters:</TH>
+    <TH style="VERTICAL-ALIGN: top">type<BR></TH></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">1<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">PLC name<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">string<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">2<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">"keep alive" address (1 &lt;==&gt; 400001) 
+      <BR></TD>
+    <TD 
+style="VERTICAL-ALIGN: top">integer<BR></TD></TR></TBODY></TABLE>&nbsp;&nbsp;&nbsp; 
+<BR>Example:&nbsp;&nbsp;&nbsp; <BR><PRE>modtcpKeepAlive("itwplc",101)</PRE><SPAN 
+style="FONT-WEIGHT: bold"><BR></SPAN><SPAN style="FONT-WEIGHT: bold"><BR></SPAN>
+<H4><SPAN style="FONT-WEIGHT: bold">modtcpInit</SPAN> <BR></H4>Initializes 
+communication with all PLCs<BR>&nbsp;&nbsp;&nbsp; <BR>Example:&nbsp;&nbsp;&nbsp; 
+<BR><PRE>modtcpInit</PRE><SPAN style="FONT-WEIGHT: bold"><BR></SPAN>
+<H4><SPAN style="FONT-WEIGHT: bold">modtcpAbort</SPAN><BR></H4>Aborts 
+communication with all PLCs<BR>&nbsp;&nbsp;&nbsp; <BR>Example:&nbsp;&nbsp;&nbsp; 
+<BR><PRE>modtcpAbort</PRE><SPAN style="FONT-WEIGHT: bold"><BR></SPAN><SPAN 
+style="FONT-WEIGHT: bold"><BR></SPAN>
+<H4><SPAN style="FONT-WEIGHT: bold">modtcpReport</SPAN><BR></H4>Reports 
+information about all PLCs on the system. If an optional parameter &gt; 0 is 
+given, the reported information is more detailed <BR>&nbsp;&nbsp;&nbsp; 
+<BR>Example:&nbsp;&nbsp;&nbsp; <BR><PRE>modtcpReport 1</PRE><SPAN style="FONT-WEIGHT: bold"><BR></SPAN><SPAN 
+style="FONT-WEIGHT: bold"><BR></SPAN><SPAN style="FONT-WEIGHT: bold"><BR></SPAN>
+<H4><SPAN style="FONT-WEIGHT: bold">modtcpSetAutoReconnect</SPAN> 
+<BR></H4>Enables/disables the auto-reconnect function of the driver. Default is 
+set by #define DEFAULT_RECONNECT in file drvModtcp.c.<BR>NOTE: this function has 
+no effect, if there is no watchdog specified.<BR><BR>
+<TABLE style="WIDTH: 500px; TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 
+border=1>
+  <TBODY>
+  <TR>
+    <TH style="VERTICAL-ALIGN: top"><SPAN 
+      style="FONT-STYLE: italic"></SPAN><BR></TH>
+    <TH style="VERTICAL-ALIGN: top">Parameters:</TH>
+    <TH style="VERTICAL-ALIGN: top">type<BR></TH></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">1<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">PLC name</TD>
+    <TD style="VERTICAL-ALIGN: top">string<BR></TD></TR>
+  <TR>
+    <TD style="VERTICAL-ALIGN: top">2<BR></TD>
+    <TD style="VERTICAL-ALIGN: top">1 (= yes)&nbsp; or 0 (= no)<BR></TD>
+    <TD 
+style="VERTICAL-ALIGN: top">integer<BR></TD></TR></TBODY></TABLE>&nbsp;&nbsp;&nbsp; 
+<BR>Example:&nbsp;&nbsp;&nbsp; <BR><PRE>modtcpSetAutoReconnect("itwplc",1);</PRE><A 
+href="http://isacwserv.triumf.ca/epics/modtcp/TRIUMFmodtcp.html#TRIUMF_Device_and_Driver_Support_for">top</A><BR><SPAN 
+style="FONT-WEIGHT: bold"><BR></SPAN><SPAN 
+style="FONT-WEIGHT: bold"><BR></SPAN><BR>
+<H3><SPAN style="FONT-WEIGHT: bold"><A name=Connection_Failures></A>Connection 
+Failures</SPAN></H3><SPAN style="FONT-WEIGHT: bold"></SPAN>Behaviour of the 
+driver if the Ethernet is interrupted:<BR>
+<OL>
+  <LI>if no watchdog task is specified in startup script:<BR>In this case read 
+  and write tasks block on their TCP/IP recv functions.<BR>Use commands from the 
+  IOC consoles:<BR>
+  <DIV style="MARGIN-LEFT: 40px">"modtcpAbort" &nbsp;&nbsp; (or 
+  "modtcpAbortPLC(&lt;PLC index&gt;)", if the IOC drives more than one 
+  PLC)&nbsp;&nbsp; to abort the read and write tasks<BR>"modtcpInit"&nbsp;&nbsp; 
+  (or "modtcpInitPLC(&lt;PLC index&gt;)", to restart the&nbsp; read and write 
+  tasks<BR></DIV></LI></OL>
+<OL start=2>
+  <LI>if watchdog task is specified in startup script:<BR>In this case, the read 
+  and write tasks are aborted, when there is no communication for X 5-second 
+  intervals. X is configurable&nbsp; (see Console Interface).<BR><BR>The 
+  reconnect behaviour is determined by the directive<BR>#define 
+  DEFAULT_RECONNECT in the source file drvModtcp.c. <BR>This compile-time value 
+  can be overridden by a call to&nbsp; modtcpSetAutoReconnect(1) in the IOC 
+  startup script. A value of 1 causes the driver to attempt reconnecting&nbsp; 
+  every 20 seconds. <BR></LI></OL><A 
+href="http://isacwserv.triumf.ca/epics/modtcp/TRIUMFmodtcp.html#TRIUMF_Device_and_Driver_Support_for">top</A>&nbsp; 
+<BR><BR><BR><BR>
+<H3><SPAN style="FONT-WEIGHT: bold"><A name=Limitations_></A>Limitations and 
+Known Problems:</SPAN></H3>
+<UL>
+  <LI>tested on: 
+  <UL>
+    <LI>&nbsp;Motorola CPUs with 680x0 architecture 
+    <LI>TRI-M MZ104+&nbsp;&nbsp; (PC104) boards with x86 architecture 
+    <LI>GMS Mariner&nbsp; (Pentium) </LI></UL>
+  <LI><SPAN style="COLOR: rgb(153,153,153)">-- obsolete -- For use with Momentum 
+  series PLCs, a "keep alive" write to the PLC must be implemented, otherwise 
+  the TCP/IP server in the PLC closes write connections after a short period of 
+  inactivity. In a future release, this will be implemented at the driver level. 
+  -- obsolete --</SPAN><BR>
+  <LI>The communication background tasks do only register transfers between PLC 
+  and the IOC memory buffer, i.e supported MODBUS functions are<BR>
+  <UL>
+    <LI>function 3 (READ OUTPUT REGISTERS), i.e.&nbsp; no reading of individual 
+    bits (coils). 
+    <LI>function 6 (PRESET SINGLE REGISTER),&nbsp; i.e. no writing of individual 
+    bits (coils) </LI></UL></LI></UL>
+<DIV style="MARGIN-LEFT: 40px">Note, however, that EPICS device support supports 
+binary input and output records.</DIV>
+<DIV style="MARGIN-LEFT: 40px"><BR></DIV>Known problems:<BR>&nbsp;&nbsp;&nbsp; - 
+none, until you tell me<BR><BR><BR><A 
+href="http://isacwserv.triumf.ca/epics/modtcp/TRIUMFmodtcp.html#TRIUMF_Device_and_Driver_Support_for">top</A><BR><BR><A 
+href="http://isacwserv.triumf.ca/epics/modtcp"></A><BR></BODY></HTML>
