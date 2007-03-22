@@ -186,8 +186,8 @@ static asynStatus writeInt32Array  (void *drvPvt, asynUser *pasynUser,
 static void readPoller(PLC_ID pPlc);
 static int doModbusIO(PLC_ID pPlc, int function, int start, unsigned short *data, 
                       int len);
-static unsigned short BCDToBinary(unsigned short value);
-static unsigned short binaryToBCD(unsigned short value);
+static unsigned short convertToBinary(unsigned short value, modbusDataType dataType);
+static unsigned short convertFromBinary(unsigned short value, modbusDataType dataType);
 
 
 /* asynCommon methods */
@@ -1474,10 +1474,10 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             for (i=0; i<(int)nread; i++) { 
                 data[i] = ntohs(pShortIn[i]);
              }
-            /* Convert from BCD to binary if required */
-            if (pPlc->dataType == dataTypeBCD) {
+            /* Convert to binary if required */
+            if (pPlc->dataType != dataTypeBinary) {
                 for (i=0; i<(int)nread; i++) { 
-                    data[i] = BCDToBinary(data[i]);
+                    data[i] = convertToBinary(data[i], pPlc->dataType);
                 }
             }
             asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
@@ -1512,22 +1512,48 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
 }
 
 
-static unsigned short BCDToBinary(unsigned short value)
+static unsigned short convertToBinary(unsigned short value, 
+                                      modbusDataType dataType)
 {
     unsigned short result=0;
     int i;
     int mult=1;
+    int signMask = 0x8000;
+    int negative = 0;
     
-    for(i=0; i<4; i++) {
-        result += (value & 0xF)*mult;
-        mult = mult*10;
-        value = value >> 4;
+    switch (dataType) {
+        case dataTypeSignedBCD:
+            if (value & signMask) {
+                negative=1;
+                value &= ~signMask;
+            }
+        case dataTypeBCD:
+            for(i=0; i<4; i++) {
+                result += (value & 0xF)*mult;
+                mult = mult*10;
+                value = value >> 4;
+            }
+            if (negative) result = -result;
+            break;
+        
+        case dataTypeSignedBinary:
+            result = value;
+            if (result & signMask) {
+                result &= ~signMask;
+                result = -result;
+            }
+            break;
+            
+        default:
+            break;
     }
+
     return(result);
 }
 
 
-static unsigned short binaryToBCD(unsigned short value)
+static unsigned short convertFromBinary(unsigned short value,
+                                        modbusDataType dataType)
 {
     unsigned short result=0;
     int i;

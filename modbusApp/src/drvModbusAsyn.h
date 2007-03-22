@@ -25,7 +25,9 @@
 
 typedef enum {
     dataTypeBinary,
-    dataTypeBCD
+    dataTypeSignedBinary,
+    dataTypeBCD,
+    dataTypeSignedBCD
 } modbusDataType;
 
 int drvModbusTCPAsynConfigure(char *portName, 
