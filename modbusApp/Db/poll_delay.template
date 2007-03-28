@@ -2,5 +2,5 @@
 record(ao,"$(P)$(R)") {
     field(DTYP,"asynFloat64")
     field(PREC,"3")
-    field(OUT,"@asynMask($(PORT))POLL_DELAY")
+    field(OUT,"@asyn($(PORT))POLL_DELAY")
 }
