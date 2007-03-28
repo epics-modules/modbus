@@ -1,9 +1,0 @@
-To do:
-
-- Analog input, bipolar and BCD signed
-- Test waveform records on write coils ERRORS, FIX
-- Test waveform records on write registers  ERRORS?
-- Add waveform callbacks in asyn, test I/O Intr on input arrays
-- Report errors on communications errors
-
-- Write documentation
