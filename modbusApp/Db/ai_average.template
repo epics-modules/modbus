@@ -1,7 +1,7 @@
 # ai record template for register inputs
 record(ai, "$(P)$(R)") {
     field(DTYP,"asynInt32Average")
-    field(INP,"@asynBounds($(PORT) $(OFFSET) $(DEVLOW) $(DEVHIGH))MODBUS_DATA")
+    field(INP,"@asynMask($(PORT) $(OFFSET) $(BITS))MODBUS_DATA")
     field(LINR,"LINEAR")
     field(EGUL,"$(EGUL)")
     field(EGUF,"$(EGUF)")
