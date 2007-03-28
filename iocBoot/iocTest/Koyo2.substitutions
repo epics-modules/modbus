@@ -141,14 +141,14 @@ file "../../db/longin.template" { pattern
 {KOYO2:,    V3003InWL,    K2_V3000_In_Word,     3,       "I/O Intr"}
 }
 file "../../db/ai.template" { pattern
-{P,         R,      PORT,               OFFSET, DEVLOW, DEVHIGH, EGUL,  EGUF,   PREC,   SCAN}
-{KOYO2:,    ADC1,   K2_V3000_In_Word,   0,      0,      0xFFF,   0.,    10.,    3,      "I/O Intr"}
-{KOYO2:,    ADC2,   K2_V3000_In_Word,   1,      0,      0xFFF,   0.,    10.,    3,      "I/O Intr"}
+{P,         R,      PORT,               OFFSET, BITS,  EGUL,  EGUF,   PREC,   SCAN}
+{KOYO2:,    ADC1,   K2_V3000_In_Word,   0,      -13,   -10.,    10.,    3,      "I/O Intr"}
+{KOYO2:,    ADC2,   K2_V3000_In_Word,   1,      -13,   -10.,    10.,    3,      "I/O Intr"}
 }
 file "../../db/ai_average.template" { pattern
-{P,         R,      PORT,               OFFSET, DEVLOW, DEVHIGH, EGUL,  EGUF,   PREC,   SCAN}
-{KOYO2:,    ADC3,   K2_V3000_In_Word,   2,      0,      0xFFF,   0.,    10.,    3,      "1 second"}
-{KOYO2:,    ADC4,   K2_V3000_In_Word,   3,      0,      0xFFF,   0.,    10.,    3,      "1 second"}
+{P,         R,      PORT,               OFFSET, BITS,  EGUL,  EGUF,   PREC,   SCAN}
+{KOYO2:,    ADC3,   K2_V3000_In_Word,   2,      -13,   -10.,    10.,    3,      "1 second"}
+{KOYO2:,    ADC4,   K2_V3000_In_Word,   3,       12,   0.,    10.,    3,      "1 second"}
 }
 file "../../db/asynRecord.template" { pattern
 {P,           R,          PORT,              ADDR,        TMOD,  IFACE}
