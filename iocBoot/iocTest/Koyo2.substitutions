@@ -16,7 +16,7 @@ file "../../db/longin.template" { pattern
 }
 file "../../db/intarray_in.template" { pattern
 {P,           R,           PORT,             NELM,     SCAN}
-{KOYO2:,    YnInBArray,  K2_Yn_In_Bit,     32,     ".1 second"}
+{KOYO2:,    YnInBArray,  K2_Yn_In_Bit,     32,     "I/O Intr"}
 }
 file "../../db/asynRecord.template" { pattern
 {P,           R,         PORT,             ADDR,     TMOD,  IFACE}
@@ -74,7 +74,7 @@ file "../../db/longin.template" { pattern
 }
 file "../../db/intarray_in.template" { pattern
 {P,           R,           PORT,             NELM,     SCAN}
-{KOYO2:,    CnInBArray,  K2_Cn_In_Bit,     256,     ".1 second"}
+{KOYO2:,    CnInBArray,  K2_Cn_In_Bit,     256,     "I/O Intr"}
 }
 file "../../db/asynRecord.template" { pattern
 {P,           R,         PORT,             ADDR,     TMOD,  IFACE}
@@ -148,7 +148,7 @@ file "../../db/ai.template" { pattern
 file "../../db/ai_average.template" { pattern
 {P,         R,      PORT,               OFFSET, BITS,  EGUL,  EGUF,   PREC,   SCAN}
 {KOYO2:,    ADC3,   K2_V3000_In_Word,   2,      -13,   -10.,    10.,    3,      "1 second"}
-{KOYO2:,    ADC4,   K2_V3000_In_Word,   3,       12,   0.,    10.,    3,      "1 second"}
+{KOYO2:,    ADC4,   K2_V3000_In_Word,   3,      -13,   -10.,    10.,    3,      "1 second"}
 }
 file "../../db/asynRecord.template" { pattern
 {P,           R,          PORT,              ADDR,        TMOD,  IFACE}
