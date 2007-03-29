@@ -1,3 +1,9 @@
+# asyn record for the underlying asyn TCP port
+file "$(ASYN)/db/asynRecord.db" { pattern
+{P,           R,       PORT,      ADDR,   IMAX,    OMAX}
+{KOYO1:    TCPAsyn,    Koyo1,     0,      80,      80}
+}
+
 # These are the Xn inputs done with bit access X0-X7
 file "../../db/bi_bit.template" { pattern
 {P,           R,       PORT,          OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
