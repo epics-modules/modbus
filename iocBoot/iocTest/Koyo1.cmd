@@ -1,9 +1,13 @@
 # st.cmd for modbusTCP
+< envPaths
 
 dbLoadDatabase("../../dbd/modbusTCP.dbd")
 modbusTCP_registerRecordDeviceDriver(pdbbase)
 
-drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,0,1)
+#drvAsynIPPortConfigure(const char *portName, const char *hostInfo,
+#                           unsigned int priority, int noAutoConnect,
+#                           int noProcessEos);
+drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
 #drvAsynIPPortConfigure("Koyo1","164.54.160.201:502",0,0,1)
 
 
