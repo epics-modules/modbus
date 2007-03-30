@@ -37,6 +37,7 @@
 #include "asynDriver.h"
 #include "asynDrvUser.h"
 #include "asynOctetSyncIO.h"
+#include "asynCommonSyncIO.h"
 #include "asynInt32.h"
 #include "asynUInt32Digital.h"
 #include "asynInt32Array.h"
@@ -50,9 +51,9 @@
 #define MAX_READ_WORDS       125        /* Modbus limit on number of words to read */
 #define MAX_WRITE_WORDS      123        /* Modbus limit on number of words to write */
 #define HISTOGRAM_LENGTH     200        /* Length of time histogram */
-#define MAX_TCP_MESSAGE_SIZE 1500
-#define MODBUS_READ_TIMEOUT  2.0
-#define MIN_POLL_DELAY      .001
+#define MAX_TCP_MESSAGE_SIZE 1500       /* Buffer size for input and output packets */
+#define MODBUS_READ_TIMEOUT  2.0        /* Timeout for asynOctetSyncIO->writeRead */
+#define MIN_POLL_DELAY      .001        /* Minimum polling delay */
 
 
 /* Structures for drvUser interface */
@@ -101,6 +102,8 @@ typedef struct modbusTCPStr
     char *portName;             /* asyn port name for this server */
     char *tcpPortName;          /* asyn port name for the asyn TCP port */
     char *plcType;              /* String describing PLC type */
+    int isConnected;            /* Connection status */
+    int ioStatus;               /* I/O error status */
     asynUser  *pasynUserOctet;  /* asynUser for asynOctet interface to asyn TCP port */ 
     asynUser  *pasynUserTrace;  /* asynUser for asynTrace on this port */
     asynInterface asynCommon;   /* asyn interfaces for this port */
@@ -603,6 +606,7 @@ static asynStatus readUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 *va
     
     switch(pasynUser->reason) {
         case modbusDataCommand:
+            if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
             pasynManager->getAddr(pasynUser, &offset);
             *value = 0;
             if (offset >= pPlc->modbusLength) {
@@ -769,6 +773,7 @@ static asynStatus readInt32 (void *drvPvt, asynUser *pasynUser, epicsInt32 *valu
     
     switch(pasynUser->reason) {
         case modbusDataCommand:
+            if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
             if (offset >= pPlc->modbusLength) {
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                           "%s::readInt32 port %s invalid memory request %d, max=%d\n",
@@ -907,6 +912,7 @@ static asynStatus readFloat64 (void *drvPvt, asynUser *pasynUser, epicsFloat64 *
     
     switch(pasynUser->reason) {
         case modbusDataCommand:
+            if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
             if (offset >= pPlc->modbusLength) {
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                           "%s::readFloat64 port %s invalid memory request %d, max=%d\n",
@@ -1021,6 +1027,7 @@ static asynStatus readInt32Array (void *drvPvt, asynUser *pasynUser, epicsInt32 
     
     switch(pasynUser->reason) {
         case modbusDataCommand:
+            if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
             nread = maxChans;
             if (nread > pPlc->modbusLength) nread = pPlc->modbusLength;
             *nactual = nread;
@@ -1136,7 +1143,6 @@ static asynStatus writeInt32Array (void *drvPvt, asynUser *pasynUser, epicsInt32
 static void readPoller(PLC_ID pPlc)
 {
 
-    asynStatus status;
     ELLLIST *pclientList;
     interruptNode *pnode;
     asynUInt32DigitalInterrupt *pUInt32D;
@@ -1165,9 +1171,9 @@ static void readPoller(PLC_ID pPlc)
         epicsThreadSleep(pPlc->pollDelay);
 
         /* Read the data */
-        status = doModbusIO(pPlc, pPlc->modbusFunction, pPlc->modbusStartAddress, 
+        pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusFunction, pPlc->modbusStartAddress, 
                             pPlc->data, pPlc->modbusLength);
-        if (status != asynSuccess) continue;
+        if (pPlc->ioStatus != asynSuccess) continue;
         
         /* We process callbacks to device support.  
          * Don't do this until EPICS interruptAccept flag is set. */
@@ -1344,11 +1350,43 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
     double dT;
     int msec;
     unsigned char mask=0;
-
+    int autoConnect;
+ 
     /* We need to protect the code in this function with a Mutex, because it uses the 
      * data buffers in the pPlc stucture for the I/O, and that is not thread safe. */
     epicsMutexMustLock(pPlc->mutexId);
-    
+
+    /* If the TCP driver is not set for autoConnect then do connection management ourselves */
+    status = pasynManager->isAutoConnect(pPlc->pasynUserOctet, &autoConnect);
+    if (!autoConnect) {
+        /* See if we are connected */
+        status = pasynManager->isConnected(pPlc->pasynUserOctet, &pPlc->isConnected);
+         /* If we have an I/O error or are disconnect then disconnect device and reconnect */
+        if ((pPlc->ioStatus != asynSuccess) || !pPlc->isConnected) {
+            if (pPlc->ioStatus != asynSuccess) 
+                printf("%s::doModbusIO, %s has I/O error\n", driver, pPlc->portName);
+            if (!pPlc->isConnected) 
+                printf("%s::doModbusIO, %s is disconnected\n", driver, pPlc->portName);
+            status = pasynCommonSyncIO->disconnectDevice(pPlc->pasynUserOctet);
+            if (status == asynSuccess) {
+                printf("%s::doModbusIO, %s disconnect device OK\n", 
+                    driver, pPlc->portName);
+            } else {
+                printf("%s::doModbusIO, %s disconnect error=%s\n", 
+                    driver, pPlc->portName, pPlc->pasynUserOctet->errorMessage);
+            }
+            status = pasynCommonSyncIO->connectDevice(pPlc->pasynUserOctet);
+            if (status == asynSuccess) {
+                printf("%s::doModbusIO, %s connect device OK\n", 
+                    driver, pPlc->portName);
+            } else {
+                printf("%s::doModbusIO, %s connect device error=%s\n", 
+                    driver, pPlc->portName, pPlc->pasynUserOctet->errorMessage);
+                goto done;
+            }
+        }
+    }
+        
     /* First build the parts of the message that are independent of the function type */
     readReq = (modbusReadRequest *)pPlc->modbusRequest;
     readReq->mbapHeader.transactId    = htons(transactId);
