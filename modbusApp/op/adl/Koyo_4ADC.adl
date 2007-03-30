@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=296
-		y=98
-		width=300
-		height=250
+		x=302
+		y=70
+		width=330
+		height=260
 	}
 	clr=14
 	bclr=4
@@ -89,7 +89,7 @@ display {
 }
 text {
 	object {
-		x=40
+		x=55
 		y=12
 		width=220
 		height=20
@@ -154,7 +154,7 @@ text {
 }
 text {
 	object {
-		x=96
+		x=111
 		y=40
 		width=108
 		height=15
@@ -165,149 +165,9 @@ text {
 	textix="(ai records)"
 	align="horiz. centered"
 }
-"text update" {
-	object {
-		x=118
-		y=87
-		width=75
-		height=15
-	}
-	monitor {
-		chan="$(P)$(R1)"
-		clr=53
-		bclr=2
-	}
-	align="horiz. right"
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=118
-		y=112
-		width=75
-		height=15
-	}
-	monitor {
-		chan="$(P)$(R2)"
-		clr=53
-		bclr=2
-	}
-	align="horiz. right"
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=118
-		y=137
-		width=75
-		height=15
-	}
-	monitor {
-		chan="$(P)$(R3)"
-		clr=53
-		bclr=2
-	}
-	align="horiz. right"
-	limits {
-	}
-}
-"text update" {
-	object {
-		x=118
-		y=162
-		width=75
-		height=15
-	}
-	monitor {
-		chan="$(P)$(R4)"
-		clr=53
-		bclr=2
-	}
-	align="horiz. right"
-	limits {
-	}
-}
-composite {
-	object {
-		x=200
-		y=84
-		width=100
-		height=95
-	}
-	"composite name"=""
-	children {
-		menu {
-			object {
-				x=200
-				y=84
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(R1).SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		menu {
-			object {
-				x=200
-				y=109
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(R2).SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		menu {
-			object {
-				x=200
-				y=134
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(R3).SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		menu {
-			object {
-				x=200
-				y=159
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(R4).SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-	}
-}
 text {
 	object {
-		x=142
-		y=64
-		width=27
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="VAL"
-	align="horiz. centered"
-}
-text {
-	object {
-		x=73
+		x=85
 		y=64
 		width=27
 		height=15
@@ -318,11 +178,162 @@ text {
 	textix="RVAL"
 	align="horiz. centered"
 }
+composite {
+	object {
+		x=145
+		y=64
+		width=182
+		height=115
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=145
+				y=87
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R1)"
+				clr=53
+				bclr=2
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=145
+				y=112
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R2)"
+				clr=53
+				bclr=2
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=145
+				y=137
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R3)"
+				clr=53
+				bclr=2
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=145
+				y=162
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R4)"
+				clr=53
+				bclr=2
+			}
+			align="horiz. right"
+			limits {
+			}
+		}
+		composite {
+			object {
+				x=227
+				y=84
+				width=100
+				height=95
+			}
+			"composite name"=""
+			children {
+				menu {
+					object {
+						x=227
+						y=84
+						width=100
+						height=20
+					}
+					control {
+						chan="$(P)$(R1).SCAN"
+						clr=14
+						bclr=4
+					}
+				}
+				menu {
+					object {
+						x=227
+						y=109
+						width=100
+						height=20
+					}
+					control {
+						chan="$(P)$(R2).SCAN"
+						clr=14
+						bclr=4
+					}
+				}
+				menu {
+					object {
+						x=227
+						y=134
+						width=100
+						height=20
+					}
+					control {
+						chan="$(P)$(R3).SCAN"
+						clr=14
+						bclr=4
+					}
+				}
+				menu {
+					object {
+						x=227
+						y=159
+						width=100
+						height=20
+					}
+					control {
+						chan="$(P)$(R4).SCAN"
+						clr=14
+						bclr=4
+					}
+				}
+			}
+		}
+		text {
+			object {
+				x=169
+				y=64
+				width=27
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="VAL"
+			align="horiz. centered"
+		}
+	}
+}
 "text update" {
 	object {
 		x=61
 		y=87
-		width=50
+		width=75
 		height=15
 	}
 	monitor {
@@ -339,7 +350,7 @@ text {
 	object {
 		x=61
 		y=112
-		width=50
+		width=75
 		height=15
 	}
 	monitor {
@@ -356,7 +367,7 @@ text {
 	object {
 		x=61
 		y=137
-		width=50
+		width=75
 		height=15
 	}
 	monitor {
@@ -373,7 +384,7 @@ text {
 	object {
 		x=61
 		y=162
-		width=50
+		width=75
 		height=15
 	}
 	monitor {
@@ -388,17 +399,56 @@ text {
 }
 composite {
 	object {
-		x=76
-		y=191
-		width=148
-		height=45
+		x=94
+		y=185
+		width=145
+		height=20
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=94
+				y=185
+				width=50
+				height=20
+			}
+			control {
+				chan="$(P)$(PORT)PollDelay"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=149
+				y=188
+				width=90
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Poll delay"
+			align="horiz. centered"
+		}
+	}
+}
+composite {
+	object {
+		x=91
+		y=210
+		width=94
+		height=20
 	}
 	"composite name"=""
 	children {
 		"related display" {
 			object {
-				x=76
-				y=216
+				x=91
+				y=210
 				width=53
 				height=20
 			}
@@ -422,8 +472,8 @@ composite {
 		}
 		text {
 			object {
-				x=134
-				y=218
+				x=149
+				y=213
 				width=36
 				height=15
 			}
@@ -433,32 +483,46 @@ composite {
 			textix="More"
 			align="horiz. centered"
 		}
-		"text entry" {
+	}
+}
+composite {
+	object {
+		x=69
+		y=235
+		width=134
+		height=15
+	}
+	"composite name"=""
+	children {
+		"text update" {
 			object {
-				x=77
-				y=191
-				width=50
-				height=20
+				x=69
+				y=235
+				width=75
+				height=15
 			}
-			control {
-				chan="$(P)$(PORT)PollDelay"
+			monitor {
+				chan="$(P)$(R1).SEVR"
 				clr=14
-				bclr=51
+				bclr=2
 			}
+			clrmod="alarm"
+			align="horiz. centered"
+			format="hexadecimal"
 			limits {
 			}
 		}
 		text {
 			object {
-				x=134
-				y=193
-				width=90
+				x=149
+				y=235
+				width=54
 				height=15
 			}
 			"basic attribute" {
 				clr=14
 			}
-			textix="Poll delay"
+			textix="Status"
 			align="horiz. centered"
 		}
 	}
