@@ -16,9 +16,9 @@ file "../../db/bi_bit.template" { pattern
 {KOYO1:,    X6B,     K1_Xn_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 {KOYO1:,    X7B,     K1_Xn_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 }
-file "../../db/longin.template" { pattern
-{P,           R,       PORT,           OFFSET,   SCAN}
-{KOYO1:,    X0L,     K1_Xn_Bit,      0,        "I/O Intr"}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,       PORT,           OFFSET,  MASK,   SCAN}
+{KOYO1:,    X0L,     K1_Xn_Bit,      0,         0x1,    "I/O Intr"}
 }
 file "../../db/intarray_in.template" { pattern
 {P,           R,        PORT,           NELM,   SCAN}
@@ -50,9 +50,9 @@ file "../../db/bi_word.template" { pattern
 {KOYO1:,    X6W,     K1_Xn_Word,     0,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 {KOYO1:,    X7W,     K1_Xn_Word,     0,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 }
-file "../../db/longin.template" { pattern
-{P,           R,       PORT,           OFFSET,   SCAN}
-{KOYO1:,    XnL,     K1_Xn_Word,     0,        "I/O Intr"}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,       PORT,         OFFSET,    MASK,  SCAN}
+{KOYO1:,    XnL,     K1_Xn_Word,     0,        0xFFFF, "I/O Intr"}
 }
 file "../../db/intarray_in.template" { pattern
 {P,           R,        PORT,           NELM,   SCAN}
@@ -83,9 +83,9 @@ file "../../db/bi_bit.template" { pattern
 {KOYO1:,    Y6InB,     K1_Yn_In_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 {KOYO1:,    Y7InB,     K1_Yn_In_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 }
-file "../../db/longin.template" { pattern
-{P,           R,         PORT,             OFFSET,   SCAN}
-{KOYO1:,    Y0InBL,     K1_Yn_In_Bit,     0,        "I/O Intr"}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,         PORT,             OFFSET,  MASK,   SCAN}
+{KOYO1:,    Y0InBL,     K1_Yn_In_Bit,     0,        0x1, "I/O Intr"}
 }
 file "../../db/intarray_in.template" { pattern
 {P,           R,           PORT,             NELM,     SCAN}
@@ -116,9 +116,9 @@ file "../../db/bi_word.template" { pattern
 {KOYO1:,    Y6InW,     K1_Yn_In_Word,     0,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 {KOYO1:,    Y7InW,     K1_Yn_In_Word,     0,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 }
-file "../../db/longin.template" { pattern
-{P,           R,         PORT,               OFFSET,   SCAN}
-{KOYO1:,    YnInWL,     K1_Yn_In_Word,      0,        "I/O Intr"}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,         PORT,               OFFSET,   MASK, SCAN}
+{KOYO1:,    YnInWL,     K1_Yn_In_Word,      0,        0xFFFF, "I/O Intr"}
 }
 file "../../db/intarray_in.template" { pattern
 {P,           R,          PORT,              NELM,   SCAN}
@@ -149,9 +149,9 @@ file "../../db/bo_bit.template" { pattern
 {KOYO1:,    Y6OutB,     K1_Yn_Out_Bit,     6,        Low,    High}
 {KOYO1:,    Y7OutB,     K1_Yn_Out_Bit,     7,        Low,    High}
 }
-file "../../db/longout.template" { pattern
-{P,           R,         PORT,             OFFSET}
-{KOYO1:,    Y0OutBL,     K1_Yn_Out_Bit,    0}
+file "../../db/mbboDirect.template" { pattern
+{P,           R,         PORT,             OFFSET, MASK}
+{KOYO1:,    Y0OutBL,     K1_Yn_Out_Bit,    0,      0x1}
 }
 file "../../db/asynRecord.template" { pattern
 {P,           R,          PORT,              ADDR,     TMOD,  IFACE}
@@ -174,9 +174,9 @@ file "../../db/bo_word.template" { pattern
 {KOYO1:,    Y6OutW,     K1_Yn_Out_Word,     0,        0x0040,    Low,    High}
 {KOYO1:,    Y7OutW,     K1_Yn_Out_Word,     0,        0x0080,    Low,    High}
 }
-file "../../db/longout.template" { pattern
-{P,           R,          PORT,              OFFSET}
-{KOYO1:,    YnOutWL,     K1_Yn_Out_Word,    0}
+file "../../db/mbboDirect.template" { pattern
+{P,           R,          PORT,              OFFSET,    MASK}
+{KOYO1:,    YnOutWL,     K1_Yn_Out_Word,     0,         0xFFFF}
 }
 file "../../db/asynRecord.template" { pattern
 {P,           R,          PORT,              ADDR,     TMOD,  IFACE}
@@ -199,9 +199,9 @@ file "../../db/bi_bit.template" { pattern
 {KOYO1:,    C6InB,     K1_Cn_In_Bit,     6,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 {KOYO1:,    C7InB,     K1_Cn_In_Bit,     7,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 }
-file "../../db/longin.template" { pattern
-{P,           R,         PORT,             OFFSET,   SCAN}
-{KOYO1:,    C0InBL,     K1_Cn_In_Bit,     0,        "I/O Intr"}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,         PORT,            OFFSET,   MASK,   SCAN}
+{KOYO1:,    C0InBL,     K1_Cn_In_Bit,     0,        0x1,    "I/O Intr"}
 }
 file "../../db/intarray_in.template" { pattern
 {P,           R,           PORT,             NELM,     SCAN}
@@ -232,9 +232,9 @@ file "../../db/bi_bit.template" { pattern
 {KOYO1:,    C206InB,     K1_Cn_In_Bit,     0206,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 {KOYO1:,    C207InB,     K1_Cn_In_Bit,     0207,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 }
-file "../../db/longin.template" { pattern
-{P,           R,           PORT,             OFFSET,   SCAN}
-{KOYO1:,    C200InBL,     K1_Cn_In_Bit,     0200,        "I/O Intr"}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,           PORT,             OFFSET,   MASK,  SCAN}
+{KOYO1:,    C200InBL,     K1_Cn_In_Bit,     0200,       0x1, "I/O Intr"}
 }
 
 
@@ -250,9 +250,9 @@ file "../../db/bi_word.template" { pattern
 {KOYO1:,    C6InW,     K1_Cn_In_Word,     0,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 {KOYO1:,    C7InW,     K1_Cn_In_Word,     0,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 }
-file "../../db/longin.template" { pattern
-{P,           R,         PORT,               OFFSET,   SCAN}
-{KOYO1:,    CnInWL,     K1_Cn_In_Word,      0,        "I/O Intr"}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,         PORT,               OFFSET,   MASK,  SCAN}
+{KOYO1:,    CnInWL,     K1_Cn_In_Word,      0,        0xFFFF, "I/O Intr"}
 }
 file "../../db/intarray_in.template" { pattern
 {P,           R,          PORT,              NELM,   SCAN}
@@ -283,9 +283,9 @@ file "../../db/bi_word.template" { pattern
 {KOYO1:,    C206InW,     K1_Cn_In_Word,     8,        0x0040,    Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 {KOYO1:,    C207InW,     K1_Cn_In_Word,     8,        0x0080,    Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
 }
-file "../../db/longin.template" { pattern
-{P,           R,           PORT,               OFFSET,   SCAN}
-{KOYO1:,    C20nInWL,     K1_Cn_In_Word,      8,        "I/O Intr"}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,           PORT,               OFFSET,   MASK,  SCAN}
+{KOYO1:,    C20nInWL,     K1_Cn_In_Word,      8,        0xFFFF, "I/O Intr"}
 }
 
 
@@ -301,9 +301,9 @@ file "../../db/bo_bit.template" { pattern
 {KOYO1:,    C206OutB,     K1_Cn_Out_Bit,     0206,        Low,    High}
 {KOYO1:,    C207OutB,     K1_Cn_Out_Bit,     0207,        Low,    High}
 }
-file "../../db/longout.template" { pattern
-{P,           R,             PORT,             OFFSET}
-{KOYO1:,    C200OutBL,     K1_Cn_Out_Bit,    0200}
+file "../../db/mbboDirect.template" { pattern
+{P,           R,             PORT,           OFFSET, MASK}
+{KOYO1:,    C200OutBL,     K1_Cn_Out_Bit,    0200,   0x1}
 }
 file "../../db/intarray_out.template" { pattern
 {P,           R,            PORT,                   NELM}
@@ -331,9 +331,9 @@ file "../../db/bo_word.template" { pattern
 {KOYO1:,    C206OutW,     K1_Cn_Out_Word,     8,        0x0040,    Low,    High}
 {KOYO1:,    C207OutW,     K1_Cn_Out_Word,     8,        0x0080,    Low,    High}
 }
-file "../../db/longout.template" { pattern
-{P,           R,            PORT,              OFFSET}
-{KOYO1:,    C20nOutWL,    K1_Cn_Out_Word,    8}
+file "../../db/mbboDirect.template" { pattern
+{P,           R,            PORT,           OFFSET, MASK}
+{KOYO1:,    C20nOutWL,    K1_Cn_Out_Word,   8,      0xFFFF}
 }
 file "../../db/intarray_out.template" { pattern
 {P,           R,            PORT,                  NELM}
