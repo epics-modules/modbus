@@ -7,8 +7,8 @@ display {
 	object {
 		x=540
 		y=100
-		width=180
-		height=370
+		width=200
+		height=450
 	}
 	clr=14
 	bclr=4
@@ -201,15 +201,15 @@ display {
 }
 text {
 	object {
-		x=18
+		x=15
 		y=291
-		width=144
+		width=171
 		height=15
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="(longout record)"
+	textix="(mbboDirect record)"
 	align="horiz. centered"
 }
 text {
@@ -223,6 +223,7 @@ text {
 		clr=14
 	}
 	textix="$(R)0-$(R)7 Outputs"
+	align="horiz. centered"
 }
 composite {
 	object {
@@ -341,9 +342,9 @@ composite {
 }
 text {
 	object {
-		x=57
+		x=46
 		y=31
-		width=90
+		width=108
 		height=15
 	}
 	"basic attribute" {
@@ -354,7 +355,7 @@ text {
 }
 text {
 	object {
-		x=48
+		x=46
 		y=51
 		width=108
 		height=15
@@ -367,7 +368,7 @@ text {
 }
 "text entry" {
 	object {
-		x=52
+		x=60
 		y=312
 		width=80
 		height=20
@@ -383,8 +384,8 @@ text {
 }
 text {
 	object {
-		x=96
-		y=345
+		x=114
+		y=416
 		width=36
 		height=15
 	}
@@ -396,8 +397,8 @@ text {
 }
 "related display" {
 	object {
-		x=36
-		y=342
+		x=56
+		y=413
 		width=53
 		height=20
 	}
@@ -413,4 +414,310 @@ text {
 	}
 	clr=14
 	bclr=51
+}
+"text update" {
+	object {
+		x=34
+		y=391
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(L).SEVR"
+		clr=14
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. centered"
+	format="hexadecimal"
+	limits {
+	}
+}
+text {
+	object {
+		x=114
+		y=391
+		width=54
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Status"
+	align="horiz. centered"
+}
+composite {
+	object {
+		x=16
+		y=339
+		width=169
+		height=43
+	}
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=121
+				y=339
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B0"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=140
+				y=343
+				width=45
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="B0-B7"
+		}
+		"text entry" {
+			object {
+				x=106
+				y=339
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B1"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=91
+				y=339
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B2"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=76
+				y=339
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B3"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=61
+				y=339
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B4"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=46
+				y=339
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B5"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=31
+				y=339
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B6"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=16
+				y=339
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B7"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=139
+				y=363
+				width=45
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="B8-BF"
+		}
+		"text entry" {
+			object {
+				x=121
+				y=362
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B8"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=106
+				y=362
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).B9"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=91
+				y=362
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).BA"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=76
+				y=362
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).BB"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=61
+				y=362
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).BC"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=46
+				y=362
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).BD"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=31
+				y=362
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).BE"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text entry" {
+			object {
+				x=16
+				y=362
+				width=15
+				height=20
+			}
+			control {
+				chan="$(P)$(L).BF"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+	}
 }

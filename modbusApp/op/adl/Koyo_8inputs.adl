@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=280
-		y=100
+		x=242
+		y=103
 		width=250
-		height=395
+		height=435
 	}
 	clr=14
 	bclr=4
@@ -89,7 +89,7 @@ display {
 }
 text {
 	object {
-		x=52
+		x=35
 		y=5
 		width=180
 		height=20
@@ -98,6 +98,7 @@ text {
 		clr=14
 	}
 	textix="$(R)0-$(R)7 Inputs"
+	align="horiz. centered"
 }
 menu {
 	object {
@@ -341,15 +342,15 @@ menu {
 }
 text {
 	object {
-		x=82
+		x=40
 		y=287
-		width=135
+		width=171
 		height=15
 	}
 	"basic attribute" {
 		clr=14
 	}
-	textix="(longin record)"
+	textix="(mbbiDirect record)"
 	align="horiz. centered"
 }
 "text update" {
@@ -369,44 +370,6 @@ text {
 	limits {
 	}
 }
-"related display" {
-	object {
-		x=69
-		y=360
-		width=53
-		height=20
-	}
-	display[0] {
-		label="asynRecord"
-		name="asynRecord.adl"
-		args="P=$(P), R=$(PORT)Asyn"
-	}
-	display[1] {
-		label="I/O Statistics"
-		name="modbusTCPStatistics.adl"
-		args="P=$(P), R=$(PORT)"
-	}
-	display[2] {
-		label="Array"
-		name="modbusTCPArray.adl"
-		args="P=$(P), R=$(PORT)Array"
-	}
-	clr=14
-	bclr=51
-}
-text {
-	object {
-		x=127
-		y=362
-		width=36
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="More"
-	align="horiz. centered"
-}
 menu {
 	object {
 		x=127
@@ -419,34 +382,6 @@ menu {
 		clr=14
 		bclr=4
 	}
-}
-"text entry" {
-	object {
-		x=70
-		y=335
-		width=50
-		height=20
-	}
-	control {
-		chan="$(P)$(PORT)PollDelay"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=127
-		y=337
-		width=90
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Poll delay"
-	align="horiz. centered"
 }
 composite {
 	object {
@@ -599,4 +534,352 @@ composite {
 			align="horiz. centered"
 		}
 	}
+}
+composite {
+	object {
+		x=8
+		y=335
+		width=235
+		height=15
+	}
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=233
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B0"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=218
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B1"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=203
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B2"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=188
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B3"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=173
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B4"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=158
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B5"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=143
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B6"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=128
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B7"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=113
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B8"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=98
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).B9"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=83
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).BA"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=68
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).BB"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=53
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).BC"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=38
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).BD"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=23
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).BE"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=8
+				y=335
+				width=10
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).BF"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+	}
+}
+"text entry" {
+	object {
+		x=70
+		y=382
+		width=50
+		height=20
+	}
+	control {
+		chan="$(P)$(PORT)PollDelay"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=130
+		y=384
+		width=90
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Poll delay"
+	align="horiz. centered"
+}
+"related display" {
+	object {
+		x=67
+		y=407
+		width=53
+		height=20
+	}
+	display[0] {
+		label="asynRecord"
+		name="asynRecord.adl"
+		args="P=$(P), R=$(PORT)Asyn"
+	}
+	display[1] {
+		label="I/O Statistics"
+		name="modbusTCPStatistics.adl"
+		args="P=$(P), R=$(PORT)"
+	}
+	display[2] {
+		label="Array"
+		name="modbusTCPArray.adl"
+		args="P=$(P), R=$(PORT)Array"
+	}
+	clr=14
+	bclr=51
+}
+text {
+	object {
+		x=130
+		y=409
+		width=36
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="More"
+	align="horiz. centered"
+}
+"text update" {
+	object {
+		x=45
+		y=362
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(L).SEVR"
+		clr=14
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. centered"
+	format="hexadecimal"
+	limits {
+	}
+}
+text {
+	object {
+		x=130
+		y=362
+		width=54
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Status"
+	align="horiz. centered"
 }
