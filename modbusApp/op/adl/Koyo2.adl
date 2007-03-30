@@ -123,11 +123,6 @@ text {
 		args="P=KOYO2:,R=C20,A=InB,L=C200InBL,PORT=CnInB,AC=Bit"
 	}
 	display[3] {
-		label="V3000 input (word access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO2:,R=C2,A=InB,L=V3000InWL,PORT=CnInB,AC=Bit"
-	}
-	display[7] {
 		label="ADCs"
 		name="Koyo_4ADC.adl"
 		args="P=KOYO2:,R1=ADC1,R2=ADC2,R3=ADC3,R4=ADC4,PORT=V3000InW"
@@ -149,19 +144,9 @@ text {
 		args="P=KOYO2:,R=Y,A=OutB,L=Y0OutBL,PORT=YnOutB,AC=Bit"
 	}
 	display[1] {
-		label="Y0-Y7 outputs (word access)"
-		name="Koyo_8outputs.adl"
-		args="P=KOYO2:,R=Y,A=OutW,L=YnOutWL,PORT=YnOutW,AC=Word"
-	}
-	display[2] {
 		label="C200-C207 outputs (bit access)"
 		name="Koyo_8outputs.adl"
 		args="P=KOYO2:,R=C20,A=OutB,L=C200OutBL,PORT=C20nOutB,AC=Bit"
-	}
-	display[3] {
-		label="C200-C207 outputs (word access)"
-		name="Koyo_8outputs.adl"
-		args="P=KOYO2:,R=C20,A=OutW,L=C20nOutWL,PORT=CnOutW,AC=Word"
 	}
 	clr=14
 	bclr=4
