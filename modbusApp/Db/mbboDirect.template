@@ -1,0 +1,5 @@
+# mbboDirect record template for register outputs
+record(mbboDirect,"$(P)$(R)") {
+    field(DTYP,"asynUInt32Digital")
+    field(OUT,"@asynMask($(PORT) $(OFFSET) $(MASK))")
+}

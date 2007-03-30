@@ -1,0 +1,6 @@
+# mbbiDirect record template for register inputs
+record(mbbiDirect,"$(P)$(R)") {
+    field(DTYP,"asynUInt32Digital")
+    field(INP,"@asynMask($(PORT) $(OFFSET) $(MASK))")
+    field(SCAN,"$(SCAN)")
+}
