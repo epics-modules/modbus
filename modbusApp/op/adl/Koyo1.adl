@@ -8,7 +8,7 @@ display {
 		x=100
 		y=100
 		width=170
-		height=130
+		height=145
 	}
 	clr=14
 	bclr=4
@@ -105,7 +105,7 @@ text {
 		x=9
 		y=51
 		width=152
-		height=30
+		height=25
 	}
 	display[0] {
 		label="X0-X7 inputs (bit access)"
@@ -154,9 +154,9 @@ text {
 "related display" {
 	object {
 		x=9
-		y=88
+		y=81
 		width=152
-		height=30
+		height=25
 	}
 	display[0] {
 		label="Y0-Y7 outputs (bit access)"
@@ -181,4 +181,23 @@ text {
 	clr=14
 	bclr=4
 	label="Outputs"
+}
+"related display" {
+	object {
+		x=11
+		y=111
+		width=152
+		height=25
+	}
+	display[0] {
+		label="TCP asyn record"
+		name="asynRecord.adl"
+		args="P=KOYO1:,R=TCPAsyn"
+	}
+	display[2] {
+		name="l"
+	}
+	clr=14
+	bclr=4
+	label="TCP asyn record"
 }
