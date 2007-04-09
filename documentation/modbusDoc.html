@@ -14,14 +14,16 @@
 <HR>
 <H2><CENTER>Contents</H2></CENTER>
 <UL>
+<LI><A HREF="#Acknowledgments">
+              Acknowledgments</A>
 <LI><A HREF="#Overview of Modbus">
               Overview of Modbus</A>
 <LI><A HREF="#Driver architecture">
               Driver architecture</A>
+<LI><A HREF="#Creating a modbusTCP port driver">
+              Creating a modbusTCP port driver</A>
 <LI><A HREF="#asyn interfaces">
               asyn interfaces</A>
-<LI><A HREF="#EPICS startup script">
-              EPICS startup script</A>
 <LI><A HREF="#EPICS device support">
               EPICS device support</A>
 <LI><A HREF="#Debug tracing">
@@ -36,49 +38,570 @@
               Offsets for Koyo PLCs</A>
 </UL>
 
+<H2><CENTER><A NAME="Acknowledgments">
+                     Acknowledgments</A></H2></CENTER>
+The modbusTcp package is based on the 
+<A HREF=http://isacwserv.triumf.ca/epics/modtcp/TRIUMFmodtcp.html>modtcp and plctcp packages </A>
+written by Rolf Keitel from Triumf.
+The <b>modtcp</b> package was originally converted to Linux by Ivan So from NSLS.  
+<b>modbusTCP</b> was extensively
+re-written for conversion to EPICS 3.14 and to use the EPICS asyn module.  It now contains little of the original
+<b>modtcp</b> code, but retains much of the original architecture.
+
 <H2><CENTER><A NAME="Overview of Modbus">
                      Overview of Modbus</A></H2></CENTER>
 
-Modbus functions<BR>
+MODBUS is an application layer messaging protocol, positioned at level 7 of the OSI model,
+that provides client/server communication between devices connected on different types of
+buses or networks.  It is typically used for communication with I/O systems,
+including Programmable Logic Controllers
+(PLCs).  Modbus is supported on a variety of media, including asynchronous serial and TCP/IP over 
+Ethernet.  For TCP/IP the Modbus protocol is assigned standard port 502.  This <b>modbusTCP</b> package only supports Modbus over TCP/IP Ethernet.
+<P>
+<H3>Modbus data types</H3>
+Modbus provides access to the following 4 types of data:
+<P>
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH>Primary tables</TH>
+    <TH>Object type</TH>
+    <TH>Access</TH>
+    <TH>Comments</TH>
+  </TR>
+  <TR>
+    <TD>Discrete Inputs</TD>
+    <TD>Single bit</TD>
+    <TD>Read-Only</TD>
+    <TD>This type of data can be provided by an I/O system.</TD>
+  </TR>
+  <TR>
+    <TD>Coils</TD>
+    <TD>Single bit </TD>
+    <TD>Read-Write</TD>
+    <TD>This type of data can be alterable by an application program.</TD>
+  </TR>
+  <TR>
+    <TD>Input Registers</TD>
+    <TD>16-bit word </TD>
+    <TD>Read-Only</TD>
+    <TD>This type of data can be provided by an I/O system.</TD>
+  </TR>
+  <TR>
+    <TD>Holding Registers </TD>
+    <TD>16-bit word </TD>
+    <TD>Read-Write</TD>
+    <TD>This type of data can be alterable by an application program.</TD>
+  </TR>
+  </TBODY>
+</TABLE>
+<P>
+<H3>Modbus communications</H3>
+Modbus communication consists of a <i>request message</i> sent from the <i>Modbus client</i>
+to the <i>Modbus server</i>. The server replies with a <i>response message</i>.  Modbus request
+messages contain:
+<ul> 
+  <li>An 8-bit Modbus function code that describes the type of data transfer to be performed.
+  <li>A 16-bit Modbus address that describes the location in the server to read or write data from.
+  <li>For write operations, the data to be transfered.
+</ul>
 
+<H3>Modbus function codes</H3>
+<b>modbusTCP</b> supports the following 8 Modbus function codes:
+<P>
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH>Access</TH>
+    <TH>Function description</TH>
+    <TH>Function code</TH>
+  </TR>
+  <TR>
+    <TD>Bit access</TD>
+    <TD>Read Coils</TD>
+    <TD>1</TD>
+  </TR>
+  <TR>
+    <TD>Bit access</TD>
+    <TD>Read Discrete Inputs</TD>
+    <TD>2</TD>
+  </TR>
+  <TR>
+    <TD>Bit access</TD>
+    <TD>Write Single Coil</TD>
+    <TD>5</TD>
+  </TR>
+  <TR>
+    <TD>Bit access</TD>
+    <TD>Write Multiple Coils</TD>
+    <TD>15</TD>
+  </TR>
+  <TR>
+    <TD>16-bit word access</TD>
+    <TD>Read Input Register</TD>
+    <TD>4</TD>
+  </TR>
+  <TR>
+    <TD>16-bit word access</TD>
+    <TD>Read Holding Registers</TD>
+    <TD>3</TD>
+  </TR>
+  <TR>
+    <TD>16-bit word access</TD>
+    <TD>Write Single Register</TD>
+    <TD>6</TD>
+  </TR>
+  <TR>
+    <TD>16-bit word access</TD>
+    <TD>Write Multiple Registers</TD>
+    <TD>16</TD>
+  </TR>
+  </TBODY>
+</TABLE>
 
+<H3>Modbus addresses</H3>
+Modbus addresses are specified by a 16-bit integer address.  The location of inputs and outputs
+within the 16-bit address space is not defined by the Modbus protocol, it is vendor-specific.
+The following table lists some of the commonly used Modbus addresses for Koyo PLCs.
+<P>
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH colspan=3, align=center>Modbus Addresses for<BR>
+    Koyo DL05/06/240/250/260/430/440/450 PLCs</TH>
+  </TR>
+  <TR>
+    <TH>PLC Memory Type</TH>
+    <TH>Modbus start address <BR>Decimal (octal)</TH>
+    <TH>Function codes</TH>
+  </TR>
+  <TR>
+    <TH colspan=3, align=center>Discrete inputs and coils</TH>
+  </TR>
+  <TR>
+    <TD>Inputs (X)</TD>
+    <TD>2048 (04000)</TD>
+    <TD>2</TD>
+  </TR>
+  <TR>
+    <TD>Special Relays (SP)</TD>
+    <TD>3072 (06000)</TD>
+    <TD>2</TD>
+  </TR>
+  <TR>
+    <TD>Outputs (Y)</TD>
+    <TD>2048 (04000)</TD>
+    <TD>1, 5, 15</TD>
+  </TR>
+  <TR>
+    <TD>Control Relays</TD>
+    <TD>3072 (06000)</TD>
+    <TD>1, 5, 15</TD>
+  </TR>
+  <TR>
+    <TD>Timer Contacts (T)</TD>
+    <TD>6144 (014000)</TD>
+    <TD>1, 5, 15</TD>
+  </TR>
+  <TR>
+    <TD>Counter Contacts (CT)</TD>
+    <TD>6400 (014400)</TD>
+    <TD>1, 5, 15</TD>
+  </TR>
+  <TR>
+    <TD>Stage Status Bits (S)</TD>
+    <TD>6144 (012000)</TD>
+    <TD>1, 5, 15</TD>
+  </TR>
+  <TR>
+    <TH colspan=3, align=center>Input registers and holding registers (V memory)</TH>
+  </TR>
+  <TR>
+    <TD>Timer Current Values (TA)</TD>
+    <TD>0 (00)</TD>
+    <TD>4</TD>
+  </TR>
+  <TR>
+    <TD>Counter Current Values (CTA)</TD>
+    <TD>512 (01000)</TD>
+    <TD>4</TD>
+  </TR>
+  <TR>
+    <TD>Global Inputs (VGX)</TD>
+    <TD>16384 (040000)</TD>
+    <TD>4</TD>
+  </TR>
+  <TR>
+    <TD>Global Outputs (VGY)</TD>
+    <TD>16512 (040200)</TD>
+    <TD>3, 6, 16</TD>
+  </TR>
+  <TR>
+    <TD>Inputs (VX)</TD>
+    <TD>16640 (040400)</TD>
+    <TD>4</TD>
+  </TR>
+  <TR>
+    <TD>Outputs (VY)</TD>
+    <TD>16704 (040500)</TD>
+    <TD>3, 6, 16</TD>
+  </TR>
+  <TR>
+    <TD>Control Relays (VC)</TD>
+    <TD>16768 (040600)</TD>
+    <TD>3, 6, 16</TD>
+  </TR>
+  <TR>
+    <TD>Stage Status Bits (VS)</TD>
+    <TD>16896 (041000)</TD>
+    <TD>3, 6, 16</TD>
+  </TR>
+  <TR>
+    <TD>Timer Contacts (VT)</TD>
+    <TD>16960 (041100)</TD>
+    <TD>3, 6, 16</TD>
+  </TR>
+  <TR>
+    <TD>Counter Contacts (VCT)</TD>
+    <TD>16992 (041140)</TD>
+    <TD>3, 6, 16</TD>
+  </TR>
+  <TR>
+    <TD>Special Relays (VSP)</TD>
+    <TD>17024 (041200)</TD>
+    <TD>4</TD>
+  </TR>
+ </TBODY>
+</TABLE>
+
+<P>
+Other PLC manufactures will use different Modbus addresses.
+<P>
+Note that 16-bit Modbus addresses are commonly specified with an offset of 400001 (or 300001).
+This offset is not used by the modbusTCP driver, it uses only the 16-bit address, not the offset.
+<P>
+<H3>Modbus data length limitations</H3>
+Modbus read operations are limited to transferring 125 16-bit words or 2000 bits.
+Modbus write operations are limited to transferring 123 16-bit words or 1968 bits.
+<H3>More information on Modbus</H3>
+<P> 
+For more information about the Modbus protocol, the official Modbus specification can be found
+<A href="http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf">on the Web</A>
+or in the modbusTCP 
+<A href="Modbus_Application_Protocol_V1_1b.pdf">documentation directory.</A>
+
+<P>
+The official specification for Modbus over TCP/IP can be found 
+<A href="http://www.modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf">on the Web</A>
+or in the modbusTCP 
+<A href="Modbus_Messaging_Implementation_Guide_V1_0b.pdf">documentation directory.</A>
+
+<P>
 <H2><CENTER><A NAME="Driver architecture">
                      Driver architecture</A></H2></CENTER>
 
-Reads us poller thread<BR>
+The <b>modbusTCP</b> module consists of an EPICS asyn port driver which functions as a Modbus client.
+The modbusTCP port driver communicates with a Modbus server using the standard asyn TCP/IP port driver (drvAsynIPPort).
+The modbusTCP port driver communicates with EPICS records using the standard asyn interfaces 
+(asynUInt32Digital, asynInt32, etc.) and standard EPICS device support.  Because modbusTCP makes extensive
+use of these existing asyn facilities, the amount of code in modbusTCP is quite small (less than 2,000 lines of
+code).
+<P>
+<B>CAUTION:</B> modbusTCP can provide access to all of the I/O and memory of the PLC.
+In fact, it is not
+even necessary to run a ladder logic program in the PLC at all.  The PLC can be used as 
+a "dumb" I/O subsystem, with all of the logic residing in the EPICS IOC.  However,
+if a ladder logic program <i>is</i> being run in the PLC then the EPICS access with modbusTCP
+must be designed carefully.  For example, the EPICS IOC might be allowed to <i>read</i> any of the 
+PLC I/O points (X inputs, Y outputs, etc.), but <i>writes</i> could be restricted to a small
+range of Control Registers, (e.g. C200-C240).  The ladder logic would monitor these
+control registers, considering them to be "requests" from EPICS that should be acted
+upon only if it is safe to do so.
 
-EPICS reads are synchronous, don't block because they read the last cached value<BR>
+<P>
+Each modbusTCP port driver is assigned a single Modbus function code and a single contiguous range of 
+Modbus memory, up to 2000 bits or 125 words.  The behavior of the port driver differs for
+read function codes (1, 2, 3, 4) and write function codes (5, 6, 15, 16).
+<P>
+<H3>Modbus read functions</H3>
+For read function codes the driver spawns a poller thread.  The poller thread reads the entire 
+block of Modbus memory assigned to this port in a single Modbus transaction.  The values are
+stored in a buffer in the driver.  The delay between
+polls is set when the port driver is created, and can be changed later at run-time.  The
+values are read using the standard asyn interfaces (asynUInt32Digital, asynInt32,
+etc.)  The values that are read are the last stored values from the poller thread.  This means
+that EPICS read operations are <i>synchronous</i>, i.e. they do not block because no Modbus I/O
+is required.  
+<P>
+For read functions it is possible to set the EPICS records to "I/O Intr" scanning.
+If this is done then the port driver will call back device support whenever there is new data
+for that input.  This improves efficiency, because such records only process when needed, they
+do not need to be periodically scanned.
 
-EPICS writes are asynchronous, block.<BR>
+<P>
+<H3>Modbus write functions</H3>
+For write function codes the driver does not create a poller thread.  Rather the driver does the
+Modbus I/O in response to the write operations on the standard asyn interfaces.  This means that
+EPICS write operations are <i>asynchronous</i>, i.e. they do block because Modbus I/O is required.
+When the modbusTCP driver is created it tells asynManager that it can block, and asynManager
+creates a separate thread that executes the write operations.
+<P>
+Word write operations using the asynUInt32Digital interface (with a mask parameter that is not 0x0 or
+0xFFFF) are done using read/modify/write operations.  This allows multiple Modbus clients to
+write and read single words in the same block of Modbus memory.  
+However, it <i>does not</i> guarantee correct operation
+if multiple Modbus clients (or the PLC itself) can modify bits within a single word.
+This is because the
+Modbus server is not doing the I/O as an atomic operation.
+<P>
+For write operations it is possible to specify that a single read operation should be done when
+the port driver is created.  This can be used so that EPICS obtains the current value of an output
+device when the IOC is initialized.  
 
-Register writes with mask !=0 or 0xFFFF use read/modfy/write.  This is not guaranteed to
-prevent conflicts with PLC ladder logic or another Modbus client accessing same register. <BR>
+<P>
+<H2><CENTER><A NAME="Creating a modbusTCP port driver">
+                     Creating a modbusTCP port driver</A></H2></CENTER>
 
+Before a modbusTCP port driver can be created, it is necessary to first create an asyn TCP/IP
+port driver to communicate with port 502 on the Modbus server on the Ethernet.  This is done
+using the standard asyn command:
+<pre>
+drvAsynIPPortConfigure(portName, hostInfo, priority, noAutoConnect, noProcessEos)
+</pre>
+Documentation on this command can be found in the 
+<A HREF=http://www.aps.anl.gov/epics/modules/soft/asyn/R4-7/asynDriver.html#drvAsynIPPort>
+asynDriver documentation</A>.
 
-<H2><CENTER><A NAME="asyn interfaces">
-                     asyn interfaces</A></H2></CENTER>
-                     
-asyn Interface asynUInt32Digital<BR>
-Modbus function    Offset    Data type  drvUser   asyn EPICS device support <BR>
-1,2,5              bit       bit        MODBUS_DATA    bi, bo, mbbi, mbbo, mbbiDirect, mbboDirect <BR>
+<P>The following example creates an asyn IP port driver called "Koyo1" on port 502 at
+IP address 164.54.160.158.  The default priority is used and the noAutoConnect flag is set
+to 1 so that the modbusTCP driver, rather than asynManager, will handle connection management.
+The noProcessEos flag is set to 1 because Modbus data is binary, not ASCII.
+<pre>
+drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
+</pre>
 
-Explain meaning of offsets <BR>
+<P>
+Once the asyn IP port is created, a modbusTCP port is created with the following command:
+<pre>
+drvModbusTCPAsynConfigure(portName, 
+                          tcpPortName, 
+                          modbusFunction, 
+                          modbusStartAddress, 
+                          modbusLength,
+                          dataType,
+                          pollMsec, 
+                          plcType);
+</pre>
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH colspan=3, align=center>drvModbusTCPAsynConfigure command</TH>
+  </TR>
+  <TR>
+    <TH>Parameter</TH>
+    <TH>Data type</TH>
+    <TH>Description</TH>
+  </TR>
+  <TR>
+    <TD>portName</TD>
+    <TD>string</TD>
+    <TD>Name of the modbusTCP port to be created.</TD>
+  </TR>
+  <TR>
+    <TD>tcpPortName</TD>
+    <TD>string</TD>
+    <TD>Name of the asyn IP port previously created with drvAsynIPPortConfigure.</TD>
+  </TR>
+  <TR>
+    <TD>modbusFunction</TD>
+    <TD>int</TD>
+    <TD>Modbus function code (1,2,3,4,5,6,15, or 16).</TD>
+  </TR>
+  <TR>
+    <TD>modbusStartAddress</TD>
+    <TD>int</TD>
+    <TD>Start address for the Modbus data segment to be accessed.<BR>
+       (0-65535 decimal, 0-0177777 octal).</TD>
+  </TR>
+ <TR>
+    <TD>modbusLength</TD>
+    <TD>int</TD>
+    <TD>The length of the Modbus data segment to be accessed.<BR>
+        This is specified in bits for Modbus functions 1, 2, 5 and 15.<BR>
+        It is specified in 16-bit words for Modbus functions 3, 4, 6 and 16.<BR>
+        Length limit is 2000 for functions 1 and 2, 1968 for functions 5 and 15,<BR>
+        125 for functions 3 and 4, and 123 for functions 6 and 16. </TD>
+  </TR>
+ <TR>
+    <TD>modbusDataType</TD>
+    <TD>int</TD>
+    <TD>Modbus data type:<BR>
+        0 = binary, twos-complement format<BR>
+        1 = binary, sign and magnitude format<BR>
+        2 = BCD, unsigned<BR>
+        3 = BCD, signed</TD>
+  </TR>
+<TR>
+    <TD>pollMsec</TD>
+    <TD>int</TD>
+    <TD>Polling delay time in msec for the polling thread for read functions.<BR>
+        For write functions, a non-zero value means that the Modbus data should<BR>
+        be read once when the port driver is first created.</TD>
+  </TR>
+  <TR>
+    <TD>plcType</TD>
+    <TD>string</TD>
+    <TD>Type of PLC (e.g. Koyo, Modicon, etc.).  <BR>
+        This parameter is currently used only to print information in asynReport.<BR>
+        In the future it could be used to modify the driver behavior for a specific PLC.</TD>
+  </TR>
+ </TBODY>
+</TABLE>
+<P>
+It can be convenient to specify the modbusStartAddress and modbusLength in octal, rather than
+decimal. because this is the convention on most PLCs.  
+In the iocsh and vxWorks shells this is done by using a leading 0 on the number, i.e.
+040400 is an octal number.
+<P>
+The modbusDataType is used to tell the driver the format of the Modbus data.  The driver
+uses this information to convert the number between EPICS and Modbus.  Data is transferred
+to and from EPICS as epicsUInt32, epicsInt32, and epicsFloat64 numbers.  (Note that if
+it is desired to transmit BCD numbers untranslated to EPICS over the asynInt32 interface, 
+then data type 0 should be used, because no translation is done in this case.)
+<UL>
+  <LI>Type 0 is used for binary numbers in twos-complement format.  The data
+      can either be signed or unsigned.
+  <LI>Type 1 is used for binary numbers in sign and magnitude format.  
+      In this format bit 15 is the sign bit, and bits 0-14 are the absolute value of the 
+      magnitude of the number.  
+      This is one of the formats used by Koyo PLCs for numbers such as ADC conversions.
+  <LI>Type 2 is used for unsigned BCD (binary coded decimal) numbers.  
+      In this format a 16-bit number consists of 4 4-bit nibbles, each of which encodes
+      a decimal number from 0-9. A BCD number can thus store numbers from 0 to 9999.
+      Many PLCs store some numbers in BCD format.
+  <LI>Type 3 is used for signed BCD (binary coded decimal) numbers.  
+      In this format a 16-bit number consists of 3 4-bit nibbles, and one 3-bit nibble. 
+      Bit 15 is a sign bit.  Signed BCD numbers can hold values
+      from -7999 to +7999.
+      This is one of the formats used by Koyo PLCs for numbers such as ADC conversions.
+</UL>
+Ohter data types can be added in the future as needed.
 
-<H2><CENTER><A NAME="EPICS startup script">
-                     EPICS startup script</A></H2></CENTER>
-
-drvAsynIPPortCreate <CR>
-
-Document drvModbusTCPAsynConfigure <BR>
-
-Poll delay on write non-zero means read once <BR>
-
+<P>
 <H2><CENTER><A NAME="EPICS device support">
                      EPICS device support</A></H2></CENTER>
 
-Uses standard asyn EPICS device support <BR>
+modbusTCP implements the following standard asyn interfaces:
+<UL>
+  <LI>asynUInt32Digital
+  <LI>asynInt32
+  <LI>asynInt32Array
+  <LI>asynFloat64
+  <LI>asynCommon
+  <LI>asynDrvUser
+</UL>
 
-R4-8 needed to get asynRange support for ai, ao and callbacks on waveform records <BR>
+Because it implements these standard interfaces, EPICS device support is done entirely
+with the generic EPICS device support provided with asyn itself.  There is no special
+device support provided as part of modbusTCP.
+<P>
+It is necessary to use asyn R4-8 or later, because some minor enhancements were made
+to asyn to support the features required by modbusTCP.
+<P>
+The following tables document the asyn interfaces used by the EPICS device support.
+<P>
+The <b>drvUser</b> parameter is used by the driver to determine what command is being sent
+from device support.  The default is MODBUS_DATA, which is thus optional in the
+link specification in device support.
+<P>The <b>offset</b> parameter is used to specify the location of the data for a record
+relative to the starting Modbus address for that driver.  This <b>offset</b> is specified in
+bits for drivers using Modbus functions 1, 2, 5, and 15 
+that control discrete inputs or coils.  
+<P>
+For example, if the Modbus function is 2 and the Modbus starting address is 04000, 
+then <b>offset=2</b> refers to address 04002.  For a Koyo PLC the X inputs are at this Modbus
+starting address for Modbus function 2, so <b>offset=2</b> is input X2.  
+<P>
+The <b>offset</b> is specified in
+words for drivers using Modbus functions 3, 4, 6 and 16 that control input registers or holding
+registers.  For example, if the Modbus function is set to 6 and the Modbus address is 
+040600 then <b>offset=2</b> refers to address 040602.   For a Koyo PLC the C control relays
+are accessed as 16-bit words at this Modbus starting address for Modbus function 6.
+<b>offset=2</b> will thus write to the third 16 bit-word, which are coils C40-C57.
+
+<H3>asynUInt32Digital</H3>
+asynUInt32Digital is selected with 
+<pre>
+field(DTYP,"asynUInt32Digital")
+field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")</pre>
+</pre>
+
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH>Modbus function</TH>
+    <TH>Offset type</TH>
+    <TH>Data type</TH>
+    <TH>drvUser</TH>
+    <TH>Records supported</TH>
+    <TH>Description</TH>
+  </TR>
+  <TR>
+    <TD>1, 2</TD>
+    <TD>Bit</TD>
+    <TD>Single bit</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>bi, mbbi, mbbiDirect, longin</TD>
+    <TD>value = (Modbus data & mask)</TD>
+  </TR>
+  <TR>
+    <TD>3, 4</TD>
+    <TD>16-bit word</TD>
+    <TD>16-bit word</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>bi, mbbi, mbbiDirect, longin</TD>
+    <TD>value = (Modbus data & mask)</TD>
+  </TR>
+  <TR>
+    <TD>5</TD>
+    <TD>Bit</TD>
+    <TD>Single bit</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>bo, mbbo, mbboDirect, longout</TD>
+    <TD>Modbus write (value & mask)</TD>
+  </TR>
+  <TR>
+    <TD>6</TD>
+    <TD>16-bit word</TD>
+    <TD>16-bit word</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>bo, mbbo, mbboDirect, longout</TD>
+    <TD>If mask==0 or mask==0xFFFF does Modbus write (value)<BR>
+        Else does read/modify/write,<BR>
+        sets bits that are set in value and set in mask,<BR>
+        clears bits that are clear in value and set in mask</TD>
+  </TR>
+  <TR>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>ENABLE_HISTOGRAM</TD>
+    <TD>bi, mbbi, mbbiDirect, longin</TD>
+    <TD>Returns 0/1 if I/O time histogramming is disabled/enabled in driver<BR>
+  </TR>
+  <TR>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>ENABLE_HISTOGRAM</TD>
+    <TD>bo, mbbo, mbboDirect, longout</TD>
+    <TD>If value = 0/1 then disable/enable I/O time histogramming in driver<BR>
+  </TR>
+ </TBODY>
+</TABLE>
+  
+
+Explain meaning of offsets <BR>
 
 
 <H2><CENTER><A NAME="Debug tracing">
@@ -121,15 +644,12 @@ advantage, each can poll at a different rate, can have different Modbus function
 <H2><CENTER><A NAME="Known problems">
                      Known problems</A></H2></CENTER>
                      
-Analog input, bipolar and BCD signed need device support addtion <BR>
+Fix connection management problem in asyn with autoConnect=1.  Must use noAutoConnect=1 for
+now. <BR>
 
-Test waveform records on write coils ERRORS <BR>
+Change API for callbacks to add status, report communication errors to EPICS <BR>
 
-Test waveform records on write registers  ERRORS? <BR>
-
-Add waveform callbacks in asyn, test I/O Intr on input arrays <BR>
-
-Fix connection management, report communication errors to EPICS <BR>
+Add mbbiDirect, mbboDirect records, add to .adl files <BR>
 
 
 <H2><CENTER><A NAME="Offsets for Koyo PLCs">
