@@ -22,10 +22,10 @@
               Driver architecture</A>
 <LI><A HREF="#Creating a modbusTCP port driver">
               Creating a modbusTCP port driver</A>
-<LI><A HREF="#asyn interfaces">
-              asyn interfaces</A>
 <LI><A HREF="#EPICS device support">
               EPICS device support</A>
+<LI><A HREF="#Example applications">
+              Example applications</A>
 <LI><A HREF="#Debug tracing">
               Debug tracing</A>
 <LI><A HREF="#medm screens">
@@ -34,8 +34,6 @@
               Differences from Triumf modtcp and plctcp package</A>
 <LI><A HREF="#Known problems">
               Known problems</A>
-<LI><A HREF="#Offsets for Koyo PLCs">
-              Offsets for Koyo PLCs</A>
 </UL>
 
 <H2><CENTER><A NAME="Acknowledgments">
@@ -63,6 +61,9 @@ Modbus provides access to the following 4 types of data:
 <P>
 <TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
   <TBODY>
+  <TR>
+    <TH colspan=4, align=center>Modbus Data Types</TH>
+  </TR>
   <TR>
     <TH>Primary tables</TH>
     <TH>Object type</TH>
@@ -111,6 +112,9 @@ messages contain:
 <P>
 <TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
   <TBODY>
+  <TR>
+    <TH colspan=3, align=center>Modbus Function Codes</TH>
+  </TR>
   <TR>
     <TH>Access</TH>
     <TH>Function description</TH>
@@ -320,7 +324,13 @@ upon only if it is safe to do so.
 
 <P>
 Each modbusTCP port driver is assigned a single Modbus function code and a single contiguous range of 
-Modbus memory, up to 2000 bits or 125 words.  The behavior of the port driver differs for
+Modbus memory, up to 2000 bits or 125 words.  One typically creates several modbusTCP port drivers
+for a single PLC, each driver reading or writing a different set of discrete inputs, coils, 
+input registers or holding registers.  For example, one might create one port driver to read 
+discrete inputs X0-X37, a second to read control registers C0-C400, and a third to write control 
+registers C300-C400.
+<P>
+The behavior of the port driver differs for
 read function codes (1, 2, 3, 4) and write function codes (5, 6, 15, 16).
 <P>
 <H3>Modbus read functions</H3>
@@ -508,6 +518,7 @@ device support provided as part of modbusTCP.
 It is necessary to use asyn R4-8 or later, because some minor enhancements were made
 to asyn to support the features required by modbusTCP.
 <P>
+
 The following tables document the asyn interfaces used by the EPICS device support.
 <P>
 The <b>drvUser</b> parameter is used by the driver to determine what command is being sent
@@ -530,7 +541,7 @@ are accessed as 16-bit words at this Modbus starting address for Modbus function
 <b>offset=2</b> will thus write to the third 16 bit-word, which are coils C40-C57.
 
 <H3>asynUInt32Digital</H3>
-asynUInt32Digital is selected with 
+asynUInt32Digital device support is selected with 
 <pre>
 field(DTYP,"asynUInt32Digital")
 field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")</pre>
@@ -538,6 +549,9 @@ field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")</pre>
 
 <TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
   <TBODY>
+  <TR>
+    <TH colspan=6, align=center>asynUInt32Digital Device Support</TH>
+  </TR>
   <TR>
     <TH>Modbus function</TH>
     <TH>Offset type</TH>
@@ -601,19 +615,592 @@ field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")</pre>
 </TABLE>
   
 
-Explain meaning of offsets <BR>
+<H3>asynInt32</H3>
+asynInt32 device support is selected with 
+<pre>
+field(DTYP,"asynInt32")
+field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
+</pre>
+or
+<pre>
+field(INP,"@asynMask(portName,offset,nbits,timeout)drvUser")</pre>
+</pre>
+The asynMask syntax is used for analog I/O devices, in order to specify the
+number of bits in the device.  This is required for Modbus because the driver
+only knows that it is returning a 16-bit register, but not the actual number of
+bits in the device, and hence cannot return meaningful data with asynInt32->getBounds().
+<P>
+nbits>0 for a unipolar device.  For example, nbits=12 means unipolar 12-bit device,
+with a range of 0 to 4095.
+nbits<0 for a bipolar device.  For example, nbits=-12 means bipolar 12-bit device, 
+with a range of -2048 to 2047)
+<P>
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH colspan=6, align=center>asynInt32 Device Support</TH>
+  </TR>
+  <TR>
+    <TH>Modbus function</TH>
+    <TH>Offset type</TH>
+    <TH>Data type</TH>
+    <TH>drvUser</TH>
+    <TH>Records supported</TH>
+    <TH>Description</TH>
+  </TR>
+  <TR>
+    <TD>1, 2</TD>
+    <TD>Bit</TD>
+    <TD>Single bit</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>ai, mbbi, longin</TD>
+    <TD>value = (epicsInt32)Modbus data</TD>
+  </TR>
+  <TR>
+    <TD>3, 4</TD>
+    <TD>16-bit word</TD>
+    <TD>16-bit word</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>ai, mbbi, longin</TD>
+    <TD>value = (epicsInt32)Modbus data</TD>
+  </TR>
+  <TR>
+    <TD>5</TD>
+    <TD>Bit</TD>
+    <TD>Single bit</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>ao, mbbo, longout</TD>
+    <TD>Modbus write (epicsInt16)value</TD>
+  </TR>
+  <TR>
+    <TD>6</TD>
+    <TD>16-bit word</TD>
+    <TD>16-bit word</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>ao, mbbo, longout</TD>
+    <TD>Modbus write (epicsInt16)value</TD>
+  </TR>
+  <TR>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>READ_OK</TD>
+    <TD>ai, mbbi, longin</TD>
+    <TD>Returns number of succesful read operations on this asyn port</TD>
+  </TR>
+  <TR>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>WRITE_OK</TD>
+    <TD>ai, mbbi, longin</TD>
+    <TD>Returns number of succesful write operations on this asyn port</TD>
+  </TR>
+  <TR>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>IO_ERRORS</TD>
+    <TD>ai, mbbi, longin</TD>
+    <TD>Returns number of I/O errors on this asyn port</TD>
+  </TR>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>LAST_IO_TIME</TD>
+    <TD>ai, mbbi, longin</TD>
+    <TD>Returns number of milliseconds for last I/O operation</TD>
+  </TR>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>MAX_IO_TIME</TD>
+    <TD>ai, mbbi, longin</TD>
+    <TD>Returns maximum number of milliseconds for I/O operations</TD>
+  </TR>
+ </TBODY>
+</TABLE>
+  
+<H3>asynFloat64</H3>
+asynFloat64 device support is selected with 
+<pre>
+field(DTYP,"asynFloat64")
+field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
+<P>
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH colspan=6, align=center>asynFloat64 Device Support</TH>
+  </TR>
+  <TR>
+    <TH>Modbus function</TH>
+    <TH>Offset type</TH>
+    <TH>Data type</TH>
+    <TH>drvUser</TH>
+    <TH>Records supported</TH>
+    <TH>Description</TH>
+  </TR>
+  <TR>
+    <TD>1, 2</TD>
+    <TD>Bit</TD>
+    <TD>Single bit</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>ai</TD>
+    <TD>value = (epicsFloat64)Modbus data</TD>
+  </TR>
+  <TR>
+    <TD>3, 4</TD>
+    <TD>16-bit word</TD>
+    <TD>16-bit word</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>ai</TD>
+    <TD>value = (epicsFloat64)Modbus data</TD>
+  </TR>
+  <TR>
+    <TD>5</TD>
+    <TD>Bit</TD>
+    <TD>Single bit</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>ao</TD>
+    <TD>Modbus write (epicsInt16)value</TD>
+  </TR>
+  <TR>
+    <TD>6</TD>
+    <TD>16-bit word</TD>
+    <TD>16-bit word</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>ao</TD>
+    <TD>Modbus write (epicsInt16)value</TD>
+  </TR>
+  <TR>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>POLL_DELAY</TD>
+    <TD>ai, ao</TD>
+    <TD>Read or write the delay time in seconds between polls for the read poller thread.</TD>
+  </TR>
+ </TBODY>
+</TABLE>
+  
+<H3>asynInt32Array</H3>
+asynInt32Array device support is selected with 
+<pre>
+field(DTYP,"asynInt32ArrayWfIn")
+field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
+</pre>
+or
+<pre>
+field(DTYP,"asynInt32ArrayWfOut")
+field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
+</pre>
+asynInt32Array device support is used to read or write arrays of up to 2000 coil values
+or up to 125 16-bit registers.  It is also used to read the histogram array of I/O times
+when histogramming is enabled.
+<P>
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH colspan=6, align=center>asynInt32Array Device Support</TH>
+  </TR>
+  <TR>
+    <TH>Modbus function</TH>
+    <TH>Offset type</TH>
+    <TH>Data type</TH>
+    <TH>drvUser</TH>
+    <TH>Records supported</TH>
+    <TH>Description</TH>
+  </TR>
+  <TR>
+    <TD>1, 2</TD>
+    <TD>NA</TD>
+    <TD>Array of bits</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>waveform (input)</TD>
+    <TD>value = (epicsInt32)Modbus data[]</TD>
+  </TR>
+  <TR>
+    <TD>3, 4</TD>
+    <TD>NA</TD>
+    <TD>Array of 16-bit words</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>waveform (input)</TD>
+    <TD>value = (epicsInt32)Modbus data[]</TD>
+  </TR>
+  <TR>
+    <TD>15</TD>
+    <TD>NA</TD>
+    <TD>Array of bits</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>waveform (output)</TD>
+    <TD>Modbus write (epicsInt16)value[]</TD>
+  </TR>
+  <TR>
+    <TD>16</TD>
+    <TD>NA</TD>
+    <TD>Array of 16-bit words</TD>
+    <TD>MODBUS_DATA</TD>
+    <TD>waveform (output)</TD>
+    <TD>Modbus write (epicsInt16)value[]</TD>
+  </TR>
+  <TR>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>NA</TD>
+    <TD>READ_HISTOGRAM</TD>
+    <TD>waveform (input)</TD>
+    <TD>Returns an histogram array of the I/O times in milliseconds since
+        histogramming was last enabled.</TD>
+  </TR>
+ </TBODY>
+</TABLE>
+<P>
+<H3>Template files</H3>
+<P> 
+modbusTCP provides example template files in the modtcpApp/Db directory.  
+These include:
+<P>
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH colspan=3, align=center>Template Files</TH>
+  </TR>
+  <TR>
+    <TH>Files</TH>
+    <TH>Description</TH>
+    <TH>Macro arguments</TH>
+  </TR>
+  <TR>
+  <TR>
+    <TD>bi_bit.template</TD>
+    <TD>asynUInt32Digital support for bi record with discrete inputs or coils.</TD>
+    <TD>P, R, PORT, OFFSET, ZNAM, ONAM, ZSV, OSV, SCAN</TD>
+  </TR>
+  <TR>
+    <TD>bi_word.template</TD>
+    <TD>asynUInt32Digital support for bi record with register inputs.</TD>
+    <TD>P, R, PORT, OFFSET, MASK, ZNAM, ONAM, ZSV, OSV, SCAN</TD>
+  </TR>
+  <TR>
+    <TD>mbbiDirect.template</TD>
+    <TD>asynUInt32Digital support for mbbiDirect record with register inputs.</TD>
+    <TD>P, R, PORT, OFFSET, MASK, SCAN</TD>
+  </TR>
+  <TR>
+    <TD>longin.template</TD>
+    <TD>asynUInt32Digital support for longin record with register inputs. Mask=0xFFFF.</TD>
+    <TD>P, R, PORT, OFFSET, SCAN</TD>
+  </TR>
+  <TR>
+    <TD>intarray_in.template</TD>
+    <TD>asynInt32Array support for waveform record with discrete, coil, or register inputs.</TD>
+    <TD>P, R, PORT, NELM, SCAN</TD>
+  </TR>
+  <TR>
+    <TD>bo_bit.template</TD>
+    <TD>asynUInt32Digital support for bo record with coil outputs.</TD>
+    <TD>P, R, PORT, OFFSET, ZNAM, ONAM</TD>
+  </TR>
+  <TR>
+    <TD>bo_word.template</TD>
+    <TD>asynUInt32Digital support for bo record with register outputs.</TD>
+    <TD>P, R, PORT, OFFSET, MASK, ZNAM, ONAM</TD>
+  </TR>
+  <TR>
+    <TD>mbboDirect.template</TD>
+    <TD>asynUInt32Digital support for mbboDirect record with register outputs.</TD>
+    <TD>P, R, PORT, OFFSET, MASK</TD>
+  <TR>
+    <TD>longout.template</TD>
+    <TD>asynUInt32Digital support for longout record with register outputs. Mask=0xFFFF.</TD>
+    <TD>P, R, PORT, OFFSET</TD>
+  </TR>
+  <TR>
+    <TD>intarray_out.template</TD>
+    <TD>asynInt32Array support for waveform record with discrete, coil, or register outputs.</TD>
+    <TD>P, R, PORT, NELM</TD>
+  </TR>
+  </TR>
+    <TD>ai.template</TD>
+    <TD>asynInt32 support for ai record with LINEAR conversion</TD>
+    <TD>P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN</TD>
+  </TR>
+  <TR>
+    <TD>ai_average.template</TD>
+    <TD>asynInt32Average support for ai record with LINEAR conversion.  This support
+        gets callbacks each time the poll thread reads the analog input, and averages
+        readings until the record is processed.</TD>
+    <TD>P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN</TD>
+  </TR>
+  <TR>
+    <TD>asynRecord.template</TD>
+    <TD>Support for asyn record.  Useful for controlling trace printing, and for debugging.</TD>
+    <TD>P, R, PORT, ADDR, TMOD, IFACE</TD>
+  </TR>
+  <TR>
+    <TD>poll_delay.template</TD>
+    <TD>Support for ao record to control the delay time for the poller thread.</TD>
+    <TD>P, R, PORT</TD>
+  </TR>
+  <TR>
+    <TD>statistics.template</TD>
+    <TD>Support for bo, longin and waveform records to read I/O statistics for the port.
+    <TD>P, R, PORT, SCAN</TD>
+  </TR>
+ </TBODY>
+</TABLE>
+<P>
+The following table explains the macro parameters used in the preceeding table.
+<P>
+<TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
+  <TBODY>
+  <TR>
+    <TH colspan=2, align=center>Macro Parameters</TH>
+  </TR>
+  <TR>
+    <TH>Macro</TH>
+    <TH>Description</TH>
+  </TR>
+  <TR>
+    <TD>P</TD>
+    <TD>Prefix for record name.  Complete record name is $(P)$(R).</TD>
+  </TR>
+  <TR>
+    <TD>R</TD>
+    <TD>Record name.  Complete record name is $(P)$(R).</TD>
+  </TR>
+  <TR>
+    <TD>PORT</TD>
+    <TD>Port name for modbusTCP asyn port.</TD>
+  </TR>
+  <TR>
+    <TD>OFFSET</TD>
+    <TD>Offset for Modbus data relative to start address for this port.</TD>
+  </TR>
+  <TR>
+    <TD>MASK</TD>
+    <TD>Bit mask used to select data for this record.</TD>
+  </TR>
+  <TR>
+    <TD>ZNAM</TD>
+    <TD>String for 0 value for bi/bo records.</TD>
+  </TR>
+  <TR>
+    <TD>ZSV</TD>
+    <TD>0 severity for bi/bo records.</TD>
+  </TR>
+  <TR>
+    <TD>OSV</TD>
+    <TD>1 severity for bi/bo records.</TD>
+  </TR>
+  <TR>
+    <TD>BITS</TD>
+    <TD>Number of bits for analog I/O devices. >0=unipolar, <0=bipolar.</TD>
+  </TR>
+  <TR>
+    <TD>EGUL</TD>
+    <TD>Engineering value for lower limit of analog device.</TD>
+  </TR>
+  <TR>
+    <TD>EGUF</TD>
+    <TD>Engineering value for upper limit of analog device.</TD>
+  </TR>
+  <TR>
+    <TD>PREC</TD>
+    <TD>Number of digits of precision for ai/ao records.</TD>
+  </TR>
+  <TR>
+    <TD>NELM</TD>
+    <TD>Number of elements in waveform records.</TD>
+  </TR>
+  <TR>
+    <TD>ADDR</TD>
+    <TD>Address for asyn record, same as OFFSET above.</TD>
+  </TR>
+  <TR>
+    <TD>TMOD</TD>
+    <TD>Transfer mode for asyn record.</TD>
+  </TR>
+  <TR>
+    <TD>IFACE</TD>
+    <TD>asyn interface for asyn record.</TD>
+  </TR>
+  <TR>
+    <TD>SCAN</TD>
+    <TD>Scan rate for record (e.g. "1 second", "I/O Intr", etc.).</TD>
+  </TR>
+ </TBODY>
+</TABLE>
+
+<H2><CENTER><A NAME="Example Applications">
+                     Example Applications</A></H2></CENTER>
+<P>
+modbusTCP builds an example application called modbusTCPApp.  This application can be run
+to control any number of Modbus PLCs.
+<P>
+In the iocBoot/iocTest directory there are several startup scripts for EPICS IOCs.  These
+are designed to test most of the features of the modbusTCP driver on Koyo PLCs, such as the
+DL series from Automation Direct.
+<P>
+<UL>
+  <LI>Koyo1.cmd creates modbusTCP port drivers to read the X input registers,
+      write to the Y output registers, and read and write from the C control registers.
+      Each of these sets of inputs is accessed both as coils and as registers (V memory).
+      bi/bo, mbbiDirect/mbboDirect, and waveform records are loaded to read and write
+      using these drivers.
+  <LI>Koyo2.cmd creates modbusTCP port drivers to read the X input registers,
+      write to the Y output registers, and read and write from the C control registers.
+      Only coil access is used.  This example also reads a 4-channel 13-bit bipolar A/D
+      converter.  This has been tested using both signed-BCD and sign plus magnitude binary
+      formats.  Note that a ladder logic program must be running that does the appropriate
+      conversion of the A/D values into V memory.
+  <LI>st.cmd is a simple example startup script to be run on non-vxWorks IOCs.  It just loads
+      Koyo1.cmd and Koyo2.cmd.  It is invoked using a command like:
+      <pre>
+      ../../bin/linux-x86/modbusTCPApp st.cmd
+      </pre>
+  <LI>st.cmd.vxWorks is a simple example startup script to be run on vxWorks IOCs.  It just loads
+      Koyo1.cmd and Koyo2.cmd.
+</UL>
+<P>
+The following is the beginning of Koyo1.cmd.
+<pre>
+# Koyo1.cmd
+< envPaths
+
+dbLoadDatabase("../../dbd/modbusTCP.dbd")
+modbusTCP_registerRecordDeviceDriver(pdbbase)
+
+#drvAsynIPPortConfigure(const char *portName, const char *hostInfo,
+#                           unsigned int priority, int noAutoConnect,
+#                           int noProcessEos);
+drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
+#drvAsynIPPortConfigure("Koyo1","164.54.160.201:502",0,0,1)
+
+
+# NOTE: We use octal numbers for the start address and length (leading zeros)
+#       to be consistent with the PLC nomenclature.  This is optional, decimal
+#       numbers (no leading zero) or hex numbers can also be used.
+
+# The DL205 has bit access to the Xn inputs at Modbus offset 4000 (octal)
+# Read 32 bits (X0-X37).  Function code=2.
+drvModbusTCPAsynConfigure("K1_Xn_Bit",      "Koyo1", 2,  04000, 040,    0,  100, "Koyo")
+
+# The DL205 has word access to the Xn inputs at Modbus offset 40400 (octal)
+# Read 8 words (128 bits).  Function code=3.
+drvModbusTCPAsynConfigure("K1_Xn_Word",     "Koyo1", 3, 040400, 010,    0,  100, "Koyo")
+
+# The DL205 has bit access to the Yn outputs at Modbus offset 4000 (octal)
+# Read 32 bits (Y0-Y37).  Function code=1.
+drvModbusTCPAsynConfigure("K1_Yn_In_Bit",   "Koyo1", 1,  04000, 040,    0,  100, "Koyo")
+
+# The DL205 has bit access to the Yn outputs at Modbus offset 4000 (octal)
+# Write 32 bits (Y0-Y37).  Function code=5.
+drvModbusTCPAsynConfigure("K1_Yn_Out_Bit",  "Koyo1", 5,  04000, 040,    0,  1, "Koyo")
+
+# The DL205 has word access to the Yn outputs at Modbus offset 40500 (octal)
+# Read 8 words (128 bits).  Function code=3.
+drvModbusTCPAsynConfigure("K1_Yn_In_Word",  "Koyo1", 3, 040500, 010,    0,  100, "Koyo")
+
+# Write 8 words (128 bits).  Function code=6.
+drvModbusTCPAsynConfigure("K1_Yn_Out_Word", "Koyo1", 6, 040500, 010,    0,  100, "Koyo")
+
+# The DL205 has bit access to the Cn bits at Modbus offset 6000 (octal)
+# Access 256 bits (C0-C377) as inputs.  Function code=1.
+drvModbusTCPAsynConfigure("K1_Cn_In_Bit",   "Koyo1", 1,  06000, 0400,   0,  100, "Koyo")
+
+# Access the same 256 bits (C0-C377) as outputs.  Function code=5.
+drvModbusTCPAsynConfigure("K1_Cn_Out_Bit",  "Koyo1", 5,  06000, 0400,   0,  1,  "Koyo")
+
+# Access the same 256 bits (C0-C377) as array outputs.  Function code=15.
+drvModbusTCPAsynConfigure("K1_Cn_Out_Bit_Array",  "Koyo1", 15,  06000, 0400,   0,   1, "Koyo")
+
+# The DL205 has word access to the Cn bits at Modbus offset 40600 (octal)
+# We use the first 16 words (C0-C377) as inputs (256 bits).  Function code=3.
+drvModbusTCPAsynConfigure("K1_Cn_In_Word",  "Koyo1", 3, 040600, 020,    0,  100, "Koyo")
+
+# We access the same 16 words (C0-C377) as outputs (256 bits). Function code=6.
+drvModbusTCPAsynConfigure("K1_Cn_Out_Word", "Koyo1", 6, 040600, 020,    0,  1,  "Koyo")
+
+# We access the same 16 words (C0-C377) as array outputs (256 bits). Function code=16.
+drvModbusTCPAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 16, 040600, 020,    0,   1, "Koyo")
+</pre>
+
+Note that this example is designed for testing and demonstration purposes, not as a realistic
+example of how ModbusTCP would normally be used.  For example, it loads 
+6 drivers to access the C control relays using function codes 1 (read coils), 3 (read holding
+registers), 5 (write single coil), 6 (write single holding register), 15 (write multiple coils),
+and 16 (write multiple holding registers).  This allows for testing of all function codes
+and record types, including waveforms.  In practice one would normally only load at most 2
+drivers for the C control relays, for example function code 1 (read coils), and function
+code 5 (write single coil).
+
+<H2><CENTER><A NAME="medm screens">
+                     medm screens</A></H2></CENTER>
+<P>
+modbusTCP provides example medm .adl files in the modtcpApp/op/adl directory.  
+The following are screen shots of these screens from an IOC controlling a
+Koyo DL205 PLC.
+
+Koyo1.adl.  Top level medm screen for the Koyo1 example application.
+
+Koyo_8inputs.adl.  Inputs X0-X7 read as discrete inputs (function code 1).
+
+Koyo_8outputs.adl.  Outputs Y0-Y7 written using register access (function code 6).
+
+ModbusTCPArray.adl.  Inputs C0-C377 read using a waveform record and
+coil access (function code 1).
+
+ModbusTCPArray.adl.  Inputs C0-C377 read using a waveform record and register access (function
+code 3).
+
+ModbusTCPStatistics.adl.  I/O statistics for the Modbus driver that is reading inputs
+X0-X37 using register access (function code 3).  The histogram is the number of event
+versus TCP/IP write/read cycle time in msec.
+
+Koyo2.adl.  Top level medm screen for the Koyo2 example application.
+
+Koyo_4ADC.adl.  4 ADC inputs from a 13-bit bipolar ADC.
 
 
 <H2><CENTER><A NAME="Debug tracing">
                      Debug tracing</A></H2></CENTER>
                      
-Can use asynTrace command or medm screen with asyn record <BR>
+One can obtain diagnostic output for a modbusTCP port driver using the "dbior" or "asynPrint" commands
+at the iocsh or vxWorks shell.  For example
+<pre>
+asynReport
+</pre>
+will print a brief report for all asyn drivers, including the drvAsynIPPort driver that modbusTCP
+drivers are connected to, and for all modbusTCP port drivers.  To obtain more
+detailed information, one can request information for a specific modbusTCP port driver, and
+output level >0 as follows:
+<pre>
+asynReport "K2_Xn_Bit", 5
+</pre>
+<P>
+To obtain run-time debugging output for a driver use the asynSetTraceMask and asynSetTraceIOMask 
+commands.  For example the following commands will show
+all I/O to and from the PLC from the underlying drvAsynIPPort driver:
+<pre>
+(Get command and output here)
+</pre>
 
+The following command shows the I/O from a specific modbusTCP port driver:
+<pre>
+(Get command and output here)
+</pre>
 
-<H2><CENTER><A NAME="medm screens">
-                     medm screens</A></H2></CENTER>
+One can also load an EPICS asyn record on a modbusTCP port, and then use EPICS channel access
+to turn debugging output on and off.  The following medm screen shows how to turn on I/O tracing
+using this method.
 
-Example screens for Koyo <BR>
+The asyn record can also be used to perform actual I/O to the PLC.  For example the following
+screen shots shows the asyn record being used to control output Y1 on a PLC.  Note that the ADDR
+field is set to 1 (to select Y1) and the data set to 1 (to turn on the output).  Each time the
+asyn record is processed the value will be sent to the PLC.
+<P>
+(medm screen shots)
 
 <H2><CENTER><A NAME="Differences from Triumf modtcp and plctcp package">
                      Differences from Triumf modtcp and plctcp package</A></H2></CENTER>
