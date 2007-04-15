@@ -5,10 +5,11 @@
 
 <BODY>
 <CENTER>
+    <H1>modbusTCP</H1>
     <H1>Driver Support for Modbus/TCP Protocol under EPICS</H1>
-    <H1>Release 1-1</H1>
+    <H2>Release 1-1</H2>
     <H2>Mark Rivers</H2>
-    <H2>April 13, 2007</H2>
+    <H2>April 15, 2007</H2>
 </CENTER>
 
 
@@ -107,7 +108,7 @@ messages contain:
 <ul> 
   <li>An 8-bit Modbus function code that describes the type of data transfer to be performed.
   <li>A 16-bit Modbus address that describes the location in the server to read or write data from.
-  <li>For write operations, the data to be transfered.
+  <li>For write operations, the data to be transferred.
 </ul>
 
 <H3>Modbus function codes</H3>
@@ -282,7 +283,7 @@ The following table lists some of the commonly used Modbus addresses for Koyo PL
 </TABLE>
 
 <P>
-Other PLC manufactures will use different Modbus addresses.
+Other PLC manufacturers will use different Modbus addresses.
 <P>
 Note that 16-bit Modbus addresses are commonly specified with an offset of 400001 (or 300001).
 This offset is not used by the modbusTCP driver, it uses only the 16-bit address, not the offset.
@@ -433,7 +434,7 @@ drvModbusTCPAsynConfigure(portName,
   <TR>
     <TD>modbusFunction</TD>
     <TD>int</TD>
-    <TD>Modbus function code (1,2,3,4,5,6,15, or 16).</TD>
+    <TD>Modbus function code (1, 2, 3, 4, 5, 6, 15, or 16).</TD>
   </TR>
   <TR>
     <TD>modbusStartAddress</TD>
@@ -493,14 +494,14 @@ note, however, that many PLCs will time out sockets after a few seconds of inact
 is not a problem with modbusTCP drivers that use read function codes, because they are polling
 frequently.  But modbusTCP drivers that use write function codes may only do occasional I/O, and
 hence may time out if they are the only ones communicating through a drvAsynIPPort driver.  
-Thus, it is a good idea for
-modbusTCP drivers with write function codes to use the same drvAsynIPPort driver as 
+Thus, it is usually necessary for
+modbusTCP drivers with write function codes to use the same drvAsynIPPort driver (socket) as 
 at least one modbusTCP driver with a read function code to avoid timeouts.
 <P>
 The choice of how many drvAsynIPPort drivers to use per PLC will be based on empirical
 performance versus resource usage considerations.  In general it is probably a good idea to
 start with one drvAsynIPPort server per PLC (e.g. shared by all modbusTCP drivers for that PLC)
-and see if this is sufficient.
+and see if this results in satisfactory performance.
 
 <H3>Number formats</H3>
 It can be convenient to specify the modbusStartAddress and modbusLength in octal, rather than
@@ -511,9 +512,7 @@ In the iocsh and vxWorks shells this is done by using a leading 0 on the number,
 <H3>Modbus data types</H3>
 The modbusDataType is used to tell the driver the format of the Modbus data.  The driver
 uses this information to convert the number between EPICS and Modbus.  Data is transferred
-to and from EPICS as epicsUInt32, epicsInt32, and epicsFloat64 numbers.  (Note that if
-it is desired to transmit BCD numbers untranslated to EPICS over the asynInt32 interface, 
-then data type 0 should be used, because no translation is done in this case.)
+to and from EPICS as epicsUInt32, epicsInt32, and epicsFloat64 numbers. 
 <UL>
   <LI>Type 0 is used for binary numbers in twos-complement format.  The data
       can either be signed or unsigned.
@@ -531,6 +530,10 @@ then data type 0 should be used, because no translation is done in this case.)
       from -7999 to +7999.
       This is one of the formats used by Koyo PLCs for numbers such as ADC conversions.
 </UL>
+Note that if
+it is desired to transmit BCD numbers untranslated to EPICS over the asynInt32 interface, 
+then data type 0 should be used, because no translation is done in this case.
+<P>
 Other data types can be added in the future as needed.
 
 <P>
@@ -729,7 +732,7 @@ with a range of -2048 to 2047)
     <TD>NA</TD>
     <TD>READ_OK</TD>
     <TD>ai, mbbi, longin</TD>
-    <TD>Returns number of succesful read operations on this asyn port</TD>
+    <TD>Returns number of successful read operations on this asyn port</TD>
   </TR>
   <TR>
     <TD>NA</TD>
@@ -737,7 +740,7 @@ with a range of -2048 to 2047)
     <TD>NA</TD>
     <TD>WRITE_OK</TD>
     <TD>ai, mbbi, longin</TD>
-    <TD>Returns number of succesful write operations on this asyn port</TD>
+    <TD>Returns number of successful write operations on this asyn port</TD>
   </TR>
   <TR>
     <TD>NA</TD>
@@ -892,7 +895,7 @@ when histogramming is enabled.
     <TD>NA</TD>
     <TD>READ_HISTOGRAM</TD>
     <TD>waveform (input)</TD>
-    <TD>Returns an histogram array of the I/O times in milliseconds since
+    <TD>Returns a histogram array of the I/O times in milliseconds since
         histogramming was last enabled.</TD>
   </TR>
  </TBODY>
@@ -1090,13 +1093,13 @@ are designed to test most of the features of the modbusTCP driver on Koyo PLCs, 
 DL series from Automation Direct.
 <P>
 <UL>
-  <LI>Koyo1.cmd creates modbusTCP port drivers to read the X input registers,
-      write to the Y output registers, and read and write from the C control registers.
+  <LI>Koyo1.cmd creates modbusTCP port drivers to read the X inputs,
+      write to the Y outputs, and read and write from the C control registers.
       Each of these sets of inputs and outputs is accessed both as coils and as registers (V memory).
       bi/bo, mbbiDirect/mbboDirect, and waveform records are loaded to read and write
       using these drivers.
-  <LI>Koyo2.cmd creates modbusTCP port drivers to read the X input registers,
-      write to the Y output registers, and read and write from the C control registers.
+  <LI>Koyo2.cmd creates modbusTCP port drivers to read the X inputs,
+      write to the Y outputs, and read and write from the C control registers.
       Only coil access is used.  This example also reads a 4-channel 13-bit bipolar A/D
       converter.  This has been tested using both signed-BCD and sign plus magnitude binary
       formats.  Note that a ladder logic program must be loaded that does the appropriate
@@ -1106,6 +1109,10 @@ DL series from Automation Direct.
       <pre>
       ../../bin/linux-x86/modbusTCPApp st.cmd
       </pre>
+      One can also load Koyo1.cmd or Koyo2.cmd separately as in:
+      <pre>
+      ../../bin/linux-x86/modbusTCPApp Koyo1.cmd
+      </pre>     
   <LI>st.cmd.vxWorks is a simple example startup script to be run on vxWorks IOCs.  It just loads
       Koyo1.cmd and Koyo2.cmd.
 </UL>
