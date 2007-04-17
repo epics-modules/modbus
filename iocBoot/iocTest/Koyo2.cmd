@@ -3,7 +3,7 @@
 dbLoadDatabase("../../dbd/modbusTCP.dbd")
 modbusTCP_registerRecordDeviceDriver(pdbbase)
 
-drvAsynIPPortConfigure("Koyo2","164.54.160.158:502",0,0,1)
+drvAsynIPPortConfigure("Koyo2","164.54.160.158:502",0,1,1)
 
 
 # NOTE: We use octal numbers for the start address and length (leading zeros)
