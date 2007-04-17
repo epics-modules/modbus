@@ -1151,6 +1151,7 @@ static void readPoller(PLC_ID pPlc)
     asynInt32ArrayInterrupt *pInt32Array;
     int offset;
     int anyChanged;
+    asynStatus prevIOStatus=asynSuccess;
     int i;
     unsigned short newValue, prevValue, mask;
     epicsUInt32 uInt32Value;
@@ -1173,7 +1174,12 @@ static void readPoller(PLC_ID pPlc)
         /* Read the data */
         pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusFunction, pPlc->modbusStartAddress, 
                             pPlc->data, pPlc->modbusLength);
-        if (pPlc->ioStatus != asynSuccess) continue;
+        /* If we have an I/O error this time and the previous time, just try again */
+        if (pPlc->ioStatus != asynSuccess &&
+            pPlc->ioStatus == prevIOStatus) continue;
+
+        /* If the I/O status has changed then force callbacks */
+        if (pPlc->ioStatus != prevIOStatus) pPlc->forceCallback = 1;
         
         /* We process callbacks to device support.  
          * Don't do this until EPICS interruptAccept flag is set. */
@@ -1216,7 +1222,7 @@ static void readPoller(PLC_ID pPlc)
                               " mask=0x%x, callback=%p, data=0x%x\n",
                               pUInt32D, pUInt32D->mask, pUInt32D->callback, uInt32Value);
                     pUInt32D->callback(pUInt32D->userPvt, pUInt32D->pasynUser,
-                                       uInt32Value);
+                                       uInt32Value, pPlc->ioStatus);
                 }
                 pnode = (interruptNode *)ellNext(&pnode->node);
             }
@@ -1249,7 +1255,7 @@ static void readPoller(PLC_ID pPlc)
                       "callback=%p, data=0x%x\n",
                       pInt32, pInt32->callback, int32Value);
             pInt32->callback(pInt32->userPvt, pInt32->pasynUser,
-                             int32Value);
+                             int32Value, pPlc->ioStatus);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
         pasynManager->interruptEnd(pPlc->asynInt32InterruptPvt);
@@ -1280,7 +1286,7 @@ static void readPoller(PLC_ID pPlc)
                       "callback=%p, data=%f\n",
                       pFloat64, pFloat64->callback, float64Value);
             pFloat64->callback(pFloat64->userPvt, pFloat64->pasynUser,
-                               float64Value);
+                               float64Value, pPlc->ioStatus);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
         pasynManager->interruptEnd(pPlc->asynFloat64InterruptPvt);
@@ -1306,7 +1312,7 @@ static void readPoller(PLC_ID pPlc)
                           "callback=%p\n",
                            pInt32Array, pInt32Array->callback);
                 pInt32Array->callback(pInt32Array->userPvt, pInt32Array->pasynUser,
-                                      int32Data, pPlc->modbusLength);
+                                      int32Data, pPlc->modbusLength, pPlc->ioStatus);
                 pnode = (interruptNode *)ellNext(&pnode->node);
             }
             pasynManager->interruptEnd(pPlc->asynInt32ArrayInterruptPvt);
@@ -1314,6 +1320,9 @@ static void readPoller(PLC_ID pPlc)
 
         /* Reset the forceCallback flag */
         pPlc->forceCallback = 0;
+
+        /* Set the previous I/O status */
+        prevIOStatus = pPlc->ioStatus;
 
         /* Copy the new data to the previous data */
         memcpy(prevData, pPlc->data, pPlc->modbusLength*sizeof(unsigned short));
@@ -1361,27 +1370,35 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
     if (!autoConnect) {
         /* See if we are connected */
         status = pasynManager->isConnected(pPlc->pasynUserOctet, &pPlc->isConnected);
-         /* If we have an I/O error or are disconnect then disconnect device and reconnect */
+         /* If we have an I/O error or are disconnected then disconnect device and reconnect */
         if ((pPlc->ioStatus != asynSuccess) || !pPlc->isConnected) {
             if (pPlc->ioStatus != asynSuccess) 
-                printf("%s::doModbusIO, %s has I/O error\n", driver, pPlc->portName);
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR, 
+                          "%s::doModbusIO port %s has I/O error\n",
+                          driver, pPlc->portName);
             if (!pPlc->isConnected) 
-                printf("%s::doModbusIO, %s is disconnected\n", driver, pPlc->portName);
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR, 
+                          "%s::doModbusIO port %s is disconnected\n",
+                          driver, pPlc->portName);
             status = pasynCommonSyncIO->disconnectDevice(pPlc->pasynUserOctet);
             if (status == asynSuccess) {
-                printf("%s::doModbusIO, %s disconnect device OK\n", 
-                    driver, pPlc->portName);
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW, 
+                          "%s::doModbusIO port %s disconnect device OK\n",
+                          driver, pPlc->portName);
             } else {
-                printf("%s::doModbusIO, %s disconnect error=%s\n", 
-                    driver, pPlc->portName, pPlc->pasynUserOctet->errorMessage);
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR, 
+                          "%s::doModbusIO port %s disconnect error=%s\n",
+                          driver, pPlc->portName, pPlc->pasynUserOctet->errorMessage);
             }
             status = pasynCommonSyncIO->connectDevice(pPlc->pasynUserOctet);
             if (status == asynSuccess) {
-                printf("%s::doModbusIO, %s connect device OK\n", 
-                    driver, pPlc->portName);
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW, 
+                          "%s::doModbusIO port %s connect device OK\n",
+                          driver, pPlc->portName);
             } else {
-                printf("%s::doModbusIO, %s connect device error=%s\n", 
-                    driver, pPlc->portName, pPlc->pasynUserOctet->errorMessage);
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR, 
+                          "%s::doModbusIO port %s connect device error=%s\n",
+                          driver, pPlc->portName, pPlc->pasynUserOctet->errorMessage);
                 goto done;
             }
         }
@@ -1399,7 +1416,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
         case MODBUS_READ_HOLDING_REGISTERS:
         case MODBUS_READ_INPUT_REGISTERS:
             readReq = (modbusReadRequest *)pPlc->modbusRequest;
-            cmdLength = sizeof(modbusReadRequest) - sizeof(modbusMBAPHeader) + 2;
+            cmdLength = sizeof(modbusReadRequest) - sizeof(modbusMBAPHeader) + 1;
             readReq->mbapHeader.cmdLength = htons(cmdLength);
             readReq->fcode = function;
             readReq->startReg = htons((unsigned short)start);
@@ -1408,7 +1425,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             break;
         case MODBUS_WRITE_SINGLE_COIL:
             writeSingleReq = (modbusWriteSingleRequest *)pPlc->modbusRequest;
-            cmdLength = sizeof(modbusWriteSingleRequest) - sizeof(modbusMBAPHeader) + 2;
+            cmdLength = sizeof(modbusWriteSingleRequest) - sizeof(modbusMBAPHeader) + 1;
             writeSingleReq->mbapHeader.cmdLength = htons(cmdLength);
             writeSingleReq->fcode = function;
             writeSingleReq->startReg = htons((unsigned short)start);
@@ -1423,7 +1440,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             break;
         case MODBUS_WRITE_SINGLE_REGISTER:
             writeSingleReq = (modbusWriteSingleRequest *)pPlc->modbusRequest;
-            cmdLength = sizeof(modbusWriteSingleRequest) - sizeof(modbusMBAPHeader) + 2;
+            cmdLength = sizeof(modbusWriteSingleRequest) - sizeof(modbusMBAPHeader) + 1;
             writeSingleReq->mbapHeader.cmdLength = htons(cmdLength);
             writeSingleReq->fcode = function;
             writeSingleReq->startReg = htons((unsigned short)start);
@@ -1456,7 +1473,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             byteCount = pCharOut - writeMultipleReq->data;
             writeMultipleReq->byteCount = byteCount;
             cmdLength = sizeof(modbusWriteMultipleRequest) - sizeof(modbusMBAPHeader) 
-                        + byteCount + 2;
+                        + byteCount + 1;
             writeMultipleReq->mbapHeader.cmdLength = htons(cmdLength);
             asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
                         writeMultipleReq->data, byteCount, 
@@ -1467,7 +1484,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
         case MODBUS_WRITE_MULTIPLE_REGISTERS:
             writeMultipleReq = (modbusWriteMultipleRequest *)pPlc->modbusRequest;
             cmdLength = sizeof(modbusWriteMultipleRequest) - sizeof(modbusMBAPHeader) 
-                        + 2*len + 2;
+                        + 2*len + 1;
             writeMultipleReq->mbapHeader.cmdLength = htons(cmdLength);
             writeMultipleReq->fcode = function;
             writeMultipleReq->startReg = htons((unsigned short)start);
