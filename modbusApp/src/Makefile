@@ -11,8 +11,9 @@ include $(TOP)/configure/CONFIG
 
 # <name>.dbd will be created from <name>Include.dbd
 DBD += modbusTCP.dbd
+DBD += modbusTCPSupport.dbd
 
-LIBRARY_IOC = modbusTCPLib
+LIBRARY_IOC = modbusTCP
 
 LIB_SRCS += drvModbusTCPAsyn.c
 
@@ -31,7 +32,7 @@ PROD_SRCS += modbusTCP_registerRecordDeviceDriver.cpp
 PROD_SRCS_DEFAULT += modbusTCPMain.cpp
 PROD_SRCS_vxWorks += -nil-
 
-PROD_LIBS += modbusTCPLib
+PROD_LIBS += modbusTCP
 PROD_LIBS += asyn
 PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
 
