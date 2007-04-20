@@ -228,7 +228,7 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
             pPvt->buffer[numchars+1] = CRC_Hi;
             /* Send the frame with the underlying driver */
             status = pPvt->pasynOctet->writeRaw(pPvt->octetPvt, pasynUser,
-                                                pPvt->buffer, (numchars + 1), 
+                                                pPvt->buffer, (numchars + 3), 
                                                 &nbytesActual);
             *nbytesTransfered = (nbytesActual > numchars) ? numchars : nbytesActual;
             break;
@@ -273,11 +273,11 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
                                             &nbytesActual, eomReason);
             /* Copy bytes beyond address to output buffer */
             nRead = nbytesActual;
-            nRead = nRead - 1;
+            nRead = nRead - 3;
             if (nRead < 0) nRead = 0;
             if (nRead > maxchars) nRead = maxchars;
             if (nRead > 0) memcpy(data, pPvt->buffer + 1, nRead);
-            if(nRead<maxchars) data[nRead] = 0; /*null terminate string if room*/
+            if (nRead<maxchars) data[nRead] = 0; /*null terminate string if room*/
             *nbytesTransfered = nRead;
             break;
 
