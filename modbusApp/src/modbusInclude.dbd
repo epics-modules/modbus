@@ -1,5 +1,6 @@
 include "base.dbd"
 include "asyn.dbd"
 include "drvAsynIPPort.dbd"
-include "modbusTCPSupport.dbd"
+include "drvAsynSerialPort.dbd"
+include "modbusSupport.dbd"
 
