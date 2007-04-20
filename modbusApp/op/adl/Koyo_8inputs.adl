@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/modbusTCP/1-1/modbusTCPApp/op/adl/Koyo_8inputs.adl"
+	name="/home/epics/devel/modbus/1-1/modbusApp/op/adl/Koyo_8inputs.adl"
 	version=030000
 }
 display {
@@ -828,12 +828,12 @@ text {
 	}
 	display[1] {
 		label="I/O Statistics"
-		name="modbusTCPStatistics.adl"
+		name="modbusStatistics.adl"
 		args="P=$(P), R=$(PORT)"
 	}
 	display[2] {
 		label="Array"
-		name="modbusTCPArray.adl"
+		name="modbusArray.adl"
 		args="P=$(P), R=$(PORT)Array"
 	}
 	clr=14

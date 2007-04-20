@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/modbusTCP/1-2/modbusTCPApp/op/adl/Koyo2.adl"
+	name="/home/epics/devel/modbus/1-2/modbusApp/op/adl/Koyo2.adl"
 	version=030000
 }
 display {
@@ -160,14 +160,14 @@ text {
 		height=25
 	}
 	display[0] {
-		label="TCP asyn record"
+		label="Octet asyn record"
 		name="asynRecord.adl"
-		args="P=KOYO2:,R=TCPAsyn"
+		args="P=KOYO2:,R=OctetAsyn"
 	}
 	display[2] {
 		name="l"
 	}
 	clr=14
 	bclr=4
-	label="TCP asyn record"
+	label="Octet asyn record"
 }

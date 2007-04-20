@@ -1,8 +1,7 @@
 /*----------------------------------------------------------------------**
-*  file:        drvModbusTCPAsyn.c                                      **
+*  file:        drvModbusAsyn.c                                      **
 *-----------------------------------------------------------------------**
-* EPICS asyn driver support for Modbus protocol communication with PLCs **
-* over TCP/IP.                                                          **
+* EPICS asyn driver support for Modbus protocol communication with PLCs **                                                          **
 * 
 * Mark Rivers, University of Chicago
 * Original Date March 3, 2007
@@ -44,7 +43,7 @@
 #include "asynFloat64.h"
 
 #include "modbus.h"
-#include "drvModbusTCPAsyn.h"
+#include "drvModbusAsyn.h"
 
 /* Defined constants */
 
@@ -92,18 +91,18 @@ static modbusCommandStruct modbusCommands[MAX_MODBUS_COMMANDS] = {
 
 
 
-/* The structure for the drvModbusTCP asyn port or "object" */
+/* The structure for the drvModbus asyn port or "object" */
 
-typedef struct modbusTCPStr *PLC_ID;
+typedef struct modbusStr *PLC_ID;
 
-typedef struct modbusTCPStr
+typedef struct modbusStr
 {
     char *portName;             /* asyn port name for this server */
-    char *tcpPortName;          /* asyn port name for the asyn TCP port */
+    char *octetPortName;          /* asyn port name for the asyn octet port */
     char *plcType;              /* String describing PLC type */
     int isConnected;            /* Connection status */
     int ioStatus;               /* I/O error status */
-    asynUser  *pasynUserOctet;  /* asynUser for asynOctet interface to asyn TCP port */ 
+    asynUser  *pasynUserOctet;  /* asynUser for asynOctet interface to asyn octet port */ 
     asynUser  *pasynUserTrace;  /* asynUser for asynTrace on this port */
     asynInterface asynCommon;   /* asyn interfaces for this port */
     asynInterface asynDrvUser;
@@ -135,11 +134,11 @@ typedef struct modbusTCPStr
     int lastIOMsec; 
     epicsInt32 timeHistogram[HISTOGRAM_LENGTH];     /* Histogram of read-times */
     int enableHistogram;
-} modbusTCPStr_t;
+} modbusStr_t;
 
 
 /* Local variable declarations */
-static char *driver = "drvModbusTCPAsyn";           /* String for asynPrint */
+static char *driver = "drvModbusAsyn";           /* String for asynPrint */
 
 /* Local function declarations */
 
@@ -254,12 +253,12 @@ static asynInt32Array drvInt32Array = {
 */
 
 /*
-** drvModbusTCPAsynConfigure() - create and init an asyn port driver for a PLC
+** drvModbusAsynConfigure() - create and init an asyn port driver for a PLC
 **                                                                    
 */
 
-int drvModbusTCPAsynConfigure(char *portName, 
-                              char *tcpPortName, 
+int drvModbusAsynConfigure(char *portName, 
+                              char *octetPortName, 
                               int modbusFunction, 
                               int modbusStartAddress, 
                               int modbusLength,
@@ -275,9 +274,9 @@ int drvModbusTCPAsynConfigure(char *portName,
     int maxLength=0;
     int canBlock=0;
 
-    pPlc = callocMustSucceed(1, sizeof(*pPlc), "drvModbusTCPAsynConfigure");
+    pPlc = callocMustSucceed(1, sizeof(*pPlc), "drvModbusAsynConfigure");
     pPlc->portName = epicsStrDup(portName);
-    pPlc->tcpPortName = epicsStrDup(tcpPortName);
+    pPlc->octetPortName = epicsStrDup(octetPortName);
     pPlc->plcType = epicsStrDup(plcType);
     pPlc->modbusFunction = modbusFunction;
     pPlc->modbusStartAddress = modbusStartAddress;
@@ -315,7 +314,7 @@ int drvModbusTCPAsynConfigure(char *portName,
             canBlock = ASYN_CANBLOCK;
             break;
        default:
-            errlogPrintf("%s::drvModbusTCPAsynConfig port %s unsupported"
+            errlogPrintf("%s::drvModbusAsynConfig port %s unsupported"
                          " Modbus function %d\n",
                          driver, pPlc->portName, pPlc->modbusFunction);
             return(asynError);
@@ -323,7 +322,7 @@ int drvModbusTCPAsynConfigure(char *portName,
  
     /* Make sure memory length is valid. */
     if (IOLength > maxLength) {
-        errlogPrintf("%s::drvModbusTCPConfigure, port %s" 
+        errlogPrintf("%s::drvModbusConfigure, port %s" 
                      " memory length=%d too large, max=%d\n",
                      driver, pPlc->portName, IOLength, maxLength);
         return(asynError);
@@ -334,16 +333,16 @@ int drvModbusTCPAsynConfigure(char *portName,
      * data for asynInt32Array writes. */
     if (pPlc->modbusLength != 0) {
         pPlc->data = callocMustSucceed(pPlc->modbusLength, sizeof(unsigned short), 
-                                       "drvModbusTCPAsynConfigure");
+                                       "drvModbusAsynConfigure");
     }
 
     
-    /* Connect to TCP asyn port with asynOctetSyncIO */
-    status = pasynOctetSyncIO->connect(tcpPortName, 0, &pPlc->pasynUserOctet, 0);
+    /* Connect to asyn octet port with asynOctetSyncIO */
+    status = pasynOctetSyncIO->connect(octetPortName, 0, &pPlc->pasynUserOctet, 0);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
-                     " can't connect to TCP server %s.\n",
-                     driver, portName, tcpPortName);
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
+                     " can't connect to Octet server %s.\n",
+                     driver, portName, octetPortName);
         return(asynError);
     }
 
@@ -373,14 +372,14 @@ int drvModbusTCPAsynConfigure(char *portName,
                                         0, /* medium priority */
                                         0); /* default stack size */
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register port\n",
                      driver, pPlc->portName);
         return(asynError);
     }
     status = pasynManager->registerInterface(pPlc->portName, &pPlc->asynCommon);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register asynCommon interface.\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -388,7 +387,7 @@ int drvModbusTCPAsynConfigure(char *portName,
 
     status = pasynManager->registerInterface(pPlc->portName, &pPlc->asynDrvUser);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register drvUser interface.\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -396,7 +395,7 @@ int drvModbusTCPAsynConfigure(char *portName,
 
     status = pasynUInt32DigitalBase->initialize(pPlc->portName, &pPlc->asynUint32D);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register asynUInt32D interface.\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -404,7 +403,7 @@ int drvModbusTCPAsynConfigure(char *portName,
     status = pasynManager->registerInterruptSource(pPlc->portName, &pPlc->asynUint32D,
                                                    &pPlc->asynUInt32DInterruptPvt);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register asynUInt32D interrupt source\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -412,7 +411,7 @@ int drvModbusTCPAsynConfigure(char *portName,
 
     status = pasynInt32Base->initialize(pPlc->portName, &pPlc->asynInt32);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register asynInt32 interface.\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -420,7 +419,7 @@ int drvModbusTCPAsynConfigure(char *portName,
     pasynManager->registerInterruptSource(pPlc->portName, &pPlc->asynInt32,
                                           &pPlc->asynInt32InterruptPvt);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register asynInt32 interrupt source\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -428,7 +427,7 @@ int drvModbusTCPAsynConfigure(char *portName,
     
     status = pasynFloat64Base->initialize(pPlc->portName, &pPlc->asynFloat64);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register asynFloat64 interface.\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -436,7 +435,7 @@ int drvModbusTCPAsynConfigure(char *portName,
     pasynManager->registerInterruptSource(pPlc->portName, &pPlc->asynFloat64,
                                           &pPlc->asynFloat64InterruptPvt);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register asynFloat64 interrupt source\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -444,7 +443,7 @@ int drvModbusTCPAsynConfigure(char *portName,
 
     status = pasynInt32ArrayBase->initialize(pPlc->portName, &pPlc->asynInt32Array);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register asynInt32Array interface.\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -453,7 +452,7 @@ int drvModbusTCPAsynConfigure(char *portName,
                                                    &pPlc->asynInt32Array,
                                                    &pPlc->asynInt32ArrayInterruptPvt);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " can't register asynInt32Array interrupt source\n",
                      driver, pPlc->portName);
         return(asynError);
@@ -466,7 +465,7 @@ int drvModbusTCPAsynConfigure(char *portName,
     /* Connect to device */
     status = pasynManager->connectDevice(pPlc->pasynUserTrace, pPlc->portName, 0);
     if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusTCPAsynConfigure port %s"
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
                      " connectDevice failed %s\n",
                      driver, pPlc->portName, pPlc->pasynUserTrace->errorMessage);
          return(asynError);
@@ -575,9 +574,9 @@ static void asynReport(void *drvPvt, FILE *fp, int details)
 {
     PLC_ID pPlc = (PLC_ID)drvPvt;
 
-    fprintf(fp, "modbusTCP port: %s\n", pPlc->portName);
+    fprintf(fp, "modbus port: %s\n", pPlc->portName);
     if (details) {
-        fprintf(fp, "    asyn TCP server:    %s\n", pPlc->tcpPortName);
+        fprintf(fp, "    asynOctet server:   %s\n", pPlc->octetPortName);
         fprintf(fp, "    modbusFunction:     %d\n", pPlc->modbusFunction);
         fprintf(fp, "    modbusStartAddress: 0%o\n", pPlc->modbusStartAddress);
         fprintf(fp, "    modbusLength:       0%o\n", pPlc->modbusLength);
@@ -1160,9 +1159,9 @@ static void readPoller(PLC_ID pPlc)
     epicsInt32 *int32Data;       /* Buffer used for asynInt32Array callbacks */
 
     prevData = callocMustSucceed(pPlc->modbusLength, sizeof(unsigned short), 
-                                 "drvModbusTCPAsyn::readPoller");
+                                 "drvModbusAsyn::readPoller");
     int32Data = callocMustSucceed(pPlc->modbusLength, sizeof(epicsInt32), 
-                                 "drvModbusTCPAsyn::readPoller");
+                                 "drvModbusAsyn::readPoller");
 
     /* Loop forever */    
     while (1)
@@ -1360,7 +1359,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
      * data buffers in the pPlc stucture for the I/O, and that is not thread safe. */
     epicsMutexMustLock(pPlc->mutexId);
 
-    /* If the TCP driver is not set for autoConnect then do connection management ourselves */
+    /* If the Octet driver is not set for autoConnect then do connection management ourselves */
     status = pasynManager->isAutoConnect(pPlc->pasynUserOctet, &autoConnect);
     if (!autoConnect) {
         /* See if we are connected */
@@ -1655,7 +1654,7 @@ static unsigned short convertFromBinary(unsigned short value,
 /* iocsh functions */
 
 static const iocshArg ConfigureArg0 = {"Port name",            iocshArgString};
-static const iocshArg ConfigureArg1 = {"TCP/IP port name",     iocshArgString};
+static const iocshArg ConfigureArg1 = {"Octet port name",     iocshArgString};
 static const iocshArg ConfigureArg2 = {"Modbus function code", iocshArgInt};
 static const iocshArg ConfigureArg3 = {"Modbus start address", iocshArgInt};
 static const iocshArg ConfigureArg4 = {"Modbus length",        iocshArgInt};
@@ -1663,7 +1662,7 @@ static const iocshArg ConfigureArg5 = {"Data type (0=binary, 1=BCD)", iocshArgIn
 static const iocshArg ConfigureArg6 = {"Poll time (msec)",     iocshArgInt};
 static const iocshArg ConfigureArg7 = {"PLC type",             iocshArgString};
 
-static const iocshArg * const drvModbusTCPAsynConfigureArgs[8] = {
+static const iocshArg * const drvModbusAsynConfigureArgs[8] = {
 	&ConfigureArg0,
 	&ConfigureArg1,
 	&ConfigureArg2,
@@ -1674,19 +1673,19 @@ static const iocshArg * const drvModbusTCPAsynConfigureArgs[8] = {
         &ConfigureArg7
 };
 
-static const iocshFuncDef drvModbusTCPAsynConfigureFuncDef=
-                                                    {"drvModbusTCPAsynConfigure", 8,
-                                                     drvModbusTCPAsynConfigureArgs};
-static void drvModbusTCPAsynConfigureCallFunc(const iocshArgBuf *args)
+static const iocshFuncDef drvModbusAsynConfigureFuncDef=
+                                                    {"drvModbusAsynConfigure", 8,
+                                                     drvModbusAsynConfigureArgs};
+static void drvModbusAsynConfigureCallFunc(const iocshArgBuf *args)
 {
-  drvModbusTCPAsynConfigure(args[0].sval, args[1].sval, args[2].ival, args[3].ival, 
+  drvModbusAsynConfigure(args[0].sval, args[1].sval, args[2].ival, args[3].ival, 
                             args[4].ival, args[5].ival, args[6].ival, args[7].sval);
 }
 
 
-static void drvModbusTCPAsynRegister(void)
+static void drvModbusAsynRegister(void)
 {
-  iocshRegister(&drvModbusTCPAsynConfigureFuncDef,drvModbusTCPAsynConfigureCallFunc);
+  iocshRegister(&drvModbusAsynConfigureFuncDef,drvModbusAsynConfigureCallFunc);
 }
 
-epicsExportRegistrar(drvModbusTCPAsynRegister);
+epicsExportRegistrar(drvModbusAsynRegister);

@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/modbusTCP/1-1/modbusTCPApp/op/adl/modbusTCPStatistics.adl"
+	name="/home/epics/devel/modbus1-1/modbusApp/op/adl/modbusStatistics.adl"
 	version=030000
 }
 display {
