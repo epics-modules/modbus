@@ -1,2 +1,3 @@
 registrar(drvModbusTCPAsynRegister)
+registrar(modbusInterposeRegister)
 
