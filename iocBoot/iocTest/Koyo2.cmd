@@ -1,9 +1,11 @@
 # st.cmd for modbusTCP
+< envPaths
 
 dbLoadDatabase("../../dbd/modbusTCP.dbd")
 modbusTCP_registerRecordDeviceDriver(pdbbase)
 
-drvAsynIPPortConfigure("Koyo2","164.54.160.158:502",0,1,1)
+drvAsynIPPortConfigure("Koyo2","164.54.160.200:502",0,1,1)
+modbusInterposeConfig("Koyo2",0,0)
 
 
 # NOTE: We use octal numbers for the start address and length (leading zeros)
@@ -31,8 +33,8 @@ drvModbusTCPAsynConfigure("K2_V3000_In_Word",   "Koyo2",    3,  03000,  040,    
 
 # Hex trace format on TCP server
 asynSetTraceIOMask("Koyo2",0,4)
-# Turn on all debugging on TCP server
-#asynSetTraceMask("Koyo2",0,255)
+# Turn asynTraceIODriver on TCP server
+#asynSetTraceMask("Koyo2",0,9)
 
 # Hex trace format on modbusTCP server
 asynSetTraceIOMask("K2_V3000_In_Word",0,4)
