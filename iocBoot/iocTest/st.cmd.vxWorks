@@ -12,7 +12,7 @@ nfsMount("corvette","/home","/home")
 
 # Load the binary file
 cd topbin
-ld < modbusTCPApp.munch
+ld < modbusApp.munch
 
 # Execute the same startup script for Koyo test as other architectures
 cd startup

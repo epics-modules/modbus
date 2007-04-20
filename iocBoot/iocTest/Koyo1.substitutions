@@ -1,7 +1,7 @@
-# asyn record for the underlying asyn TCP port
+# asyn record for the underlying asyn octet port
 file "$(ASYN)/db/asynRecord.db" { pattern
 {P,           R,       PORT,      ADDR,   IMAX,    OMAX}
-{KOYO1:    TCPAsyn,    Koyo1,     0,      80,      80}
+{KOYO1:    OctetAsyn,    Koyo1,     0,      80,      80}
 }
 
 # These are the Xn inputs done with bit access X0-X7
