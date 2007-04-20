@@ -43,7 +43,7 @@
 #include "asynInt32Array.h"
 #include "asynFloat64.h"
 
-#include "modbusTCP.h"
+#include "modbus.h"
 #include "drvModbusTCPAsyn.h"
 
 /* Defined constants */
@@ -51,7 +51,6 @@
 #define MAX_READ_WORDS       125        /* Modbus limit on number of words to read */
 #define MAX_WRITE_WORDS      123        /* Modbus limit on number of words to write */
 #define HISTOGRAM_LENGTH     200        /* Length of time histogram */
-#define MAX_TCP_MESSAGE_SIZE 1500       /* Buffer size for input and output packets */
 #define MODBUS_READ_TIMEOUT  2.0        /* Timeout for asynOctetSyncIO->writeRead */
 #define MIN_POLL_DELAY      .001        /* Minimum polling delay */
 
@@ -122,8 +121,8 @@ typedef struct modbusTCPStr
     int modbusLength;           /* Number of words or bits of Modbus data */
     modbusDataType dataType;    /* Data type */
     unsigned short *data;       /* Memory buffer */
-    char modbusRequest[MAX_TCP_MESSAGE_SIZE];      /* Modbus request message */
-    char modbusReply[MAX_TCP_MESSAGE_SIZE];        /* Modbus reply message */
+    char modbusRequest[MAX_MODBUS_FRAME_SIZE];      /* Modbus request message */
+    char modbusReply[MAX_MODBUS_FRAME_SIZE];        /* Modbus reply message */
     double pollDelay;           /* Delay for readPoller */
     epicsThreadId readPollerThreadId;
     int forceCallback;
@@ -1342,11 +1341,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
     modbusWriteMultipleResponse *writeMultipleResp;
     modbusExceptionResponse *exceptionResp;
     int requestSize=0;
-    int replySize=MAX_TCP_MESSAGE_SIZE;
-    unsigned short transactId=1;
-    unsigned short cmdLength;
-    unsigned char  destId=0xFF;
-    unsigned short modbusEncoding=0;
+    int replySize=MAX_MODBUS_FRAME_SIZE;
     unsigned char  *pCharIn, *pCharOut;
     unsigned short *pShortIn, *pShortOut;
     unsigned short bitOutput;
@@ -1404,20 +1399,12 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
         }
     }
         
-    /* First build the parts of the message that are independent of the function type */
-    readReq = (modbusReadRequest *)pPlc->modbusRequest;
-    readReq->mbapHeader.transactId    = htons(transactId);
-    readReq->mbapHeader.protocolType  = htons(modbusEncoding);
-    readReq->mbapHeader.destId        = destId;
-
     switch (function) {
         case MODBUS_READ_COILS:
         case MODBUS_READ_DISCRETE_INPUTS:
         case MODBUS_READ_HOLDING_REGISTERS:
         case MODBUS_READ_INPUT_REGISTERS:
             readReq = (modbusReadRequest *)pPlc->modbusRequest;
-            cmdLength = sizeof(modbusReadRequest) - sizeof(modbusMBAPHeader) + 1;
-            readReq->mbapHeader.cmdLength = htons(cmdLength);
             readReq->fcode = function;
             readReq->startReg = htons((unsigned short)start);
             readReq->numRead = htons((unsigned short)len);
@@ -1425,8 +1412,6 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             break;
         case MODBUS_WRITE_SINGLE_COIL:
             writeSingleReq = (modbusWriteSingleRequest *)pPlc->modbusRequest;
-            cmdLength = sizeof(modbusWriteSingleRequest) - sizeof(modbusMBAPHeader) + 1;
-            writeSingleReq->mbapHeader.cmdLength = htons(cmdLength);
             writeSingleReq->fcode = function;
             writeSingleReq->startReg = htons((unsigned short)start);
             if (*data) bitOutput = 0xFF00;
@@ -1440,8 +1425,6 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             break;
         case MODBUS_WRITE_SINGLE_REGISTER:
             writeSingleReq = (modbusWriteSingleRequest *)pPlc->modbusRequest;
-            cmdLength = sizeof(modbusWriteSingleRequest) - sizeof(modbusMBAPHeader) + 1;
-            writeSingleReq->mbapHeader.cmdLength = htons(cmdLength);
             writeSingleReq->fcode = function;
             writeSingleReq->startReg = htons((unsigned short)start);
             writeSingleReq->data = htons((unsigned short)*data);
@@ -1472,9 +1455,6 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             writeMultipleReq->numOutput = htons(len);
             byteCount = pCharOut - writeMultipleReq->data;
             writeMultipleReq->byteCount = byteCount;
-            cmdLength = sizeof(modbusWriteMultipleRequest) - sizeof(modbusMBAPHeader) 
-                        + byteCount + 1;
-            writeMultipleReq->mbapHeader.cmdLength = htons(cmdLength);
             asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
                         writeMultipleReq->data, byteCount, 
                         "%s::doModbusIO port %s WRITE_MULTIPLE_COILS",
@@ -1483,9 +1463,6 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             break;
         case MODBUS_WRITE_MULTIPLE_REGISTERS:
             writeMultipleReq = (modbusWriteMultipleRequest *)pPlc->modbusRequest;
-            cmdLength = sizeof(modbusWriteMultipleRequest) - sizeof(modbusMBAPHeader) 
-                        + 2*len + 1;
-            writeMultipleReq->mbapHeader.cmdLength = htons(cmdLength);
             writeMultipleReq->fcode = function;
             writeMultipleReq->startReg = htons((unsigned short)start);
             pShortIn = (unsigned short *)data;
