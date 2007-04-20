@@ -10,12 +10,14 @@ include $(TOP)/configure/CONFIG
 # Build an IOC support library
 
 # <name>.dbd will be created from <name>Include.dbd
-DBD += modbusTCP.dbd
-DBD += modbusTCPSupport.dbd
+DBD += modbus.dbd
+DBD += modbusSupport.dbd
 
-LIBRARY_IOC = modbusTCP
+INC += drvModbusAsyn.h
 
-LIB_SRCS += drvModbusTCPAsyn.c
+LIBRARY_IOC = modbus
+
+LIB_SRCS += drvModbusAsyn.c
 LIB_SRCS += modbusInterpose.c
 
 #===========================
@@ -26,14 +28,14 @@ LIB_SRCS += modbusInterpose.c
 #=============================
 # build an ioc application
 
-PROD_IOC = modbusTCPApp
+PROD_IOC = modbusApp
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
-PROD_SRCS += modbusTCP_registerRecordDeviceDriver.cpp
-PROD_SRCS_DEFAULT += modbusTCPMain.cpp
+PROD_SRCS += modbus_registerRecordDeviceDriver.cpp
+PROD_SRCS_DEFAULT += modbusMain.cpp
 PROD_SRCS_vxWorks += -nil-
 
-PROD_LIBS += modbusTCP
+PROD_LIBS += modbus
 PROD_LIBS += asyn
 PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
 

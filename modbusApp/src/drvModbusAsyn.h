@@ -1,9 +1,9 @@
-/* drvModbusTCPAsyn.h
+/* drvModbusAsyn.h
 
     Author: Mark Rivers
     4-Mar-2007
 
-    These are the public definitions for drvModbusTCPAsyn.
+    These are the public definitions for drvModbusAsyn.
   
 */
 
@@ -30,11 +30,11 @@ typedef enum {
     dataTypeSignedBCD
 } modbusDataType;
 
-int drvModbusTCPAsynConfigure(char *portName, 
-                              char *tcpPortName, 
-                              int modbusFunction, 
-                              int modbusStartAddress, 
-                              int modbusLength,
-                              modbusDataType dataType,
-                              int pollMsec, 
-                              char *plcType);
+int drvModbusAsynConfigure(char *portName, 
+                           char *octetPortName, 
+                           int modbusFunction, 
+                           int modbusStartAddress, 
+                           int modbusLength,
+                           modbusDataType dataType,
+                           int pollMsec, 
+                           char *plcType);
