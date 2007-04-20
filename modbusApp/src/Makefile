@@ -16,6 +16,7 @@ DBD += modbusTCPSupport.dbd
 LIBRARY_IOC = modbusTCP
 
 LIB_SRCS += drvModbusTCPAsyn.c
+LIB_SRCS += modbusInterpose.c
 
 #===========================
 
