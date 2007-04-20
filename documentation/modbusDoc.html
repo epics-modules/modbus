@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
-<TITLE>modbusTCP EPICS device/driver support</TITLE>
+<TITLE>modbus EPICS device/driver support</TITLE>
 </HEAD>
 
 <BODY>
 <CENTER>
-    <H1>modbusTCP</H1>
-    <H1>Driver Support for Modbus/TCP Protocol under EPICS</H1>
+    <H1>modbus</H1>
+    <H1>Driver Support for Modbus Protocol under EPICS</H1>
     <H2>Release 1-1</H2>
     <H2>Mark Rivers</H2>
     <H2>April 15, 2007</H2>
@@ -22,8 +22,8 @@
               Overview of Modbus</A>
 <LI><A HREF="#Driver architecture">
               Driver architecture</A>
-<LI><A HREF="#Creating a modbusTCP port driver">
-              Creating a modbusTCP port driver</A>
+<LI><A HREF="#Creating a modbus port driver">
+              Creating a modbus port driver</A>
 <LI><A HREF="#EPICS device support">
               EPICS device support</A>
 <LI><A HREF="#Example applications">
@@ -41,11 +41,11 @@
 
 <H2><CENTER><A NAME="Acknowledgments">
                      Acknowledgments</A></H2></CENTER>
-The modbusTcp package is based on the 
+The modbus package is based on the 
 <A HREF=http://isacwserv.triumf.ca/epics/modtcp/TRIUMFmodtcp.html>modtcp and plctcp packages </A>
 written by Rolf Keitel from Triumf.
 The <B>modtcp</B> package was originally converted to Linux by Ivan So from NSLS.  
-<B>modbusTCP</B> was extensively
+<B>modbus</B> was extensively
 re-written for conversion to EPICS 3.14 and to use the EPICS asyn module.  It now contains little of the original
 <B>modtcp</B> code, but retains much of the original architecture.
 
@@ -58,7 +58,9 @@ that provides client/server communication between devices connected on different
 buses or networks.  It is typically used for communication with I/O systems,
 including Programmable Logic Controllers
 (PLCs).  Modbus is supported on a variety of media, including asynchronous serial and TCP/IP over 
-Ethernet.  For TCP/IP the Modbus protocol is assigned standard port 502.  This <B>modbusTCP</B> package only supports Modbus over TCP/IP Ethernet.
+Ethernet.  For TCP/IP the Modbus protocol is assigned standard port 502.  
+This <B>modbus</B> package supports Modbus over TCP/IP Ethernet, serial Modbus with the RTU protocol,
+and serial Modbus with the ASCII protocol.
 <P>
 <H3>Modbus data types</H3>
 Modbus provides access to the following 4 types of data:
@@ -112,7 +114,7 @@ messages contain:
 </ul>
 
 <H3>Modbus function codes</H3>
-<B>modbusTCP</B> supports the following 8 Modbus function codes:
+<B>modbus</B> supports the following 8 Modbus function codes:
 <P>
 <TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
   <TBODY>
@@ -286,7 +288,7 @@ The following table lists some of the commonly used Modbus addresses for Koyo PL
 Other PLC manufacturers will use different Modbus addresses.
 <P>
 Note that 16-bit Modbus addresses are commonly specified with an offset of 400001 (or 300001).
-This offset is not used by the modbusTCP driver, it uses only the 16-bit address, not the offset.
+This offset is not used by the modbus driver, it uses only the 16-bit address, not the offset.
 <P>
 <H3>Modbus data length limitations</H3>
 Modbus read operations are limited to transferring 125 16-bit words or 2000 bits.
@@ -295,24 +297,30 @@ Modbus write operations are limited to transferring 123 16-bit words or 1968 bit
 <P> 
 For more information about the Modbus protocol, the official Modbus specification can be found
 <A href="http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf">on the Web</A>
-or in the modbusTCP 
+or in the modbus 
 <A href="Modbus_Application_Protocol_V1_1b.pdf">documentation directory.</A>
 
 <P>
 The official specification for Modbus over TCP/IP can be found 
 <A href="http://www.modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf">on the Web</A>
-or in the modbusTCP 
+or in the modbus 
 <A href="Modbus_Messaging_Implementation_Guide_V1_0b.pdf">documentation directory.</A>
+
+<P>
+The official specification for Modbus over serial can be found 
+<A href="http://www.modbus.org/docs/Modbus_over_serial_line_V1_02.pdf">on the Web</A>
+or in the modbus 
+<A href="Modbus_over_serial_line_V1_02.pdf">documentation directory.</A>
 
 <P>
 <H2><CENTER><A NAME="Driver architecture">
                      Driver architecture</A></H2></CENTER>
 
-<B>CAUTION:</B> modbusTCP can provide access to all of the I/O and memory of the PLC.
+<B>CAUTION:</B> modbus can provide access to all of the I/O and memory of the PLC.
 In fact, it is not
 even necessary to run a ladder logic program in the PLC at all.  The PLC can be used as 
 a "dumb" I/O subsystem, with all of the logic residing in the EPICS IOC.  However,
-if a ladder logic program <i>is</i> being run in the PLC then the EPICS access with modbusTCP
+if a ladder logic program <i>is</i> being run in the PLC then the EPICS access with modbus
 must be designed carefully.  For example, the EPICS IOC might be allowed to <i>read</i> any of the 
 PLC I/O points (X inputs, Y outputs, etc.), but <i>writes</i> could be restricted to a small
 range of Control Registers, (e.g. C200-C240).  The ladder logic would monitor these
@@ -320,16 +328,16 @@ control registers, considering them to be "requests" from EPICS that should be a
 upon only if it is safe to do so.
 
 <P>
-The <B>modbusTCP</B> module consists of an EPICS asyn port driver which functions as a Modbus client.
-The modbusTCP port driver communicates with a Modbus server using the standard asyn TCP/IP port driver (drvAsynIPPort).
-The modbusTCP port driver communicates with EPICS records using the standard asyn interfaces 
-(asynUInt32Digital, asynInt32, etc.) and standard EPICS device support.  Because modbusTCP makes extensive
-use of these existing asyn facilities, the amount of code in modbusTCP is quite small (less than 2,000 lines of
+The <B>modbus</B> module consists of an EPICS asyn port driver which functions as a Modbus client.
+The modbus port driver communicates with a Modbus server using the standard asyn TCP/IP port driver (drvAsynIPPort).
+The modbus port driver communicates with EPICS records using the standard asyn interfaces 
+(asynUInt32Digital, asynInt32, etc.) and standard EPICS device support.  Because modbus makes extensive
+use of these existing asyn facilities, the amount of code in modbus is quite small (less than 2,000 lines of
 code).
 
 <P>
-Each modbusTCP port driver is assigned a single Modbus function code and a single contiguous range of 
-Modbus memory, up to 2000 bits or 125 words.  One typically creates several modbusTCP port drivers
+Each modbus port driver is assigned a single Modbus function code and a single contiguous range of 
+Modbus memory, up to 2000 bits or 125 words.  One typically creates several modbus port drivers
 for a single PLC, each driver reading or writing a different set of discrete inputs, coils, 
 input registers or holding registers.  For example, one might create one port driver to read 
 discrete inputs X0-X37, a second to read control registers C0-C377, and a third to write control 
@@ -360,7 +368,7 @@ Rather the driver does the
 Modbus I/O immediately in response to the write operations on the standard asyn interfaces.
 This means that
 EPICS write operations are <i>asynchronous</i>, i.e. they do block because Modbus I/O is required.
-When the modbusTCP driver is created it tells asynManager that it can block, and asynManager
+When the modbus driver is created it tells asynManager that it can block, and asynManager
 creates a separate thread that executes the write operations.
 <P>
 Word write operations using the asynUInt32Digital interface (with a mask parameter that is not 0x0 or
@@ -377,10 +385,10 @@ the port driver is created.  This is normally used so that EPICS obtains the cur
 device when the IOC is initialized.  
 
 <P>
-<H2><CENTER><A NAME="Creating a modbusTCP port driver">
-                     Creating a modbusTCP port driver</A></H2></CENTER>
+<H2><CENTER><A NAME="Creating a modbus port driver">
+                     Creating a modbus port driver</A></H2></CENTER>
 
-Before modbusTCP port drivers can be created, it is necessary to first create at least
+Before modbus port drivers can be created, it is necessary to first create at least
 one asyn TCP/IP
 port driver to communicate with port 502 on the Modbus server on the Ethernet.  This is done
 using the standard asyn command:
@@ -393,16 +401,16 @@ asynDriver documentation</A>.
 
 <P>The following example creates an asyn IP port driver called "Koyo1" on port 502 at
 IP address 164.54.160.158.  The default priority is used and the noAutoConnect flag is set
-to 1 so that the modbusTCP driver, rather than asynManager, will handle connection management.
+to 1 so that the modbus driver, rather than asynManager, will handle connection management.
 The noProcessEos flag is set to 1 because Modbus data is binary, not ASCII.
 <pre>
 drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
 </pre>
 
 <P>
-Once one or more asyn IP ports is created, a modbusTCP port is created with the following command:
+Once one or more asyn IP ports is created, a modbus port is created with the following command:
 <pre>
-drvModbusTCPAsynConfigure(portName, 
+drvModbusAsynConfigure(portName, 
                           tcpPortName, 
                           modbusFunction, 
                           modbusStartAddress, 
@@ -414,7 +422,7 @@ drvModbusTCPAsynConfigure(portName,
 <TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
   <TBODY>
   <TR>
-    <TH colspan=3, align=center>drvModbusTCPAsynConfigure command</TH>
+    <TH colspan=3, align=center>drvModbusAsynConfigure command</TH>
   </TR>
   <TR>
     <TH>Parameter</TH>
@@ -424,7 +432,7 @@ drvModbusTCPAsynConfigure(portName,
   <TR>
     <TD>portName</TD>
     <TD>string</TD>
-    <TD>Name of the modbusTCP port to be created.</TD>
+    <TD>Name of the modbus port to be created.</TD>
   </TR>
   <TR>
     <TD>tcpPortName</TD>
@@ -479,28 +487,28 @@ drvModbusTCPAsynConfigure(portName,
 
 <H3>Number of drvAsynIPPort drivers </H3>
 Each drvAsynIPPort driver creates a separate TCP/IP socket connection to the
-PLC.  It is possible to have all of the modbusTCP port drivers share a single drvAsynIPPort 
+PLC.  It is possible to have all of the modbus port drivers share a single drvAsynIPPort 
 driver.  In this case all I/O to the PLC is done over a single socket in a
  "serial" fashion.  A transaction
-for one modbusTCP driver must complete before a transaction for another modbusTCP driver can begin.
+for one modbus driver must complete before a transaction for another modbus driver can begin.
 It is also possible to create multiple drvAsynIPPort drivers (sockets) to a single PLC and, for example,
-use a different drvAsynIPPort for each modbusTCP port.  In this case I/O operations from multiple
-modbusTCP drivers can proceed in parallel, rather than serially.  This could improve performance
+use a different drvAsynIPPort for each modbus port.  In this case I/O operations from multiple
+modbus drivers can proceed in parallel, rather than serially.  This could improve performance
 at the expense of more CPU load on the IOC and PLC, and more network traffic.  
 
 <P>
 It is important to 
 note, however, that many PLCs will time out sockets after a few seconds of inactivity.  This
-is not a problem with modbusTCP drivers that use read function codes, because they are polling
-frequently.  But modbusTCP drivers that use write function codes may only do occasional I/O, and
+is not a problem with modbus drivers that use read function codes, because they are polling
+frequently.  But modbus drivers that use write function codes may only do occasional I/O, and
 hence may time out if they are the only ones communicating through a drvAsynIPPort driver.  
 Thus, it is usually necessary for
-modbusTCP drivers with write function codes to use the same drvAsynIPPort driver (socket) as 
-at least one modbusTCP driver with a read function code to avoid timeouts.
+modbus drivers with write function codes to use the same drvAsynIPPort driver (socket) as 
+at least one modbus driver with a read function code to avoid timeouts.
 <P>
 The choice of how many drvAsynIPPort drivers to use per PLC will be based on empirical
 performance versus resource usage considerations.  In general it is probably a good idea to
-start with one drvAsynIPPort server per PLC (e.g. shared by all modbusTCP drivers for that PLC)
+start with one drvAsynIPPort server per PLC (e.g. shared by all modbus drivers for that PLC)
 and see if this results in satisfactory performance.
 
 <H3>Number formats</H3>
@@ -540,7 +548,7 @@ Other data types can be added in the future as needed.
 <H2><CENTER><A NAME="EPICS device support">
                      EPICS device support</A></H2></CENTER>
 
-modbusTCP implements the following standard asyn interfaces:
+modbus implements the following standard asyn interfaces:
 <UL>
   <LI>asynUInt32Digital
   <LI>asynInt32
@@ -552,11 +560,11 @@ modbusTCP implements the following standard asyn interfaces:
 
 Because it implements these standard interfaces, EPICS device support is done entirely
 with the generic EPICS device support provided with asyn itself.  There is no special
-device support provided as part of modbusTCP.
+device support provided as part of modbus.
 
 <P>
 It is necessary to use asyn R4-8 or later, because some minor enhancements were made
-to asyn to support the features required by modbusTCP.
+to asyn to support the features required by modbus.
 
 <P>
 The following tables document the asyn interfaces used by the EPICS device support.
@@ -903,7 +911,7 @@ when histogramming is enabled.
 <P>
 <H3>Template files</H3>
 <P> 
-modbusTCP provides example template files in the modbusTCPApp/Db directory.  
+modbus provides example template files in the modbusApp/Db directory.  
 These include:
 <P>
 <TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
@@ -1017,7 +1025,7 @@ The following table explains the macro parameters used in the preceeding table.
   </TR>
   <TR>
     <TD>PORT</TD>
-    <TD>Port name for modbusTCP asyn port.</TD>
+    <TD>Port name for modbus asyn port.</TD>
   </TR>
   <TR>
     <TD>OFFSET</TD>
@@ -1085,20 +1093,20 @@ The following table explains the macro parameters used in the preceeding table.
 <H2><CENTER><A NAME="Example Applications">
                      Example Applications</A></H2></CENTER>
 <P>
-modbusTCP builds an example application called modbusTCPApp.  This application can be run
+modbus builds an example application called modbusApp.  This application can be run
 to control any number of Modbus PLCs.
 <P>
 In the iocBoot/iocTest directory there are several startup scripts for EPICS IOCs.  These
-are designed to test most of the features of the modbusTCP driver on Koyo PLCs, such as the
+are designed to test most of the features of the modbus driver on Koyo PLCs, such as the
 DL series from Automation Direct.
 <P>
 <UL>
-  <LI>Koyo1.cmd creates modbusTCP port drivers to read the X inputs,
+  <LI>Koyo1.cmd creates modbus port drivers to read the X inputs,
       write to the Y outputs, and read and write from the C control registers.
       Each of these sets of inputs and outputs is accessed both as coils and as registers (V memory).
       bi/bo, mbbiDirect/mbboDirect, and waveform records are loaded to read and write
       using these drivers.
-  <LI>Koyo2.cmd creates modbusTCP port drivers to read the X inputs,
+  <LI>Koyo2.cmd creates modbus port drivers to read the X inputs,
       write to the Y outputs, and read and write from the C control registers.
       Only coil access is used.  This example also reads a 4-channel 13-bit bipolar A/D
       converter.  This has been tested using both signed-BCD and sign plus magnitude binary
@@ -1107,11 +1115,11 @@ DL series from Automation Direct.
   <LI>st.cmd is a simple example startup script to be run on non-vxWorks IOCs.  It just loads
       Koyo1.cmd and Koyo2.cmd.  It is invoked using a command like:
       <pre>
-      ../../bin/linux-x86/modbusTCPApp st.cmd
+      ../../bin/linux-x86/modbusApp st.cmd
       </pre>
       One can also load Koyo1.cmd or Koyo2.cmd separately as in:
       <pre>
-      ../../bin/linux-x86/modbusTCPApp Koyo1.cmd
+      ../../bin/linux-x86/modbusApp Koyo1.cmd
       </pre>     
   <LI>st.cmd.vxWorks is a simple example startup script to be run on vxWorks IOCs.  It just loads
       Koyo1.cmd and Koyo2.cmd.
@@ -1122,8 +1130,8 @@ The following is the beginning of Koyo1.cmd.
 # Koyo1.cmd
 < envPaths
 
-dbLoadDatabase("../../dbd/modbusTCP.dbd")
-modbusTCP_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase("../../dbd/modbus.dbd")
+modbus_registerRecordDeviceDriver(pdbbase)
 
 #drvAsynIPPortConfigure(const char *portName, const char *hostInfo,
 #                           unsigned int priority, int noAutoConnect,
@@ -1138,50 +1146,50 @@ drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
 
 # The DL205 has bit access to the Xn inputs at Modbus offset 4000 (octal)
 # Read 32 bits (X0-X37).  Function code=2.
-drvModbusTCPAsynConfigure("K1_Xn_Bit",      "Koyo1", 2,  04000, 040,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Xn_Bit",      "Koyo1", 2,  04000, 040,    0,  100, "Koyo")
 
 # The DL205 has word access to the Xn inputs at Modbus offset 40400 (octal)
 # Read 8 words (128 bits).  Function code=3.
-drvModbusTCPAsynConfigure("K1_Xn_Word",     "Koyo1", 3, 040400, 010,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Xn_Word",     "Koyo1", 3, 040400, 010,    0,  100, "Koyo")
 
 # The DL205 has bit access to the Yn outputs at Modbus offset 4000 (octal)
 # Read 32 bits (Y0-Y37).  Function code=1.
-drvModbusTCPAsynConfigure("K1_Yn_In_Bit",   "Koyo1", 1,  04000, 040,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Yn_In_Bit",   "Koyo1", 1,  04000, 040,    0,  100, "Koyo")
 
 # The DL205 has bit access to the Yn outputs at Modbus offset 4000 (octal)
 # Write 32 bits (Y0-Y37).  Function code=5.
-drvModbusTCPAsynConfigure("K1_Yn_Out_Bit",  "Koyo1", 5,  04000, 040,    0,  1, "Koyo")
+drvModbusAsynConfigure("K1_Yn_Out_Bit",  "Koyo1", 5,  04000, 040,    0,  1, "Koyo")
 
 # The DL205 has word access to the Yn outputs at Modbus offset 40500 (octal)
 # Read 8 words (128 bits).  Function code=3.
-drvModbusTCPAsynConfigure("K1_Yn_In_Word",  "Koyo1", 3, 040500, 010,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Yn_In_Word",  "Koyo1", 3, 040500, 010,    0,  100, "Koyo")
 
 # Write 8 words (128 bits).  Function code=6.
-drvModbusTCPAsynConfigure("K1_Yn_Out_Word", "Koyo1", 6, 040500, 010,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Yn_Out_Word", "Koyo1", 6, 040500, 010,    0,  100, "Koyo")
 
 # The DL205 has bit access to the Cn bits at Modbus offset 6000 (octal)
 # Access 256 bits (C0-C377) as inputs.  Function code=1.
-drvModbusTCPAsynConfigure("K1_Cn_In_Bit",   "Koyo1", 1,  06000, 0400,   0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Cn_In_Bit",   "Koyo1", 1,  06000, 0400,   0,  100, "Koyo")
 
 # Access the same 256 bits (C0-C377) as outputs.  Function code=5.
-drvModbusTCPAsynConfigure("K1_Cn_Out_Bit",  "Koyo1", 5,  06000, 0400,   0,  1,  "Koyo")
+drvModbusAsynConfigure("K1_Cn_Out_Bit",  "Koyo1", 5,  06000, 0400,   0,  1,  "Koyo")
 
 # Access the same 256 bits (C0-C377) as array outputs.  Function code=15.
-drvModbusTCPAsynConfigure("K1_Cn_Out_Bit_Array",  "Koyo1", 15,  06000, 0400,   0,   1, "Koyo")
+drvModbusAsynConfigure("K1_Cn_Out_Bit_Array",  "Koyo1", 15,  06000, 0400,   0,   1, "Koyo")
 
 # The DL205 has word access to the Cn bits at Modbus offset 40600 (octal)
 # We use the first 16 words (C0-C377) as inputs (256 bits).  Function code=3.
-drvModbusTCPAsynConfigure("K1_Cn_In_Word",  "Koyo1", 3, 040600, 020,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Cn_In_Word",  "Koyo1", 3, 040600, 020,    0,  100, "Koyo")
 
 # We access the same 16 words (C0-C377) as outputs (256 bits). Function code=6.
-drvModbusTCPAsynConfigure("K1_Cn_Out_Word", "Koyo1", 6, 040600, 020,    0,  1,  "Koyo")
+drvModbusAsynConfigure("K1_Cn_Out_Word", "Koyo1", 6, 040600, 020,    0,  1,  "Koyo")
 
 # We access the same 16 words (C0-C377) as array outputs (256 bits). Function code=16.
-drvModbusTCPAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 16, 040600, 020,    0,   1, "Koyo")
+drvModbusAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 16, 040600, 020,    0,   1, "Koyo")
 </pre>
 
 Note that this example is designed for testing and demonstration purposes, not as a realistic
-example of how ModbusTCP would normally be used.  For example, it loads 
+example of how modbus would normally be used.  For example, it loads 
 6 drivers to access the C control relays using function codes 1 (read coils), 3 (read holding
 registers), 5 (write single coil), 6 (write single holding register), 15 (write multiple coils),
 and 16 (write multiple holding registers).  This allows for testing of all function codes
@@ -1192,7 +1200,7 @@ code 5 (write single coil).
 <H2><CENTER><A NAME="medm screens">
                      medm screens</A></H2></CENTER>
 <P>
-modbusTCP provides example medm .adl files in the modtcpApp/op/adl directory.  
+modbus provides example medm .adl files in the modtcpApp/op/adl directory.  
 The following are screen shots of these screens from an IOC controlling a
 Koyo DL205 PLC.
 <P>
@@ -1217,16 +1225,16 @@ Outputs C200-C207 written using bit access (function code 5).</B></p>
 Inputs C200-C207 read as register inputs (function code 6).</B></p>
 <P>
 <p align="center"><img border="0" src="K1_Cn_In_Bit_Array.png"></p>
-<p align="center"><B>ModbusTCPArray.adl.  
+<p align="center"><B>modbusArray.adl.  
 Inputs C0-C377 read using a waveform record and coil access (function code 1).</B></p>
 <P>
 <p align="center"><img border="0" src="K1_Cn_In_Word_Array.png"></p>
-<p align="center"><B>ModbusTCPArray.adl.  
+<p align="center"><B>modbusArray.adl.  
 Inputs C0-C377 read using a waveform record and register access (function
 code 3).</B></p>
 <P>
 <p align="center"><img border="0" src="K1_Xn_Bit_Statistics.png"></p>
-<p align="center"><B>ModbusTCPStatistics.adl.  
+<p align="center"><B>modbusStatistics.adl.  
 I/O statistics for the Modbus driver that is reading inputs
 X0-X37 using register access (function code 3).  The histogram is the number of events
 versus TCP/IP write/read cycle time in msec.</B></p>
@@ -1243,12 +1251,12 @@ Top level medm screen for the Koyo2 example application.</B></p>
 <H2><CENTER><A NAME="Debug tracing">
                      Debug tracing</A></H2></CENTER>
                      
-One can obtain diagnostic output for a modbusTCP port driver using 
+One can obtain diagnostic output for a modbus port driver using 
 the "dbior" or "asynPrint" commands
 at the iocsh or vxWorks shell.
 "asynReport" with no arguments will print a brief report for all asyn drivers, 
-including the drvAsynIPPort driver that modbusTCP
-drivers are connected to, and for all modbusTCP port drivers.  
+including the drvAsynIPPort driver that modbus
+drivers are connected to, and for all modbus port drivers.  
 For example, a partial output for the Koyo1 application is:
 <pre>
 epics> asynReport
@@ -1263,12 +1271,12 @@ K1_Xn_Bit multiDevice:Yes canBlock:No autoConnect:Yes
     addr 5 autoConnect Yes enabled Yes connected Yes exceptionActive No
     addr 6 autoConnect Yes enabled Yes connected Yes exceptionActive No
     addr 7 autoConnect Yes enabled Yes connected Yes exceptionActive No
-modbusTCP port: K1_Xn_Bit
+modbus port: K1_Xn_Bit
 K1_Xn_Word multiDevice:Yes canBlock:No autoConnect:Yes
     addr 0 autoConnect Yes enabled Yes connected Yes exceptionActive No
 </pre>
 To obtain more
-detailed information, one can request information for a specific modbusTCP port driver, and
+detailed information, one can request information for a specific modbus port driver, and
 output level >0 as follows:
 <pre>
 epics> asynReport 5, "K1_Xn_Word"
@@ -1287,7 +1295,7 @@ K1_Xn_Word multiDevice:Yes canBlock:No autoConnect:Yes
     addr 0 autoConnect Yes enabled Yes connected Yes exceptionActive No
     exceptionActive No exceptionUsers 1 exceptionNotifys 0
     blocked No
-modbusTCP port: K1_Xn_Word
+modbus port: K1_Xn_Word
     asyn TCP server:    Koyo1
     modbusFunction:     3
     modbusStartAddress: 040400
@@ -1325,25 +1333,25 @@ epics>
 epics> asynSetTraceMask "Koyo1",0,1    # Turn off traceIODriver
 </pre>
 
-The following command shows the I/O from a specific modbusTCP port driver:
+The following command shows the I/O from a specific modbus port driver:
 <pre>
 epics> asynSetTraceIOMask "K1_Yn_In_Word",0,4   # Enable traceIOHex
 epics> asynSetTraceMask "K1_Yn_In_Word",0,9     # Enable traceError and traceIODriver
 epics> 
-2007/04/12 17:32:31.548 drvModbusTCPAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
+2007/04/12 17:32:31.548 drvModbusAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
 09 00 00 00 00 00 00 00 
-2007/04/12 17:32:31.656 drvModbusTCPAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
+2007/04/12 17:32:31.656 drvModbusAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
 09 00 00 00 00 00 00 00 
-2007/04/12 17:32:31.770 drvModbusTCPAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
+2007/04/12 17:32:31.770 drvModbusAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
 09 00 00 00 00 00 00 00 
-2007/04/12 17:32:31.878 drvModbusTCPAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
+2007/04/12 17:32:31.878 drvModbusAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
 09 00 00 00 00 00 00 00 
-2007/04/12 17:32:31.987 drvModbusTCPAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
+2007/04/12 17:32:31.987 drvModbusAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
 09 00 00 00 00 00 00 00 
 epics> asynSetTraceMask "K1_Yn_In_Word",0,1     # Disable traceIODriver
 </pre>
 
-One can also load an EPICS asyn record on a modbusTCP port, and then use EPICS channel access
+One can also load an EPICS asyn record on a modbus port, and then use EPICS channel access
 to turn debugging output on and off.  The following medm screen shows how to turn on I/O tracing
 using this method.
 
@@ -1370,44 +1378,44 @@ processed.</B> </p>
 <H2><CENTER><A NAME="Differences from Triumf modtcp and plctcp package">
                      Differences from Triumf modtcp and plctcp package</A></H2></CENTER>
 
-The following are the main enhancements of modbusTCP compared to the modtcp and plctcp
+The following are the main enhancements of modbus compared to the modtcp and plctcp
 packages from Triumf:
 <UL>
-  <LI>modbusTCP supports most Modbus function codes,
+  <LI>modbus supports most Modbus function codes,
       including 1, 2, 5, and 15 for reading and writing coils (single bits)
       and 3, 4, 6, and 16 for reading and writing registers. 
       modtcp supports only Modbus functions 3 (read holding register) and 
       6 (write holding register).  
-  <LI>modbusTCP supports pseudo-interrupt mode on inputs.  
+  <LI>modbus supports pseudo-interrupt mode on inputs.  
       The poller thread calls device support when there is a new value, 
       so the EPICS records can have SCAN=I/O Intr and 
       do not need to periodically read the inputs. This is more efficient.
-  <LI>modbusTCP supports array operations on reads and writes using waveform records.
-  <LI>modbusTCP uses asyn for underlying TCP/IP connections.  
+  <LI>modbus supports array operations on reads and writes using waveform records.
+  <LI>modbus uses asyn for underlying TCP/IP connections.  
       This reduces the amount of code, and has good debugging and connection management.
-  <LI>modbusTCP uses standard asyn interfaces and asyn device support.  
+  <LI>modbus uses standard asyn interfaces and asyn device support.  
       This reduces the amount of code significantly.
-  <LI>modbusTCP should run on all EPICS platforms.  It has been tested on
+  <LI>modbus should run on all EPICS platforms.  It has been tested on
       linux-x86, vxWorks, win32-x86 (native Windows with VC++ compiler), and
       cygwin-x86 (Windows with gcc compiler and Cygwin library).  
       The only thing that may be architecture-specific is the
-      structure packing in modbusTCP.h.  The "#pragma pack(1)" directive used there
+      structure packing in modbus.h.  The "#pragma pack(1)" directive used there
       is supported on gnu and Microsoft compilers.  modtcp only works on Linux and
       vxWorks. 
-  <LI>modbusTCP provides EPICS PVs for PLC status and statistics.
+  <LI>modbus provides EPICS PVs for PLC status and statistics.
 </UL>
 <P>
-The following are some drawbacks of modbusTCP compared to the modtcp and plctcp
+The following are some drawbacks of modbus compared to the modtcp and plctcp
 packages from Triumf:
 <UL>
-  <LI>modbusTCP only works on EPICS 3.14, not on 3.13.
+  <LI>modbus only works on EPICS 3.14, not on 3.13.
   <LI>There is no Siemens PLC support.  It should be a separate driver, 
-      using drvModbusTCPAsyn.c as a model.  Most code in modbusTCP is Modbus
+      using drvModbusAsyn.c as a model.  Most code in modbus is Modbus
       specific, so it is cleaner to write a separate, but similar driver for other
       protocols. <BR>
-  <LI>modbusTCP has one thread per asyn port, which is a group of Modbus registers or coils.  
+  <LI>modbus has one thread per asyn port, which is a group of Modbus registers or coils.  
       This is more threads than modtcp, which had only 1 thread per PLC. 
-      There is an advantage in the modbusTCP design, because each can poll at a different rate, 
+      There is an advantage in the modbus design, because each can poll at a different rate, 
       can have different Modbus function code, and a different data type.  
       It also allows much finer granularity in debugging output.  But it will
       lead to somewhat increased resource usage compared to the modtcp design.
@@ -1420,8 +1428,8 @@ packages from Triumf:
   <LI>It should be
       possible to use the AutoConnect feature when creating the drvAsynIPPort driver.  However,
       there seems to be a problem with the automatic connection management in asyn.  For now 
-      connection management is done by the modbusTCP driver itself, so the noAutoConnect flag
-      should be set to 1 in drvAsynIPPortConfigure.  With this setting the modbusTCP
+      connection management is done by the modbus driver itself, so the noAutoConnect flag
+      should be set to 1 in drvAsynIPPortConfigure.  With this setting the modbus
       driver will automatically reconnect if a PLC is disconnected from the network or rebooted.
       However, it is necessary for the PLC to be available when the IOC first boots
       or the "read once" values for drivers with Modbus write functions 
