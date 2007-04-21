@@ -1340,7 +1340,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
     modbusWriteMultipleResponse *writeMultipleResp;
     modbusExceptionResponse *exceptionResp;
     int requestSize=0;
-    int replySize=MAX_MODBUS_FRAME_SIZE;
+    int replySize;
     unsigned char  *pCharIn, *pCharOut;
     unsigned short *pShortIn, *pShortOut;
     unsigned short bitOutput;
@@ -1401,6 +1401,15 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
     switch (function) {
         case MODBUS_READ_COILS:
         case MODBUS_READ_DISCRETE_INPUTS:
+            readReq = (modbusReadRequest *)pPlc->modbusRequest;
+            readReq->fcode = function;
+            readReq->startReg = htons((unsigned short)start);
+            readReq->numRead = htons((unsigned short)len);
+            requestSize = sizeof(modbusReadRequest);
+            /* The -1 below is because the modbusReadResponse struct already has 1 byte of data */
+            replySize = sizeof(modbusReadResponse) -1 + len/8;
+            if (len % 8) replySize++;
+            break;
         case MODBUS_READ_HOLDING_REGISTERS:
         case MODBUS_READ_INPUT_REGISTERS:
             readReq = (modbusReadRequest *)pPlc->modbusRequest;
@@ -1408,6 +1417,8 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             readReq->startReg = htons((unsigned short)start);
             readReq->numRead = htons((unsigned short)len);
             requestSize = sizeof(modbusReadRequest);
+            /* The -1 below is because the modbusReadResponse struct already has 1 byte of data */
+            replySize = sizeof(modbusReadResponse) -1 + len*2;
             break;
         case MODBUS_WRITE_SINGLE_COIL:
             writeSingleReq = (modbusWriteSingleRequest *)pPlc->modbusRequest;
@@ -1417,6 +1428,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             else       bitOutput = 0;
             writeSingleReq->data = htons(bitOutput);
             requestSize = sizeof(modbusWriteSingleRequest);
+            replySize = sizeof(modbusWriteSingleResponse);
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
                       "%s::doModbusIO port %s WRITE_SINGLE_COIL"
                       " address=0%o value=0x%x\n",
@@ -1428,6 +1440,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             writeSingleReq->startReg = htons((unsigned short)start);
             writeSingleReq->data = htons((unsigned short)*data);
             requestSize = sizeof(modbusWriteSingleRequest);
+            replySize = sizeof(modbusWriteSingleResponse);
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
                       "%s::doModbusIO port %s WRITE_SINGLE_REGISTER"
                       " address=0%o value=0x%x\n",
@@ -1459,6 +1472,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
                         "%s::doModbusIO port %s WRITE_MULTIPLE_COILS",
                         driver, pPlc->portName);
             requestSize = sizeof(modbusWriteMultipleRequest) + byteCount - 1;
+            replySize = sizeof(modbusWriteMultipleResponse);
             break;
         case MODBUS_WRITE_MULTIPLE_REGISTERS:
             writeMultipleReq = (modbusWriteMultipleRequest *)pPlc->modbusRequest;
@@ -1477,6 +1491,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
                         "%s::doModbusIO port %s WRITE_MULTIPLE_REGISTERS",
                         driver, pPlc->portName);
             requestSize = sizeof(modbusWriteMultipleRequest) + byteCount - 1;
+            replySize = sizeof(modbusWriteMultipleResponse);
             break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR, 
