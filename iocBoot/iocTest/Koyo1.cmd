@@ -4,12 +4,23 @@
 dbLoadDatabase("../../dbd/modbus.dbd")
 modbus_registerRecordDeviceDriver(pdbbase)
 
+# Use the following command for TCP/IP
 #drvAsynIPPortConfigure(const char *portName, const char *hostInfo,
 #                           unsigned int priority, int noAutoConnect,
 #                           int noProcessEos);
-drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
-#drvAsynIPPortConfigure("Koyo1","164.54.160.201:502",0,0,1)
+drvAsynIPPortConfigure("Koyo1","164.54.160.200:502",0,1,1)
+modbusInterposeConfig("Koyo1",0,0)
 
+# Use the following commands for serial RTU
+#drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
+#asynSetOption("Koyo1",0,"baud","9600")
+#asynSetOption("Koyo1",0,"parity","none")
+#asynSetOption("Koyo1",0,"bits","8")
+#asynSetOption("Koyo1",0,"stop","1")
+#modbusInterposeConfig("Koyo1",1,1)
+
+asynSetTraceIOMask("Koyo1",0,4)
+#asynSetTraceMask("Koyo1",0,9)
 
 # NOTE: We use octal numbers for the start address and length (leading zeros)
 #       to be consistent with the PLC nomenclature.  This is optional, decimal
