@@ -4,15 +4,15 @@
 dbLoadDatabase("../../dbd/modbus.dbd")
 modbus_registerRecordDeviceDriver(pdbbase)
 
-drvAsynSerialPortConfigure("Koyo2", "/dev/ttyS1", 0, 0, 1)
-asynSetOption("Koyo2",0,"baud","38400")
+drvAsynSerialPortConfigure("Koyo2", "/dev/ttyS1", 0, 0, 0)
+asynSetOption("Koyo2",0,"baud","9600")
 asynSetOption("Koyo2",0,"parity","none")
 asynSetOption("Koyo2",0,"bits","8")
 asynSetOption("Koyo2",0,"stop","1")
 modbusInterposeConfig("Koyo2",1,"1")
 
 asynSetTraceIOMask("Koyo2",0,4)
-asynSetTraceMask("Koyo2",0,9)
+#asynSetTraceMask("Koyo2",0,9)
 
 # NOTE: We use octal numbers for the start address and length (leading zeros)
 #       to be consistent with the PLC nomenclature.  This is optional, decimal
