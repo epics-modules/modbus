@@ -1,6 +1,6 @@
 
 file {
-	name="/home/epics/devel/modbus/1-2/modbusApp/op/adl/Koyo2.adl"
+	name="/home/epics/devel/modbus/beta4/modbusApp/op/adl/Koyo2.adl"
 	version=030000
 }
 display {
@@ -100,74 +100,85 @@ text {
 	textix="Koyo 2"
 	align="horiz. centered"
 }
-"related display" {
+composite {
 	object {
-		x=9
+		x=5
 		y=51
-		width=152
-		height=25
+		width=160
+		height=85
 	}
-	display[0] {
-		label="Y0-Y7 inputs (bit access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO2:,R=Y,A=InB,L=Y0InBL,PORT=YnInB,AC=Bit"
+	"composite name"=""
+	children {
+		"related display" {
+			object {
+				x=5
+				y=51
+				width=160
+				height=25
+			}
+			display[0] {
+				label="Y0-Y7 inputs (bit access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO2:,R=Y,A=InB,L=Y0InBL,PORT=YnInB,AC=Bit"
+			}
+			display[1] {
+				label="C0-C7 inputs (bit access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO2:,R=C,A=InB,L=C0InBL,PORT=CnInB,AC=Bit"
+			}
+			display[2] {
+				label="C200-C207 inputs (bit access)"
+				name="Koyo_8inputs.adl"
+				args="P=KOYO2:,R=C20,A=InB,L=C200InBL,PORT=CnInB,AC=Bit"
+			}
+			display[3] {
+				label="ADCs"
+				name="Koyo_4ADC.adl"
+				args="P=KOYO2:,R1=ADC1,R2=ADC2,R3=ADC3,R4=ADC4,PORT=V3000InW"
+			}
+			clr=14
+			bclr=4
+			label="Inputs"
+		}
+		"related display" {
+			object {
+				x=5
+				y=81
+				width=160
+				height=25
+			}
+			display[0] {
+				label="Y0-Y7 outputs (bit access)"
+				name="Koyo_8outputs.adl"
+				args="P=KOYO2:,R=Y,A=OutB,L=Y0OutBL,PORT=YnOutB,AC=Bit"
+			}
+			display[1] {
+				label="C200-C207 outputs (bit access)"
+				name="Koyo_8outputs.adl"
+				args="P=KOYO2:,R=C20,A=OutB,L=C200OutBL,PORT=C20nOutB,AC=Bit"
+			}
+			clr=14
+			bclr=4
+			label="Outputs"
+		}
+		"related display" {
+			object {
+				x=5
+				y=111
+				width=160
+				height=25
+			}
+			display[0] {
+				label="Octet asyn record"
+				name="asynRecord.adl"
+				args="P=KOYO2:,R=OctetAsyn"
+			}
+			display[2] {
+				name="l"
+			}
+			clr=14
+			bclr=4
+			label="Octet asyn record"
+		}
 	}
-	display[1] {
-		label="C0-C7 inputs (bit access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO2:,R=C,A=InB,L=C0InBL,PORT=CnInB,AC=Bit"
-	}
-	display[2] {
-		label="C200-C207 inputs (bit access)"
-		name="Koyo_8inputs.adl"
-		args="P=KOYO2:,R=C20,A=InB,L=C200InBL,PORT=CnInB,AC=Bit"
-	}
-	display[3] {
-		label="ADCs"
-		name="Koyo_4ADC.adl"
-		args="P=KOYO2:,R1=ADC1,R2=ADC2,R3=ADC3,R4=ADC4,PORT=V3000InW"
-	}
-	clr=14
-	bclr=4
-	label="Inputs"
-}
-"related display" {
-	object {
-		x=9
-		y=81
-		width=152
-		height=25
-	}
-	display[0] {
-		label="Y0-Y7 outputs (bit access)"
-		name="Koyo_8outputs.adl"
-		args="P=KOYO2:,R=Y,A=OutB,L=Y0OutBL,PORT=YnOutB,AC=Bit"
-	}
-	display[1] {
-		label="C200-C207 outputs (bit access)"
-		name="Koyo_8outputs.adl"
-		args="P=KOYO2:,R=C20,A=OutB,L=C200OutBL,PORT=C20nOutB,AC=Bit"
-	}
-	clr=14
-	bclr=4
-	label="Outputs"
-}
-"related display" {
-	object {
-		x=9
-		y=111
-		width=152
-		height=25
-	}
-	display[0] {
-		label="Octet asyn record"
-		name="asynRecord.adl"
-		args="P=KOYO2:,R=OctetAsyn"
-	}
-	display[2] {
-		name="l"
-	}
-	clr=14
-	bclr=4
-	label="Octet asyn record"
 }
