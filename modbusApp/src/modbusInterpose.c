@@ -190,7 +190,7 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
     unsigned char CRC_Lo = 0xFF; /* low byte of CRC initialized */
     int CRC_Index ;              /* will index into CRC lookup table */
     int i;
- 
+
     switch(pPvt->linkType) {
         case modbusLinkTCP:
             /* Build the MBAP header */
@@ -224,8 +224,8 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
                 CRC_Lo = CRC_Hi ^ CRC_Lookup_Hi[CRC_Index];
                 CRC_Hi = CRC_Lookup_Lo[CRC_Index];
             }
-            pPvt->buffer[numchars] = CRC_Lo;
-            pPvt->buffer[numchars+1] = CRC_Hi;
+            pPvt->buffer[numchars+1] = CRC_Lo;
+            pPvt->buffer[numchars+2] = CRC_Hi;
             /* Send the frame with the underlying driver */
             status = pPvt->pasynOctet->writeRaw(pPvt->octetPvt, pasynUser,
                                                 pPvt->buffer, (numchars + 3), 
@@ -252,9 +252,9 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
 
     switch(pPvt->linkType) {
         case modbusLinkTCP:
-            status = pPvt->pasynOctet->read(pPvt->octetPvt,
-                                            pasynUser, pPvt->buffer, 
-                                            (maxchars + mbapSize), 
+            nRead = maxchars + mbapSize;
+            status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
+                                            pPvt->buffer, nRead, 
                                             &nbytesActual, eomReason);
             /* Copy bytes beyond mbapHeader to output buffer */
             nRead = nbytesActual;
@@ -267,10 +267,11 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             break;
 
         case modbusLinkRTU:
-            status = pPvt->pasynOctet->read(pPvt->octetPvt,
-                                            pasynUser, pPvt->buffer, 
-                                            (maxchars + 1), 
+            nRead = maxchars + 3;
+            status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
+                                            pPvt->buffer, nRead,
                                             &nbytesActual, eomReason);
+printf("readIt: maxChars=%d, nRead=%d, nbytesActual=%d\n", maxchars, nRead, nbytesActual);
             /* Copy bytes beyond address to output buffer */
             nRead = nbytesActual;
             nRead = nRead - 3;
