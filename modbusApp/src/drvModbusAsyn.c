@@ -1220,7 +1220,7 @@ static void readPoller(PLC_ID pPlc)
                               " mask=0x%x, callback=%p, data=0x%x\n",
                               pUInt32D, pUInt32D->mask, pUInt32D->callback, uInt32Value);
                     pUInt32D->callback(pUInt32D->userPvt, pUInt32D->pasynUser,
-                                       uInt32Value, pPlc->ioStatus);
+                                       uInt32Value);
                 }
                 pnode = (interruptNode *)ellNext(&pnode->node);
             }
@@ -1253,7 +1253,7 @@ static void readPoller(PLC_ID pPlc)
                       "callback=%p, data=0x%x\n",
                       pInt32, pInt32->callback, int32Value);
             pInt32->callback(pInt32->userPvt, pInt32->pasynUser,
-                             int32Value, pPlc->ioStatus);
+                             int32Value);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
         pasynManager->interruptEnd(pPlc->asynInt32InterruptPvt);
@@ -1284,7 +1284,7 @@ static void readPoller(PLC_ID pPlc)
                       "callback=%p, data=%f\n",
                       pFloat64, pFloat64->callback, float64Value);
             pFloat64->callback(pFloat64->userPvt, pFloat64->pasynUser,
-                               float64Value, pPlc->ioStatus);
+                               float64Value);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
         pasynManager->interruptEnd(pPlc->asynFloat64InterruptPvt);
@@ -1310,7 +1310,7 @@ static void readPoller(PLC_ID pPlc)
                           "callback=%p\n",
                            pInt32Array, pInt32Array->callback);
                 pInt32Array->callback(pInt32Array->userPvt, pInt32Array->pasynUser,
-                                      int32Data, pPlc->modbusLength, pPlc->ioStatus);
+                                      int32Data, pPlc->modbusLength);
                 pnode = (interruptNode *)ellNext(&pnode->node);
             }
             pasynManager->interruptEnd(pPlc->asynInt32ArrayInterruptPvt);
