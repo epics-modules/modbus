@@ -29,6 +29,7 @@
 #include "modbusInterpose.h"
 #include "modbus.h"
 
+static char *driver="modbusInterpose";
 
 /* Table of CRC values for high-order byte */
 static unsigned char CRC_Lookup_Hi[] = {
@@ -53,7 +54,7 @@ static unsigned char CRC_Lookup_Hi[] = {
 };
 
 /* Table of CRC values for low-order byte */
-static char CRC_Lookup_Lo[] = {
+static unsigned char CRC_Lookup_Lo[] = {
 0x00, 0xC0, 0xC1, 0x01, 0xC3, 0x03, 0x02, 0xC2, 0xC6, 0x06, 0x07, 0xC7, 0x05, 0xC5, 0xC4,
 0x04, 0xCC, 0x0C, 0x0D, 0xCD, 0x0F, 0xCF, 0xCE, 0x0E, 0x0A, 0xCA, 0xCB, 0x0B, 0xC9, 0x09,
 0x08, 0xC8, 0xD8, 0x18, 0x19, 0xD9, 0x1B, 0xDB, 0xDA, 0x1A, 0x1E, 0xDE, 0xDF, 0x1F, 0xDD,
@@ -78,7 +79,7 @@ typedef struct modbusPvt {
     char          *portName;
     int           slaveAddress;
     asynInterface modbusInterface;
-    asynOctet     modbusOctet;           /* Our table of function pointers NOT USED NOW*/
+    asynOctet     modbusOctet;           /* Our table of function pointers NOT USED NOW */
     asynOctet     *pasynOctet;           /* Table for low level driver */
     void          *octetPvt;
     modbusLinkType linkType;
@@ -171,6 +172,59 @@ epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress,
     free(pPvt);
     return -1;
 }
+
+
+static void computeCRC(char *buffer, int nchars, unsigned char *CRC_Lo, unsigned char *CRC_Hi) 
+{
+    int CRC_Index ;              /* will index into CRC lookup table */
+    int i;
+
+    /* This algorithm is taken from the official Modbus over serial line documentation */
+    *CRC_Hi = 0xFF; /* high byte of CRC initialized */
+    *CRC_Lo = 0xFF; /* low byte of CRC initialized */
+    for (i=0; i<nchars; i++) {
+        CRC_Index = *CRC_Lo ^ (unsigned char)buffer[i];
+        *CRC_Lo = *CRC_Hi ^ CRC_Lookup_Hi[CRC_Index];
+        *CRC_Hi = CRC_Lookup_Lo[CRC_Index];
+    }
+}
+
+static void computeLRC(char *buffer, int nchars, unsigned char *LRC) 
+{
+    int i;
+
+    *LRC = 0;
+    for (i=0; i<nchars; i++) {
+        *LRC += buffer[i];
+    }
+    *LRC = (unsigned char) -((char)*LRC);
+}
+
+static void encodeASCII(char *buffer, unsigned char value) 
+{
+    unsigned char temp;
+    
+    temp = value >> 4;
+    if (temp < 10) temp+= '0'; else temp+= 'A'-10;
+    *buffer++ = (char)temp;
+    temp = value & 0x0F;
+    if (temp < 10) temp+= '0'; else temp+= 'A'-10;
+    *buffer = (char)temp;
+}
+
+static void decodeASCII(char *buffer, char *value) 
+{
+    char temp;
+    unsigned char uvalue;
+    
+    temp = *buffer++;
+    if (temp > '9') uvalue = temp - 'A' + 10; else uvalue = temp - '0';
+    uvalue = uvalue << 4;
+    temp = *buffer;
+    if (temp > '9') uvalue += temp - 'A' + 10; else uvalue += temp - '0';
+    *value = (char)uvalue;
+}
+
 
 /* asynOctet methods */
 static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
@@ -180,15 +234,17 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
     modbusPvt  *pPvt = (modbusPvt *)ppvt;
     asynStatus status = asynSuccess;
     size_t     nbytesActual = 0;
+    size_t     nWrite;
     modbusMBAPHeader mbapHeader;
     unsigned short transactId=1;
     unsigned short cmdLength = numchars + 1;
     unsigned char  destId=0xFF;
     unsigned short modbusEncoding=0;
     int mbapSize = sizeof(modbusMBAPHeader);
-    unsigned char CRC_Hi = 0xFF; /* high byte of CRC initialized */
-    unsigned char CRC_Lo = 0xFF; /* low byte of CRC initialized */
-    int CRC_Index ;              /* will index into CRC lookup table */
+    unsigned char CRC_Hi;
+    unsigned char CRC_Lo;
+    unsigned char LRC;
+    char *pout;
     int i;
 
     switch(pPvt->linkType) {
@@ -206,8 +262,9 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
             memcpy(pPvt->buffer + mbapSize, data, numchars);
 
             /* Send the frame with the underlying driver */
+            nWrite = numchars + mbapSize;
             status = pPvt->pasynOctet->writeRaw(pPvt->octetPvt, pasynUser,
-                                                pPvt->buffer, (numchars + mbapSize), 
+                                                pPvt->buffer, nWrite, 
                                                 &nbytesActual);
             *nbytesTransfered = (nbytesActual > numchars) ? numchars : nbytesActual;
             break;
@@ -217,45 +274,77 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
             pPvt->buffer[0] = pPvt->slaveAddress;
             /* Next is the Modbus data */
             memcpy(pPvt->buffer+1, data, numchars);
-            /* Next is the CRC */
-            /* This algorithm is taken from the official Modbus over serial line documentation */
-            for (i=0; i<numchars+1; i++) {
-                CRC_Index = CRC_Lo ^ pPvt->buffer[i];
-                CRC_Lo = CRC_Hi ^ CRC_Lookup_Hi[CRC_Index];
-                CRC_Hi = CRC_Lookup_Lo[CRC_Index];
-            }
+            /* Compute the CRC */
+            computeCRC(pPvt->buffer, numchars+1, &CRC_Lo, &CRC_Hi);
             pPvt->buffer[numchars+1] = CRC_Lo;
             pPvt->buffer[numchars+2] = CRC_Hi;
             /* Send the frame with the underlying driver */
+            nWrite = numchars + 3;
             status = pPvt->pasynOctet->writeRaw(pPvt->octetPvt, pasynUser,
-                                                pPvt->buffer, (numchars + 3), 
+                                                pPvt->buffer, nWrite, 
                                                 &nbytesActual);
             *nbytesTransfered = (nbytesActual > numchars) ? numchars : nbytesActual;
             break;
 
         case modbusLinkASCII:
+            /* Put slave address and data in buffer to compute LRC */
+            pPvt->buffer[0] = pPvt->slaveAddress;
+            memcpy(pPvt->buffer+1, data, numchars);
+            computeLRC(pPvt->buffer, numchars+1, &LRC);
+            /* Now convert to ASCII */
+            /* First byte in the output is : */
+            pout = pPvt->buffer;
+            *pout = ':';
+            pout++;
+           /* Next is the slave address */
+            encodeASCII(pout, pPvt->slaveAddress);
+            pout += 2;
+            for (i=0; i<numchars; i++) {
+                encodeASCII(pout, data[i]);
+                pout+=2;
+            }
+           /* Next is the LRC */
+            encodeASCII(pout, LRC);
+            pout+=2;
+            /* The driver will add the CR/LF */
+            /* Send the frame with the underlying driver */
+            nWrite = pout - pPvt->buffer;
+            status = pPvt->pasynOctet->write(pPvt->octetPvt, pasynUser,
+                                             pPvt->buffer, nWrite, 
+                                             &nbytesActual);
+            *nbytesTransfered = (nbytesActual > numchars) ? numchars : nbytesActual;
 
             break;
     }
     return status;
 }
 
+
 static asynStatus readIt(void *ppvt, asynUser *pasynUser,
                          char *data, size_t maxchars, size_t *nbytesTransfered,
                          int *eomReason)
 {
     modbusPvt *pPvt = (modbusPvt *)ppvt;
-    int nRead;
-    int nbytesActual;
+    size_t nRead;
+    size_t nbytesActual;
     asynStatus status = asynSuccess;
     int mbapSize = sizeof(modbusMBAPHeader);
+    unsigned char CRC_Hi;
+    unsigned char CRC_Lo;
+    unsigned char LRC;
+    int i;
+    char *pin;
 
+    /* Set number read to 0 in case of errors */
+    *nbytesTransfered = 0;
+    
     switch(pPvt->linkType) {
         case modbusLinkTCP:
             nRead = maxchars + mbapSize;
             status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
                                             pPvt->buffer, nRead, 
                                             &nbytesActual, eomReason);
+            if (status != asynSuccess) return status;
             /* Copy bytes beyond mbapHeader to output buffer */
             nRead = nbytesActual;
             nRead = nRead - mbapSize;
@@ -271,7 +360,15 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
                                             pPvt->buffer, nRead,
                                             &nbytesActual, eomReason);
-printf("readIt: maxChars=%d, nRead=%d, nbytesActual=%d\n", maxchars, nRead, nbytesActual);
+            if (status != asynSuccess) return status;
+            /* Compute and check the CRC including the CRC bytes themselves, should be 0 */
+            computeCRC(pPvt->buffer, nbytesActual, &CRC_Lo, &CRC_Hi);
+            if ((CRC_Lo != 0) || (CRC_Hi != 0)) {
+                asynPrint(pasynUser, ASYN_TRACE_ERROR,
+                          "%s::readIt, CRC error\n",
+                          driver);
+                return asynError;
+            }
             /* Copy bytes beyond address to output buffer */
             nRead = nbytesActual;
             nRead = nRead - 3;
@@ -282,15 +379,44 @@ printf("readIt: maxChars=%d, nRead=%d, nbytesActual=%d\n", maxchars, nRead, nbyt
             *nbytesTransfered = nRead;
             break;
 
-
         case modbusLinkASCII:
-
+            /* The maximum number of characters is 2*maxchars + 7 (7= :(1), address(2), LRC(2), CR/LF(2) */
+            nRead = maxchars*2 + 7;
+            status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
+                                            pPvt->buffer, nRead,
+                                            &nbytesActual, eomReason);
+            if (status != asynSuccess) return status;
+            pin = pPvt->buffer;
+            if (*pin != ':') return asynError;
+            pin += 1;
+            for (i=0; i<(nbytesActual-1)/2; i++) {
+                decodeASCII(pin, &data[i]);
+                pin+=2;
+            }
+            /* Number of bytes in buffer for computing LRC is i */
+            nRead = i;
+            computeLRC(data, nRead, &LRC);
+            if (LRC != data[i]) {
+                asynPrint(pasynUser, ASYN_TRACE_ERROR,
+                          "%s::readIt, LRC error\n",
+                          driver);
+                return asynError;
+            }
+            /* The buffer now contains binary data, but the first byte is address.  
+             * and last byte is LRC; Copy over buffer so first byte is function code */
+            nRead = nRead - 2;
+            if (nRead < 0) nRead = 0;
+            if (nRead > maxchars) nRead = maxchars;
+            if (nRead > 0) memmove(data, data + 1, nRead);
+            if (nRead<maxchars) data[nRead] = 0; /*null terminate string if room*/
+            *nbytesTransfered = nRead;
             break;
     }
      
     return status;
 }
 
+
 static asynStatus writeRaw(void *ppvt, asynUser *pasynUser,
     const char *data, size_t numchars, size_t *nbytesTransfered)
 {
@@ -359,7 +485,6 @@ static asynStatus getOutputEos(void *ppvt, asynUser *pasynUser,
     char *eos, int eossize, int *eoslen)
 {
     modbusPvt *pPvt = (modbusPvt *)ppvt;
-printf("modbusInterpose getOutputEos called\n");
     return pPvt->pasynOctet->getOutputEos(pPvt->octetPvt, pasynUser,
                                      eos, eossize, eoslen);
 }
