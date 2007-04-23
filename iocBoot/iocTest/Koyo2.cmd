@@ -4,9 +4,41 @@
 dbLoadDatabase("../../dbd/modbus.dbd")
 modbus_registerRecordDeviceDriver(pdbbase)
 
-drvAsynIPPortConfigure("Koyo2","164.54.160.200:502",0,1,1)
+# Use the following commands for TCP/IP
+#drvAsynIPPortConfigure(const char *portName,
+#                       const char *hostInfo,
+#                       unsigned int priority,
+#                       int noAutoConnect,
+#                       int noProcessEos);
+#drvAsynIPPortConfigure("Koyo2","164.54.160.38:502",0,1,1)
+#modbusInterposeConfig(const char *portName,
+#                      int slaveAddress,
+#                      modbusLinkType linkType)
 modbusInterposeConfig("Koyo2",0,0)
 
+# Use the following commands for serial RTU or ASCII
+#drvAsynSerialPortConfigure(const char *portName,
+#                           const char *ttyName,
+#                           unsigned int priority,
+#                           int noAutoConnect,
+#                           int noProcessEos);
+drvAsynSerialPortConfigure("Koyo2", "/dev/ttyS1", 0, 0, 0)
+asynSetOption("Koyo2",0,"baud","38400")
+asynSetOption("Koyo2",0,"parity","none")
+asynSetOption("Koyo2",0,"bits","8")
+asynSetOption("Koyo2",0,"stop","1")
+
+# Use the following command for serial RTU
+modbusInterposeConfig("Koyo2",1,1)
+
+# Use the following commands for serial ASCII
+#asynOctetSetOutputEos("Koyo2",0,"\r\n")
+#asynOctetSetInputEos("Koyo2",0,"\r\n")
+#modbusInterposeConfig("Koyo2",1,2)
+
+# Trace flags for asynOctet driver
+asynSetTraceIOMask("Koyo2",0,4)
+#asynSetTraceMask("Koyo2",0,9)
 
 # NOTE: We use octal numbers for the start address and length (leading zeros)
 #       to be consistent with the PLC nomenclature.  This is optional, decimal

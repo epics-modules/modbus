@@ -4,21 +4,39 @@
 dbLoadDatabase("../../dbd/modbus.dbd")
 modbus_registerRecordDeviceDriver(pdbbase)
 
-# Use the following command for TCP/IP
-#drvAsynIPPortConfigure(const char *portName, const char *hostInfo,
-#                           unsigned int priority, int noAutoConnect,
-#                           int noProcessEos);
-drvAsynIPPortConfigure("Koyo1","164.54.160.200:502",0,1,1)
+# Use the following commands for TCP/IP
+#drvAsynIPPortConfigure(const char *portName, 
+#                       const char *hostInfo,
+#                       unsigned int priority, 
+#                       int noAutoConnect,
+#                       int noProcessEos);
+#drvAsynIPPortConfigure("Koyo1","164.54.160.38:502",0,1,1)
+#modbusInterposeConfig(const char *portName, 
+#                      int slaveAddress, 
+#                      modbusLinkType linkType)
 modbusInterposeConfig("Koyo1",0,0)
 
-# Use the following commands for serial RTU
-#drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
-#asynSetOption("Koyo1",0,"baud","9600")
-#asynSetOption("Koyo1",0,"parity","none")
-#asynSetOption("Koyo1",0,"bits","8")
-#asynSetOption("Koyo1",0,"stop","1")
-#modbusInterposeConfig("Koyo1",1,1)
+# Use the following commands for serial RTU or ASCII
+#drvAsynSerialPortConfigure(const char *portName, 
+#                           const char *ttyName,
+#                           unsigned int priority, 
+#                           int noAutoConnect,
+#                           int noProcessEos);
+drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
+asynSetOption("Koyo1",0,"baud","38400")
+asynSetOption("Koyo1",0,"parity","none")
+asynSetOption("Koyo1",0,"bits","8")
+asynSetOption("Koyo1",0,"stop","1")
 
+# Use the following command for serial RTU
+modbusInterposeConfig("Koyo1",1,1)
+
+# Use the following commands for serial ASCII
+#asynOctetSetOutputEos("Koyo1",0,"\r\n")
+#asynOctetSetInputEos("Koyo1",0,"\r\n")
+#modbusInterposeConfig("Koyo1",1,2)
+
+# Trace flags for asynOctet driver
 asynSetTraceIOMask("Koyo1",0,4)
 #asynSetTraceMask("Koyo1",0,9)
 
