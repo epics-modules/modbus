@@ -31,9 +31,9 @@ LIB_SRCS += modbusInterpose.c
 PROD_IOC = modbusApp
 
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
-PROD_SRCS += modbus_registerRecordDeviceDriver.cpp
-PROD_SRCS_DEFAULT += modbusMain.cpp
-PROD_SRCS_vxWorks += -nil-
+PROD_SRCS_DEFAULT += modbus_registerRecordDeviceDriver.cpp modbusMain.cpp
+PROD_SRCS_WIN32   += modbusWin32_registerRecordDeviceDriver.cpp modbusMain.cpp
+PROD_SRCS_vxWorks += modbus_registerRecordDeviceDriver.cpp
 
 PROD_LIBS += modbus
 PROD_LIBS += asyn
