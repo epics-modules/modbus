@@ -96,7 +96,7 @@ display {
 	}
 	plotcom {
 		title="Histogram of cycle times $(P)$(R)"
-		xlabel="Ethernet write/read cycle time (msec)"
+		xlabel="Write/read cycle time (msec)"
 		ylabel="Number of events"
 		clr=14
 		bclr=5
