@@ -238,7 +238,6 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
     modbusMBAPHeader mbapHeader;
     unsigned short transactId=1;
     unsigned short cmdLength = numchars + 1;
-    unsigned char  destId=0xFF;
     unsigned short modbusEncoding=0;
     int mbapSize = sizeof(modbusMBAPHeader);
     unsigned char CRC_Hi;
@@ -253,7 +252,7 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
             mbapHeader.transactId    = htons(transactId);
             mbapHeader.protocolType  = htons(modbusEncoding);
             mbapHeader.cmdLength     = htons(cmdLength);
-            mbapHeader.destId        = destId;
+            mbapHeader.destId        = pPvt->slaveAddress;
  
             /* Copy the MBAP header to the local buffer */
             memcpy(pPvt->buffer, &mbapHeader, mbapSize);
