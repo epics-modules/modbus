@@ -1468,7 +1468,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             byteCount = pCharOut - writeMultipleReq->data;
             writeMultipleReq->byteCount = byteCount;
             asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
-                        writeMultipleReq->data, byteCount, 
+                        (char *)writeMultipleReq->data, byteCount, 
                         "%s::doModbusIO port %s WRITE_MULTIPLE_COILS",
                         driver, pPlc->portName);
             requestSize = sizeof(modbusWriteMultipleRequest) + byteCount - 1;
@@ -1487,7 +1487,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             byteCount = 2*len;
             writeMultipleReq->byteCount = htons(byteCount);
             asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
-                        writeMultipleReq->data, byteCount, 
+                        (char *)writeMultipleReq->data, byteCount, 
                         "%s::doModbusIO port %s WRITE_MULTIPLE_REGISTERS",
                         driver, pPlc->portName);
             requestSize = sizeof(modbusWriteMultipleRequest) + byteCount - 1;
