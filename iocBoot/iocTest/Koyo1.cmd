@@ -1,4 +1,4 @@
-# st.cmd for modbus
+# Koyo1.cmd
 < envPaths
 
 dbLoadDatabase("../../dbd/modbus.dbd")
@@ -10,7 +10,7 @@ modbus_registerRecordDeviceDriver(pdbbase)
 #                       unsigned int priority, 
 #                       int noAutoConnect,
 #                       int noProcessEos);
-#drvAsynIPPortConfigure("Koyo1","164.54.160.38:502",0,1,1)
+drvAsynIPPortConfigure("Koyo1","164.54.160.200:502",0,1,1)
 #modbusInterposeConfig(const char *portName, 
 #                      int slaveAddress, 
 #                      modbusLinkType linkType)
@@ -22,23 +22,19 @@ modbusInterposeConfig("Koyo1",0,0)
 #                           unsigned int priority, 
 #                           int noAutoConnect,
 #                           int noProcessEos);
-drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
-asynSetOption("Koyo1",0,"baud","38400")
-asynSetOption("Koyo1",0,"parity","none")
-asynSetOption("Koyo1",0,"bits","8")
-asynSetOption("Koyo1",0,"stop","1")
+#drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
+#asynSetOption("Koyo1",0,"baud","38400")
+#asynSetOption("Koyo1",0,"parity","none")
+#asynSetOption("Koyo1",0,"bits","8")
+#asynSetOption("Koyo1",0,"stop","1")
 
 # Use the following command for serial RTU
-modbusInterposeConfig("Koyo1",1,1)
+#modbusInterposeConfig("Koyo1",1,1)
 
 # Use the following commands for serial ASCII
 #asynOctetSetOutputEos("Koyo1",0,"\r\n")
 #asynOctetSetInputEos("Koyo1",0,"\r\n")
 #modbusInterposeConfig("Koyo1",1,2)
-
-# Trace flags for asynOctet driver
-asynSetTraceIOMask("Koyo1",0,4)
-#asynSetTraceMask("Koyo1",0,9)
 
 # NOTE: We use octal numbers for the start address and length (leading zeros)
 #       to be consistent with the PLC nomenclature.  This is optional, decimal
@@ -87,14 +83,14 @@ drvModbusAsynConfigure("K1_Cn_Out_Word", "Koyo1", 6, 040600, 020,    0,  1,  "Ko
 # We access the same 16 words (C0-C377) as array outputs (256 bits). Function code=16.
 drvModbusAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 16, 040600, 020,    0,   1, "Koyo")
 
-# Hex trace format on octet server
+# Enable ASYN_TRACEIO_HEX on octet server
 asynSetTraceIOMask("Koyo1",0,4)
-# Turn on all debugging on octet server
-#asynSetTraceMask("Koyo1",0,255)
+# Enable ASYN_TRACE_ERROR and ASYN_TRACEIO_DRIVER on octet server
+#asynSetTraceMask("Koyo1",0,9)
 
-# Hex trace format on modbus server
+# Enable ASYN_TRACEIO_HEX on modbus server
 asynSetTraceIOMask("K1_Yn_In_Bit",0,4)
-# Turn on all debugging on modbus server
+# Enable all debugging on modbus server
 #asynSetTraceMask("K1_Yn_In_Bit",0,255)
 # Dump up to 512 bytes in asynTrace
 asynSetTraceIOTruncateSize("K1_Yn_In_Bit",0,512)
