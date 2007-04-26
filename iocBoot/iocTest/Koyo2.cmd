@@ -1,4 +1,4 @@
-# st.cmd for modbus
+# Koyo2.cmd
 < envPaths
 
 dbLoadDatabase("../../dbd/modbus.dbd")
@@ -14,7 +14,7 @@ modbus_registerRecordDeviceDriver(pdbbase)
 #modbusInterposeConfig(const char *portName,
 #                      int slaveAddress,
 #                      modbusLinkType linkType)
-modbusInterposeConfig("Koyo2",0,0)
+#modbusInterposeConfig("Koyo2",0,0)
 
 # Use the following commands for serial RTU or ASCII
 #drvAsynSerialPortConfigure(const char *portName,
@@ -35,10 +35,6 @@ modbusInterposeConfig("Koyo2",1,1)
 #asynOctetSetOutputEos("Koyo2",0,"\r\n")
 #asynOctetSetInputEos("Koyo2",0,"\r\n")
 #modbusInterposeConfig("Koyo2",1,2)
-
-# Trace flags for asynOctet driver
-asynSetTraceIOMask("Koyo2",0,4)
-#asynSetTraceMask("Koyo2",0,9)
 
 # NOTE: We use octal numbers for the start address and length (leading zeros)
 #       to be consistent with the PLC nomenclature.  This is optional, decimal
@@ -63,15 +59,15 @@ drvModbusAsynConfigure("K2_Cn_Out_Bit",      "Koyo2",    5,  06000,  0400,   0, 
 # Access 32 words (V3000-V3040) as inputs.  Function code=3, data type signed BCD.
 drvModbusAsynConfigure("K2_V3000_In_Word",   "Koyo2",    3,  03000,  040,    3,  100,    "Koyo")
 
-# Hex trace format on octet server
+# Enable ASYN_TRACEIO_HEX on octet server
 asynSetTraceIOMask("Koyo2",0,4)
-# Turn asynTraceIODriver on octet server
+# Enable ASYN_TRACE_ERROR and ASYN_TRACEIO_DRIVER on octet server
 #asynSetTraceMask("Koyo2",0,9)
 
-# Hex trace format on modbus server
+# Enable ASYN_TRACEIO_HEX on modbus server
 asynSetTraceIOMask("K2_V3000_In_Word",0,4)
-# Turn on all debugging on modbus server
-#asynSetTraceMask("K2_V3000_In_Word",0,255)
+# Enable ASYN_TRACE_ERROR, ASYN_TRACEIO_DEVICE, and ASYN_TRACEIO_DRIVER on modbus server
+#asynSetTraceMask("K2_V3000_In_Word",0,11)
 
 dbLoadTemplate("Koyo2.substitutions")
 
