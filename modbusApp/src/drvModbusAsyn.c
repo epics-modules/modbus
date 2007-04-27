@@ -1438,7 +1438,12 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             writeSingleReq = (modbusWriteSingleRequest *)pPlc->modbusRequest;
             writeSingleReq->fcode = function;
             writeSingleReq->startReg = htons((unsigned short)start);
-            writeSingleReq->data = htons((unsigned short)*data);
+            writeSingleReq->data = (unsigned short)*data;
+            /* Convert from binary if required */
+            if (pPlc->dataType != dataTypeBinary) {
+                writeSingleReq->data = convertFromBinary(writeSingleReq->data, pPlc->dataType);
+            } 
+            writeSingleReq->data = htons(writeSingleReq->data);
             requestSize = sizeof(modbusWriteSingleRequest);
             replySize = sizeof(modbusWriteSingleResponse);
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
@@ -1481,11 +1486,15 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             pShortIn = (unsigned short *)data;
             pShortOut = (unsigned short *)&writeMultipleReq->data;
             for (i=0; i<len; i++) {
-                *pShortOut++ = htons(*pShortIn++);
+                *pShortOut = *pShortIn++;
+                if (pPlc->dataType != dataTypeBinary) {
+                    *pShortOut = convertFromBinary(*pShortOut, pPlc->dataType);
+                }
+                *pShortOut++ = htons(*pShortOut);
             }
             writeMultipleReq->numOutput = htons(len);
             byteCount = 2*len;
-            writeMultipleReq->byteCount = htons(byteCount);
+            writeMultipleReq->byteCount = byteCount;
             asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
                         (char *)writeMultipleReq->data, byteCount, 
                         "%s::doModbusIO port %s WRITE_MULTIPLE_REGISTERS\n",
@@ -1579,7 +1588,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
             pShortIn = (unsigned short *)&readResp->data;
             for (i=0; i<(int)nread; i++) { 
                 data[i] = ntohs(pShortIn[i]);
-             }
+            }
             /* Convert to binary if required */
             if (pPlc->dataType != dataTypeBinary) {
                 for (i=0; i<(int)nread; i++) { 
@@ -1634,7 +1643,7 @@ static unsigned short convertToBinary(unsigned short value,
                 value &= ~signMask;
             }
         case dataTypeBCD:
-            for(i=0; i<4; i++) {
+            for (i=0; i<4; i++) {
                 result += (value & 0xF)*mult;
                 mult = mult*10;
                 value = value >> 4;
@@ -1646,7 +1655,7 @@ static unsigned short convertToBinary(unsigned short value,
             result = value;
             if (result & signMask) {
                 result &= ~signMask;
-                result = -result;
+                result = -(short)result;
             }
             break;
             
@@ -1661,8 +1670,42 @@ static unsigned short convertToBinary(unsigned short value,
 static unsigned short convertFromBinary(unsigned short value,
                                         modbusDataType dataType)
 {
-    errlogPrintf("%s::convertFromBinary not yet implemented\n", driver);
-    return(asynError);
+    unsigned short result=0;
+    int i;
+    int signMask = 0x8000;
+    int div=1000;
+    int digit;
+    int negative = 0;
+
+    switch (dataType) {
+        case dataTypeSignedBCD:
+            if ((short)value < 0) {
+                negative=1;
+                value = -(short)value;
+            }
+        case dataTypeBCD:
+            for (i=0; i<4; i++) {
+                result = result << 4;
+                digit = value / div;
+                result |= digit;
+                value = value - digit*div;
+                div = div/10;
+            }
+            if (negative) result |= signMask;
+            break;
+
+        case dataTypeSignedBinary:
+            result = value;
+            if (result & signMask) {
+                result = -(short)result;
+                result |= signMask;
+            }
+            break;
+
+        default:
+            break;
+    }
+    return(result);
 }
 
 
