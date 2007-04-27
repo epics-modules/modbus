@@ -20,6 +20,7 @@ DB += mbbiDirect.template
 DB += mbboDirect.template
 DB += ai.template
 DB += ai_average.template
+DB += ao.template
 DB += intarray_in.template
 DB += intarray_out.template
 DB += statistics.template
