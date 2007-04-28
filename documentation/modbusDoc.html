@@ -94,7 +94,7 @@ Modbus supports the following 3 communication-link layers:
   </TBODY>
 </TABLE>
 <P>
-This <B>modbus</B> package supports all 3 of the above Modbus communication layers.
+This <B>modbus</B> package supports all 3 of the above Modbus communication-link layers.
 <P>
 <H3>Modbus data types</H3>
 Modbus provides access to the following 4 types of data:
@@ -539,7 +539,8 @@ command:
 <pre>
 modbusInterposeConfig(portName, 
                       slaveAddress,
-                      linkType)
+                      linkType,
+                      timeoutMsec)
 </pre>
 </pre>
 <TABLE style="TEXT-ALIGN: left" cellSpacing=2 cellPadding=2 border=1>
@@ -557,6 +558,7 @@ modbusInterposeConfig(portName,
     <TD>string</TD>
     <TD>Name of the asynIPPort or asynSerialPort previously created.</TD>
   </TR>
+  <TR>
     <TD>slaveAddress</TD>
     <TD>int</TD>
     <TD>The address of the Modbus slave.  This must match the configuration of the Modbus slave (PLC)
@@ -571,14 +573,20 @@ modbusInterposeConfig(portName,
         1 = RTU serial<BR>
         2 = ASCII serial</TD>
   </TR>
-<TR>
+  <TR>
+    <TD>timeoutMsec</TD>
+    <TD>int</TD>
+    <TD>The timeout in milliseconds for write and read operations to the underlying asynOctet driver.  
+        This value is used in place of the timeout parameter specified in EPICS device support.
+        If zero is specified then a default timeout of 2000 milliseconds is used.</TD>
+  </TR>
  </TBODY>
 </TABLE>
 <P>
 For the serial ASCII example above, after the asynOctetSetInputEos command, the following command would
-be used.  This assumes that the PLC is configured for Modbus slave address 1.
+be used.  This assumes that the PLC is configured for Modbus slave address 1, and a timeout of 1 second.
 <pre>
-modbusInterposeConfig("Koyo1",1,2)
+modbusInterposeConfig("Koyo1",1,2,1000)
 </pre>
 
 <H3>drvModbusAsynConfigure</H3>
@@ -1161,6 +1169,12 @@ These include:
         readings until the record is processed.</TD>
     <TD>P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN</TD>
   </TR>
+  </TR>
+    <TD>ao.template</TD>
+    <TD>asynInt32 support for ao record with LINEAR conversion</TD>
+    <TD>P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC</TD>
+  </TR>
+  <TR>
   <TR>
     <TD>asynRecord.template</TD>
     <TD>Support for asyn record.  Useful for controlling trace printing, and for debugging.</TD>
@@ -1318,8 +1332,9 @@ modbus_registerRecordDeviceDriver(pdbbase)
 #drvAsynIPPortConfigure("Koyo1","164.54.160.200:502",0,1,1)
 #modbusInterposeConfig(const char *portName, 
 #                      int slaveAddress, 
-#                      modbusLinkType linkType)
-#modbusInterposeConfig("Koyo1",0,0)
+#                      modbusLinkType linkType,
+#                      int timeoutMsec)
+#modbusInterposeConfig("Koyo1",0,0,1000)
 
 # Use the following commands for serial RTU or ASCII
 #drvAsynSerialPortConfigure(const char *portName, 
@@ -1334,12 +1349,12 @@ asynSetOption("Koyo1",0,"bits","8")
 asynSetOption("Koyo1",0,"stop","1")
 
 # Use the following command for serial RTU
-modbusInterposeConfig("Koyo1",1,1)
+modbusInterposeConfig("Koyo1",1,1,1000)
 
 # Use the following commands for serial ASCII
 #asynOctetSetOutputEos("Koyo1",0,"\r\n")
 #asynOctetSetInputEos("Koyo1",0,"\r\n")
-#modbusInterposeConfig("Koyo1",1,2)
+#modbusInterposeConfig("Koyo1",1,2,1000)
 
 # Trace flags for asynOctet driver
 asynSetTraceIOMask("Koyo1",0,4)   # Enable traceIOHex
@@ -1637,11 +1652,12 @@ packages from Triumf:
       driver will automatically reconnect if a PLC is disconnected from the network or rebooted.
       However, it is necessary for the PLC to be available when the IOC first boots
       or the "read once" values for drivers with Modbus write functions 
-      will not be read by EPICS.
+      will not be read by EPICS.  Work on improving connection management will be done for asyn R4-9.
 
   <LI>The asyn device support needs to be modified to allow exception callbacks to set record alarms.
       With that addition, records that have SCAN="Passive" or SCAN="I/O Intr" will go into alarm state
-      when the <b>modbus</b> driver detects that the Modbus slave is not reachable.
+      when the <b>modbus</b> driver detects that the Modbus slave is not reachable.  This is a
+      planned feature for asyn R4-9.
 </UL>
 
 
