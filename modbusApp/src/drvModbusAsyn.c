@@ -1,16 +1,16 @@
-/*----------------------------------------------------------------------**
-*  file:        drvModbusAsyn.c                                      **
-*-----------------------------------------------------------------------**
-* EPICS asyn driver support for Modbus protocol communication with PLCs **                                                          **
-* 
-* Mark Rivers, University of Chicago
-* Original Date March 3, 2007
-*
-* Based on the modtcp and plctcp code from Rolf Keitel of Triumf, with  **
-* work from Ivan So at NSLS.
-*-----------------------------------------------------------------------**
-*
-*/
+/*----------------------------------------------------------------------
+ *  file:        drvModbusAsyn.c                                         
+ *----------------------------------------------------------------------
+ * EPICS asyn driver support for Modbus protocol communication with PLCs
+ * 
+ * Mark Rivers, University of Chicago
+ * Original Date March 3, 2007
+ *
+ * Based on the modtcp and plctcp code from Rolf Keitel of Triumf, with
+ * work from Ivan So at NSLS.
+ *-----------------------------------------------------------------------
+ *
+ */
 
 
 /* ANSI C includes  */
@@ -51,6 +51,8 @@
 #define MAX_WRITE_WORDS      123        /* Modbus limit on number of words to write */
 #define HISTOGRAM_LENGTH     200        /* Length of time histogram */
 #define MODBUS_READ_TIMEOUT  2.0        /* Timeout for asynOctetSyncIO->writeRead */
+                                        /* Note: this value actually has no effect, the real 
+                                         * timeout is set in modbusInterposeConfig */
 #define MIN_POLL_DELAY      .001        /* Minimum polling delay */
 
 
@@ -336,7 +338,6 @@ int drvModbusAsynConfigure(char *portName,
                                        "drvModbusAsynConfigure");
     }
 
-    
     /* Connect to asyn octet port with asynOctetSyncIO */
     status = pasynOctetSyncIO->connect(octetPortName, 0, &pPlc->pasynUserOctet, 0);
     if (status != asynSuccess) {
