@@ -22,7 +22,7 @@ extern "C" {
 #endif  /* __cplusplus */
 
 epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress, 
-                                         modbusLinkType linkType);
+                                         modbusLinkType linkType, int timeoutMsec);
 
 #ifdef __cplusplus
 }
