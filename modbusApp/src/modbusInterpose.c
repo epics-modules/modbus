@@ -79,7 +79,6 @@ typedef struct modbusPvt {
     char          *portName;
     int           slaveAddress;
     asynInterface modbusInterface;
-    asynOctet     modbusOctet;           /* Our table of function pointers NOT USED NOW */
     asynOctet     *pasynOctet;           /* Table for low level driver */
     void          *octetPvt;
     modbusLinkType linkType;
@@ -116,7 +115,8 @@ static asynOctet octet = {
 };
 
 
-epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress, modbusLinkType linkType)
+epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress, 
+                                         modbusLinkType linkType)
 {
     modbusPvt     *pPvt;
     asynInterface *pasynInterface;
@@ -128,10 +128,6 @@ epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress,
     pPvt->slaveAddress = slaveAddress;
     pPvt->linkType = linkType;
     pPvt->modbusInterface.interfaceType = asynOctetType;
-    pPvt->modbusInterface.pinterface = &octet;
-    /* This line uses the copy of the interface, only need to provide replacement methods */
-    pPvt->modbusInterface.pinterface = &pPvt->modbusOctet;
-    /* This line uses the static structure where all methods must be implemented */
     pPvt->modbusInterface.pinterface = &octet;
     pPvt->modbusInterface.drvPvt = pPvt;
     pasynUser = pasynManager->createAsynUser(0,0);
@@ -149,12 +145,6 @@ epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress,
                portName, pasynUser->errorMessage);
         goto bad;
     }
-
- 
-    /* Make a copy of that interface and replace the function pointers we are overriding*/
-    memcpy(&pPvt->modbusOctet, pasynInterface->pinterface, sizeof(asynOctet));
-    pPvt->modbusOctet.read = readIt;
-    pPvt->modbusOctet.write = writeIt;
     
     status = pasynManager->interposeInterface(portName, 0,
        &pPvt->modbusInterface, &pasynInterface);
@@ -164,7 +154,7 @@ epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress,
     }
     pPvt->pasynOctet = (asynOctet *)pasynInterface->pinterface;
     pPvt->octetPvt = pasynInterface->drvPvt;
-        
+
     return(0);
     
     bad:
@@ -174,7 +164,8 @@ epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress,
 }
 
 
-static void computeCRC(char *buffer, int nchars, unsigned char *CRC_Lo, unsigned char *CRC_Hi) 
+static void computeCRC(char *buffer, int nchars, 
+                       unsigned char *CRC_Lo, unsigned char *CRC_Hi) 
 {
     int CRC_Index ;              /* will index into CRC lookup table */
     int i;
@@ -360,7 +351,8 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
                                             pPvt->buffer, nRead,
                                             &nbytesActual, eomReason);
             if (status != asynSuccess) return status;
-            /* Compute and check the CRC including the CRC bytes themselves, should be 0 */
+            /* Compute and check the CRC including the CRC bytes themselves, 
+             * should be 0 */
             computeCRC(pPvt->buffer, nbytesActual, &CRC_Lo, &CRC_Hi);
             if ((CRC_Lo != 0) || (CRC_Hi != 0)) {
                 asynPrint(pasynUser, ASYN_TRACE_ERROR,
@@ -379,7 +371,8 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             break;
 
         case modbusLinkASCII:
-            /* The maximum number of characters is 2*maxchars + 7 (7= :(1), address(2), LRC(2), CR/LF(2) */
+            /* The maximum number of characters is 2*maxchars + 7 
+             * (7= :(1), address(2), LRC(2), CR/LF(2) */
             nRead = maxchars*2 + 7;
             status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
                                             pPvt->buffer, nRead,
