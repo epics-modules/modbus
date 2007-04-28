@@ -13,8 +13,9 @@ modbus_registerRecordDeviceDriver(pdbbase)
 drvAsynIPPortConfigure("Koyo1","164.54.160.200:502",0,1,1)
 #modbusInterposeConfig(const char *portName, 
 #                      int slaveAddress, 
-#                      modbusLinkType linkType)
-modbusInterposeConfig("Koyo1",0,0)
+#                      modbusLinkType linkType,
+#                      int timeoutMsec)
+modbusInterposeConfig("Koyo1",0,0,1000)
 
 # Use the following commands for serial RTU or ASCII
 #drvAsynSerialPortConfigure(const char *portName, 
@@ -29,12 +30,12 @@ modbusInterposeConfig("Koyo1",0,0)
 #asynSetOption("Koyo1",0,"stop","1")
 
 # Use the following command for serial RTU
-#modbusInterposeConfig("Koyo1",1,1)
+#modbusInterposeConfig("Koyo1",1,1,1000)
 
 # Use the following commands for serial ASCII
 #asynOctetSetOutputEos("Koyo1",0,"\r\n")
 #asynOctetSetInputEos("Koyo1",0,"\r\n")
-#modbusInterposeConfig("Koyo1",1,2)
+#modbusInterposeConfig("Koyo1",1,2,1000)
 
 # NOTE: We use octal numbers for the start address and length (leading zeros)
 #       to be consistent with the PLC nomenclature.  This is optional, decimal
