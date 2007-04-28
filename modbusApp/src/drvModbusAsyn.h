@@ -1,11 +1,11 @@
 /* drvModbusAsyn.h
-
-    Author: Mark Rivers
-    4-Mar-2007
-
-    These are the public definitions for drvModbusAsyn.
-  
-*/
+ *
+ *   Author: Mark Rivers
+ *   4-Mar-2007
+ *
+ *   These are the public definitions for drvModbusAsyn.
+ * 
+ */
 
 /* These are the strings that device support passes to drivers via 
  * the asynDrvUser interface.

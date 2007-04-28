@@ -2,9 +2,10 @@
  * File:        modbus.h
  *
  * Notes:  This file includes a number of defines and structures for generating
- * modbus messages.  Note that the are structures packed.
+ * modbus messages.  Note that the structures are packed.
  *
- *=fdoc=====================================================================*/
+ * Author: Mark Rivers
+ */
 
 #ifndef MODBUS_H
 #define MODBUS_H
@@ -21,8 +22,9 @@
 
 #define MODBUS_EXCEPTION_FCN            0x80
 
-#define MAX_MODBUS_FRAME_SIZE 600         /* Buffer size for input and output packets.
-                                         * 513 (ASCII serial) should be enough, but we are safe. */
+#define MAX_MODBUS_FRAME_SIZE 600       /* Buffer size for input and output packets.
+                                         * 513 (max for ASCII serial) should be enough, 
+                                         * but we are being safe. */
 
 
 /* Pack all structures defined here on 1-byte boundaries */
