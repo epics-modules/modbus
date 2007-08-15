@@ -1219,7 +1219,7 @@ static void readPoller(PLC_ID pPlc)
                     asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                               "%s::readPoller, calling client %p"
                               " mask=0x%x, callback=%p, data=0x%x\n",
-                              pUInt32D, pUInt32D->mask, pUInt32D->callback, uInt32Value);
+                              driver, pUInt32D, pUInt32D->mask, pUInt32D->callback, uInt32Value);
                     pUInt32D->callback(pUInt32D->userPvt, pUInt32D->pasynUser,
                                        uInt32Value);
                 }
