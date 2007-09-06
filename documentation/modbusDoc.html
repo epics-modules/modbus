@@ -1658,6 +1658,12 @@ packages from Triumf:
       With that addition, records that have SCAN="Passive" or SCAN="I/O Intr" will go into alarm state
       when the <b>modbus</b> driver detects that the Modbus slave is not reachable.  This is a
       planned feature for asyn R4-9.
+
+  <LI>There is a known limitation with using serial interfaces.
+      It is not currently possible to have multiple Modbus servers connected to a single serial port.
+      This is a limitation of the asynInterposeInterface architecture used.
+      It may be fixed in a future release.
+
 </UL>
 
 
