@@ -1471,7 +1471,7 @@ static int doModbusIO(PLC_ID pPlc, int function, int start,
                 mask = mask << 1;
             }
             writeMultipleReq->numOutput = htons(len);
-            byteCount = pCharOut - writeMultipleReq->data;
+            byteCount = pCharOut - writeMultipleReq->data + 1;
             writeMultipleReq->byteCount = byteCount;
             asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
                         (char *)writeMultipleReq->data, byteCount, 
