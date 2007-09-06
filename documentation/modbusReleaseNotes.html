@@ -8,15 +8,27 @@
 <center>
 <h1>modbusTCP: Modbus TCP/IP Support - Release Notes</h1>
 
-<h1>April 30, 2007</h1>
+<h1>September 6, 2007</h1>
 </center>
 <hr>
+
+<center>
+<h2>September 6, 2007</h2>
+<h2>Release 1-2</h2>
+</center>
+<ul>
+  <li> Fixed bug in computing byteCount in WRITE_MULTIPLE_COILS function code.
+</ul>
+There is a known limitation with using serial interfaces.  
+It is not currently possible to have multiple Modbus servers connected to a single serial port.
+This is a limitation of the asynInterposeInterface architecture used.
+It may be fixed in a future release.
 
 <center>
 <h2>April 30, 2007</h2>
 <h2>Release 1-1</h2>
 </center>
-This is the initial release of this module.
+Initial release of modbus module.
 
 </body>
 </html>
