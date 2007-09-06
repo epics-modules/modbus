@@ -1,5 +1,4 @@
 # Koyo1.cmd
-< envPaths
 
 dbLoadDatabase("../../dbd/modbus.dbd")
 modbus_registerRecordDeviceDriver(pdbbase)
@@ -10,12 +9,12 @@ modbus_registerRecordDeviceDriver(pdbbase)
 #                       unsigned int priority, 
 #                       int noAutoConnect,
 #                       int noProcessEos);
-drvAsynIPPortConfigure("Koyo1","164.54.160.200:502",0,1,1)
+drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
 #modbusInterposeConfig(const char *portName, 
 #                      int slaveAddress, 
 #                      modbusLinkType linkType,
 #                      int timeoutMsec)
-modbusInterposeConfig("Koyo1",0,0,1000)
+modbusInterposeConfig("Koyo1",0,0,5000)
 
 # Use the following commands for serial RTU or ASCII
 #drvAsynSerialPortConfigure(const char *portName, 
