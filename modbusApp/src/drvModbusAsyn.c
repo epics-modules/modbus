@@ -34,13 +34,9 @@
 
 /* Asyn includes */
 #include "asynDriver.h"
-#include "asynDrvUser.h"
 #include "asynOctetSyncIO.h"
 #include "asynCommonSyncIO.h"
-#include "asynInt32.h"
-#include "asynUInt32Digital.h"
-#include "asynInt32Array.h"
-#include "asynFloat64.h"
+#include "asynStandardInterfaces.h"
 
 #include "modbus.h"
 #include "drvModbusAsyn.h"
@@ -106,16 +102,7 @@ typedef struct modbusStr
     int ioStatus;               /* I/O error status */
     asynUser  *pasynUserOctet;  /* asynUser for asynOctet interface to asyn octet port */ 
     asynUser  *pasynUserTrace;  /* asynUser for asynTrace on this port */
-    asynInterface asynCommon;   /* asyn interfaces for this port */
-    asynInterface asynDrvUser;
-    asynInterface asynUint32D;
-    asynInterface asynInt32;
-    asynInterface asynInt32Array;
-    asynInterface asynFloat64;
-    void *asynUInt32DInterruptPvt;  /* Pointers for callbacks */
-    void *asynInt32InterruptPvt;
-    void *asynFloat64InterruptPvt;
-    void *asynInt32ArrayInterruptPvt;
+    asynStandardInterfaces asynStdInterfaces;  /* Structure for standard interfaces */
     epicsMutexId mutexId;       /* Mutex for interlocking access to doModbusIO */
     int modbusFunction;         /* Modbus function code */
     int modbusStartAddress;     /* Modbus starting addess for this port */
@@ -347,25 +334,9 @@ int drvModbusAsynConfigure(char *portName,
         return(asynError);
     }
 
-    /* Create asyn interfaces and register with asynManager */
-    pPlc->asynCommon.interfaceType = asynCommonType;
-    pPlc->asynCommon.pinterface  = (void *)&drvCommon;
-    pPlc->asynCommon.drvPvt = pPlc;
-    pPlc->asynDrvUser.interfaceType = asynDrvUserType;
-    pPlc->asynDrvUser.pinterface  = (void *)&drvUser;
-    pPlc->asynDrvUser.drvPvt = pPlc;
-    pPlc->asynUint32D.interfaceType = asynUInt32DigitalType;
-    pPlc->asynUint32D.pinterface  = (void *)&drvUInt32D;
-    pPlc->asynUint32D.drvPvt = pPlc;
-    pPlc->asynInt32.interfaceType = asynInt32Type;
-    pPlc->asynInt32.pinterface  = (void *)&drvInt32;
-    pPlc->asynInt32.drvPvt = pPlc;
-    pPlc->asynFloat64.interfaceType = asynFloat64Type;
-    pPlc->asynFloat64.pinterface  = (void *)&drvFloat64;
-    pPlc->asynFloat64.drvPvt = pPlc;
-    pPlc->asynInt32Array.interfaceType = asynInt32ArrayType;
-    pPlc->asynInt32Array.pinterface  = (void *)&drvInt32Array;
-    pPlc->asynInt32Array.drvPvt = pPlc;
+    /* Create asynUser for asynTrace */
+    pPlc->pasynUserTrace = pasynManager->createAsynUser(0, 0);
+    pPlc->pasynUserTrace->userPvt = pPlc;
 
     status = pasynManager->registerPort(pPlc->portName,
                                         ASYN_MULTIDEVICE | canBlock,
@@ -378,90 +349,28 @@ int drvModbusAsynConfigure(char *portName,
                      driver, pPlc->portName);
         return(asynError);
     }
-    status = pasynManager->registerInterface(pPlc->portName, &pPlc->asynCommon);
-    if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register asynCommon interface.\n",
-                     driver, pPlc->portName);
-        return(asynError);
-    }
 
-    status = pasynManager->registerInterface(pPlc->portName, &pPlc->asynDrvUser);
-    if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register drvUser interface.\n",
-                     driver, pPlc->portName);
-        return(asynError);
-    }
+    /* Create asyn interfaces and register with asynManager */
+    pPlc->asynStdInterfaces.common.pinterface          = (void *)&drvCommon;
+    pPlc->asynStdInterfaces.drvUser.pinterface         = (void *)&drvUser;
+    pPlc->asynStdInterfaces.uInt32Digital.pinterface   = (void *)&drvUInt32D;
+    pPlc->asynStdInterfaces.int32.pinterface           = (void *)&drvInt32;
+    pPlc->asynStdInterfaces.float64.pinterface         = (void *)&drvFloat64;
+    pPlc->asynStdInterfaces.int32Array.pinterface      = (void *)&drvInt32Array;
+    pPlc->asynStdInterfaces.uInt32DigitalCanInterrupt  = 1;
+    pPlc->asynStdInterfaces.int32CanInterrupt          = 1;
+    pPlc->asynStdInterfaces.float64CanInterrupt        = 1;
+    pPlc->asynStdInterfaces.int32ArrayCanInterrupt     = 1;
 
-    status = pasynUInt32DigitalBase->initialize(pPlc->portName, &pPlc->asynUint32D);
-    if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register asynUInt32D interface.\n",
-                     driver, pPlc->portName);
-        return(asynError);
-    }
-    status = pasynManager->registerInterruptSource(pPlc->portName, &pPlc->asynUint32D,
-                                                   &pPlc->asynUInt32DInterruptPvt);
-    if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register asynUInt32D interrupt source\n",
-                     driver, pPlc->portName);
-        return(asynError);
-    }
 
-    status = pasynInt32Base->initialize(pPlc->portName, &pPlc->asynInt32);
+    status = pasynStandardInterfacesBase->initialize(pPlc->portName, &pPlc->asynStdInterfaces,
+                                                     pPlc->pasynUserTrace, pPlc);
     if (status != asynSuccess) {
         errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register asynInt32 interface.\n",
-                     driver, pPlc->portName);
+                     " can't register standard interfaces: %s\n",
+                     driver, pPlc->portName, pPlc->pasynUserTrace->errorMessage);
         return(asynError);
     }
-    pasynManager->registerInterruptSource(pPlc->portName, &pPlc->asynInt32,
-                                          &pPlc->asynInt32InterruptPvt);
-    if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register asynInt32 interrupt source\n",
-                     driver, pPlc->portName);
-        return(asynError);
-    }
-    
-    status = pasynFloat64Base->initialize(pPlc->portName, &pPlc->asynFloat64);
-    if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register asynFloat64 interface.\n",
-                     driver, pPlc->portName);
-        return(asynError);
-    }
-    pasynManager->registerInterruptSource(pPlc->portName, &pPlc->asynFloat64,
-                                          &pPlc->asynFloat64InterruptPvt);
-    if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register asynFloat64 interrupt source\n",
-                     driver, pPlc->portName);
-        return(asynError);
-    }
-
-    status = pasynInt32ArrayBase->initialize(pPlc->portName, &pPlc->asynInt32Array);
-    if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register asynInt32Array interface.\n",
-                     driver, pPlc->portName);
-        return(asynError);
-    }
-    status = pasynManager->registerInterruptSource(pPlc->portName, 
-                                                   &pPlc->asynInt32Array,
-                                                   &pPlc->asynInt32ArrayInterruptPvt);
-    if (status != asynSuccess) {
-        errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't register asynInt32Array interrupt source\n",
-                     driver, pPlc->portName);
-        return(asynError);
-    }
-
-    /* Create asynUser for asynTrace */
-    pPlc->pasynUserTrace = pasynManager->createAsynUser(0, 0);
-    pPlc->pasynUserTrace->userPvt = pPlc;
 
     /* Connect to device */
     status = pasynManager->connectDevice(pPlc->pasynUserTrace, pPlc->portName, 0);
@@ -1192,7 +1101,7 @@ static void readPoller(PLC_ID pPlc)
         /* See if there are any asynUInt32Digital callbacks registered to be called
          * when data changes.  These callbacks only happen if the value has changed */
         if (pPlc->forceCallback || anyChanged){
-            pasynManager->interruptStart(pPlc->asynUInt32DInterruptPvt, &pclientList);
+            pasynManager->interruptStart(pPlc->asynStdInterfaces.uInt32DigitalInterruptPvt, &pclientList);
             pnode = (interruptNode *)ellFirst(pclientList);
             while (pnode) {
                 pUInt32D = pnode->drvPvt;
@@ -1225,13 +1134,13 @@ static void readPoller(PLC_ID pPlc)
                 }
                 pnode = (interruptNode *)ellNext(&pnode->node);
             }
-            pasynManager->interruptEnd(pPlc->asynUInt32DInterruptPvt);
+            pasynManager->interruptEnd(pPlc->asynStdInterfaces.uInt32DigitalInterruptPvt);
         }
                 
         /* See if there are any asynInt32 callbacks registered to be called. 
          * These are called even if the data has not changed, because we could be doing
          * ADC averaging */
-        pasynManager->interruptStart(pPlc->asynInt32InterruptPvt, &pclientList);
+        pasynManager->interruptStart(pPlc->asynStdInterfaces.int32InterruptPvt, &pclientList);
         pnode = (interruptNode *)ellFirst(pclientList);
         while (pnode) {
             pInt32 = pnode->drvPvt;
@@ -1257,12 +1166,12 @@ static void readPoller(PLC_ID pPlc)
                              int32Value);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
-        pasynManager->interruptEnd(pPlc->asynInt32InterruptPvt);
+        pasynManager->interruptEnd(pPlc->asynStdInterfaces.int32InterruptPvt);
  
         /* See if there are any asynFloat64 callbacks registered to be called.
          * These are called even if the data has not changed, because we could be doing
          * ADC averaging */
-        pasynManager->interruptStart(pPlc->asynFloat64InterruptPvt, &pclientList);
+        pasynManager->interruptStart(pPlc->asynStdInterfaces.float64InterruptPvt, &pclientList);
         pnode = (interruptNode *)ellFirst(pclientList);
         while (pnode) {
             pFloat64 = pnode->drvPvt;
@@ -1288,13 +1197,13 @@ static void readPoller(PLC_ID pPlc)
                                float64Value);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
-        pasynManager->interruptEnd(pPlc->asynFloat64InterruptPvt);
+        pasynManager->interruptEnd(pPlc->asynStdInterfaces.float64InterruptPvt);
         
        
         /* See if there are any asynInt32Array callbacks registered to be called.
          * These are only called when data changes */
         if (pPlc->forceCallback || anyChanged){
-            pasynManager->interruptStart(pPlc->asynInt32ArrayInterruptPvt, &pclientList);
+            pasynManager->interruptStart(pPlc->asynStdInterfaces.int32ArrayInterruptPvt, &pclientList);
             pnode = (interruptNode *)ellFirst(pclientList);
             while (pnode) {
                 pInt32Array = pnode->drvPvt;
@@ -1314,7 +1223,7 @@ static void readPoller(PLC_ID pPlc)
                                       int32Data, pPlc->modbusLength);
                 pnode = (interruptNode *)ellNext(&pnode->node);
             }
-            pasynManager->interruptEnd(pPlc->asynInt32ArrayInterruptPvt);
+            pasynManager->interruptEnd(pPlc->asynStdInterfaces.int32ArrayInterruptPvt);
         }
 
         /* Reset the forceCallback flag */
