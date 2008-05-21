@@ -19,6 +19,8 @@ LIBRARY_IOC = modbus
 
 LIB_SRCS += drvModbusAsyn.c
 LIB_SRCS += modbusInterpose.c
+LIB_LIBS += asyn 
+LIB_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #===========================
 
