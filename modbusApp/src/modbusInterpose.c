@@ -92,11 +92,7 @@ typedef struct modbusPvt {
 /* asynOctet methods */
 static asynStatus writeIt(void *ppvt,asynUser *pasynUser,
     const char *data,size_t numchars,size_t *nbytesTransfered);
-static asynStatus writeRaw(void *ppvt,asynUser *pasynUser,
-    const char *data,size_t numchars,size_t *nbytesTransfered);
 static asynStatus readIt(void *ppvt,asynUser *pasynUser,
-    char *data,size_t maxchars,size_t *nbytesTransfered,int *eomReason);
-static asynStatus readRaw(void *ppvt,asynUser *pasynUser,
     char *data,size_t maxchars,size_t *nbytesTransfered,int *eomReason);
 static asynStatus flushIt(void *ppvt,asynUser *pasynUser);
 static asynStatus registerInterruptUser(void *ppvt,asynUser *pasynUser,
@@ -112,7 +108,7 @@ static asynStatus setOutputEos(void *ppvt,asynUser *pasynUser,
 static asynStatus getOutputEos(void *ppvt,asynUser *pasynUser,
     char *eos,int eossize,int *eoslen);
 static asynOctet octet = {
-    writeIt,writeRaw,readIt,readRaw,flushIt,
+    writeIt,readIt,flushIt,
     registerInterruptUser, cancelInterruptUser,
     setInputEos,getInputEos,setOutputEos,getOutputEos
 };
@@ -260,9 +256,9 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
 
             /* Send the frame with the underlying driver */
             nWrite = numchars + mbapSize;
-            status = pPvt->pasynOctet->writeRaw(pPvt->octetPvt, pasynUser,
-                                                pPvt->buffer, nWrite, 
-                                                &nbytesActual);
+            status = pPvt->pasynOctet->write(pPvt->octetPvt, pasynUser,
+                                             pPvt->buffer, nWrite, 
+                                             &nbytesActual);
             *nbytesTransfered = (nbytesActual > numchars) ? numchars : nbytesActual;
             break;
 
@@ -277,9 +273,9 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
             pPvt->buffer[numchars+2] = CRC_Hi;
             /* Send the frame with the underlying driver */
             nWrite = numchars + 3;
-            status = pPvt->pasynOctet->writeRaw(pPvt->octetPvt, pasynUser,
-                                                pPvt->buffer, nWrite, 
-                                                &nbytesActual);
+            status = pPvt->pasynOctet->write(pPvt->octetPvt, pasynUser,
+                                             pPvt->buffer, nWrite, 
+                                             &nbytesActual);
             *nbytesTransfered = (nbytesActual > numchars) ? numchars : nbytesActual;
             break;
 
@@ -418,24 +414,6 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
 }
 
 
-static asynStatus writeRaw(void *ppvt, asynUser *pasynUser,
-    const char *data, size_t numchars, size_t *nbytesTransfered)
-{
-    modbusPvt *pPvt = (modbusPvt *)ppvt;
-    return pPvt->pasynOctet->writeRaw(pPvt->octetPvt,
-                                  pasynUser, data, numchars, 
-                                  nbytesTransfered);
-}
-
-static asynStatus readRaw(void *ppvt, asynUser *pasynUser,
-    char *data, size_t maxchars, size_t *nbytesTransfered, int *eomReason)
-{
-    modbusPvt *pPvt = (modbusPvt *)ppvt;
-    return pPvt->pasynOctet->readRaw(pPvt->octetPvt,
-                                 pasynUser, data, maxchars, 
-                                 nbytesTransfered, eomReason);
-}
-
 static asynStatus flushIt(void *ppvt, asynUser *pasynUser)
 {
     modbusPvt *pPvt = (modbusPvt *)ppvt;
