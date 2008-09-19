@@ -1,40 +1,45 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>modbusTCP: Modbus TCP/IP Support - Release Notes</title>
+  <title>modbus: Modbus Support - Release Notes</title>
 </head>
-
 <body>
-
-<center>
-<h1>modbusTCP: Modbus TCP/IP Support - Release Notes</h1>
-
-<center>
-<h2>Release 1-3</h2>
-<h2>June xxx, 2008</h2>
-</center>
-<ul>
-  <li>Changed modbusInterpose.c to replace pasynOctet->writeRaw() and 
-      pasynOctet->readRaw() with pasynOctet->write() and pasynOctet->read(),
-      because the raw routines have been removed in asyn R4-10.
-</ul>
-
-<center>
-<h2>Release 1-2</h2>
-<h2>September 6, 2007</h2>
-</center>
-<ul>
-  <li> Fixed bug in computing byteCount in WRITE_MULTIPLE_COILS function code.
-</ul>
-There is a known limitation with using serial interfaces.  
-It is not currently possible to have multiple Modbus servers connected to a single serial port.
-This is a limitation of the asynInterposeInterface architecture used.
-It may be fixed in a future release.
-
-<center>
-<h2>Release 1-1</h2>
-<h2>April 30, 2007</h2>
-</center>
-Initial release of modbus module.
-
+  <div style="text-align: center">
+    <h1>
+      modbus: Modbus Support - Release Notes</h1>
+  </div>
+  <div style="text-align: center">
+    <h2>
+      Release 1-3</h2>
+    <h2>
+      September 19, 2008</h2>
+  </div>
+  <ul>
+    <li>Changed modbusInterpose.c to replace pasynOctet->writeRaw() and pasynOctet->readRaw()
+      with pasynOctet->write() and pasynOctet->read(), because the raw routines have been
+      removed in asyn R4-10.</li>
+    <li>Changed the driver to use the asynStandardInterfaces interfaces added to asyn
+      in R4-10.</li>
+  </ul>
+  <div style="text-align: center">
+    <h2>
+      Release 1-2</h2>
+    <h2>
+      September 6, 2007</h2>
+  </div>
+  <ul>
+    <li>Fixed bug in computing byteCount in WRITE_MULTIPLE_COILS function code.</li>
+  </ul>
+  <p>
+    There is a known limitation with using serial interfaces. It is not currently possible
+    to have multiple Modbus servers connected to a single serial port. This is a limitation
+    of the asynInterposeInterface architecture used. It may be fixed in a future release.</p>
+  <div style="text-align: center">
+    <h2>
+      Release 1-1</h2>
+    <h2>
+      April 30, 2007</h2>
+  </div>
+  <p>
+    Initial release of modbus module.</p>
 </body>
 </html>

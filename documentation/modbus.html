@@ -1,138 +1,197 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>modbus</title>
-<meta name="author" content="Mark Rivers">
+  <title>modbus</title>
+  <meta content="Mark Rivers" name="author" />
 </head>
-
 <body>
-<h1>modbus</h1>
-
-<p>Module Owner: Mark Rivers: University of Chicago</p>
-<p>This page is the home of <b>modbus</b>.&nbsp;</p>
-<p><b>modbus</b> supports EPICS communication with Programmable Logic Controllers (PLCs)
-via the Modbus protocol over TCP, serial RTU, and serial ASCII links.
-
-<p>The <b>modbus</b> software provides a layer between standard EPICS asyn device support, 
-and the EPICS asyn TCP/IP or serial port driver.
-
-<p>Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">Mark
-Rivers</a> who is responsible for coordinating development and releases.</p>
-
-<h2>Where to find it</h2>
-<p>You can download the software from the links in the table below:</p>
-<table summary="Where to find the software" border="1">
-<tbody>
-  <tr align="center">
-    <th>Module Version</th>
-    <th>Release Date</th>
-    <th>Filename</th>
-    <th>Documentation</th>
-    <th>Release Notes</th>
-    <th>Known Problems</th>
-  </tr>
-
-  <tr>
-    <td>1-2</td>
-    <td>6-Sep-2007</td>
-    <td><a href="pub/modbusR1-2.tgz">modbusR1-2.tgz</a></td>
-    <td><a href="modbusDoc.html">modbusDoc.html</a></td>
-    <td><a href="modbusReleaseNotes.html">modbusReleaseNotes.html</a></td>
-    <td>See release notes</td>
-  </tr>
-
-  <tr>
-    <td>1-1</td>
-    <td>30-Apr-2007</td>
-    <td><a href="pub/modbusR1-1.tgz">modbusR1-1.tgz</a></td>
-    <td><a href="modbusDoc.html">modbusDoc.html</a></td>
-    <td><a href="modbusReleaseNotes.html">modbusReleaseNotes.html</a></td>
-    <td>See release notes</td>
-  </tr>
-
-</tbody>
-</table>
-
-<h2>Required Modules</h2>
-<table summary="Required Modules" border="1">
-<tbody>
-  <tr align="center">
-    <th>Module version</th>
-    <th>Requires module</th>
-    <th>Release needed</th>
-    <th>Required for</th>
-  </tr>
-
-  <tr>
-    <td rowspan=2>1-2</td>
-    <td>EPICS base</td>
-    <td>3.14.8.2</td>
-    <td>Base support</td>
-  </tr>
-  <tr>
-    <td>asyn</td>
-    <td>4-8</td>
-    <td>Driver support</td>
-  </tr>
-
-  <tr>
-    <td rowspan=2>1-1</td>
-    <td>EPICS base</td>
-    <td>3.14.8.2</td>
-    <td>Base support</td>
-  </tr>
-  <tr>
-    <td>asyn</td>
-    <td>4-8</td>
-    <td>Driver support</td>
-  </tr>
-
-</tbody>
-</table>
-
-
-<h2>Installation and Building</h2>
-
-<p>After obtaining a copy of the distribution, it must be installed
-and built for use at your site. These steps only need to be
-performed once for the site (unless versions of the module running
-under different releases of EPICS and/or the other required modules
-are needed).</p>
-
-<ol>
-  <li>Create an installation directory for the module, usually this   
-      will end with<br>
-  <br>
-  <tt>.../support/</tt>
-  <br>
-  </li>
-  <li>Place the distribution file in this directory. Then issue the
-      commands (Unix style)
-  <pre> tar xvzf modbusRX-Y.tgz
+  <h1>
+    modbus</h1>
+  <p>
+    Module Owner: Mark Rivers: University of Chicago</p>
+  <p>
+    This page is the home of <b>modbus</b>.&nbsp;</p>
+  <p>
+    <b>modbus</b> supports EPICS communication with Programmable Logic Controllers (PLCs)
+    via the Modbus protocol over TCP, serial RTU, and serial ASCII links.</p>
+  <p>
+    The <b>modbus</b> software provides a layer between standard EPICS asyn device support,
+    and the EPICS asyn TCP/IP or serial port driver.</p>
+  <p>
+    Please email any comments and bug reports to <a href="mailto:%20rivers@cars.uchicago.edu">
+      Mark Rivers</a> who is responsible for coordinating development and releases.</p>
+  <h2>
+    Where to find it</h2>
+  <p>
+    You can download the software from the links in the table below:</p>
+  <table border="1" summary="Where to find the software">
+    <tbody>
+      <tr align="center">
+        <th>
+          Module Version</th>
+        <th>
+          Release Date</th>
+        <th>
+          Filename</th>
+        <th>
+          Documentation</th>
+        <th>
+          Release Notes</th>
+        <th>
+          Known Problems</th>
+      </tr>
+      <tr>
+        <td>
+          1-3</td>
+        <td>
+          19-Sep-2008</td>
+        <td>
+          <a href="pub/modbusR1-3.tgz">modbusR1-3.tgz</a></td>
+        <td>
+          <a href="modbusDoc.html">modbusDoc.html</a></td>
+        <td>
+          <a href="modbusReleaseNotes.html">modbusReleaseNotes.html</a></td>
+        <td>
+          See release notes</td>
+      </tr>
+      <tr>
+        <td>
+          1-2</td>
+        <td>
+          6-Sep-2007</td>
+        <td>
+          <a href="pub/modbusR1-2.tgz">modbusR1-2.tgz</a></td>
+        <td>
+          <a href="modbusDoc.html">modbusDoc.html</a></td>
+        <td>
+          <a href="modbusReleaseNotes.html">modbusReleaseNotes.html</a></td>
+        <td>
+          See release notes</td>
+      </tr>
+      <tr>
+        <td>
+          1-1</td>
+        <td>
+          30-Apr-2007</td>
+        <td>
+          <a href="pub/modbusR1-1.tgz">modbusR1-1.tgz</a></td>
+        <td>
+          <a href="modbusDoc.html">modbusDoc.html</a></td>
+        <td>
+          <a href="modbusReleaseNotes.html">modbusReleaseNotes.html</a></td>
+        <td>
+          See release notes</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>
+    Required Modules</h2>
+  <table border="1" summary="Required Modules">
+    <tbody>
+      <tr align="center">
+        <th>
+          Module version</th>
+        <th>
+          Requires module</th>
+        <th>
+          Release needed</th>
+        <th>
+          Required for</th>
+      </tr>
+      <tr>
+        <td rowspan="2">
+          1-3</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.14.8.2</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-10</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+      </tr>
+        <tr>
+        <td rowspan="2">
+          1-2</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.14.8.2</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-8</td>
+        <td>
+          Driver support</td>
+      </tr>
+      <tr>
+        <td rowspan="2">
+          1-1</td>
+        <td>
+          EPICS base</td>
+        <td>
+          3.14.8.2</td>
+        <td>
+          Base support</td>
+      </tr>
+      <tr>
+        <td>
+          asyn</td>
+        <td>
+          4-8</td>
+        <td>
+          Driver support</td>
+      </tr>
+    </tbody>
+  </table>
+  <h2>
+    Installation and Building</h2>
+  <p>
+    After obtaining a copy of the distribution, it must be installed and built for use
+    at your site. These steps only need to be performed once for the site (unless versions
+    of the module running under different releases of EPICS and/or the other required
+    modules are needed).</p>
+  <ol>
+    <li>Create an installation directory for the module, usually this will end with<br />
+      <br />
+      <tt>.../support/</tt>
+      <br />
+    </li>
+    <li>Place the distribution file in this directory. Then issue the commands (Unix style)
+      <pre> tar xvzf modbusRX-Y.tgz
   </pre>
-
       where X-Y is the release.</li>
-
-  <li>This creates a &lt;top&gt; application.<br>
-  <pre>
+    <li>This creates a &lt;top&gt; application.<br />
+      <pre>
   .../support/modbusRX-Y
   </pre>
-  </li>
-
-  <li>Edit the <tt>configure/RELEASE</tt> file and set the paths to
-      your installation of EPICS base and to your versions of other required modules.</li>
-  <li>Run <tt>gnumake</tt> in the top level directory and check for
-      any compilation errors.</li>
-  <li>Please email&nbsp; <a href="mailto:rivers@cars.uchicago.edu">Mark Rivers</a>&nbsp; so that a record can be kept of which sites are
-      using this software.</li>
-</ol>
-
-<h2>In Use</h2>
-This software was originally developed by Mark Rivers, based on an earlier package by
-Rolf Keitel from Triumf.
-<ul>
-  <li>ANL/APS : In use at CARS and soon to be used at other beamlines.</li>
-</ul>
-
+    </li>
+    <li>Edit the <tt>configure/RELEASE</tt> file and set the paths to your installation
+      of EPICS base and to your versions of other required modules.</li>
+    <li>Run <tt>gnumake</tt> in the top level directory and check for any compilation
+      errors.</li>
+    <li>Please email&nbsp; <a href="mailto:rivers@cars.uchicago.edu">Mark Rivers</a>&nbsp;
+      so that a record can be kept of which sites are using this software.</li>
+  </ol>
+  <h2>
+    In Use</h2>
+  <p>
+    This software was originally developed by Mark Rivers, based on an earlier package
+    by Rolf Keitel from Triumf.</p>
+  <ul>
+    <li>ANL/APS : In use at CARS and other beamlines.</li>
+    <li>Australian synchrotron.  ID5 microspectroscopy beamline.</li>
+  </ul>
 </body>
 </html>
-
