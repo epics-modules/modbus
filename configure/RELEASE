@@ -10,7 +10,7 @@
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
-ASYN=/corvette/home/epics/devel/asyn/4-9beta
+ASYN=/corvette/home/epics/devel/asyn/4-10
 
 # If you don't want to install into $(TOP) then
 # define INSTALL_LOCATION_APP here
