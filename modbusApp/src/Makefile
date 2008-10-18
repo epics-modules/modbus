@@ -1,6 +1,6 @@
 # Makefile
 
-TOP = ../../
+TOP = ../..
 include $(TOP)/configure/CONFIG
 
 #----------------------------------------
