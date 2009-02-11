@@ -1,6 +1,9 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <title>modbus EPICS driver support</title>
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type" />
 </head>
 <body>
   <div style="text-align: center">
@@ -20,16 +23,16 @@
     Contents</h2>
   <ul>
     <li><a href="#Acknowledgments">Acknowledgments</a></li>
-    <li><a href="#Overview of Modbus">Overview of Modbus</a></li>
-    <li><a href="#Driver architecture">Driver architecture</a></li>
-    <li><a href="#Creating a modbus port driver">Creating a <b>modbus</b> port driver</a></li>
-    <li><a href="#EPICS device support">EPICS device support</a></li>
-    <li><a href="#Example applications">Example applications</a></li>
-    <li><a href="#medm screens">medm screens</a></li>
-    <li><a href="#Debug tracing">Debug tracing</a></li>
-    <li><a href="#Differences from Triumf modtcp and plctcp package">Differences from
+    <li><a href="#Overview_of_Modbus">Overview of Modbus</a></li>
+    <li><a href="#Driver_architecture">Driver architecture</a></li>
+    <li><a href="#Creating_a_modbus_port_driver">Creating a <b>modbus</b> port driver</a></li>
+    <li><a href="#EPICS_device_support">EPICS device support</a></li>
+    <li><a href="#Example_applications">Example applications</a></li>
+    <li><a href="#medm_screens">medm screens</a></li>
+    <li><a href="#Debug_tracing">Debug tracing</a></li>
+    <li><a href="#Differences_from_Triumf_modtcp_and_plctcp_package">Differences from
       Triumf modtcp and plctcp package</a></li>
-    <li><a href="#Known problems">Known problems</a></li>
+    <li><a href="#Known_problems">Known problems</a></li>
   </ul>
   <h2 id="Acknowledgments">
     Acknowledgments</h2>
@@ -40,7 +43,7 @@
     extensively re-written for conversion to EPICS 3.14 and to use the EPICS asyn module.
     It now contains little of the original <b>modtcp</b> code, but retains much of the
     original architecture.</p>
-  <h2 id="Overview of Modbus">
+  <h2 id="Overview_of_Modbus">
     Overview of Modbus</h2>
   <p>
     MODBUS is an application layer messaging protocol, positioned at level 7 of the
@@ -466,7 +469,7 @@
       on the Web</a> or in the <b>modbus</b> <a href="Modbus_over_serial_line_V1_02.pdf">
         documentation directory.</a>
   </p>
-  <h2 id="Driver architecture">
+  <h2 id="Driver_architecture">
     Driver architecture</h2>
   <p>
     <b>CAUTION:</b> <b>modbus</b> can provide access to all of the I/O and memory of
@@ -579,7 +582,7 @@
     of interest then modbus.h will need to have the appropriate architecture dependent
     code added.
   </p>
-  <h2 id="Creating a modbus port driver">
+  <h2 id="Creating_a_modbus_port_driver">
     Creating a <b>modbus</b> port driver</h2>
   <p>
     Before <b>modbus</b> port drivers can be created, it is necessary to first create
@@ -914,7 +917,7 @@ drvModbusAsynConfigure(portName,
     Note that if it is desired to transmit BCD numbers untranslated to EPICS over the
     asynInt32 interface, then data type 0 should be used, because no translation is
     done in this case.</p>
-  <h2 id="EPICS device support">
+  <h2 id="EPICS_device_support">
     EPICS device support</h2>
   <p>
     <b>modbus</b> implements the following standard asyn interfaces:
@@ -998,7 +1001,7 @@ field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")
         <td>
           bi, mbbi, mbbiDirect, longin</td>
         <td>
-          value = (Modbus data & mask)<br />
+          value = (Modbus data &amp; mask)<br />
           (normally mask=1)</td>
       </tr>
       <tr>
@@ -1013,7 +1016,7 @@ field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")
         <td>
           bi, mbbi, mbbiDirect, longin</td>
         <td>
-          value = (Modbus data & mask)<br />
+          value = (Modbus data &amp; mask)<br />
           (mask selects bits of interest)</td>
       </tr>
       <tr>
@@ -1028,7 +1031,7 @@ field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")
         <td>
           bo, mbbo, mbboDirect, longout</td>
         <td>
-          Modbus write (value & mask)<br />
+          Modbus write (value &amp; mask)<br />
           (normally mask=1)</td>
       </tr>
       <tr>
@@ -1091,8 +1094,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
     </pre>
   <p>
     or</p>
-  <pre>
-field(INP,"@asynMask(portName,offset,nbits,timeout)drvUser")
+<pre>field(INP,"@asynMask(portName,offset,nbits,timeout)drvUser")
     </pre>
   <p>
     The asynMask syntax is used for analog I/O devices, in order to specify the number
@@ -1102,7 +1104,7 @@ field(INP,"@asynMask(portName,offset,nbits,timeout)drvUser")
   </p>
   <p>
     nbits>0 for a unipolar device. For example, nbits=12 means unipolar 12-bit device,
-    with a range of 0 to 4095. nbits<0 for a bipolar device. For example, nbits=-12
+    with a range of 0 to 4095. nbits&lt;0 for a bipolar device. For example, nbits=-12
     means bipolar 12-bit device, with a range of -2048 to 2047)
   </p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
@@ -1688,7 +1690,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           BITS</td>
         <td>
-          Number of bits for analog I/O devices. >0=unipolar, <0=bipolar.</td>
+          Number of bits for analog I/O devices. &gt;0=unipolar, &lt;0=bipolar.</td>
       </tr>
       <tr>
         <td>
@@ -1740,7 +1742,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
     </tbody>
   </table>
-  <h2 id="Example Applications">
+  <h2 id="Example_Applications">
     Example Applications</h2>
   <p>
     <b>modbus</b> builds an example application called modbusApp. This application can
@@ -1780,7 +1782,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
     (Koyo PLCs do not support ASCII however).</p>
   <pre>
 # Koyo1.cmd
-< envPaths
+&lt; envPaths
 
 dbLoadDatabase("../../dbd/modbus.dbd")
 modbus_registerRecordDeviceDriver(pdbbase)
@@ -1878,7 +1880,7 @@ drvModbusAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 16, 040600, 020,    0,  
     for testing of all function codes and record types, including waveforms. In practice
     one would normally only load at most 2 drivers for the C control relays, for example
     function code 1 (read coils), and function code 5 (write single coil).</p>
-  <h2 id="medm screens">
+  <h2 id="medm_screens">
     medm screens</h2>
   <p>
     <b>modbus</b> provides example medm .adl files in the modtcpApp/op/adl directory.
@@ -1966,7 +1968,7 @@ drvModbusAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 16, 040600, 020,    0,  
       4 ADC inputs from a 13-bit bipolar ADC.</h3>
     <img alt="K2_ADCs.png" src="K2_ADCs.png" />
   </div>
-  <h2 id="Debug tracing">
+  <h2 id="Debug_tracing">
     Debug tracing</h2>
   <p>
     One can obtain diagnostic output for a <b>modbus</b> port driver using the "dbior"
@@ -2103,7 +2105,7 @@ epics> asynSetTraceMask "K1_Yn_In_Word",0,1     # Disable traceIODriver
       Y1 output when the record is processed.</h3>
     <img alt="K1_Yn_Out_Bit_AsynRegister.png" src="K1_Yn_Out_Bit_AsynRegister.png" />
   </div>
-  <h2 id="Differences from Triumf modtcp and plctcp package">
+  <h2 id="Differences_from_Triumf_modtcp_and_plctcp_package">
     Differences from Triumf modtcp and plctcp package</h2>
   <p>
     The following are the main enhancements of <b>modbus</b> compared to the modtcp
@@ -2143,7 +2145,7 @@ epics> asynSetTraceMask "K1_Yn_In_Word",0,1     # Disable traceIODriver
       allows much finer granularity in debugging output. But it will lead to somewhat
       increased resource usage compared to the modtcp design.</li>
   </ul>
-  <h2 id="Known problems">
+  <h2 id="Known_problems">
     Known problems</h2>
   <ul>
     <li>It should be possible to use the AutoConnect feature when creating the drvAsynIPPort
