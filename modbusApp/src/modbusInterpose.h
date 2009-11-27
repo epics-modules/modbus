@@ -21,9 +21,9 @@ typedef enum {
 extern "C" {
 #endif  /* __cplusplus */
 
-epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress, 
-                                         modbusLinkType linkType, int timeoutMsec);
-
+epicsShareFunc int modbusInterposeConfig(const char *portName, 
+                                         modbusLinkType linkType, 
+                                         int timeoutMsec);
 #ifdef __cplusplus
 }
 #endif  /* __cplusplus */
