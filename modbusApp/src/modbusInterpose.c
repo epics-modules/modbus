@@ -24,6 +24,7 @@
 #include <iocsh.h>
 
 #include <epicsExport.h>
+#include <epicsThread.h>
 #include "asynDriver.h"
 #include "asynOctet.h"
 #include "modbusInterpose.h"
@@ -79,7 +80,6 @@ static unsigned char CRC_Lookup_Lo[] = {
 
 typedef struct modbusPvt {
     char           *portName;
-    int            slaveAddress;
     double         timeout;
     asynInterface  modbusInterface;
     asynOctet      *pasynOctet;           /* Table for low level driver */
@@ -114,8 +114,9 @@ static asynOctet octet = {
 };
 
 
-epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress, 
-                                         modbusLinkType linkType, int timeoutMsec)
+epicsShareFunc int modbusInterposeConfig(const char *portName,
+                                         modbusLinkType linkType, 
+                                         int timeoutMsec)
 {
     modbusPvt     *pPvt;
     asynInterface *pasynInterface;
@@ -124,7 +125,6 @@ epicsShareFunc int modbusInterposeConfig(const char *portName, int slaveAddress,
 
     pPvt = callocMustSucceed(1, sizeof(*pPvt), "modbusInterposeConfig");
     pPvt->portName = epicsStrDup(portName);
-    pPvt->slaveAddress = slaveAddress;
     pPvt->linkType = linkType;
     pPvt->timeout = timeoutMsec/1000.;
     if (pPvt->timeout == 0.0) pPvt->timeout = DEFAULT_TIMEOUT;
@@ -229,7 +229,7 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
     size_t     nWrite;
     modbusMBAPHeader mbapHeader;
     unsigned short transactId=1;
-    unsigned short cmdLength = numchars + 1;
+    unsigned short cmdLength = numchars;
     unsigned short modbusEncoding=0;
     int mbapSize = sizeof(modbusMBAPHeader);
     unsigned char CRC_Hi;
@@ -238,6 +238,8 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
     char *pout;
     int i;
 
+    epicsThreadSleep(0.02);
+    
     pasynUser->timeout = pPvt->timeout;
 
     switch(pPvt->linkType) {
@@ -246,7 +248,6 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
             mbapHeader.transactId    = htons(transactId);
             mbapHeader.protocolType  = htons(modbusEncoding);
             mbapHeader.cmdLength     = htons(cmdLength);
-            mbapHeader.destId        = pPvt->slaveAddress;
  
             /* Copy the MBAP header to the local buffer */
             memcpy(pPvt->buffer, &mbapHeader, mbapSize);
@@ -264,15 +265,14 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
 
         case modbusLinkRTU:
             /* First byte in the output is the slave address */
-            pPvt->buffer[0] = pPvt->slaveAddress;
             /* Next is the Modbus data */
-            memcpy(pPvt->buffer+1, data, numchars);
+            memcpy(pPvt->buffer, data, numchars);
             /* Compute the CRC */
-            computeCRC(pPvt->buffer, numchars+1, &CRC_Lo, &CRC_Hi);
-            pPvt->buffer[numchars+1] = CRC_Lo;
-            pPvt->buffer[numchars+2] = CRC_Hi;
+            computeCRC(pPvt->buffer, numchars, &CRC_Lo, &CRC_Hi);
+            pPvt->buffer[numchars] = CRC_Lo;
+            pPvt->buffer[numchars+1] = CRC_Hi;
             /* Send the frame with the underlying driver */
-            nWrite = numchars + 3;
+            nWrite = numchars + 2;
             status = pPvt->pasynOctet->write(pPvt->octetPvt, pasynUser,
                                              pPvt->buffer, nWrite, 
                                              &nbytesActual);
@@ -281,22 +281,19 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
 
         case modbusLinkASCII:
             /* Put slave address and data in buffer to compute LRC */
-            pPvt->buffer[0] = pPvt->slaveAddress;
-            memcpy(pPvt->buffer+1, data, numchars);
-            computeLRC(pPvt->buffer, numchars+1, &LRC);
+            memcpy(pPvt->buffer, data, numchars);
+            computeLRC(pPvt->buffer, numchars, &LRC);
             /* Now convert to ASCII */
             /* First byte in the output is : */
             pout = pPvt->buffer;
             *pout = ':';
             pout++;
-           /* Next is the slave address */
-            encodeASCII(pout, pPvt->slaveAddress);
-            pout += 2;
+            /* Next is the slave address */
             for (i=0; i<numchars; i++) {
                 encodeASCII(pout, data[i]);
                 pout+=2;
             }
-           /* Next is the LRC */
+            /* Next is the LRC */
             encodeASCII(pout, LRC);
             pout+=2;
             /* The driver will add the CR/LF */
@@ -335,17 +332,17 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
     
     switch(pPvt->linkType) {
         case modbusLinkTCP:
-            nRead = maxchars + mbapSize;
+            nRead = maxchars + mbapSize + 1;
             status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
                                             pPvt->buffer, nRead, 
                                             &nbytesActual, eomReason);
             if (status != asynSuccess) return status;
             /* Copy bytes beyond mbapHeader to output buffer */
             nRead = nbytesActual;
-            nRead = nRead - mbapSize;
+            nRead = nRead - mbapSize - 1;
             if (nRead < 0) nRead = 0;
             if (nRead > maxchars) nRead = maxchars;
-            if (nRead > 0) memcpy(data, pPvt->buffer + mbapSize, nRead);
+            if (nRead > 0) memcpy(data, pPvt->buffer + mbapSize + 1, nRead);
             if(nRead<maxchars) data[nRead] = 0; /*null terminate string if room*/
             *nbytesTransfered = nRead;
             break;
@@ -471,22 +468,19 @@ static asynStatus getOutputEos(void *ppvt, asynUser *pasynUser,
 
 /* register modbusInterposeConfig*/
 static const iocshArg modbusInterposeConfigArg0 = { "portName", iocshArgString };
-static const iocshArg modbusInterposeConfigArg1 = { "slave address", iocshArgInt };
-static const iocshArg modbusInterposeConfigArg2 = { "link type", iocshArgInt };
-static const iocshArg modbusInterposeConfigArg3 = { "timeout (msec)", iocshArgInt };
+static const iocshArg modbusInterposeConfigArg1 = { "link type", iocshArgInt };
+static const iocshArg modbusInterposeConfigArg2 = { "timeout (msec)", iocshArgInt };
 static const iocshArg *modbusInterposeConfigArgs[] = {
                                                     &modbusInterposeConfigArg0,
                                                     &modbusInterposeConfigArg1,
-                                                    &modbusInterposeConfigArg2,
-                                                    &modbusInterposeConfigArg3};
+                                                    &modbusInterposeConfigArg2};
 static const iocshFuncDef modbusInterposeConfigFuncDef =
-    {"modbusInterposeConfig", 4, modbusInterposeConfigArgs};
+    {"modbusInterposeConfig", 3, modbusInterposeConfigArgs};
 static void modbusInterposeConfigCallFunc(const iocshArgBuf *args)
 {
     modbusInterposeConfig(args[0].sval,
                           args[1].ival,
-                          args[2].ival,
-                          args[3].ival);
+                          args[2].ival);
 }
 
 static void modbusInterposeRegister(void)
