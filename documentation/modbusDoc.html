@@ -677,7 +677,6 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
     command:</p>
   <pre>
 modbusInterposeConfig(portName, 
-                      slaveAddress,
                       linkType,
                       timeoutMsec)
 </pre>
@@ -705,17 +704,6 @@ modbusInterposeConfig(portName,
       </tr>
       <tr>
         <td>
-          slaveAddress</td>
-        <td>
-          int</td>
-        <td>
-          The address of the Modbus slave. This must match the configuration of the Modbus
-          slave (PLC) for RTU and ASCII. For TCP the slave address is used for the "unit identifier",
-          the last field in the MBAP header. The "unit identifier" is ignored by most PLCs,
-          but may be required by some.</td>
-      </tr>
-      <tr>
-        <td>
           linkType</td>
         <td>
           int</td>
@@ -740,10 +728,9 @@ modbusInterposeConfig(portName,
   </table>
   <p>
     For the serial ASCII example above, after the asynOctetSetInputEos command, the
-    following command would be used. This assumes that the PLC is configured for Modbus
-    slave address 1, and a timeout of 1 second.</p>
+    following command would be used. This uses a timeout of 1 second.</p>
   <pre>
-modbusInterposeConfig("Koyo1",1,2,1000)
+modbusInterposeConfig("Koyo1",2,1000)
 </pre>
   <h3>
     drvModbusAsynConfigure</h3>
@@ -753,7 +740,8 @@ modbusInterposeConfig("Koyo1",1,2,1000)
     command:</p>
   <pre>
 drvModbusAsynConfigure(portName, 
-                       tcpPortName, 
+                       tcpPortName,
+                       slaveAddress, 
                        modbusFunction, 
                        modbusStartAddress, 
                        modbusLength,
@@ -790,6 +778,17 @@ drvModbusAsynConfigure(portName,
           string</td>
         <td>
           Name of the asyn IP or serial port previously created.</td>
+      </tr>
+      <tr>
+        <td>
+          slaveAddress</td>
+        <td>
+          int</td>
+        <td>
+          The address of the Modbus slave. This must match the configuration of the Modbus
+          slave (PLC) for RTU and ASCII. For TCP the slave address is used for the "unit identifier",
+          the last field in the MBAP header. The "unit identifier" is ignored by most PLCs,
+          but may be required by some.</td>
       </tr>
       <tr>
         <td>
@@ -1094,7 +1093,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
     </pre>
   <p>
     or</p>
-<pre>field(INP,"@asynMask(portName,offset,nbits,timeout)drvUser")
+  <pre>field(INP,"@asynMask(portName,offset,nbits,timeout)drvUser")
     </pre>
   <p>
     The asynMask syntax is used for analog I/O devices, in order to specify the number
@@ -1778,8 +1777,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
   </ul>
   <p>
     The following is the beginning of Koyo1.cmd when it is configured for serial RTU
-    on /dev/ttyS1. It also shows how to configure TCP and serial ASCII connections.
-    (Koyo PLCs do not support ASCII however).</p>
+    with slave address 1 on /dev/ttyS1. It also shows how to configure TCP and serial
+    ASCII connections. (Koyo PLCs do not support ASCII however).</p>
   <pre>
 # Koyo1.cmd
 &lt; envPaths
@@ -1795,10 +1794,9 @@ modbus_registerRecordDeviceDriver(pdbbase)
 #                       int noProcessEos);
 #drvAsynIPPortConfigure("Koyo1","164.54.160.200:502",0,1,1)
 #modbusInterposeConfig(const char *portName, 
-#                      int slaveAddress, 
 #                      modbusLinkType linkType,
 #                      int timeoutMsec)
-#modbusInterposeConfig("Koyo1",0,0,1000)
+#modbusInterposeConfig("Koyo1",0,1000)
 
 # Use the following commands for serial RTU or ASCII
 #drvAsynSerialPortConfigure(const char *portName, 
@@ -1813,12 +1811,12 @@ asynSetOption("Koyo1",0,"bits","8")
 asynSetOption("Koyo1",0,"stop","1")
 
 # Use the following command for serial RTU
-modbusInterposeConfig("Koyo1",1,1,1000)
+modbusInterposeConfig("Koyo1",1,1000)
 
 # Use the following commands for serial ASCII
 #asynOctetSetOutputEos("Koyo1",0,"\r\n")
 #asynOctetSetInputEos("Koyo1",0,"\r\n")
-#modbusInterposeConfig("Koyo1",1,2,1000)
+#modbusInterposeConfig("Koyo1",2,1000)
 
 # Trace flags for asynOctet driver
 asynSetTraceIOMask("Koyo1",0,4)   # Enable traceIOHex
@@ -1827,49 +1825,52 @@ asynSetTraceIOMask("Koyo1",0,4)   # Enable traceIOHex
 # NOTE: We use octal numbers for the start address and length (leading zeros)
 #       to be consistent with the PLC nomenclature.  This is optional, decimal
 #       numbers (no leading zero) or hex numbers can also be used.
+# These commands configure the driver for slave address 1 (the number after "Koyo1").
+# For other slave address this number must be changed.  It is typically ignored and
+# can be set to 0 for TCP.
 
 # The DL205 has bit access to the Xn inputs at Modbus offset 4000 (octal)
 # Read 32 bits (X0-X37).  Function code=2.
-drvModbusAsynConfigure("K1_Xn_Bit",      "Koyo1", 2,  04000, 040,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Xn_Bit",      "Koyo1", 1, 2,  04000, 040,    0,  100, "Koyo")
 
 # The DL205 has word access to the Xn inputs at Modbus offset 40400 (octal)
 # Read 8 words (128 bits).  Function code=3.
-drvModbusAsynConfigure("K1_Xn_Word",     "Koyo1", 3, 040400, 010,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Xn_Word",     "Koyo1", 1, 3, 040400, 010,    0,  100, "Koyo")
 
 # The DL205 has bit access to the Yn outputs at Modbus offset 4000 (octal)
 # Read 32 bits (Y0-Y37).  Function code=1.
-drvModbusAsynConfigure("K1_Yn_In_Bit",   "Koyo1", 1,  04000, 040,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Yn_In_Bit",   "Koyo1", 1, 1,  04000, 040,    0,  100, "Koyo")
 
 # The DL205 has bit access to the Yn outputs at Modbus offset 4000 (octal)
 # Write 32 bits (Y0-Y37).  Function code=5.
-drvModbusAsynConfigure("K1_Yn_Out_Bit",  "Koyo1", 5,  04000, 040,    0,  1, "Koyo")
+drvModbusAsynConfigure("K1_Yn_Out_Bit",  "Koyo1", 1, 5,  04000, 040,    0,  1, "Koyo")
 
 # The DL205 has word access to the Yn outputs at Modbus offset 40500 (octal)
 # Read 8 words (128 bits).  Function code=3.
-drvModbusAsynConfigure("K1_Yn_In_Word",  "Koyo1", 3, 040500, 010,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Yn_In_Word",  "Koyo1", 1, 3, 040500, 010,    0,  100, "Koyo")
 
 # Write 8 words (128 bits).  Function code=6.
-drvModbusAsynConfigure("K1_Yn_Out_Word", "Koyo1", 6, 040500, 010,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Yn_Out_Word", "Koyo1", 1, 6, 040500, 010,    0,  100, "Koyo")
 
 # The DL205 has bit access to the Cn bits at Modbus offset 6000 (octal)
 # Access 256 bits (C0-C377) as inputs.  Function code=1.
-drvModbusAsynConfigure("K1_Cn_In_Bit",   "Koyo1", 1,  06000, 0400,   0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Cn_In_Bit",   "Koyo1", 1, 1,  06000, 0400,   0,  100, "Koyo")
 
 # Access the same 256 bits (C0-C377) as outputs.  Function code=5.
-drvModbusAsynConfigure("K1_Cn_Out_Bit",  "Koyo1", 5,  06000, 0400,   0,  1,  "Koyo")
+drvModbusAsynConfigure("K1_Cn_Out_Bit",  "Koyo1", 1, 5,  06000, 0400,   0,  1,  "Koyo")
 
 # Access the same 256 bits (C0-C377) as array outputs.  Function code=15.
-drvModbusAsynConfigure("K1_Cn_Out_Bit_Array",  "Koyo1", 15,  06000, 0400,   0,   1, "Koyo")
+drvModbusAsynConfigure("K1_Cn_Out_Bit_Array",  "Koyo1", 1, 15,  06000, 0400,   0,   1, "Koyo")
 
 # The DL205 has word access to the Cn bits at Modbus offset 40600 (octal)
 # We use the first 16 words (C0-C377) as inputs (256 bits).  Function code=3.
-drvModbusAsynConfigure("K1_Cn_In_Word",  "Koyo1", 3, 040600, 020,    0,  100, "Koyo")
+drvModbusAsynConfigure("K1_Cn_In_Word",  "Koyo1", 1, 3, 040600, 020,    0,  100, "Koyo")
 
 # We access the same 16 words (C0-C377) as outputs (256 bits). Function code=6.
-drvModbusAsynConfigure("K1_Cn_Out_Word", "Koyo1", 6, 040600, 020,    0,  1,  "Koyo")
+drvModbusAsynConfigure("K1_Cn_Out_Word", "Koyo1", 1, 6, 040600, 020,    0,  1,  "Koyo")
 
 # We access the same 16 words (C0-C377) as array outputs (256 bits). Function code=16.
-drvModbusAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 16, 040600, 020,    0,   1, "Koyo")
+drvModbusAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 1, 16, 040600, 020,    0,   1, "Koyo")
 </pre>
   <p>
     Note that this example is designed for testing and demonstration purposes, not as
@@ -2161,10 +2162,6 @@ epics> asynSetTraceMask "K1_Yn_In_Word",0,1     # Disable traceIODriver
       record alarms. With that addition, records that have SCAN="Passive" or SCAN="I/O
       Intr" will go into alarm state when the <b>modbus</b> driver detects that the Modbus
       slave is not reachable. This is a planned feature for a future asyn release.</li>
-    <li>There is a known limitation with using serial interfaces. It is not currently
-      possible to have multiple Modbus servers connected to a single serial port. This
-      is a limitation of the asynInterposeInterface architecture used. It may be fixed
-      in a future release.</li>
   </ul>
 </body>
 </html>
