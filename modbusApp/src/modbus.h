@@ -37,7 +37,6 @@ typedef struct modbusMBAPHeader_str
     unsigned short transactId;
     unsigned short protocolType;
     unsigned short cmdLength;
-    unsigned char  destId;
 } modbusMBAPHeader;
 
 
@@ -47,6 +46,7 @@ typedef struct modbusMBAPHeader_str
 
 typedef struct modbusReadRequest_str
 {
+    unsigned char    slave;
     unsigned char    fcode;
     unsigned short   startReg;
     unsigned short   numRead;
@@ -61,6 +61,7 @@ typedef struct modbusReadResponse_str
 
 typedef struct modbusWriteSingleRequest_str
 {
+    unsigned char  slave;
     unsigned char  fcode;
     unsigned short startReg;
     unsigned short data;
@@ -76,6 +77,7 @@ typedef struct modbusWriteSingleResponse_str
 
 typedef struct modbusWriteMultipleRequest_str
 {
+    unsigned char  slave;
     unsigned char  fcode;
     unsigned short startReg;
     unsigned short numOutput;
