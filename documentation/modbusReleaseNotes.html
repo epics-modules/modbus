@@ -12,6 +12,21 @@
   </div>
   <div style="text-align: center">
     <h2>
+      Release 2-0</h2>
+    <h2>
+      November 26, 2009</h2>
+  </div>
+  <ul>
+    <li>Moved the slave address handling from the asynInterpose layer to the Modbus driver
+      layer. This was done because handing it in the the interpose layer only allowed
+      1 slave address per asyn serial port or IP port. This did not allow a single serial
+      port to be used with multiple Modbus devices on an RS-485 bus, for example. <b>NOTE:
+        This requires all startup command scripts to be changed, because the syntax of the
+        modbusInterposeConfig and drvModbusAsynConfigure commands has changed.</b> Thanks
+      to Yves Lussignol from CEA in France for making these changes.</li>
+  </ul>
+  <div style="text-align: center">
+    <h2>
       Release 1-3</h2>
     <h2>
       September 19, 2008</h2>
@@ -35,7 +50,7 @@
   <p>
     There is a known limitation with using serial interfaces. It is not currently possible
     to have multiple Modbus servers connected to a single serial port. This is a limitation
-    of the asynInterposeInterface architecture used. It may be fixed in a future release.</p>
+    of the asynInterposeInterface architecture used. It is fixed in release 2-0.</p>
   <div style="text-align: center">
     <h2>
       Release 1-1</h2>
