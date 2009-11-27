@@ -32,6 +32,7 @@ typedef enum {
 
 int drvModbusAsynConfigure(char *portName, 
                            char *octetPortName, 
+                           int modbusSlave,
                            int modbusFunction, 
                            int modbusStartAddress, 
                            int modbusLength,
