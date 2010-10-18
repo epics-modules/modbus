@@ -30,7 +30,6 @@
 #include <errlog.h>
 #include <osiSock.h>
 #include <iocsh.h>
-#include <epicsExport.h>
 
 /* Asyn includes */
 #include "asynDriver.h"
@@ -40,6 +39,7 @@
 
 #include "modbus.h"
 #include "drvModbusAsyn.h"
+#include <epicsExport.h>
 
 /* Defined constants */
 
