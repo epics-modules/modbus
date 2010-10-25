@@ -12,6 +12,18 @@
   </div>
   <div style="text-align: center">
     <h2>
+      Release 2-1</h2>
+    <h2>
+      October XXX, 2010</h2>
+  </div>
+  <ul>
+    <li>Bug fix. Non-automatic connection to the Modbus server uses pasynCommonSyncIO-&gt;connectDevice().
+    The pasynUser being used for that operation was being created with pasynOctetSyncIO-&gt;connect().
+    That was always an error, it must be created with pasynCommonSyncIO-&gt;connect().  This
+    error became serious with asyn R4-14, and non-automatic connection no longer worked.</li>
+  </ul>
+  <div style="text-align: center">
+    <h2>
       Release 2-0</h2>
     <h2>
       November 26, 2009</h2>
