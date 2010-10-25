@@ -603,9 +603,9 @@ drvAsynIPPortConfigure(portName, hostInfo, priority, noAutoConnect, noProcessEos
   <p>
     The following example creates an asyn IP port driver called "Koyo1" on port 502
     at IP address 164.54.160.158. The default priority is used and the noAutoConnect
-    flag is set to 1 so that the <b>modbus</b> driver, rather than asynManager, will
-    handle connection management. The noProcessEos flag is set to 1 because Modbus over
-    TCP does not require end-of-string processing.
+    flag is set to 0 so that asynManager will do normal automatic connection management.
+    The noProcessEos flag is set to 1 because Modbus over TCP does not require end-of-string
+    processing.
   </p>
   <pre>
 drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
@@ -625,11 +625,11 @@ asynSetOption(portName, addr, key, value)
   </p>
   <p>
     The following example creates an asyn local serial port driver called "Koyo1" on
-    /dev/ttyS1. The default priority is used and the noAutoConnect flag is set to 1
-    (FIX AND TEST THIS) so that the <b>modbus</b> driver, rather than asynManager, will
-    handle connection management. The noProcessEos flag is set to 0 because Modbus over
-    serial requires end-of-string processing. The serial port parameters are configured
-    to 38400 baud, no parity, 8 data bits, 1 stop bit.</p>
+    /dev/ttyS1. The default priority is used and the noAutoConnect flag is set to 0
+    so that asynManager will do normal automatic connection management. The noProcessEos
+    flag is set to 0 because Modbus over serial requires end-of-string processing. The
+    serial port parameters are configured to 38400 baud, no parity, 8 data bits, 1 stop
+    bit.</p>
   <pre>
 drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
 asynSetOption("Koyo1",0,"baud","38400")
@@ -651,12 +651,11 @@ asynOctetSetInputEos(portName, addr, eos)
       asynDriver documentation</a>.</p>
   <p>
     The following example creates an asyn local serial port driver called "Koyo1" on
-    /dev/ttyS1. The default priority is used and the noAutoConnect flag is set to 1
-    (FIX AND TEST THIS) so that the <b>modbus</b> driver, rather than asynManager, will
-    handle connection management. The noProcessEos flag is set to 0 because Modbus over
-    serial requires end-of-string processing. The serial port parameters are configured
-    to 38400 baud, no parity, 8 data bits, 1 stop bit. The input and output end-of-string
-    is set to CR/LF.
+    /dev/ttyS1. The default priority is used and the noAutoConnect flag is set to 0
+    so that asynManager will do normal automatic connection management. The noProcessEos
+    flag is set to 0 because Modbus over serial requires end-of-string processing. The
+    serial port parameters are configured to 38400 baud, no parity, 8 data bits, 1 stop
+    bit. The input and output end-of-string is set to CR/LF.
   </p>
   <pre>
 drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
@@ -2149,15 +2148,6 @@ epics> asynSetTraceMask "K1_Yn_In_Word",0,1     # Disable traceIODriver
   <h2 id="Known_problems">
     Known problems</h2>
   <ul>
-    <li>It should be possible to use the AutoConnect feature when creating the drvAsynIPPort
-      driver. However, there seems to be a problem with the automatic connection management
-      in asyn. For now connection management is done by the <b>modbus</b> driver itself,
-      so the noAutoConnect flag should be set to 1 in drvAsynIPPortConfigure. With this
-      setting the <b>modbus</b> driver will automatically reconnect if a PLC is disconnected
-      from the network or rebooted. However, it is necessary for the PLC to be available
-      when the IOC first boots or the "read once" values for drivers with Modbus write
-      functions will not be read by EPICS. Work on improving connection management will
-      be done in future asyn releases.</li>
     <li>The asyn device support needs to be modified to allow exception callbacks to set
       record alarms. With that addition, records that have SCAN="Passive" or SCAN="I/O
       Intr" will go into alarm state when the <b>modbus</b> driver detects that the Modbus
