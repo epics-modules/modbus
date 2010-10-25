@@ -18,9 +18,14 @@
   </div>
   <ul>
     <li>Bug fix. Non-automatic connection to the Modbus server uses pasynCommonSyncIO-&gt;connectDevice().
-    The pasynUser being used for that operation was being created with pasynOctetSyncIO-&gt;connect().
-    That was always an error, it must be created with pasynCommonSyncIO-&gt;connect().  This
-    error became serious with asyn R4-14, and non-automatic connection no longer worked.</li>
+      The pasynUser being used for that operation was being created with pasynOctetSyncIO-&gt;connect().
+      That was always an error, it must be created with pasynCommonSyncIO-&gt;connect().
+      This error became serious with asyn R4-14, and non-automatic connection no longer
+      worked.</li>
+    <li>Previous releases of modbus recommended setting NoAutoConnect=1 when configuring
+      the TCP or serial port. That was probably because of problems in connection management
+      in earlier versions of asyn. With asyn R4-14 this is no longer necessary, and NoAutoConnect=0,
+      the normal default, can be used with no problems.</li>
   </ul>
   <div style="text-align: center">
     <h2>
