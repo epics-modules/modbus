@@ -101,6 +101,7 @@ typedef struct modbusStr
     int isConnected;            /* Connection status */
     int ioStatus;               /* I/O error status */
     asynUser  *pasynUserOctet;  /* asynUser for asynOctet interface to asyn octet port */ 
+    asynUser  *pasynUserCommon; /* asynUser for asynCommon interface to asyn octet port */
     asynUser  *pasynUserTrace;  /* asynUser for asynTrace on this port */
     asynStandardInterfaces asynStdInterfaces;  /* Structure for standard interfaces */
     epicsMutexId mutexId;       /* Mutex for interlocking access to doModbusIO */
@@ -332,7 +333,16 @@ int drvModbusAsynConfigure(char *portName,
     status = pasynOctetSyncIO->connect(octetPortName, 0, &pPlc->pasynUserOctet, 0);
     if (status != asynSuccess) {
         errlogPrintf("%s::drvModbusAsynConfigure port %s"
-                     " can't connect to Octet server %s.\n",
+                     " can't connect to asynOctet on Octet server %s.\n",
+                     driver, portName, octetPortName);
+        return(asynError);
+    }
+
+    /* Connect to asyn octet port with asynCommonSyncIO */
+    status = pasynCommonSyncIO->connect(octetPortName, 0, &pPlc->pasynUserCommon, 0);
+    if (status != asynSuccess) {
+        errlogPrintf("%s::drvModbusAsynConfigure port %s"
+                     " can't connect to asynCommon on Octet server %s.\n",
                      driver, portName, octetPortName);
         return(asynError);
     }
@@ -1288,7 +1298,7 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR, 
                           "%s::doModbusIO port %s is disconnected\n",
                           driver, pPlc->portName);
-            status = pasynCommonSyncIO->disconnectDevice(pPlc->pasynUserOctet);
+            status = pasynCommonSyncIO->disconnectDevice(pPlc->pasynUserCommon);
             if (status == asynSuccess) {
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW, 
                           "%s::doModbusIO port %s disconnect device OK\n",
@@ -1298,7 +1308,7 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
                           "%s::doModbusIO port %s disconnect error=%s\n",
                           driver, pPlc->portName, pPlc->pasynUserOctet->errorMessage);
             }
-            status = pasynCommonSyncIO->connectDevice(pPlc->pasynUserOctet);
+            status = pasynCommonSyncIO->connectDevice(pPlc->pasynUserCommon);
             if (status == asynSuccess) {
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW, 
                           "%s::doModbusIO port %s connect device OK\n",
