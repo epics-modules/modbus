@@ -9,7 +9,7 @@ modbus_registerRecordDeviceDriver(pdbbase)
 #                       unsigned int priority, 
 #                       int noAutoConnect,
 #                       int noProcessEos);
-drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
+drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,0,1)
 #modbusInterposeConfig(const char *portName, 
 #                      modbusLinkType linkType,
 #                      int timeoutMsec)
