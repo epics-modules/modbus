@@ -1090,22 +1090,19 @@ static void readPoller(PLC_ID pPlc)
     /* Loop forever */    
     while (1)
     {
-        /* Sleep for the poll delay */
-        epicsThreadSleep(pPlc->pollDelay);
-
         /* Read the data */
         pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
                                     pPlc->modbusStartAddress, pPlc->data, pPlc->modbusLength);
         /* If we have an I/O error this time and the previous time, just try again */
         if (pPlc->ioStatus != asynSuccess &&
-            pPlc->ioStatus == prevIOStatus) continue;
+            pPlc->ioStatus == prevIOStatus) goto sleep;
 
         /* If the I/O status has changed then force callbacks */
         if (pPlc->ioStatus != prevIOStatus) pPlc->forceCallback = 1;
         
         /* We process callbacks to device support.  
          * Don't do this until EPICS interruptAccept flag is set. */
-        if (!interruptAccept) continue;
+        if (!interruptAccept) goto sleep;
                             
         /* See if any memory location has actually changed.  
          * If not, no need to do callbacks. */
@@ -1248,6 +1245,11 @@ static void readPoller(PLC_ID pPlc)
 
         /* Copy the new data to the previous data */
         memcpy(prevData, pPlc->data, pPlc->modbusLength*sizeof(unsigned short));
+
+        sleep:
+        /* Sleep for the poll delay */
+        epicsThreadSleep(pPlc->pollDelay);
+
     }
 }
 
