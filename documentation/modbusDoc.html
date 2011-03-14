@@ -12,11 +12,11 @@
     <h1>
       Driver Support for Modbus Protocol under EPICS</h1>
     <h2>
-      Release 2-1</h2>
+      Release 2-2</h2>
     <h2>
       Mark Rivers</h2>
     <h2>
-      November 7, 2010</h2>
+      March 13, 2011</h2>
     <hr />
   </div>
   <h2>
@@ -735,15 +735,17 @@ modbusInterposeConfig(portName,
           int</td>
         <td>
           The delay in milliseconds before each write from EPICS to the device. This is typically
-          only needed for some Serial RTU and Serial ASCII devices.  The default is 0.</td>
+          only needed for Serial RTU devices. The Modicon Modbus Protocol Reference Guide
+          says this must be at least 3.5 character times, e.g. about 3.5ms at 9600 baud, for Serial RTU.
+          The default is 0.</td>
       </tr>
     </tbody>
   </table>
   <p>
     For the serial ASCII example above, after the asynOctetSetInputEos command, the
-    following command would be used. This uses a timeout of 1 second, and a write delay of 100 ms.</p>
+    following command would be used. This uses a timeout of 1 second, and a write delay of 0 ms.</p>
   <pre>
-modbusInterposeConfig("Koyo1",2,1000,100)
+modbusInterposeConfig("Koyo1",2,1000,0)
 </pre>
   <h3>
     drvModbusAsynConfigure</h3>
