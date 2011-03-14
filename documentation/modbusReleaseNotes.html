@@ -12,6 +12,18 @@
   </div>
   <div style="text-align: center">
     <h2>
+      Release 2-2</h2>
+    <h2>
+      March 13, 2011</h2>
+  </div>
+  <ul>
+    <li>R2-0 introduced a 20 ms delay before each Modbus write.  This was not correct, it had been added
+    for a specific serial device.  Some serial devices do need a delay between writes, so a write delay 
+    parameter was added to modbusInterposeConfig.  It is the final parameter, so if it is not specified the 
+    default value is zero, which is appropriate in most cases.</li>
+  </ul>
+  <div style="text-align: center">
+    <h2>
       Release 2-1</h2>
     <h2>
       November 7, 2010</h2>
