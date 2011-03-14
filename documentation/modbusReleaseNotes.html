@@ -17,10 +17,12 @@
       March 13, 2011</h2>
   </div>
   <ul>
-    <li>R2-0 introduced a 20 ms delay before each Modbus write.  This was not correct, it had been added
-    for a specific serial device.  Some serial devices do need a delay between writes, so a write delay 
-    parameter was added to modbusInterposeConfig.  It is the final parameter, so if it is not specified the 
-    default value is zero, which is appropriate in most cases.</li>
+    <li>R2-0 introduced a 20 ms delay before each Modbus write.  This was not correct, delays should only be
+    needed for serial RTU.  The Modicon Modbus Protocol Reference Guide says this must be at least 3.5 
+    character times, e.g. about 3.5ms at 9600 baud, for Serial RTU.
+    An additional writeDelayMsec parameter was added to modbusInterposeConfig.  
+    It is the final parameter, so if it is not specified the 
+    default value is zero, which is appropriate when not using Serial RTU.</li>
   </ul>
   <div style="text-align: center">
     <h2>
