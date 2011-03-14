@@ -564,6 +564,10 @@
     For write operations it is possible to specify that a single read operation should
     be done when the port driver is created. This is normally used so that EPICS obtains
     the current value of an output device when the IOC is initialized.</p>
+  <p>
+    Some Modbus devices require a minimum time between writes to them.  The 
+    modbusInterposeConfig function allows one to specify a write delay in msec which
+    is done before every write.</p>
   <h3>
     Platform independence</h3>
   <p>
@@ -677,7 +681,8 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
   <pre>
 modbusInterposeConfig(portName, 
                       linkType,
-                      timeoutMsec)
+                      timeoutMsec,
+                      writeDelayMsec)
 </pre>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
@@ -723,13 +728,22 @@ modbusInterposeConfig(portName,
           device support. If zero is specified then a default timeout of 2000 milliseconds
           is used.</td>
       </tr>
+      <tr>
+        <td>
+          writeDelayMsec</td>
+        <td>
+          int</td>
+        <td>
+          The delay in milliseconds before each write from EPICS to the device. This is typically
+          only needed for some Serial RTU and Serial ASCII devices.  The default is 0.</td>
+      </tr>
     </tbody>
   </table>
   <p>
     For the serial ASCII example above, after the asynOctetSetInputEos command, the
-    following command would be used. This uses a timeout of 1 second.</p>
+    following command would be used. This uses a timeout of 1 second, and a write delay of 100 ms.</p>
   <pre>
-modbusInterposeConfig("Koyo1",2,1000)
+modbusInterposeConfig("Koyo1",2,1000,100)
 </pre>
   <h3>
     drvModbusAsynConfigure</h3>
