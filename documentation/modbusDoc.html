@@ -565,9 +565,9 @@
     be done when the port driver is created. This is normally used so that EPICS obtains
     the current value of an output device when the IOC is initialized.</p>
   <p>
-    Some Modbus devices require a minimum time between writes to them.  The 
-    modbusInterposeConfig function allows one to specify a write delay in msec which
-    is done before every write.</p>
+    Modbus RTU specifies a minimum delay of 3.5 character times between writes to the
+    device. The modbusInterposeConfig function allows one to specify a write delay in
+    msec before each write.</p>
   <h3>
     Platform independence</h3>
   <p>
@@ -597,8 +597,7 @@
   <p>
     For TCP/IP use the following standard asyn command:
   </p>
-  <pre>
-drvAsynIPPortConfigure(portName, hostInfo, priority, noAutoConnect, noProcessEos)
+  <pre>drvAsynIPPortConfigure(portName, hostInfo, priority, noAutoConnect, noProcessEos)
 </pre>
   <p>
     Documentation on this command can be found in the <a href="http://www.aps.anl.gov/epics/modules/soft/asyn/R4-7/asynDriver.html#drvAsynIPPort">
@@ -611,16 +610,14 @@ drvAsynIPPortConfigure(portName, hostInfo, priority, noAutoConnect, noProcessEos
     The noProcessEos flag is set to 1 because Modbus over TCP does not require end-of-string
     processing.
   </p>
-  <pre>
-drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
+  <pre>drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,1,1)
 </pre>
   <h3>
     Serial RTU</h3>
   <p>
     For serial RTU use the following standard asyn commands:
   </p>
-  <pre>
-drvAsynSerialPortConfigure(portName, ttyName, priority, noAutoConnect, noProcessEos)
+  <pre>drvAsynSerialPortConfigure(portName, ttyName, priority, noAutoConnect, noProcessEos)
 asynSetOption(portName, addr, key, value)
 </pre>
   <p>
@@ -634,8 +631,7 @@ asynSetOption(portName, addr, key, value)
     flag is set to 0 because Modbus over serial requires end-of-string processing. The
     serial port parameters are configured to 38400 baud, no parity, 8 data bits, 1 stop
     bit.</p>
-  <pre>
-drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
+  <pre>drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
 asynSetOption("Koyo1",0,"baud","38400")
 asynSetOption("Koyo1",0,"parity","none")
 asynSetOption("Koyo1",0,"bits","8")
@@ -646,8 +642,7 @@ asynSetOption("Koyo1",0,"stop","1")
   <p>
     For serial ASCII use the same commands described above for serial RTU. After the
     asynSetOption commands use the following standard asyn commands:</p>
-  <pre>
-asynOctetSetOutputEos(portName, addr, eos)
+  <pre>asynOctetSetOutputEos(portName, addr, eos)
 asynOctetSetInputEos(portName, addr, eos)
 </pre>
   <p>
@@ -661,8 +656,7 @@ asynOctetSetInputEos(portName, addr, eos)
     serial port parameters are configured to 38400 baud, no parity, 8 data bits, 1 stop
     bit. The input and output end-of-string is set to CR/LF.
   </p>
-  <pre>
-drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
+  <pre>drvAsynSerialPortConfigure("Koyo1", "/dev/ttyS1", 0, 0, 0)
 asynSetOption("Koyo1",0,"baud","38400")
 asynSetOption("Koyo1",0,"parity","none")
 asynSetOption("Koyo1",0,"bits","8")
@@ -678,8 +672,7 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
     Modbus frames and adds or removes the communication-link specific information for
     the TCP, RTU, or ASCII link protocols. The interpose driver is created with the
     command:</p>
-  <pre>
-modbusInterposeConfig(portName, 
+  <pre>modbusInterposeConfig(portName, 
                       linkType,
                       timeoutMsec,
                       writeDelayMsec)
@@ -736,16 +729,16 @@ modbusInterposeConfig(portName,
         <td>
           The delay in milliseconds before each write from EPICS to the device. This is typically
           only needed for Serial RTU devices. The Modicon Modbus Protocol Reference Guide
-          says this must be at least 3.5 character times, e.g. about 3.5ms at 9600 baud, for Serial RTU.
-          The default is 0.</td>
+          says this must be at least 3.5 character times, e.g. about 3.5ms at 9600 baud, for
+          Serial RTU. The default is 0.</td>
       </tr>
     </tbody>
   </table>
   <p>
     For the serial ASCII example above, after the asynOctetSetInputEos command, the
-    following command would be used. This uses a timeout of 1 second, and a write delay of 0 ms.</p>
-  <pre>
-modbusInterposeConfig("Koyo1",2,1000,0)
+    following command would be used. This uses a timeout of 1 second, and a write delay
+    of 0 ms.</p>
+  <pre>modbusInterposeConfig("Koyo1",2,1000,0)
 </pre>
   <h3>
     drvModbusAsynConfigure</h3>
@@ -753,8 +746,7 @@ modbusInterposeConfig("Koyo1",2,1000,0)
     Once the asyn IP or serial port driver has been created, and the modbusInterpose
     driver has been configured, a <b>modbus</b> port driver is created with the following
     command:</p>
-  <pre>
-drvModbusAsynConfigure(portName, 
+  <pre>drvModbusAsynConfigure(portName, 
                        tcpPortName,
                        slaveAddress, 
                        modbusFunction, 
@@ -979,8 +971,7 @@ drvModbusAsynConfigure(portName,
   <p>
     asynUInt32Digital device support is selected with
   </p>
-  <pre>
-field(DTYP,"asynUInt32Digital")
+  <pre>field(DTYP,"asynUInt32Digital")
 field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")
     </pre>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
@@ -1102,8 +1093,7 @@ field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")
   <p>
     asynInt32 device support is selected with
   </p>
-  <pre>
-field(DTYP,"asynInt32")
+  <pre>field(DTYP,"asynInt32")
 field(INP,"@asyn(portName,offset,timeout)drvUser")
     </pre>
   <p>
@@ -1273,8 +1263,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
     asynFloat64</h3>
   <p>
     asynFloat64 device support is selected with</p>
-  <pre>
-field(DTYP,"asynFloat64")
+  <pre>field(DTYP,"asynFloat64")
 field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
@@ -1372,14 +1361,12 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
     asynInt32Array</h3>
   <p>
     asynInt32Array device support is selected with</p>
-  <pre>
-field(DTYP,"asynInt32ArrayIn")
+  <pre>field(DTYP,"asynInt32ArrayIn")
 field(INP,"@asyn(portName,offset,timeout)drvUser")
     </pre>
   <p>
     or</p>
-  <pre>
-field(DTYP,"asynInt32ArrayOut")
+  <pre>field(DTYP,"asynInt32ArrayOut")
 field(INP,"@asyn(portName,offset,timeout)drvUser")
     </pre>
   <p>
@@ -1780,12 +1767,10 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       A/D values into V memory.</li>
     <li>st.cmd is a simple example startup script to be run on non-vxWorks IOCs. It just
       loads Koyo1.cmd and Koyo2.cmd. It is invoked using a command like:
-      <pre>
-      ../../bin/linux-x86/modbusApp st.cmd
+      <pre>      ../../bin/linux-x86/modbusApp st.cmd
       </pre>
       One can also load Koyo1.cmd or Koyo2.cmd separately as in:
-      <pre>
-      ../../bin/linux-x86/modbusApp Koyo1.cmd
+      <pre>      ../../bin/linux-x86/modbusApp Koyo1.cmd
       </pre>
       st.cmd.vxWorks is a simple example startup script to be run on vxWorks IOCs. It
       just loads Koyo1.cmd and Koyo2.cmd.</li>
@@ -1794,8 +1779,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
     The following is the beginning of Koyo1.cmd when it is configured for serial RTU
     with slave address 1 on /dev/ttyS1. It also shows how to configure TCP and serial
     ASCII connections. (Koyo PLCs do not support ASCII however).</p>
-  <pre>
-# Koyo1.cmd
+  <pre># Koyo1.cmd
 &lt; envPaths
 
 dbLoadDatabase("../../dbd/modbus.dbd")
@@ -1993,8 +1977,7 @@ drvModbusAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 1, 16, 040600, 020,    0
     driver that <b>modbus</b> drivers are connected to, and for all <b>modbus</b> port
     drivers. For example, a partial output for the Koyo1 application when it is connected
     via TCP is:</p>
-  <pre>
-epics> asynReport
+  <pre>epics> asynReport
 Koyo1 multiDevice:No canBlock:Yes autoConnect:No
 Port 164.54.160.158:502: Connected
 K1_Xn_Bit multiDevice:Yes canBlock:No autoConnect:Yes
@@ -2013,8 +1996,7 @@ K1_Xn_Word multiDevice:Yes canBlock:No autoConnect:Yes
   <p>
     To obtain more detailed information, one can request information for a specific
     <b>modbus</b> port driver, and output level >0 as follows:</p>
-  <pre>
-epics> asynReport 5, "K1_Xn_Word"
+  <pre>epics> asynReport 5, "K1_Xn_Word"
 K1_Xn_Word multiDevice:Yes canBlock:No autoConnect:Yes
     enabled:Yes connected:Yes numberConnects 1
     nDevices 1 nQueued 0 blocked:No
@@ -2047,8 +2029,7 @@ modbus port: K1_Xn_Word
     To obtain run-time debugging output for a driver use the asynSetTraceMask and asynSetTraceIOMask
     commands. For example the following commands will show all I/O to and from the PLC
     from the underlying drvAsynIPPort driver:</p>
-  <pre>
-epics> asynSetTraceIOMask "Koyo1",0,4   # Enable traceIOHex
+  <pre>epics> asynSetTraceIOMask "Koyo1",0,4   # Enable traceIOHex
 epics> asynSetTraceMask "Koyo1",0,9     # Enable traceError and traceIODriver
 epics> 
 2007/04/12 17:27:45.384 164.54.160.158:502 write 12
@@ -2069,8 +2050,7 @@ epics> asynSetTraceMask "Koyo1",0,1    # Turn off traceIODriver
 </pre>
   <p>
     The following command shows the I/O from a specific <b>modbus</b> port driver:</p>
-  <pre>
-epics> asynSetTraceIOMask "K1_Yn_In_Word",0,4   # Enable traceIOHex
+  <pre>epics> asynSetTraceIOMask "K1_Yn_In_Word",0,4   # Enable traceIOHex
 epics> asynSetTraceMask "K1_Yn_In_Word",0,9     # Enable traceError and traceIODriver
 epics> 
 2007/04/12 17:32:31.548 drvModbusAsyn::doModbusIO port K1_Yn_In_Word READ_REGISTERS
