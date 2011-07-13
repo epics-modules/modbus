@@ -10,17 +10,18 @@
 
 TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 
-ASYN=/corvette/home/epics/devel/asyn-4-15
+SUPPORT=/corvette/home/epics/devel
+-include $(TOP)/../configure/SUPPORT.$(EPICS_HOST_ARCH)
+
+ASYN=$(SUPPORT)/asyn-4-17
 
 # If you don't want to install into $(TOP) then
 # define INSTALL_LOCATION_APP here
 #INSTALL_LOCATION_APP=<fullpathname>
 
-#If using the sequencer, point SNCSEQ at its top directory:
-# SNCSEQ=$(EPICS_BASE)/../modules/src/seq
-
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/corvette/usr/local/epics/base-3.14.12
+EPICS_BASE=/corvette/usr/local/epics/base-3.14.12.1
+-include $(TOP)/../configure/EPICS_BASE.$(EPICS_HOST_ARCH)
 
 #Capfast users may need the following definitions
 #CAPFAST_TEMPLATES=
