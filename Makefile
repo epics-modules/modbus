@@ -5,7 +5,6 @@ DIRS := $(DIRS) $(filter-out $(DIRS), configure)
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *App))
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard *app))
 DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard iocBoot))
-DIRS := $(DIRS) $(filter-out $(DIRS), $(wildcard iocboot))
 modbusApp_DEPEND_DIRS = configure
 iocBoot_DEPEND_DIRS   = modbusApp
 include $(TOP)/configure/RULES_TOP
