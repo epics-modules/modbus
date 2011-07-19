@@ -1,0 +1,309 @@
+<display typeId="org.csstudio.opibuilder.Display" version="1.0">
+  <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
+  <macros>
+    <include_parent_macros>true</include_parent_macros>
+  </macros>
+  <scripts />
+  <show_ruler>true</show_ruler>
+  <height>145</height>
+  <name>Koyo2</name>
+  <snap_to_geometry>false</snap_to_geometry>
+  <show_grid>false</show_grid>
+  <background_color>
+    <color name="Gray_4" />
+  </background_color>
+  <foreground_color>
+    <color name="Gray_14" />
+  </foreground_color>
+  <widget_type>Display</widget_type>
+  <show_close_button>true</show_close_button>
+  <width>170</width>
+  <rules />
+  <show_edit_range>true</show_edit_range>
+  <grid_space>5</grid_space>
+  <actions hook="false" />
+  <y>100</y>
+  <x>100</x>
+  <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0">
+    <enabled>true</enabled>
+    <widget_type>Grouping Container</widget_type>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+    </macros>
+    <visible>true</visible>
+    <font>
+      <opifont.name>Default</opifont.name>
+    </font>
+    <width>160</width>
+    <border_style>0</border_style>
+    <rules />
+    <lock_children>false</lock_children>
+    <scripts />
+    <height>85</height>
+    <border_width>1</border_width>
+    <name>Grouping Container</name>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <transparent>false</transparent>
+    <show_scrollbar>false</show_scrollbar>
+    <y>51</y>
+    <actions hook="false" />
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <background_color>
+      <color red="187" green="187" blue="187" />
+    </background_color>
+    <x>5</x>
+    <tooltip />
+    <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0">
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <visible>true</visible>
+      <actions_from_pv>false</actions_from_pv>
+      <scripts />
+      <height>25</height>
+      <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+      <name>Menu Button</name>
+      <transparent>false</transparent>
+      <pv_name />
+      <background_color>
+        <color name="Gray_4" />
+      </background_color>
+      <foreground_color>
+        <color name="Gray_14" />
+      </foreground_color>
+      <widget_type>Menu Button</widget_type>
+      <enabled>true</enabled>
+      <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+      <font>
+        <opifont.name>Default</opifont.name>
+      </font>
+      <width>160</width>
+      <border_style>6</border_style>
+      <label>Inputs</label>
+      <rules />
+      <border_width>1</border_width>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <y>0</y>
+      <actions hook="false">
+        <action type="OPEN_OPI_IN_VIEW">
+          <path>Koyo_8inputs.opi</path>
+          <macros>
+            <include_parent_macros>true</include_parent_macros>
+            <P>KOYO2:</P>
+            <R>Y</R>
+            <A>InB</A>
+            <L>Y0InBL</L>
+            <PORT>YnInB</PORT>
+            <AC>Bit</AC>
+          </macros>
+          <Position>1</Position>
+          <description>Y0-Y7 inputs (bit access)</description>
+        </action>
+        <action type="OPEN_OPI_IN_VIEW">
+          <path>Koyo_8inputs.opi</path>
+          <macros>
+            <include_parent_macros>true</include_parent_macros>
+            <P>KOYO2:</P>
+            <R>C</R>
+            <A>InB</A>
+            <L>C0InBL</L>
+            <PORT>CnInB</PORT>
+            <AC>Bit</AC>
+          </macros>
+          <Position>1</Position>
+          <description>C0-C7 inputs (bit access)</description>
+        </action>
+        <action type="OPEN_OPI_IN_VIEW">
+          <path>Koyo_8inputs.opi</path>
+          <macros>
+            <include_parent_macros>true</include_parent_macros>
+            <P>KOYO2:</P>
+            <R>C20</R>
+            <A>InB</A>
+            <L>C200InBL</L>
+            <PORT>CnInB</PORT>
+            <AC>Bit</AC>
+          </macros>
+          <Position>1</Position>
+          <description>C200-C207 inputs (bit access)</description>
+        </action>
+        <action type="OPEN_OPI_IN_VIEW">
+          <path>Koyo_4ADC.opi</path>
+          <macros>
+            <include_parent_macros>true</include_parent_macros>
+            <P>KOYO2:</P>
+            <R1>ADC1</R1>
+            <R2>ADC2</R2>
+            <R3>ADC3</R3>
+            <R4>ADC4</R4>
+            <PORT>V3000InW</PORT>
+          </macros>
+          <Position>1</Position>
+          <description>ADCs</description>
+        </action>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <x>0</x>
+    </widget>
+    <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0">
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <visible>true</visible>
+      <actions_from_pv>false</actions_from_pv>
+      <scripts />
+      <height>25</height>
+      <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+      <name>Menu Button</name>
+      <transparent>false</transparent>
+      <pv_name />
+      <background_color>
+        <color name="Gray_4" />
+      </background_color>
+      <foreground_color>
+        <color name="Gray_14" />
+      </foreground_color>
+      <widget_type>Menu Button</widget_type>
+      <enabled>true</enabled>
+      <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+      <font>
+        <opifont.name>Default</opifont.name>
+      </font>
+      <width>160</width>
+      <border_style>6</border_style>
+      <label>Outputs</label>
+      <rules />
+      <border_width>1</border_width>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <y>30</y>
+      <actions hook="false">
+        <action type="OPEN_OPI_IN_VIEW">
+          <path>Koyo_8outputs.opi</path>
+          <macros>
+            <include_parent_macros>true</include_parent_macros>
+            <P>KOYO2:</P>
+            <R>Y</R>
+            <A>OutB</A>
+            <L>Y0OutBL</L>
+            <PORT>YnOutB</PORT>
+            <AC>Bit</AC>
+          </macros>
+          <Position>1</Position>
+          <description>Y0-Y7 outputs (bit access)</description>
+        </action>
+        <action type="OPEN_OPI_IN_VIEW">
+          <path>Koyo_8outputs.opi</path>
+          <macros>
+            <include_parent_macros>true</include_parent_macros>
+            <P>KOYO2:</P>
+            <R>C20</R>
+            <A>OutB</A>
+            <L>C200OutBL</L>
+            <PORT>C20nOutB</PORT>
+            <AC>Bit</AC>
+          </macros>
+          <Position>1</Position>
+          <description>C200-C207 outputs (bit access)</description>
+        </action>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <x>0</x>
+    </widget>
+    <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0">
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <visible>true</visible>
+      <actions_from_pv>false</actions_from_pv>
+      <scripts />
+      <height>25</height>
+      <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+      <name>Menu Button</name>
+      <transparent>false</transparent>
+      <pv_name />
+      <background_color>
+        <color name="Gray_4" />
+      </background_color>
+      <foreground_color>
+        <color name="Gray_14" />
+      </foreground_color>
+      <widget_type>Menu Button</widget_type>
+      <enabled>true</enabled>
+      <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+      <font>
+        <opifont.name>Default</opifont.name>
+      </font>
+      <width>160</width>
+      <border_style>6</border_style>
+      <label>Octet asyn record</label>
+      <rules />
+      <border_width>1</border_width>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <y>60</y>
+      <actions hook="false">
+        <action type="OPEN_OPI_IN_VIEW">
+          <path>asynRecord.opi</path>
+          <macros>
+            <include_parent_macros>true</include_parent_macros>
+            <P>KOYO2:</P>
+            <R>OctetAsyn</R>
+          </macros>
+          <Position>1</Position>
+          <description>Octet asyn record</description>
+        </action>
+        <action type="OPEN_OPI_IN_VIEW">
+          <path />
+          <macros>
+            <include_parent_macros>true</include_parent_macros>
+          </macros>
+          <Position>1</Position>
+          <description />
+        </action>
+      </actions>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <x>0</x>
+    </widget>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
+    <visible>true</visible>
+    <vertical_alignment>1</vertical_alignment>
+    <auto_size>false</auto_size>
+    <scripts />
+    <height>30</height>
+    <name>Label</name>
+    <transparent>true</transparent>
+    <show_scrollbar>false</show_scrollbar>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <foreground_color>
+      <color name="Gray_14" />
+    </foreground_color>
+    <widget_type>Label</widget_type>
+    <enabled>true</enabled>
+    <text>Koyo 2</text>
+    <font>
+      <fontdata fontName="Sans" height="24" style="0" />
+    </font>
+    <width>146</width>
+    <border_style>0</border_style>
+    <rules />
+    <border_width>1</border_width>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <horizontal_alignment>1</horizontal_alignment>
+    <actions hook="false" />
+    <y>12</y>
+    <wrap_words>true</wrap_words>
+    <tooltip />
+    <x>12</x>
+  </widget>
+</display>
