@@ -332,7 +332,7 @@ $(pv_value)</tooltip>
       <y>60</y>
       <actions hook="false">
         <action type="OPEN_OPI_IN_VIEW">
-          <path>asynRecord.opi</path>
+          <path>../asyn/asynRecord.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
             <P>KOYO1:</P>
