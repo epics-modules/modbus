@@ -1417,12 +1417,12 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
             writeMultipleReq->startReg = htons((unsigned short)start);
             pShortIn = (unsigned short *)data;
             pShortOut = (unsigned short *)&writeMultipleReq->data;
-            for (i=0; i<len; i++) {
+            for (i=0; i<len; i++, pShortOut++) {
                 *pShortOut = *pShortIn++;
                 if (pPlc->dataType != dataTypeBinary) {
                     *pShortOut = convertFromBinary(*pShortOut, pPlc->dataType);
                 }
-                *pShortOut++ = htons(*pShortOut);
+                *pShortOut = htons(*pShortOut);
             }
             writeMultipleReq->numOutput = htons(len);
             byteCount = 2*len;
