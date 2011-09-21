@@ -923,6 +923,55 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
     Note that if it is desired to transmit BCD numbers untranslated to EPICS over the
     asynInt32 interface, then data type 0 should be used, because no translation is
     done in this case.</p>
+  <h3>
+    Floating point values</h3>
+  <p>
+    Some Modbus devices use floating point numbers, typically by storing a 32-bit float
+    in two consecutive 16-bit registers. This is <i>not</i> supported by the Modbus
+    specification, which only supports 16-bit registers and single-bit data. The <b>modbus</b>
+    driver does not directly support reading such values, because the word order and
+    floating point format is not specified. The following is an example of an EPICS
+    database can be used to do the conversion. Note that the calc expression is longer
+    than 40 characters but that's a problem only if a client tries to read the expression
+    as an EPICS string. The PLC used in this example stores the least-significant word
+    in register N and the most-significant word in register N+1. The Modbus protocol
+    does not guarantee this, and Other PLCs may provide the values the other way around,
+    or perhaps in a completely different format.</p>
+  <pre>#
+# Assume that the registers are processsed in order 
+# so the low word (offset N) value is ready by the time 
+# that the high word (offset N+1) forward link is processed.
+#
+record(longin,"$(P)vacuumHiWord") {
+   field(DESC, "R2089")
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn(rfDrive_r0i, 92, 1)")
+   field(SCAN, "I/O Intr")
+   field(FLNK, "$(P)vacuumLoWord")
+}
+record(longin,"$(P)vacuumLoWord") {
+   field(DESC, "R2088")
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn(rfDrive_r0i, 91, 1)")
+   field(FLNK, "$(P)vacuum")
+}
+#
+# Convert to IEEE-754 32-bit float.
+# No INF/NAN, no denormalized numbers.
+#
+record(calc,"$(P)vacuum") {
+   field(INPA, "$(P)vacuumHiWord")
+   field(INPB, "$(P)vacuumLoWord")
+   field(INPC, "0x8000")   # Hi word, sign bit
+   field(INPD, "0x7F80")   # Hi word, exponent mask
+   field(INPE, "0x00FF")   # Hi word, mantissa mask (incl hidden bit)
+   field(INPF, "150")      # Exponent offset plus 23-bit mantissa shift
+   field(INPG, "0x0080")   # Mantissa hidden bit
+   field(INPJ, "65536")    # Hi/Lo mantissa ratio
+   field(CALC, "(A&D?(A&C?-1:1):0)*((G|A&E)*J+B)*2^((A&D)/G-F)")
+   field(PREC, "4")
+}
+</pre>
   <h2 id="EPICS_device_support">
     EPICS device support</h2>
   <p>
