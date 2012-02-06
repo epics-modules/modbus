@@ -79,7 +79,8 @@
         <td>
           Serial protocol, using RS-232, RS-422, or RS-485. The protocol directly transmits
           each byte as 8 data bits, so uses "binary" rather than ASCII encoding. The start
-          and end of message frames is detected by timing rather than by specific characters.</td>
+          and end of message frames is detected by timing rather than by specific characters.
+        </td>
       </tr>
       <tr>
         <td>
@@ -131,8 +132,7 @@
         <td>
           Coils</td>
         <td>
-          Single bit
-        </td>
+          Single bit </td>
         <td>
           Read-Write</td>
         <td>
@@ -142,8 +142,7 @@
         <td>
           Input Registers</td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
           Read-Only</td>
         <td>
@@ -151,11 +150,9 @@
       </tr>
       <tr>
         <td>
-          Holding Registers
-        </td>
+          Holding Registers </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
           Read-Write</td>
         <td>
@@ -824,8 +821,7 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
           This is specified in bits for Modbus functions 1, 2, 5 and 15.<br />
           It is specified in 16-bit words for Modbus functions 3, 4, 6 and 16.<br />
           Length limit is 2000 for functions 1 and 2, 1968 for functions 5 and 15,<br />
-          125 for functions 3 and 4, and 123 for functions 6 and 16.
-        </td>
+          125 for functions 3 and 4, and 123 for functions 6 and 16. </td>
       </tr>
       <tr>
         <td>
@@ -857,11 +853,24 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
         <td>
           Type of PLC (e.g. Koyo, Modicon, etc.).
           <br />
-          This parameter is currently used only to print information in asynReport.<br />
-          In the future it could be used to modify the driver behavior for a specific PLC.</td>
+          This parameter is currently used to print information in asynReport.<br />
+          It is also used to treat Wago devices specially if the plcType string contains the
+          substring "Wago". See the note below. </td>
       </tr>
     </tbody>
   </table>
+  <h3>
+    Note for Wago devices</h3>
+  <p>
+    This initial read operation is normally done at the same Modbus address as the write
+    operations. However, Wago devices are different from other Modbus devices because
+    the address to read back a register is not the same as the address to write the
+    register. For Wago devices the address used to read back the initial value for a
+    Modbus write function must be 0x200 greater than the address for the write function.
+    This is handled by adding this 0x200 offset for the readback address if the plcType
+    argument to drvModbusAsynConfigure contains the substring "Wago" (case sensitive).
+    Note that this does not affect the address for Wago read functions. The user must
+    specify the actual Modbus address for read functions.</p>
   <h3>
     Number of drvAsynIPPort drivers for TCP
   </h3>
@@ -935,7 +944,7 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
     than 40 characters but that's a problem only if a client tries to read the expression
     as an EPICS string. The PLC used in this example stores the least-significant word
     in register N and the most-significant word in register N+1. The Modbus protocol
-    does not guarantee this, and Other PLCs may provide the values the other way around,
+    does not guarantee this, and other PLCs may provide the values the other way around,
     or perhaps in a completely different format.</p>
   <pre>#
 # Assume that the registers are processsed in order 
@@ -1402,7 +1411,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
         <td>
           ai, ao</td>
         <td>
-          Read or write the delay time in seconds between polls for the read poller thread.</td>
+          Read or write the delay time in seconds between polls for the read poller thread.
+        </td>
       </tr>
     </tbody>
   </table>
@@ -1539,7 +1549,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           bi_bit.template</td>
         <td>
-          asynUInt32Digital support for bi record with discrete inputs or coils. Mask=1.</td>
+          asynUInt32Digital support for bi record with discrete inputs or coils. Mask=1.
+        </td>
         <td>
           P, R, PORT, OFFSET, ZNAM, ONAM, ZSV, OSV, SCAN</td>
       </tr>
@@ -1563,7 +1574,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           longin.template</td>
         <td>
-          asynUInt32Digital support for longin record with register inputs. Mask=0xFFFF.</td>
+          asynUInt32Digital support for longin record with register inputs. Mask=0xFFFF.
+        </td>
         <td>
           P, R, PORT, OFFSET, SCAN</td>
       </tr>
@@ -1571,7 +1583,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           intarray_in.template</td>
         <td>
-          asynInt32Array support for waveform record with discrete, coil, or register inputs.</td>
+          asynInt32Array support for waveform record with discrete, coil, or register inputs.
+        </td>
         <td>
           P, R, PORT, NELM, SCAN</td>
       </tr>
@@ -1603,7 +1616,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           longout.template</td>
         <td>
-          asynUInt32Digital support for longout record with register outputs. Mask=0xFFFF.</td>
+          asynUInt32Digital support for longout record with register outputs. Mask=0xFFFF.
+        </td>
         <td>
           P, R, PORT, OFFSET</td>
       </tr>
@@ -1611,7 +1625,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           intarray_out.template</td>
         <td>
-          asynInt32Array support for waveform record with discrete, coil, or register outputs.</td>
+          asynInt32Array support for waveform record with discrete, coil, or register outputs.
+        </td>
         <td>
           P, R, PORT, NELM</td>
       </tr>
@@ -1645,7 +1660,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           asynRecord.template</td>
         <td>
-          Support for asyn record. Useful for controlling trace printing, and for debugging.</td>
+          Support for asyn record. Useful for controlling trace printing, and for debugging.
+        </td>
         <td>
           P, R, PORT, ADDR, TMOD, IFACE</td>
       </tr>
@@ -1661,7 +1677,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           statistics.template</td>
         <td>
-          Support for bo, longin and waveform records to read I/O statistics for the port.</td>
+          Support for bo, longin and waveform records to read I/O statistics for the port.
+        </td>
         <td>
           P, R, PORT, SCAN</td>
       </tr>
