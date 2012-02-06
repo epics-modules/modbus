@@ -51,6 +51,10 @@
                                          * timeout is set in modbusInterposeConfig */
 #define MIN_POLL_DELAY      .001        /* Minimum polling delay */
 
+#define WAGO_ID_STRING      "Wago"      /* If the plcName parameter to drvModbusAsynConfigure contains
+                                         * this substring then the driver will do the initial readback
+                                         * for write operations at address plus 0x200. */
+
 
 /* Structures for drvUser interface */
 
@@ -265,6 +269,7 @@ int drvModbusAsynConfigure(char *portName,
     int IOLength=0;
     int maxLength=0;
     int canBlock=0;
+    int readbackOffset=0;
 
     pPlc = callocMustSucceed(1, sizeof(*pPlc), "drvModbusAsynConfigure");
     pPlc->portName = epicsStrDup(portName);
@@ -396,8 +401,12 @@ int drvModbusAsynConfigure(char *portName,
     
     /* If this is an output function do a readOnce operation if required. */
     if (pPlc->readOnceFunction) {
+        /* If this is a Wago device then the readback address is offset by 0x200. */
+        if (strstr(pPlc->plcType, WAGO_ID_STRING) != NULL) 
+            readbackOffset = 0x200;
         status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->readOnceFunction, 
-                            pPlc->modbusStartAddress, pPlc->data, pPlc->modbusLength);
+                            (pPlc->modbusStartAddress + readbackOffset), 
+                            pPlc->data, pPlc->modbusLength);
         if (status == asynSuccess) pPlc->readOnceDone = 1;
     }
      
