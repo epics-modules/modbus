@@ -14,11 +14,18 @@
     <h2>
       Release 2-4</h2>
     <h2>
-      XXX, 2011</h2>
+      February XXX, 2011</h2>
   </div>
   <ul>
     <li>Added documentation on how to read floating point values. Thanks to Eric Norum
       for this.</li>
+    <li>Added special treatment for Wago devices. These device are different from other
+      Modbus devices because the address to read back a register is not the same as the
+      address to write the register. The readback address is the write address plus 0x200.
+      This means that in previous versions of this driver the initial readback value for
+      Modbus write operations to Wago devices was incorrect. This was fixed by adding
+      the 0x200 offset to the readback address if the plcType argument to drvModbusAsynConfigure
+      contains the substring "Wago" (case sensitive).</li>
   </ul>
   <div style="text-align: center">
     <h2>
