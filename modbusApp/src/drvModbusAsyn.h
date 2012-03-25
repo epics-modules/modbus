@@ -13,22 +13,39 @@
  * for that command.
  */
 
-#define MODBUS_DATA_COMMAND_STRING             "MODBUS_DATA" 
-#define MODBUS_ENABLE_HISTOGRAM_COMMAND_STRING "ENABLE_HISTOGRAM"
-#define MODBUS_READ_HISTOGRAM_COMMAND_STRING   "READ_HISTOGRAM"
-#define MODBUS_POLL_DELAY_COMMAND_STRING       "POLL_DELAY"
-#define MODBUS_READ_OK_COMMAND_STRING          "READ_OK"
-#define MODBUS_WRITE_OK_COMMAND_STRING         "WRITE_OK"
-#define MODBUS_IO_ERRORS_COMMAND_STRING        "IO_ERRORS"
-#define MODBUS_LAST_IO_TIME_COMMAND_STRING     "LAST_IO_TIME"
-#define MODBUS_MAX_IO_TIME_COMMAND_STRING      "MAX_IO_TIME"
+#define MODBUS_DATA_STRING             "MODBUS_DATA" 
+#define MODBUS_UINT16_STRING           "UINT16" 
+#define MODBUS_INT16_SM_STRING         "INT16SM" 
+#define MODBUS_BCD_SIGNED_STRING       "BCD_SIGNED" 
+#define MODBUS_BCD_UNSIGNED_STRING     "BCD_UNSIGNED" 
+#define MODBUS_INT16_STRING            "INT16" 
+#define MODBUS_INT32_LE_STRING         "INT32_LE" 
+#define MODBUS_INT32_BE_STRING         "INT32_BE" 
+#define MODBUS_FLOAT32_LE_STRING       "FLOAT32_LE" 
+#define MODBUS_FLOAT32_BE_STRING       "FLOAT32_BE" 
+#define MODBUS_ENABLE_HISTOGRAM_STRING "ENABLE_HISTOGRAM"
+#define MODBUS_READ_HISTOGRAM_STRING   "READ_HISTOGRAM"
+#define MODBUS_POLL_DELAY_STRING       "POLL_DELAY"
+#define MODBUS_READ_OK_STRING          "READ_OK"
+#define MODBUS_WRITE_OK_STRING         "WRITE_OK"
+#define MODBUS_IO_ERRORS_STRING        "IO_ERRORS"
+#define MODBUS_LAST_IO_TIME_STRING     "LAST_IO_TIME"
+#define MODBUS_MAX_IO_TIME_STRING      "MAX_IO_TIME"
 
 typedef enum {
-    dataTypeBinary,
-    dataTypeSignedBinary,
-    dataTypeBCD,
-    dataTypeSignedBCD
-} modbusDataType;
+    dataTypeUInt16,           /* 16-bit unsigned               drvUser=UINT16 */
+    dataTypeInt16SM,          /* 16-bit sign and magnitude     drvUser=INT16SM */
+    dataTypeBCDUnsigned,      /* 16-bit unsigned BCD           drvUser=BCD_SIGNED */
+    dataTypeBCDSigned,        /* 16-bit signed BCD             drvUser=BCD_UNSIGNED */
+    dataTypeInt16,            /* 16-bit 2's complement         drvUser=INT16 */
+    dataTypeInt32LE,          /* 32-bit integer little-endian  drvUser=INT32_LE */
+    dataTypeInt32BE,          /* 32-bit integer big-endian     drvUser=INT32_BE */
+    dataTypeFloat32LE,        /* 32-bit float little-endian    drvuser=FLOAT32_LE */
+    dataTypeFloat32BE         /* 32-bit float big-endian       drvUser=FLOAT32_BE */
+} modbusDataType_t;
+
+#define MAX_MODBUS_DATA_TYPES 9
+
 
 int drvModbusAsynConfigure(char *portName, 
                            char *octetPortName, 
@@ -36,6 +53,6 @@ int drvModbusAsynConfigure(char *portName,
                            int modbusFunction, 
                            int modbusStartAddress, 
                            int modbusLength,
-                           modbusDataType dataType,
+                           modbusDataType_t dataType,
                            int pollMsec, 
                            char *plcType);
