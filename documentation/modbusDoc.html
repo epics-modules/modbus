@@ -16,7 +16,7 @@
     <h2>
       Mark Rivers</h2>
     <h2>
-      February 6, 2012</h2>
+      March 25, 2012</h2>
     <hr />
   </div>
   <h2>
@@ -75,27 +75,30 @@
       </tr>
       <tr>
         <td>
-          Serial RTU</td>
+          RTU</td>
         <td>
-          Serial protocol, using RS-232, RS-422, or RS-485. The protocol directly transmits
-          each byte as 8 data bits, so uses "binary" rather than ASCII encoding. The start
-          and end of message frames is detected by timing rather than by specific characters.
-        </td>
+          RTU uses an additional CRC for packet checking. RTU is normally run over serial
+          communicaton linke, i.e. RS-232, RS-422, or RS-485. The protocol directly transmits
+          each byte as 8 data bits, so uses "binary" rather than ASCII encoding. When using
+          serial links start and end of message frames is detected by timing rather than by
+          specific characters. RTU can also be run over TCP, though this is less common than
+          the standard Modbus TCP without RTU. </td>
       </tr>
       <tr>
         <td>
           Serial ASCII</td>
         <td>
-          Serial protocol, using RS-232, RS-422, or RS-485. The protocol encodes each byte
-          as 2 ASCII characters. The start and end of message frames is detected by specific
-          characters (":" to start a message and CR/LF to end a message). This protocol is
-          less efficient than RTU, but may be more reliable in some environments.</td>
+          Serial protocol, which is normally run over serial communication links, i.e. RS-232,
+          RS-422, or RS-485. The protocol encodes each byte as 2 ASCII characters. The start
+          and end of message frames is detected by specific characters (":" to start a message
+          and CR/LF to end a message). This protocol is less efficient than RTU, but may be
+          more reliable in some environments. ASCII can also be run over TCP, though this
+          is much less common than the standard Modbus TCP.</td>
       </tr>
     </tbody>
   </table>
   <p>
-    This <b>modbus</b> package supports all 3 of the above Modbus communication-link
-    layers.
+    This <b>modbus</b> package supports all of the above Modbus communication-link layers.
   </p>
   <h3>
     Modbus data types</h3>
@@ -528,9 +531,9 @@
     The values are stored in a buffer in the driver. The delay between polls is set
     when the port driver is created, and can be changed later at run-time. The values
     are read by EPICS using the standard asyn interfaces (asynUInt32Digital, asynInt32,
-    etc.) The values that are read are the last stored values from the poller thread.
-    This means that EPICS read operations are <i>synchronous</i>, i.e. they do not block
-    because no Modbus I/O is required.
+    asynFloat64, etc.) The values that are read are the last stored values from the
+    poller thread. This means that EPICS read operations are <i>synchronous</i>, i.e.
+    they do not block because no Modbus I/O is required.
   </p>
   <p>
     For read functions it is possible to set the EPICS records to "I/O Intr" scanning.
@@ -570,11 +573,7 @@
   <p>
     <b>modbus</b> should run on all EPICS platforms. It has been tested on linux-x86,
     vxWorks, win32-x86 (native Windows with Microsoft VS .NET 2003 C++ compiler), and
-    cygwin-x86 (Windows with gcc compiler and Cygwin library). Note that local serial
-    ports are not supported by drvAsynSerialPort on win32-x86 because Windows lacks
-    the termios library. However, serial RTU and serial ASCII can be used via IP terminal
-    servers on the win32-x86 architecture. Local serial ports on Windows machines <i>are</i>
-    supported under the cygwin32-x86 architecture.
+    cygwin-x86 (Windows with gcc compiler and Cygwin library).
   </p>
   <p>
     The only thing that may be architecture dependent in <b>modbus</b> is the structure
@@ -588,7 +587,7 @@
   <p>
     Before <b>modbus</b> port drivers can be created, it is necessary to first create
     at least one asyn TCP/IP or serial port driver to communicate with the hardware.
-    The commands required depend on the communications protocol being used.</p>
+    The commands required depend on the communications link being used.</p>
   <h3>
     TCP/IP</h3>
   <p>
@@ -597,7 +596,7 @@
   <pre>drvAsynIPPortConfigure(portName, hostInfo, priority, noAutoConnect, noProcessEos)
 </pre>
   <p>
-    Documentation on this command can be found in the <a href="http://www.aps.anl.gov/epics/modules/soft/asyn/R4-7/asynDriver.html#drvAsynIPPort">
+    Documentation on this command can be found in the <a href="http://www.aps.anl.gov/epics/modules/soft/asyn/R4-18/asynDriver.html#drvAsynIPPort">
       asynDriver documentation</a>.
   </p>
   <p>
@@ -704,8 +703,8 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
         <td>
           Modbus link layer type:<br />
           0 = TCP/IP<br />
-          1 = RTU serial<br />
-          2 = ASCII serial</td>
+          1 = RTU<br />
+          2 = ASCII</td>
       </tr>
       <tr>
         <td>
@@ -829,11 +828,9 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
         <td>
           int</td>
         <td>
-          Modbus data type:<br />
-          0 = binary, twos-complement format<br />
-          1 = binary, sign and magnitude format<br />
-          2 = BCD, unsigned<br />
-          3 = BCD, signed</td>
+          This sets the default data type for this port. This is the data type used if the
+          drvUser field of a record is empty, or if it is MODBUS_DATA. The supported Modbus
+          data types and correponding drvUser fields are described in the table below.</td>
       </tr>
       <tr>
         <td>
@@ -859,6 +856,149 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
       </tr>
     </tbody>
   </table>
+  <h3>
+    Modbus register data types
+  </h3>
+  <p>
+    Modbus function codes 3, 4, 6, and 16 are used to access 16-bit registers. The Modbus
+    specification does not define how the data in these registers is to be interpreted,
+    for example as signed or unsigned numbers, binary coded decimal (BCD) values, etc.
+    In fact many manufacturers combine multiple 16-bit registers to encode 32-bit integers,
+    32-bit or 64-bit floats, etc. The following table lists the data types supported
+    by <b>modbus</b>. The default data type for the port is defined with the modbusDataType
+    parameter described above. The data type for particular record can override the
+    default by specifying a different data type with the drvUser field in the link.
+    The driver uses this information to convert the number between EPICS device support
+    and Modbus. Data is transferred to and from EPICS device support as epicsUInt32,
+    epicsInt32, and epicsFloat64 numbers. Note that the data type conversions described
+    in this table only apply for records using the asynInt32 or asynFloat64 interfaces,
+    they do not apply when using the asynUInt32Digital interface. The asynUInt32Digital
+    interface always treats the registers as unsigned 16-bit integers.
+  </p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <th align="center" colspan="3">
+          Supported Modbus data types</th>
+      </tr>
+      <tr>
+        <th>
+          modbusDataType value</th>
+        <th>
+          drvUser field</th>
+        <th>
+          Description</th>
+      </tr>
+      <tr>
+        <td>
+          0</td>
+        <td>
+          UINT16</td>
+        <td>
+          Unsigned 16-bit binary integers</td>
+      </tr>
+      <tr>
+        <td>
+          1</td>
+        <td>
+          INT16SM</td>
+        <td>
+          16-bit binary integers, sign and magnitude format. In this format bit 15 is the
+          sign bit, and bits 0-14 are the absolute value of the magnitude of the number. This
+          is one of the formats used, for example, by Koyo PLCs for numbers such as ADC conversions.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          2</td>
+        <td>
+          BCD_UNSIGNED</td>
+        <td>
+          Binary coded decimal (BCD), unsigned. This data type is for a 16-bit number consisting
+          of 4 4-bit nibbles, each of which encodes a decimal number from 0-9. A BCD number
+          can thus store numbers from 0 to 9999. Many PLCs store some numbers in BCD format.
+        </td>
+      </tr>
+      <tr>
+        <td>
+          3</td>
+        <td>
+          BCD_SIGNED</td>
+        <td>
+          4-digit binary coded decimal (BCD), signed. This data type is for a 16-bit number
+          consisting of 3 4-bit nibbles, and one 3-bit nibble. Bit 15 is a sign bit. Signed
+          BCD numbers can hold values from -7999 to +7999. This is one of the formats used
+          by Koyo PLCs for numbers such as ADC conversions.</td>
+      </tr>
+      <tr>
+        <td>
+          4</td>
+        <td>
+          INT16</td>
+        <td>
+          16-bit signed (2's complement) integers. This data type extends the sign bit when
+          converting to epicsInt32.</td>
+      </tr>
+      <tr>
+        <td>
+          5</td>
+        <td>
+          INT32_LE</td>
+        <td>
+          32-bit integers, little endian (least significant word at Modbus address N, most
+          significant word at Modbus address N+1)</td>
+      </tr>
+      <tr>
+        <td>
+          6</td>
+        <td>
+          INT32_BE</td>
+        <td>
+          32-bit integers, big endian (most significant word at Modbus address N, least significant
+          word at Modbus address N+1)</td>
+      </tr>
+      <tr>
+        <td>
+          7</td>
+        <td>
+          FLOAT32_LE</td>
+        <td>
+          32-bit floating point, little endian (least significant word at Modbus address N,
+          most significant word at Modbus address N+1)</td>
+      </tr>
+      <tr>
+        <td>
+          8</td>
+        <td>
+          FLOAT32_BE</td>
+        <td>
+          32-bit floating point, big endian (most significant word at Modbus address N, least
+          significant word at Modbus address N+1)</td>
+      </tr>
+      <tr>
+        <td>
+          9</td>
+        <td>
+          FLOAT64_LE</td>
+        <td>
+          64-bit floating point, little endian (least significant word at Modbus address N,
+          most significant word at Modbus address N+1)</td>
+      </tr>
+      <tr>
+        <td>
+          10</td>
+        <td>
+          FLOAT64_BE</td>
+        <td>
+          64-bit floating point, big endian (most significant word at Modbus address N, least
+          significant word at Modbus address N+1)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Note that if it is desired to transmit BCD numbers untranslated to EPICS over the
+    asynInt32 interface, then data type 0 should be used, because no translation is
+    done in this case.</p>
   <h3>
     Note for Wago devices</h3>
   <p>
@@ -906,81 +1046,6 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
     rather than decimal, because this is the convention on most PLCs. In the iocsh and
     vxWorks shells this is done by using a leading 0 on the number, i.e. 040400 is an
     octal number.</p>
-  <h3>
-    Modbus data types</h3>
-  <p>
-    The modbusDataType is used to tell the driver the format of the Modbus data. The
-    driver uses this information to convert the number between EPICS and Modbus. Data
-    is transferred to and from EPICS as epicsUInt32, epicsInt32, and epicsFloat64 numbers.</p>
-  <ul>
-    <li>Type 0 is used for binary numbers in twos-complement format. The data can either
-      be signed or unsigned.</li>
-    <li>Type 1 is used for binary numbers in sign and magnitude format. In this format
-      bit 15 is the sign bit, and bits 0-14 are the absolute value of the magnitude of
-      the number. This is one of the formats used by Koyo PLCs for numbers such as ADC
-      conversions.</li>
-    <li>Type 2 is used for unsigned BCD (binary coded decimal) numbers. In this format
-      a 16-bit number consists of 4 4-bit nibbles, each of which encodes a decimal number
-      from 0-9. A BCD number can thus store numbers from 0 to 9999. Many PLCs store some
-      numbers in BCD format.</li>
-    <li>Type 3 is used for signed BCD (binary coded decimal) numbers. In this format a
-      16-bit number consists of 3 4-bit nibbles, and one 3-bit nibble. Bit 15 is a sign
-      bit. Signed BCD numbers can hold values from -7999 to +7999. This is one of the
-      formats used by Koyo PLCs for numbers such as ADC conversions.</li>
-  </ul>
-  <p>
-    Note that if it is desired to transmit BCD numbers untranslated to EPICS over the
-    asynInt32 interface, then data type 0 should be used, because no translation is
-    done in this case.</p>
-  <h3>
-    Floating point values</h3>
-  <p>
-    Some Modbus devices use floating point numbers, typically by storing a 32-bit float
-    in two consecutive 16-bit registers. This is <i>not</i> supported by the Modbus
-    specification, which only supports 16-bit registers and single-bit data. The <b>modbus</b>
-    driver does not directly support reading such values, because the word order and
-    floating point format is not specified. The following is an example of an EPICS
-    database can be used to do the conversion. Note that the calc expression is longer
-    than 40 characters but that's a problem only if a client tries to read the expression
-    as an EPICS string. The PLC used in this example stores the least-significant word
-    in register N and the most-significant word in register N+1. The Modbus protocol
-    does not guarantee this, and other PLCs may provide the values the other way around,
-    or perhaps in a completely different format.</p>
-  <pre>#
-# Assume that the registers are processsed in order 
-# so the low word (offset N) value is ready by the time 
-# that the high word (offset N+1) forward link is processed.
-#
-record(longin,"$(P)vacuumHiWord") {
-   field(DESC, "R2089")
-   field(DTYP, "asynInt32")
-   field(INP,  "@asyn(rfDrive_r0i, 92, 1)")
-   field(SCAN, "I/O Intr")
-   field(FLNK, "$(P)vacuumLoWord")
-}
-record(longin,"$(P)vacuumLoWord") {
-   field(DESC, "R2088")
-   field(DTYP, "asynInt32")
-   field(INP,  "@asyn(rfDrive_r0i, 91, 1)")
-   field(FLNK, "$(P)vacuum")
-}
-#
-# Convert to IEEE-754 32-bit float.
-# No INF/NAN, no denormalized numbers.
-#
-record(calc,"$(P)vacuum") {
-   field(INPA, "$(P)vacuumHiWord")
-   field(INPB, "$(P)vacuumLoWord")
-   field(INPC, "0x8000")   # Hi word, sign bit
-   field(INPD, "0x7F80")   # Hi word, exponent mask
-   field(INPE, "0x00FF")   # Hi word, mantissa mask (incl hidden bit)
-   field(INPF, "150")      # Exponent offset plus 23-bit mantissa shift
-   field(INPG, "0x0080")   # Mantissa hidden bit
-   field(INPJ, "65536")    # Hi/Lo mantissa ratio
-   field(CALC, "(A&D?(A&C?-1:1):0)*((G|A&E)*J+B)*2^((A&D)/G-F)")
-   field(PREC, "4")
-}
-</pre>
   <h2 id="EPICS_device_support">
     EPICS device support</h2>
   <p>
@@ -1008,7 +1073,11 @@ record(calc,"$(P)vacuum") {
   <p>
     The <b>drvUser</b> parameter is used by the driver to determine what command is
     being sent from device support. The default is MODBUS_DATA, which is thus optional
-    in the link specification in device support.</p>
+    in the link specification in device support. If no <b>drvUser</b> field is specified,
+    or if MODBUS_DATA is specified, then the Modbus data type for records using the
+    asynInt32 and asynFloat64 interfaces is the default data type specified in the drvModbusAsynConfigure
+    command. Records can override the default Modbus data type by specifying datatype-specific
+    <b>drvUser</b> field, e.g. BCD_SIGNED, INT16, FLOAT32_LE, etc.</p>
   <p>
     The <b>offset</b> parameter is used to specify the location of the data for a record
     relative to the starting Modbus address for that driver. This <b>offset</b> is specified
@@ -1024,6 +1093,10 @@ record(calc,"$(P)vacuum") {
     refers to address 040602. For a Koyo PLC the C control relays are accessed as 16-bit
     words at this Modbus starting address for Modbus function 6. <b>offset=2</b> will
     thus write to the third 16 bit-word, which is coils C40-C57.</p>
+  <p>
+    For 32-bit or 64-bit data types (INT32_LE, INT32_BE, FLOAT32_LE, FLOAT32_BE) the
+    <b>offset</b> specifies the location of the first 16-bit register, and the second
+    register is at <b>offset+1</b>, etc.</p>
   <h3>
     asynUInt32Digital</h3>
   <p>
@@ -1167,7 +1240,12 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
   <p>
     nbits>0 for a unipolar device. For example, nbits=12 means unipolar 12-bit device,
     with a range of 0 to 4095. nbits&lt;0 for a bipolar device. For example, nbits=-12
-    means bipolar 12-bit device, with a range of -2048 to 2047)
+    means bipolar 12-bit device, with a range of -2048 to 2047)</p>
+  <p>
+    Note: when writing 32-bit or 64-bit values function code 16 should be used if the
+    device supports it. The write will then be "atomic". If function code 6 is used
+    then the data will be written in multiple messages, and there will be an short time
+    period in which the device has incorrect data.
   </p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
@@ -1201,17 +1279,17 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           ai, mbbi, longin</td>
         <td>
-          value = (epicsInt32)Modbus data</td>
+          value = (epicsUInt32)Modbus data</td>
       </tr>
       <tr>
         <td>
           3, 4</td>
         <td>
-          16-bit word</td>
+          16-bit words</td>
         <td>
-          16-bit word</td>
+          16, 32, or 64-bit word</td>
         <td>
-          MODBUS_DATA</td>
+          MODBUS_DATA (or datatype-specific value)</td>
         <td>
           ai, mbbi, longin</td>
         <td>
@@ -1229,21 +1307,21 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           ao, mbbo, longout</td>
         <td>
-          Modbus write (epicsInt16)value</td>
+          Modbus write value</td>
       </tr>
       <tr>
         <td>
-          6</td>
+          6,16</td>
         <td>
-          16-bit word</td>
+          16-bit words</td>
         <td>
-          16-bit word</td>
+          16, 32, or 64-bit word</td>
         <td>
-          MODBUS_DATA</td>
+          MODBUS_DATA (or datatype-specific value)</td>
         <td>
           ao, mbbo, longout</td>
         <td>
-          Modbus write (epicsInt16)value</td>
+          Modbus write value</td>
       </tr>
       <tr>
         <td>
@@ -1323,6 +1401,12 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
     asynFloat64 device support is selected with</p>
   <pre>field(DTYP,"asynFloat64")
 field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
+  <p>
+    Note: when writing 32-bit or 64-bit values function code 16 should be used if the
+    device supports it. The write will then be "atomic". If function code 6 is used
+    then the data will be written in multiple messages, and there will be an short time
+    period in which the device has incorrect data.
+  </p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
       <tr>
@@ -1361,11 +1445,11 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
         <td>
           3, 4</td>
         <td>
-          16-bit word</td>
+          16-bit words</td>
         <td>
-          16-bit word</td>
+          16, 32, or 64-bit word</td>
         <td>
-          MODBUS_DATA</td>
+          MODBUS_DATA (or datatype-specific value)</td>
         <td>
           ai</td>
         <td>
@@ -1383,21 +1467,21 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
         <td>
           ao</td>
         <td>
-          Modbus write (epicsInt16)value</td>
+          Modbus write (epicsUInt16)value</td>
       </tr>
       <tr>
         <td>
-          6</td>
+          6, 16</td>
         <td>
           16-bit word</td>
         <td>
           16-bit word</td>
         <td>
-          MODBUS_DATA</td>
+          MODBUS_DATA (or datatype-specific value)</td>
         <td>
           ao</td>
         <td>
-          Modbus write (epicsInt16)value</td>
+          Modbus write value</td>
       </tr>
       <tr>
         <td>
@@ -1473,9 +1557,9 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           NA</td>
         <td>
-          Array of 16-bit words</td>
+          Array of 16, 32 or 64-bit words</td>
         <td>
-          MODBUS_DATA</td>
+          MODBUS_DATA (or datatype-specific value)</td>
         <td>
           waveform (input)</td>
         <td>
@@ -1493,7 +1577,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           waveform (output)</td>
         <td>
-          Modbus write (epicsInt16)value[]</td>
+          Modbus write (epicsUInt16)value[]</td>
       </tr>
       <tr>
         <td>
@@ -1501,13 +1585,13 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           NA</td>
         <td>
-          Array of 16-bit words</td>
+          Array of 16, 32, or 64-bit words</td>
         <td>
-          MODBUS_DATA</td>
+          MODBUS_DATA (or datatype-specific value)</td>
         <td>
           waveform (output)</td>
         <td>
-          Modbus write (epicsInt16)value[]</td>
+          Modbus write value[]</td>
       </tr>
       <tr>
         <td>
@@ -1581,6 +1665,14 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
+          longinInt32.template</td>
+        <td>
+          asynInt32 support for longin record with register inputs. </td>
+        <td>
+          P, R, PORT, OFFSET, SCAN, DATA_TYPE</td>
+      </tr>
+      <tr>
+        <td>
           intarray_in.template</td>
         <td>
           asynInt32Array support for waveform record with discrete, coil, or register inputs.
@@ -1623,6 +1715,14 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
+          longoutInt32.template</td>
+        <td>
+          asynInt32 support for longout record with register outputs. </td>
+        <td>
+          P, R, PORT, OFFSET, DATA_TYPE</td>
+      </tr>
+      <tr>
+        <td>
           intarray_out.template</td>
         <td>
           asynInt32Array support for waveform record with discrete, coil, or register outputs.
@@ -1637,6 +1737,14 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
           asynInt32 support for ai record with LINEAR conversion</td>
         <td>
           P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN</td>
+      </tr>
+      <tr>
+        <td>
+          aiFloat64.template</td>
+        <td>
+          asynFloat64 support for ai record</td>
+        <td>
+          P, R, PORT, OFFSET, LOPR, HOPR, PREC, SCAN, DATA_TYPE</td>
       </tr>
       <tr>
         <td>
@@ -1655,6 +1763,14 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
           asynInt32 support for ao record with LINEAR conversion</td>
         <td>
           P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC</td>
+      </tr>
+      <tr>
+        <td>
+          aoFloat64.template</td>
+        <td>
+          asynFloat64 support for ao record</td>
+        <td>
+          P, R, PORT, OFFSET, LOPR, HOPR, PREC, DATA_TYPE</td>
       </tr>
       <tr>
         <td>
@@ -1761,6 +1877,15 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
+          DATA_TYPE</td>
+        <td>
+          drvUser field specifying the Modbus data type. If this field is blank or is MODBUS_DATA
+          then the default datatype specified in the drvModbusAsynConfigure command is used.
+          Other allowed values are listed in the table above (UINT16, INT16SM, BCD_SIGNED,
+          etc.)</td>
+      </tr>
+      <tr>
+        <td>
           EGUL</td>
         <td>
           Engineering value for lower limit of analog device.</td>
@@ -1770,6 +1895,18 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
           EGUF</td>
         <td>
           Engineering value for upper limit of analog device.</td>
+      </tr>
+      <tr>
+        <td>
+          LOPR</td>
+        <td>
+          Lower display limit of analog device.</td>
+      </tr>
+      <tr>
+        <td>
+          HOPR</td>
+        <td>
+          Upper display limit of analog device.</td>
       </tr>
       <tr>
         <td>
@@ -1946,6 +2083,11 @@ drvModbusAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 1, 16, 040600, 020,    0
     for testing of all function codes and record types, including waveforms. In practice
     one would normally only load at most 2 drivers for the C control relays, for example
     function code 1 (read coils), and function code 5 (write single coil).</p>
+  <p>
+    There is another example application in the iocTest directory, sim1.cmd and sim1.substutions.
+    This example is used for testing the different Modbus data types. It was tested
+    with the <a href="http://www.modbustools.com/modbus_slave.asp">Modbus Slave</a>
+    program, which is an inexpensive Modbus slave emulator.</p>
   <h2 id="medm_screens">
     medm screens</h2>
   <p>
