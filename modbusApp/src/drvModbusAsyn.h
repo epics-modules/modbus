@@ -16,13 +16,15 @@
 #define MODBUS_DATA_STRING             "MODBUS_DATA" 
 #define MODBUS_UINT16_STRING           "UINT16" 
 #define MODBUS_INT16_SM_STRING         "INT16SM" 
-#define MODBUS_BCD_SIGNED_STRING       "BCD_SIGNED" 
 #define MODBUS_BCD_UNSIGNED_STRING     "BCD_UNSIGNED" 
+#define MODBUS_BCD_SIGNED_STRING       "BCD_SIGNED" 
 #define MODBUS_INT16_STRING            "INT16" 
 #define MODBUS_INT32_LE_STRING         "INT32_LE" 
 #define MODBUS_INT32_BE_STRING         "INT32_BE" 
 #define MODBUS_FLOAT32_LE_STRING       "FLOAT32_LE" 
 #define MODBUS_FLOAT32_BE_STRING       "FLOAT32_BE" 
+#define MODBUS_FLOAT64_LE_STRING       "FLOAT64_LE" 
+#define MODBUS_FLOAT64_BE_STRING       "FLOAT64_BE" 
 #define MODBUS_ENABLE_HISTOGRAM_STRING "ENABLE_HISTOGRAM"
 #define MODBUS_READ_HISTOGRAM_STRING   "READ_HISTOGRAM"
 #define MODBUS_POLL_DELAY_STRING       "POLL_DELAY"
@@ -41,10 +43,12 @@ typedef enum {
     dataTypeInt32LE,          /* 32-bit integer little-endian  drvUser=INT32_LE */
     dataTypeInt32BE,          /* 32-bit integer big-endian     drvUser=INT32_BE */
     dataTypeFloat32LE,        /* 32-bit float little-endian    drvuser=FLOAT32_LE */
-    dataTypeFloat32BE         /* 32-bit float big-endian       drvUser=FLOAT32_BE */
+    dataTypeFloat32BE,        /* 32-bit float big-endian       drvUser=FLOAT32_BE */
+    dataTypeFloat64LE,        /* 64-bit float little-endian    drvuser=FLOAT64_LE */
+    dataTypeFloat64BE         /* 64-bit float big-endian       drvUser=FLOAT64_BE */
 } modbusDataType_t;
 
-#define MAX_MODBUS_DATA_TYPES 9
+#define MAX_MODBUS_DATA_TYPES 11
 
 
 int drvModbusAsynConfigure(char *portName, 
