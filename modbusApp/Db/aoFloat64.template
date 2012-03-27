@@ -1,0 +1,9 @@
+# ao record template for register outputs
+record(ao, "$(P)$(R)") {
+    field(DTYP,"asynFloat64")
+    field(OUT,"@asyn($(PORT) $(OFFSET))$(DATA_TYPE)")
+    field(HOPR,"$(HOPR)")
+    field(LOPR,"$(LOPR)")
+    field(PREC,"$(PREC)")
+}
+
