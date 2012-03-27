@@ -14,11 +14,30 @@
     <h2>
       Release 2-4</h2>
     <h2>
-      February XXX, 2011</h2>
+      March 27, 2012</h2>
   </div>
   <ul>
-    <li>Added documentation on how to read floating point values. Thanks to Eric Norum
-      for this.</li>
+    <li>Added support for 7 new Modbus data types:
+      <ul>
+        <li>16-bit signed integer</li>
+        <li>32-bit integer, little-endian</li>
+        <li>32-bit integer, big-endian</li>
+        <li>32-bit float, little-endian</li>
+        <li>32-bit float, big-endian</li>
+        <li>64-bit float, little-endian</li>
+        <li>64-bit float, big-endian</li>
+      </ul>
+    </li>
+    <li>Added support to allow the Modbus data type to be specified on a per-record bas
+      using the asyn drvUser field. Previously all records connected to a Modbus asyn
+      port driver had the same Modbus data type, because each Modbus port driver was limited
+      to a single data type.</li>
+    <li>If the drvUser string in the link specification is omitted, or if it is the default
+      of MODBUS_DATA then the record will use the modbusDataType defined in drvModbusAsynConfigure.
+      This is backwards compatible, and existing IOCs will continue to work with no changes
+      to databases or startup scripts.</li>
+    <li>Added new example IOC script, substitutions file, and medm screens to test all
+      data types. The testing was done with a Modbus slave simulator.</li>
     <li>Added special treatment for Wago devices. These device are different from other
       Modbus devices because the address to read back a register is not the same as the
       address to write the register. The readback address is the write address plus 0x200.
