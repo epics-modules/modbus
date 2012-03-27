@@ -999,6 +999,19 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
     Note that if it is desired to transmit BCD numbers untranslated to EPICS over the
     asynInt32 interface, then data type 0 should be used, because no translation is
     done in this case.</p>
+  <p>
+    The following is an example ai record using 32-bit floating point values:</p>
+  <pre>
+# ai record template for register inputs
+record(ai, "$(P)$(R)") {
+    field(DTYP,"asynFloat64")
+    field(INP,"@asyn($(PORT) $(OFFSET))FLOAT32_LE")
+    field(HOPR,"$(HOPR)")
+    field(LOPR,"$(LOPR)")
+    field(PREC,"$(PREC)")
+    field(SCAN,"$(SCAN)")
+}   
+</pre>
   <h3>
     Note for Wago devices</h3>
   <p>
