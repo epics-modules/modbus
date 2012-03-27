@@ -8,7 +8,7 @@ display {
 		x=100
 		y=100
 		width=170
-		height=145
+		height=120
 	}
 	clr=14
 	bclr=4
@@ -118,25 +118,25 @@ text {
 		args="P=SIM1:,OUT=AO:,IN=AI:,OREC=ao,IREC=ai"
 	}
 	clr=14
-	bclr=4
+	bclr=51
 	label="Data type test"
 }
 "related display" {
 	object {
 		x=7
-		y=111
+		y=81
 		width=158
 		height=25
 	}
 	display[0] {
 		label="Octet asyn record"
 		name="asynRecord.adl"
-		args="P=KOYO1:,R=OctetAsyn"
+		args="P=SIM1:,R=OctetAsyn"
 	}
 	display[2] {
 		name="l"
 	}
 	clr=14
-	bclr=4
+	bclr=51
 	label="Octet asyn record"
 }
