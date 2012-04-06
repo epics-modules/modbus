@@ -1371,8 +1371,9 @@ static void readPoller(PLC_ID pPlc)
                     break;
                 }
                 /* Need to copy data to epicsInt32 buffer for callback */
+                pasynManager->getAddr(pInt32Array->pasynUser, &offset);
                 for (i=0; i<pPlc->modbusLength; i++) {
-                    status = readPlcInt(pPlc, offset, &int32Data[i]);
+                    status = readPlcInt(pPlc, offset+i, &int32Data[i]);
                 }
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                           "%s::readPoller, calling client %p"
