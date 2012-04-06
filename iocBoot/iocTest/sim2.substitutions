@@ -1,0 +1,16 @@
+# asyn record for the underlying asyn octet port
+file "$(ASYN)/db/asynRecord.db" { pattern
+{P,           R,       PORT,      ADDR,   IMAX,    OMAX}
+{SIM1:    OctetAsyn,   sim1,        0,      80,      80}
+}
+
+# These are the A0 inputs done with word access
+file "../../db/intarray_in.template" { pattern
+{P,           R,                PORT,     OFFSET,   DATA_TYPE,  NELM,    SCAN}
+{SIM1:,    LI:UINT16,        A0_In_Word,     0,     UINT16,       46,   "I/O Intr"}
+}
+
+file "../../db/aoFloat64.template" { pattern
+{P,           R,               PORT,      OFFSET,   DATA_TYPE,    LOPR, HOPR, PREC}
+{SIM1:,    AO:FLOAT32_LE,    A0_Out_Word,    6,     FLOAT32_LE,   -1e6,  1e6,    3}
+}
