@@ -1280,6 +1280,8 @@ static void readPoller(PLC_ID pPlc)
                 if ((mask != 0 ) && (mask != 0xFFFF)) newValue &= mask;
                 prevValue = prevData[offset];
                 if ((mask != 0 ) && (mask != 0xFFFF)) prevValue &= mask;
+                /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
+                pUInt32D->pasynUser->auxStatus = pPlc->ioStatus;
                 if (pPlc->forceCallback || (newValue != prevValue)) {
                     uInt32Value = newValue;
                     asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
@@ -1315,6 +1317,8 @@ static void readPoller(PLC_ID pPlc)
                 break;
             }
             status = readPlcInt(pPlc, offset, &int32Value);
+            /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
+            pInt32->pasynUser->auxStatus = pPlc->ioStatus;
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                       "%s::readPoller, calling client %p"
                       "callback=%p, data=0x%x\n",
@@ -1346,6 +1350,8 @@ static void readPoller(PLC_ID pPlc)
                 break;
             }
             status = readPlcFloat(pPlc, offset, &float64Value);
+            /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
+            pFloat64->pasynUser->auxStatus = pPlc->ioStatus;
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                       "%s::readPoller, calling client %p"
                       "callback=%p, data=%f\n",
@@ -1375,6 +1381,8 @@ static void readPoller(PLC_ID pPlc)
                 for (i=0; i<pPlc->modbusLength; i++) {
                     status = readPlcInt(pPlc, offset+i, &int32Data[i]);
                 }
+                /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
+                pInt32Array->pasynUser->auxStatus = pPlc->ioStatus;
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                           "%s::readPoller, calling client %p"
                           "callback=%p\n",
