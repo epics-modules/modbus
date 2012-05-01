@@ -4,6 +4,70 @@ file "$(ASYN)/db/asynRecord.db" { pattern
 {SIM1:    OctetAsyn,   sim1,        0,      80,      80}
 }
 
+# These are the A0 inputs done with bit access
+file "../../db/bi_bit.template" { pattern
+{P,        R,          PORT,         OFFSET,   ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{SIM1:,    BI0B,     A0_In_Bits,     0,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{SIM1:,    BI1B,     A0_In_Bits,     1,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{SIM1:,    BI2B,     A0_In_Bits,     2,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{SIM1:,    BI3B,     A0_In_Bits,     3,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{SIM1:,    BI4B,     A0_In_Bits,     4,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{SIM1:,    BI5B,     A0_In_Bits,     5,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{SIM1:,    BI6B,     A0_In_Bits,     6,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+{SIM1:,    BI7B,     A0_In_Bits,     7,        Low,    High,  NO_ALARM,  MAJOR,  "I/O Intr"}
+}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,       PORT,          OFFSET,  MASK,   SCAN}
+{SIM1:,    MBBID0,   A0_In_Bits,      0,       0xFFFF, "I/O Intr"}
+}
+file "../../db/intarray_in.template" { pattern
+{P,           R,        PORT,           NELM,   SCAN}
+{SIM1:,    BIArray,    A0_In_Bits,      32,     "I/O Intr"}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,       PORT,         ADDR,     TMOD,  IFACE}
+{SIM1:,    BIAsyn,   A0_In_Bits,     0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,        R,      PORT,        SCAN}
+{SIM1:,    BI,     A0_In_Bits,  "10 second"}
+} 
+file "../../db/poll_delay.template" { pattern
+{P,           R,            PORT}
+{SIM1:,    BIPollDelay, A0_In_Bits}
+}
+
+# These are the A0 outputs done with bit access.
+file "../../db/bo_bit.template" { pattern
+{P,        R,             PORT,       OFFSET,   ZNAM,   ONAM}
+{SIM1:,    BO0B,     A0_Out_Bits,     0,        Low,    High}
+{SIM1:,    BO1B,     A0_Out_Bits,     1,        Low,    High}
+{SIM1:,    BO2B,     A0_Out_Bits,     2,        Low,    High}
+{SIM1:,    BO3B,     A0_Out_Bits,     3,        Low,    High}
+{SIM1:,    BO4B,     A0_Out_Bits,     4,        Low,    High}
+{SIM1:,    BO5B,     A0_Out_Bits,     5,        Low,    High}
+{SIM1:,    BO6B,     A0_Out_Bits,     6,        Low,    High}
+{SIM1:,    BO7B,     A0_Out_Bits,     7,        Low,    High}
+}
+file "../../db/mbboDirect.template" { pattern
+{P,           R,         PORT,         OFFSET, MASK}
+{SIM1:,    MBBOD0,     A0_Out_Bits,    0,      0xFFFF}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,       PORT,          ADDR,     TMOD,  IFACE}
+{SIM1:,    BOAsyn,   A0_Out_Bits,     0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,        R,       PORT,        SCAN}
+{SIM1:,    BO,     A0_Out_Bits,  "10 second"}
+} 
+file "../../db/poll_delay.template" { pattern
+{P,           R,            PORT}
+{SIM1:,    BOPollDelay, A0_Out_Bits}
+}
+
+
+
 # These are the A0 inputs done with word access
 file "../../db/longinInt32.template" { pattern
 {P,           R,                PORT,     OFFSET,   DATA_TYPE,      SCAN}
