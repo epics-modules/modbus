@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/devel/modbus/1-1/modbusApp/op/adl/Koyo_8inputs.adl"
-	version=030000
+	name="/home/epics/devel/modbus/modbusApp/op/adl/Koyo_8inputs.adl"
+	version=030105
 }
 display {
 	object {
-		x=242
-		y=103
-		width=250
-		height=435
+		x=453
+		y=33
+		width=400
+		height=415
 	}
 	clr=14
 	bclr=4
@@ -89,7 +89,7 @@ display {
 }
 text {
 	object {
-		x=35
+		x=110
 		y=5
 		width=180
 		height=20
@@ -99,110 +99,6 @@ text {
 	}
 	textix="$(R)0-$(R)7 Inputs"
 	align="horiz. centered"
-}
-menu {
-	object {
-		x=127
-		y=84
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)0$(A).SCAN"
-		clr=14
-		bclr=4
-	}
-}
-menu {
-	object {
-		x=127
-		y=109
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)1$(A).SCAN"
-		clr=14
-		bclr=4
-	}
-}
-menu {
-	object {
-		x=127
-		y=134
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)2$(A).SCAN"
-		clr=14
-		bclr=4
-	}
-}
-menu {
-	object {
-		x=127
-		y=159
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)3$(A).SCAN"
-		clr=14
-		bclr=4
-	}
-}
-menu {
-	object {
-		x=127
-		y=184
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)4$(A).SCAN"
-		clr=14
-		bclr=4
-	}
-}
-menu {
-	object {
-		x=127
-		y=209
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)5$(A).SCAN"
-		clr=14
-		bclr=4
-	}
-}
-menu {
-	object {
-		x=127
-		y=234
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)6$(A).SCAN"
-		clr=14
-		bclr=4
-	}
-}
-menu {
-	object {
-		x=127
-		y=259
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(R)7$(A).SCAN"
-		clr=14
-		bclr=4
-	}
 }
 "text update" {
 	object {
@@ -370,19 +266,6 @@ text {
 	limits {
 	}
 }
-menu {
-	object {
-		x=127
-		y=309
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(L).SCAN"
-		clr=14
-		bclr=4
-	}
-}
 composite {
 	object {
 		x=5
@@ -500,7 +383,7 @@ composite {
 }
 composite {
 	object {
-		x=71
+		x=119
 		y=35
 		width=108
 		height=35
@@ -509,7 +392,7 @@ composite {
 	children {
 		text {
 			object {
-				x=80
+				x=128
 				y=35
 				width=90
 				height=15
@@ -522,7 +405,7 @@ composite {
 		}
 		text {
 			object {
-				x=71
+				x=119
 				y=55
 				width=108
 				height=15
@@ -786,100 +669,551 @@ composite {
 		}
 	}
 }
-"text entry" {
+composite {
 	object {
-		x=70
-		y=382
-		width=50
-		height=20
+		x=127
+		y=84
+		width=100
+		height=245
 	}
-	control {
-		chan="$(P)$(PORT)PollDelay"
-		clr=14
-		bclr=51
-	}
-	limits {
+	"composite name"=""
+	children {
+		menu {
+			object {
+				x=127
+				y=84
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)0$(A).SCAN"
+				clr=14
+				bclr=4
+			}
+		}
+		menu {
+			object {
+				x=127
+				y=109
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)1$(A).SCAN"
+				clr=14
+				bclr=4
+			}
+		}
+		menu {
+			object {
+				x=127
+				y=134
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)2$(A).SCAN"
+				clr=14
+				bclr=4
+			}
+		}
+		menu {
+			object {
+				x=127
+				y=159
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)3$(A).SCAN"
+				clr=14
+				bclr=4
+			}
+		}
+		menu {
+			object {
+				x=127
+				y=184
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)4$(A).SCAN"
+				clr=14
+				bclr=4
+			}
+		}
+		menu {
+			object {
+				x=127
+				y=209
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)5$(A).SCAN"
+				clr=14
+				bclr=4
+			}
+		}
+		menu {
+			object {
+				x=127
+				y=234
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)6$(A).SCAN"
+				clr=14
+				bclr=4
+			}
+		}
+		menu {
+			object {
+				x=127
+				y=259
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(R)7$(A).SCAN"
+				clr=14
+				bclr=4
+			}
+		}
+		menu {
+			object {
+				x=127
+				y=309
+				width=100
+				height=20
+			}
+			control {
+				chan="$(P)$(L).SCAN"
+				clr=14
+				bclr=4
+			}
+		}
 	}
 }
-text {
+composite {
 	object {
-		x=130
-		y=384
-		width=90
-		height=15
+		x=232
+		y=60
+		width=160
+		height=267
 	}
-	"basic attribute" {
-		clr=14
+	"composite name"=""
+	children {
+		"text update" {
+			object {
+				x=232
+				y=312
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=232
+				y=87
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)0$(A).STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=232
+				y=112
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)1$(A).STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=232
+				y=137
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)2$(A).STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=232
+				y=162
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)3$(A).STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=232
+				y=187
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)4$(A).STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=232
+				y=212
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)5$(A).STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=232
+				y=237
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)6$(A).STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=232
+				y=262
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)7$(A).STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		text {
+			object {
+				x=234
+				y=60
+				width=70
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Status"
+			align="horiz. centered"
+		}
+		"text update" {
+			object {
+				x=315
+				y=87
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)0$(A).SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=315
+				y=112
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)1$(A).SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=315
+				y=137
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)2$(A).SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=315
+				y=162
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)3$(A).SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=315
+				y=187
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)4$(A).SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=315
+				y=212
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)5$(A).SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=315
+				y=237
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)6$(A).SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=315
+				y=262
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)7$(A).SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=315
+				y=312
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(L).SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		text {
+			object {
+				x=312
+				y=60
+				width=80
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Severity"
+			align="horiz. centered"
+		}
 	}
-	textix="Poll delay"
-	align="horiz. centered"
 }
-"related display" {
+composite {
 	object {
-		x=67
-		y=407
-		width=53
-		height=20
+		x=126
+		y=365
+		width=148
+		height=45
 	}
-	display[0] {
-		label="asynRecord"
-		name="asynRecord.adl"
-		args="P=$(P), R=$(PORT)Asyn"
+	"composite name"=""
+	children {
+		"text entry" {
+			object {
+				x=127
+				y=365
+				width=50
+				height=20
+			}
+			control {
+				chan="$(P)$(PORT)PollDelay"
+				clr=14
+				bclr=51
+			}
+			limits {
+			}
+		}
+		text {
+			object {
+				x=184
+				y=367
+				width=90
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Poll delay"
+			align="horiz. centered"
+		}
+		"related display" {
+			object {
+				x=126
+				y=390
+				width=53
+				height=20
+			}
+			display[0] {
+				label="asynRecord"
+				name="asynRecord.adl"
+				args="P=$(P), R=$(PORT)Asyn"
+			}
+			display[1] {
+				label="I/O Statistics"
+				name="modbusStatistics.adl"
+				args="P=$(P), R=$(PORT)"
+			}
+			display[2] {
+				label="Array"
+				name="modbusArray.adl"
+				args="P=$(P), R=$(PORT)Array"
+			}
+			clr=14
+			bclr=51
+		}
+		text {
+			object {
+				x=184
+				y=392
+				width=36
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="More"
+			align="horiz. centered"
+		}
 	}
-	display[1] {
-		label="I/O Statistics"
-		name="modbusStatistics.adl"
-		args="P=$(P), R=$(PORT)"
-	}
-	display[2] {
-		label="Array"
-		name="modbusArray.adl"
-		args="P=$(P), R=$(PORT)Array"
-	}
-	clr=14
-	bclr=51
-}
-text {
-	object {
-		x=130
-		y=409
-		width=36
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="More"
-	align="horiz. centered"
-}
-"text update" {
-	object {
-		x=45
-		y=362
-		width=75
-		height=15
-	}
-	monitor {
-		chan="$(P)$(L).SEVR"
-		clr=14
-		bclr=2
-	}
-	clrmod="alarm"
-	align="horiz. centered"
-	format="hexadecimal"
-	limits {
-	}
-}
-text {
-	object {
-		x=130
-		y=362
-		width=54
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Status"
-	align="horiz. centered"
 }

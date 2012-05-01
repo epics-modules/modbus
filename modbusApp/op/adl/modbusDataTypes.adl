@@ -5,9 +5,9 @@ file {
 }
 display {
 	object {
-		x=494
-		y=85
-		width=520
+		x=580
+		y=420
+		width=840
 		height=450
 	}
 	clr=14
@@ -89,7 +89,7 @@ display {
 }
 text {
 	object {
-		x=134
+		x=294
 		y=12
 		width=252
 		height=25
@@ -100,9 +100,218 @@ text {
 	textix="Modbus Data Type Test"
 	align="horiz. centered"
 }
+"text entry" {
+	object {
+		x=360
+		y=372
+		width=50
+		height=20
+	}
+	control {
+		chan="$(P)A0:PollDelay"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
 text {
 	object {
-		x=250
+		x=415
+		y=375
+		width=90
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Poll delay"
+	align="horiz. centered"
+}
+"related display" {
+	object {
+		x=357
+		y=397
+		width=53
+		height=20
+	}
+	display[0] {
+		label="asynRecord Out"
+		name="asynRecord.adl"
+		args="P=$(P), R=A0:AsynOut"
+	}
+	display[1] {
+		label="asynRecord In"
+		name="asynRecord.adl"
+		args="P=$(P), R=A0:AsynIn"
+	}
+	display[2] {
+		label="I/O Statistics"
+		name="modbusStatistics.adl"
+		args="P=$(P), R=A0:"
+	}
+	clr=14
+	bclr=51
+}
+text {
+	object {
+		x=415
+		y=400
+		width=36
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="More"
+	align="horiz. centered"
+}
+menu {
+	object {
+		x=729
+		y=83
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT16.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=108
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)BCD_UNSIGNED.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=133
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)BCD_SIGNED.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=158
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT16.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=183
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT32_LE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=208
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT32_BE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=233
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT32_LE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=258
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT32_BE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=283
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT64_LE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=308
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT64_BE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+menu {
+	object {
+		x=729
+		y=333
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)DEFAULT.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+text {
+	object {
+		x=744
 		y=59
 		width=70
 		height=20
@@ -110,12 +319,12 @@ text {
 	"basic attribute" {
 		clr=14
 	}
-	textix="$(OREC)"
+	textix="Scan"
 	align="horiz. centered"
 }
 "text update" {
 	object {
-		x=330
+		x=489
 		y=86
 		width=75
 		height=15
@@ -129,37 +338,9 @@ text {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=83
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)UINT16.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=83
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)UINT16"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=111
 		width=75
 		height=15
@@ -173,37 +354,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=108
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)BCD_UNSIGNED.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=108
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)BCD_UNSIGNED"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=136
 		width=75
 		height=15
@@ -217,37 +370,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=133
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)BCD_SIGNED.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=133
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)BCD_SIGNED"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=161
 		width=75
 		height=15
@@ -261,37 +386,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=158
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)INT16.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=158
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)INT16"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=186
 		width=75
 		height=15
@@ -305,37 +402,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=183
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)INT32_LE.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=183
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)INT32_LE"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=211
 		width=75
 		height=15
@@ -349,37 +418,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=208
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)INT32_BE.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=208
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)INT32_BE"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=236
 		width=75
 		height=15
@@ -393,37 +434,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=233
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)FLOAT32_LE.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=233
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)FLOAT32_LE"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=261
 		width=75
 		height=15
@@ -437,37 +450,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=258
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)FLOAT32_BE.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=258
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)FLOAT32_BE"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=286
 		width=75
 		height=15
@@ -481,37 +466,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=283
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)FLOAT64_LE.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=283
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)FLOAT64_LE"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=311
 		width=75
 		height=15
@@ -525,37 +482,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=308
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)FLOAT64_BE.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=308
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)FLOAT64_BE"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 "text update" {
 	object {
-		x=330
+		x=489
 		y=336
 		width=75
 		height=15
@@ -569,180 +498,9 @@ menu {
 	limits {
 	}
 }
-menu {
-	object {
-		x=410
-		y=333
-		width=100
-		height=20
-	}
-	control {
-		chan="$(P)$(IN)DEFAULT.SCAN"
-		clr=14
-		bclr=4
-	}
-}
-"text entry" {
-	object {
-		x=245
-		y=333
-		width=80
-		height=20
-	}
-	control {
-		chan="$(P)$(OUT)DEFAULT"
-		clr=14
-		bclr=51
-	}
-	limits {
-	}
-}
 text {
 	object {
-		x=104
-		y=86
-		width=135
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Unsigned 16-bit"
-	align="horiz. right"
-}
-text {
-	object {
-		x=131
-		y=111
-		width=108
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="BCD unsigned"
-	align="horiz. right"
-}
-text {
-	object {
-		x=149
-		y=136
-		width=90
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="BCD signed"
-	align="horiz. right"
-}
-text {
-	object {
-		x=122
-		y=161
-		width=117
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Signed 16-bit"
-	align="horiz. right"
-}
-text {
-	object {
-		x=176
-		y=336
-		width=63
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Default"
-	align="horiz. right"
-}
-text {
-	object {
-		x=23
-		y=186
-		width=216
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="32-bit int little-endian"
-	align="horiz. right"
-}
-text {
-	object {
-		x=50
-		y=211
-		width=189
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="32-bit int    big-endian"
-	align="horiz. right"
-}
-text {
-	object {
-		x=5
-		y=236
-		width=234
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="32-bit float little-endian"
-	align="horiz. right"
-}
-text {
-	object {
-		x=32
-		y=261
-		width=207
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="32-bit float    big-endian"
-	align="horiz. right"
-}
-text {
-	object {
-		x=5
-		y=286
-		width=234
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="64-bit float little-endian"
-	align="horiz. right"
-}
-text {
-	object {
-		x=32
-		y=311
-		width=207
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="64-bit float    big-endian"
-	align="horiz. right"
-}
-text {
-	object {
-		x=332
+		x=491
 		y=59
 		width=70
 		height=20
@@ -755,7 +513,7 @@ text {
 }
 text {
 	object {
-		x=425
+		x=249
 		y=59
 		width=70
 		height=20
@@ -763,113 +521,1135 @@ text {
 	"basic attribute" {
 		clr=14
 	}
-	textix="Scan"
+	textix="$(OREC)"
 	align="horiz. centered"
+}
+"text entry" {
+	object {
+		x=244
+		y=83
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT16"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=108
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)BCD_UNSIGNED"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=133
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)BCD_SIGNED"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=158
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT16"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=183
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT32_LE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=208
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT32_BE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=233
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT32_LE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=258
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT32_BE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=283
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT64_LE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=308
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT64_BE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=244
+		y=333
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)DEFAULT"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
 }
 composite {
 	object {
-		x=175
-		y=372
-		width=170
-		height=65
+		x=5
+		y=86
+		width=234
+		height=265
 	}
 	"composite name"=""
 	children {
-		"text entry" {
+		text {
 			object {
-				x=200
-				y=372
-				width=50
-				height=20
+				x=104
+				y=86
+				width=135
+				height=15
 			}
-			control {
-				chan="$(P)A0:PollDelay"
+			"basic attribute" {
 				clr=14
-				bclr=51
 			}
-			limits {
-			}
+			textix="Unsigned 16-bit"
+			align="horiz. right"
 		}
 		text {
 			object {
-				x=255
-				y=375
+				x=131
+				y=111
+				width=108
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="BCD unsigned"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=149
+				y=136
 				width=90
 				height=15
 			}
 			"basic attribute" {
 				clr=14
 			}
-			textix="Poll delay"
-			align="horiz. centered"
-		}
-		"related display" {
-			object {
-				x=197
-				y=397
-				width=53
-				height=20
-			}
-			display[0] {
-				label="asynRecord Out"
-				name="asynRecord.adl"
-				args="P=$(P), R=A0:AsynOut"
-			}
-			display[1] {
-				label="asynRecord In"
-				name="asynRecord.adl"
-				args="P=$(P), R=A0:AsynIn"
-			}
-			display[2] {
-				label="I/O Statistics"
-				name="modbusStatistics.adl"
-				args="P=$(P), R=A0:"
-			}
-			clr=14
-			bclr=51
+			textix="BCD signed"
+			align="horiz. right"
 		}
 		text {
 			object {
-				x=255
-				y=400
-				width=36
+				x=122
+				y=161
+				width=117
 				height=15
 			}
 			"basic attribute" {
 				clr=14
 			}
-			textix="More"
-			align="horiz. centered"
+			textix="Signed 16-bit"
+			align="horiz. right"
 		}
+		text {
+			object {
+				x=176
+				y=336
+				width=63
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Default"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=23
+				y=186
+				width=216
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="32-bit int little-endian"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=50
+				y=211
+				width=189
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="32-bit int    big-endian"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=5
+				y=236
+				width=234
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="32-bit float little-endian"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=32
+				y=261
+				width=207
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="32-bit float    big-endian"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=5
+				y=286
+				width=234
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="64-bit float little-endian"
+			align="horiz. right"
+		}
+		text {
+			object {
+				x=32
+				y=311
+				width=207
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="64-bit float    big-endian"
+			align="horiz. right"
+		}
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=86
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT16.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=111
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_UNSIGNED.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=136
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_SIGNED.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=161
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT16.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=186
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=211
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=236
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=261
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=286
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=311
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=569
+		y=336
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)DEFAULT.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+text {
+	object {
+		x=571
+		y=59
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Status"
+	align="horiz. centered"
+}
+"text update" {
+	object {
+		x=649
+		y=86
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT16.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=111
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_UNSIGNED.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=136
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_SIGNED.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=161
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT16.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=186
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=211
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=236
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=261
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=286
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=311
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=649
+		y=336
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)DEFAULT.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+text {
+	object {
+		x=651
+		y=59
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Severity"
+	align="horiz. centered"
+}
+composite {
+	object {
+		x=329
+		y=59
+		width=155
+		height=292
+	}
+	"composite name"=""
+	children {
 		"text update" {
 			object {
-				x=175
-				y=422
+				x=329
+				y=86
 				width=75
 				height=15
 			}
 			monitor {
-				chan="$(P)$(IN)UINT16.SEVR"
-				clr=14
+				chan="$(P)$(OUT)UINT16.STAT"
+				clr=53
 				bclr=2
 			}
 			clrmod="alarm"
-			align="horiz. centered"
-			format="hexadecimal"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=111
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)BCD_UNSIGNED.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=136
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)BCD_SIGNED.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=161
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)INT16.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=186
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)INT32_LE.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=211
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)INT32_BE.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=236
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)FLOAT32_LE.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=261
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)FLOAT32_BE.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=286
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)FLOAT64_LE.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=311
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)FLOAT64_BE.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=329
+				y=336
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)DEFAULT.STAT"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
 			limits {
 			}
 		}
 		text {
 			object {
-				x=255
-				y=422
-				width=54
-				height=15
+				x=331
+				y=59
+				width=70
+				height=20
 			}
 			"basic attribute" {
 				clr=14
 			}
 			textix="Status"
+			align="horiz. centered"
+		}
+		"text update" {
+			object {
+				x=409
+				y=86
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)UINT16.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=111
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)BCD_UNSIGNED.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=136
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)BCD_SIGNED.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=161
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)INT16.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=186
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)INT32_LE.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=211
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)INT32_BE.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=236
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)FLOAT32_LE.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=261
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)FLOAT32_BE.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=286
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)FLOAT64_LE.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=311
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)FLOAT64_BE.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		"text update" {
+			object {
+				x=409
+				y=336
+				width=75
+				height=15
+			}
+			monitor {
+				chan="$(P)$(OUT)DEFAULT.SEVR"
+				clr=53
+				bclr=2
+			}
+			clrmod="alarm"
+			align="horiz. right"
+			limits {
+			}
+		}
+		text {
+			object {
+				x=411
+				y=59
+				width=70
+				height=20
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="Severity"
 			align="horiz. centered"
 		}
 	}

@@ -1,7 +1,7 @@
 
 file {
-	name="/home/epics/devel/modbus/1-1/modbusApp/op/adl/modbusArray.adl"
-	version=030000
+	name="/home/epics/devel/modbus/modbusApp/op/adl/modbusArray.adl"
+	version=030105
 }
 display {
 	object {
@@ -107,10 +107,70 @@ display {
 		data_clr=54
 	}
 }
+text {
+	object {
+		x=375
+		y=287
+		width=80
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Severity"
+	align="horiz. centered"
+}
+"text update" {
+	object {
+		x=460
+		y=290
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+text {
+	object {
+		x=214
+		y=287
+		width=60
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Status"
+	align="horiz. centered"
+}
+"text update" {
+	object {
+		x=279
+		y=290
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
 composite {
 	object {
 		x=20
-		y=286
+		y=287
 		width=167
 		height=20
 	}
@@ -119,7 +179,7 @@ composite {
 		menu {
 			object {
 				x=87
-				y=286
+				y=287
 				width=100
 				height=20
 			}
@@ -132,7 +192,7 @@ composite {
 		text {
 			object {
 				x=20
-				y=289
+				y=290
 				width=63
 				height=15
 			}

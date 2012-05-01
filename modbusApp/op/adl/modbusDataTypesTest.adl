@@ -97,7 +97,7 @@ text {
 	"basic attribute" {
 		clr=14
 	}
-	textix="Data Type Test"
+	textix="Sim1 Test"
 	align="horiz. centered"
 }
 "related display" {
@@ -117,9 +117,19 @@ text {
 		name="modbusDataTypes.adl"
 		args="P=SIM1:,OUT=AO:,IN=AI:,OREC=ao,IREC=ai"
 	}
+	display[2] {
+		label="Binary inputs"
+		name="Koyo_8inputs.adl"
+		args="P=SIM1:,R=BI,A=B,L=MBBID0,PORT=BI,AC=Bit"
+	}
+	display[3] {
+		label="Binary outputs"
+		name="Koyo_8outputs.adl"
+		args="P=SIM1:,R=BO,A=B,L=MBBOD0,PORT=BO,AC=Bit"
+	}
 	clr=14
 	bclr=51
-	label="Data type test"
+	label="Inputs & outputs"
 }
 "related display" {
 	object {

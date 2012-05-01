@@ -1,13 +1,13 @@
 
 file {
-	name="/home/epics/devel/modbus/1-1/modbusApp/op/adl/Koyo_8outputs.adl"
-	version=030000
+	name="/home/epics/devel/modbus/modbusApp/op/adl/Koyo_8outputs.adl"
+	version=030105
 }
 display {
 	object {
-		x=540
-		y=100
-		width=200
+		x=376
+		y=141
+		width=360
 		height=450
 	}
 	clr=14
@@ -214,7 +214,7 @@ text {
 }
 text {
 	object {
-		x=10
+		x=90
 		y=5
 		width=180
 		height=20
@@ -342,8 +342,8 @@ composite {
 }
 text {
 	object {
-		x=46
-		y=31
+		x=64
+		y=38
 		width=108
 		height=15
 	}
@@ -355,8 +355,8 @@ text {
 }
 text {
 	object {
-		x=46
-		y=51
+		x=64
+		y=58
 		width=108
 		height=15
 	}
@@ -381,70 +381,6 @@ text {
 	format="hexadecimal"
 	limits {
 	}
-}
-text {
-	object {
-		x=114
-		y=416
-		width=36
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="More"
-	align="horiz. centered"
-}
-"related display" {
-	object {
-		x=56
-		y=413
-		width=53
-		height=20
-	}
-	display[0] {
-		label="asynRecord"
-		name="asynRecord.adl"
-		args="P=$(P), R=$(PORT)Asyn"
-	}
-	display[1] {
-		label="I/O Statistics"
-		name="modbusStatistics.adl"
-		args="P=$(P), R=$(PORT)"
-	}
-	clr=14
-	bclr=51
-}
-"text update" {
-	object {
-		x=34
-		y=391
-		width=75
-		height=15
-	}
-	monitor {
-		chan="$(P)$(L).SEVR"
-		clr=14
-		bclr=2
-	}
-	clrmod="alarm"
-	align="horiz. centered"
-	format="hexadecimal"
-	limits {
-	}
-}
-text {
-	object {
-		x=114
-		y=391
-		width=54
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Status"
-	align="horiz. centered"
 }
 composite {
 	object {
@@ -718,6 +654,382 @@ composite {
 			}
 			limits {
 			}
+		}
+	}
+}
+"text update" {
+	object {
+		x=189
+		y=315
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(L).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=189
+		y=87
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)0$(A).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=189
+		y=112
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)1$(A).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=189
+		y=137
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)2$(A).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=189
+		y=162
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)3$(A).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=189
+		y=187
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)4$(A).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=189
+		y=212
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)5$(A).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=189
+		y=237
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)6$(A).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=189
+		y=262
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)7$(A).STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+text {
+	object {
+		x=191
+		y=60
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Status"
+	align="horiz. centered"
+}
+"text update" {
+	object {
+		x=272
+		y=87
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)0$(A).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=272
+		y=112
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)1$(A).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=272
+		y=137
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)2$(A).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=272
+		y=162
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)3$(A).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=272
+		y=187
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)4$(A).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=272
+		y=212
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)5$(A).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=272
+		y=237
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)6$(A).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=272
+		y=262
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(R)7$(A).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=272
+		y=315
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(L).SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+text {
+	object {
+		x=269
+		y=60
+		width=80
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Severity"
+	align="horiz. centered"
+}
+composite {
+	object {
+		x=133
+		y=413
+		width=94
+		height=20
+	}
+	"composite name"=""
+	children {
+		"related display" {
+			object {
+				x=133
+				y=413
+				width=53
+				height=20
+			}
+			display[0] {
+				label="asynRecord"
+				name="asynRecord.adl"
+				args="P=$(P), R=$(PORT)Asyn"
+			}
+			display[1] {
+				label="I/O Statistics"
+				name="modbusStatistics.adl"
+				args="P=$(P), R=$(PORT)"
+			}
+			clr=14
+			bclr=51
+		}
+		text {
+			object {
+				x=191
+				y=416
+				width=36
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="More"
+			align="horiz. centered"
 		}
 	}
 }
