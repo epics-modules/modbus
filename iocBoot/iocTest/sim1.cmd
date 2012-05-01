@@ -38,7 +38,26 @@ modbusInterposeConfig("sim1",0,2000,0)
 # Note: non-zero write delay (last parameter) may be needed.
 #modbusInterposeConfig("sim1",2,2000,0)
 
-# Word access at Modbus address 0
+# Bit access at Modbus address 0
+# Access 128 bits as inputs.  
+# Function code=1
+# drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
+drvModbusAsynConfigure("A0_In_Bits", "sim1", 0, 1,  0, 128, 0, 100, "Simulator")
+
+# Bit access at Modbus address 0
+# Access 128 bits as outputs.  
+# Function code=5
+# drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
+drvModbusAsynConfigure("A0_Out_Bits", "sim1", 0, 5,  0, 128, 0, 100, "Simulator")
+
+# Access 60 words as outputs.  
+# Either function code=6 (single register) or 16 (multiple registers) can be used, but 16
+# is better because it is "atomic" when writing values longer than 16-bits.
+# Default data type unsigned integer.
+# drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
+drvModbusAsynConfigure("A0_Out_Word", "sim1", 0, 16, 100, 60, 0, 1, "Simulator")
+
+# Word access at Modbus address 100
 # Access 60 words as inputs.  
 # Function code=3
 # default data type unsigned integer.
@@ -50,7 +69,7 @@ drvModbusAsynConfigure("A0_In_Word", "sim1", 0, 3, 100, 60, 0, 100, "Simulator")
 # is better because it is "atomic" when writing values longer than 16-bits.
 # Default data type unsigned integer.
 # drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
-drvModbusAsynConfigure("A0_Out_Word", "sim1", 0, 6, 100, 60, 0, 1, "Simulator")
+drvModbusAsynConfigure("A0_Out_Word", "sim1", 0, 16, 100, 60, 0, 1, "Simulator")
 
 # Enable ASYN_TRACEIO_HEX on octet server
 asynSetTraceIOMask("sim1",0,4)
