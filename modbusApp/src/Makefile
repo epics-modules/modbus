@@ -41,6 +41,8 @@ PROD_LIBS += modbus
 PROD_LIBS += asyn
 PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
 
+PROD_SYS_LIBS_solaris += socket
+
 #
 include $(TOP)/configure/RULES
 #----------------------------------------
