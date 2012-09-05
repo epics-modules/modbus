@@ -1,27 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <display typeId="org.csstudio.opibuilder.Display" version="1.0">
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <scripts />
+  <scripts/>
   <show_ruler>true</show_ruler>
   <height>260</height>
   <name>Koyo_4ADC</name>
   <snap_to_geometry>false</snap_to_geometry>
   <show_grid>false</show_grid>
   <background_color>
-    <color name="Gray_4" />
+    <color name="Gray_4"/>
   </background_color>
   <foreground_color>
-    <color name="Gray_14" />
+    <color name="Gray_14"/>
   </foreground_color>
   <widget_type>Display</widget_type>
   <show_close_button>true</show_close_button>
   <width>330</width>
-  <rules />
+  <rules/>
   <show_edit_range>true</show_edit_range>
   <grid_space>5</grid_space>
-  <actions hook="false" />
+  <actions hook="false"/>
   <y>70</y>
   <x>302</x>
   <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0">
@@ -36,27 +37,27 @@
     </font>
     <width>182</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <lock_children>false</lock_children>
-    <scripts />
+    <scripts/>
     <height>115</height>
     <border_width>1</border_width>
     <name>Grouping Container</name>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <transparent>false</transparent>
     <show_scrollbar>false</show_scrollbar>
     <y>64</y>
-    <actions hook="false" />
+    <actions hook="false"/>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="0" green="0" blue="0"/>
     </foreground_color>
     <background_color>
-      <color red="187" green="187" blue="187" />
+      <color red="187" green="187" blue="187"/>
     </background_color>
     <x>145</x>
-    <tooltip />
+    <tooltip/>
     <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0">
       <enabled>true</enabled>
       <widget_type>Grouping Container</widget_type>
@@ -69,42 +70,42 @@
       </font>
       <width>100</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <lock_children>false</lock_children>
-      <scripts />
+      <scripts/>
       <height>95</height>
       <border_width>1</border_width>
       <name>Grouping Container</name>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <transparent>false</transparent>
       <show_scrollbar>false</show_scrollbar>
       <y>20</y>
-      <actions hook="false" />
+      <actions hook="false"/>
       <foreground_color>
-        <color red="0" green="0" blue="0" />
+        <color red="0" green="0" blue="0"/>
       </foreground_color>
       <background_color>
-        <color red="187" green="187" blue="187" />
+        <color red="187" green="187" blue="187"/>
       </background_color>
       <x>82</x>
-      <tooltip />
+      <tooltip/>
       <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0">
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <visible>true</visible>
         <actions_from_pv>true</actions_from_pv>
-        <scripts />
+        <scripts/>
         <height>20</height>
         <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
         <name>Menu Button</name>
         <transparent>false</transparent>
         <pv_name>$(P)$(R1).SCAN</pv_name>
         <background_color>
-          <color name="Gray_4" />
+          <color name="Gray_4"/>
         </background_color>
         <foreground_color>
-          <color name="Gray_14" />
+          <color name="Gray_14"/>
         </foreground_color>
         <widget_type>Menu Button</widget_type>
         <enabled>true</enabled>
@@ -114,14 +115,14 @@
         </font>
         <width>100</width>
         <border_style>6</border_style>
-        <label />
-        <rules />
+        <label/>
+        <rules/>
         <border_width>1</border_width>
         <border_color>
-          <color red="0" green="128" blue="255" />
+          <color red="0" green="128" blue="255"/>
         </border_color>
         <y>0</y>
-        <actions hook="false" />
+        <actions hook="false"/>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
         <x>0</x>
@@ -130,17 +131,17 @@ $(pv_value)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <visible>true</visible>
         <actions_from_pv>true</actions_from_pv>
-        <scripts />
+        <scripts/>
         <height>20</height>
         <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
         <name>Menu Button</name>
         <transparent>false</transparent>
         <pv_name>$(P)$(R2).SCAN</pv_name>
         <background_color>
-          <color name="Gray_4" />
+          <color name="Gray_4"/>
         </background_color>
         <foreground_color>
-          <color name="Gray_14" />
+          <color name="Gray_14"/>
         </foreground_color>
         <widget_type>Menu Button</widget_type>
         <enabled>true</enabled>
@@ -150,14 +151,14 @@ $(pv_value)</tooltip>
         </font>
         <width>100</width>
         <border_style>6</border_style>
-        <label />
-        <rules />
+        <label/>
+        <rules/>
         <border_width>1</border_width>
         <border_color>
-          <color red="0" green="128" blue="255" />
+          <color red="0" green="128" blue="255"/>
         </border_color>
         <y>25</y>
-        <actions hook="false" />
+        <actions hook="false"/>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
         <x>0</x>
@@ -166,17 +167,17 @@ $(pv_value)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <visible>true</visible>
         <actions_from_pv>true</actions_from_pv>
-        <scripts />
+        <scripts/>
         <height>20</height>
         <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
         <name>Menu Button</name>
         <transparent>false</transparent>
         <pv_name>$(P)$(R3).SCAN</pv_name>
         <background_color>
-          <color name="Gray_4" />
+          <color name="Gray_4"/>
         </background_color>
         <foreground_color>
-          <color name="Gray_14" />
+          <color name="Gray_14"/>
         </foreground_color>
         <widget_type>Menu Button</widget_type>
         <enabled>true</enabled>
@@ -186,14 +187,14 @@ $(pv_value)</tooltip>
         </font>
         <width>100</width>
         <border_style>6</border_style>
-        <label />
-        <rules />
+        <label/>
+        <rules/>
         <border_width>1</border_width>
         <border_color>
-          <color red="0" green="128" blue="255" />
+          <color red="0" green="128" blue="255"/>
         </border_color>
         <y>50</y>
-        <actions hook="false" />
+        <actions hook="false"/>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
         <x>0</x>
@@ -202,17 +203,17 @@ $(pv_value)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
         <visible>true</visible>
         <actions_from_pv>true</actions_from_pv>
-        <scripts />
+        <scripts/>
         <height>20</height>
         <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
         <name>Menu Button</name>
         <transparent>false</transparent>
         <pv_name>$(P)$(R4).SCAN</pv_name>
         <background_color>
-          <color name="Gray_4" />
+          <color name="Gray_4"/>
         </background_color>
         <foreground_color>
-          <color name="Gray_14" />
+          <color name="Gray_14"/>
         </foreground_color>
         <widget_type>Menu Button</widget_type>
         <enabled>true</enabled>
@@ -222,14 +223,14 @@ $(pv_value)</tooltip>
         </font>
         <width>100</width>
         <border_style>6</border_style>
-        <label />
-        <rules />
+        <label/>
+        <rules/>
         <border_width>1</border_width>
         <border_color>
-          <color red="0" green="128" blue="255" />
+          <color red="0" green="128" blue="255"/>
         </border_color>
         <y>75</y>
-        <actions hook="false" />
+        <actions hook="false"/>
         <tooltip>$(pv_name)
 $(pv_value)</tooltip>
         <x>0</x>
@@ -241,7 +242,7 @@ $(pv_value)</tooltip>
       <vertical_alignment>1</vertical_alignment>
       <show_units>false</show_units>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>15</height>
       <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
       <name>Text Update</name>
@@ -250,10 +251,10 @@ $(pv_value)</tooltip>
       <transparent>false</transparent>
       <pv_name>$(P)$(R1)</pv_name>
       <background_color>
-        <color name="Gray_2" />
+        <color name="Gray_2"/>
       </background_color>
       <foreground_color>
-        <color name="MEDM_COLOR_53" />
+        <color name="MEDM_COLOR_53"/>
       </foreground_color>
       <widget_type>Text Update</widget_type>
       <enabled>true</enabled>
@@ -261,17 +262,17 @@ $(pv_value)</tooltip>
       <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
       <precision>0</precision>
       <font>
-        <fontdata fontName="Sans" height="9" style="0" />
+        <fontdata fontName="Sans" height="9" style="0"/>
       </font>
       <width>75</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>0</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>23</y>
       <wrap_words>false</wrap_words>
       <tooltip>$(pv_name)
@@ -284,7 +285,7 @@ $(pv_value)</tooltip>
       <vertical_alignment>1</vertical_alignment>
       <show_units>false</show_units>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>15</height>
       <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
       <name>Text Update</name>
@@ -293,10 +294,10 @@ $(pv_value)</tooltip>
       <transparent>false</transparent>
       <pv_name>$(P)$(R2)</pv_name>
       <background_color>
-        <color name="Gray_2" />
+        <color name="Gray_2"/>
       </background_color>
       <foreground_color>
-        <color name="MEDM_COLOR_53" />
+        <color name="MEDM_COLOR_53"/>
       </foreground_color>
       <widget_type>Text Update</widget_type>
       <enabled>true</enabled>
@@ -304,17 +305,17 @@ $(pv_value)</tooltip>
       <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
       <precision>0</precision>
       <font>
-        <fontdata fontName="Sans" height="9" style="0" />
+        <fontdata fontName="Sans" height="9" style="0"/>
       </font>
       <width>75</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>0</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>48</y>
       <wrap_words>false</wrap_words>
       <tooltip>$(pv_name)
@@ -327,7 +328,7 @@ $(pv_value)</tooltip>
       <vertical_alignment>1</vertical_alignment>
       <show_units>false</show_units>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>15</height>
       <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
       <name>Text Update</name>
@@ -336,10 +337,10 @@ $(pv_value)</tooltip>
       <transparent>false</transparent>
       <pv_name>$(P)$(R3)</pv_name>
       <background_color>
-        <color name="Gray_2" />
+        <color name="Gray_2"/>
       </background_color>
       <foreground_color>
-        <color name="MEDM_COLOR_53" />
+        <color name="MEDM_COLOR_53"/>
       </foreground_color>
       <widget_type>Text Update</widget_type>
       <enabled>true</enabled>
@@ -347,17 +348,17 @@ $(pv_value)</tooltip>
       <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
       <precision>0</precision>
       <font>
-        <fontdata fontName="Sans" height="9" style="0" />
+        <fontdata fontName="Sans" height="9" style="0"/>
       </font>
       <width>75</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>0</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>73</y>
       <wrap_words>false</wrap_words>
       <tooltip>$(pv_name)
@@ -370,7 +371,7 @@ $(pv_value)</tooltip>
       <vertical_alignment>1</vertical_alignment>
       <show_units>false</show_units>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>15</height>
       <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
       <name>Text Update</name>
@@ -379,10 +380,10 @@ $(pv_value)</tooltip>
       <transparent>false</transparent>
       <pv_name>$(P)$(R4)</pv_name>
       <background_color>
-        <color name="Gray_2" />
+        <color name="Gray_2"/>
       </background_color>
       <foreground_color>
-        <color name="MEDM_COLOR_53" />
+        <color name="MEDM_COLOR_53"/>
       </foreground_color>
       <widget_type>Text Update</widget_type>
       <enabled>true</enabled>
@@ -390,17 +391,17 @@ $(pv_value)</tooltip>
       <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
       <precision>0</precision>
       <font>
-        <fontdata fontName="Sans" height="9" style="0" />
+        <fontdata fontName="Sans" height="9" style="0"/>
       </font>
       <width>75</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>0</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>98</y>
       <wrap_words>false</wrap_words>
       <tooltip>$(pv_name)
@@ -411,35 +412,35 @@ $(pv_value)</tooltip>
       <visible>true</visible>
       <vertical_alignment>1</vertical_alignment>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>15</height>
       <name>Label</name>
       <transparent>true</transparent>
       <show_scrollbar>false</show_scrollbar>
       <background_color>
-        <color red="255" green="255" blue="255" />
+        <color red="255" green="255" blue="255"/>
       </background_color>
       <foreground_color>
-        <color name="Gray_14" />
+        <color name="Gray_14"/>
       </foreground_color>
       <widget_type>Label</widget_type>
       <enabled>true</enabled>
       <text>VAL</text>
       <font>
-        <fontdata fontName="Sans" height="9" style="0" />
+        <fontdata fontName="Sans" height="9" style="0"/>
       </font>
       <width>27</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>1</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>0</y>
       <wrap_words>true</wrap_words>
-      <tooltip />
+      <tooltip/>
       <x>24</x>
     </widget>
   </widget>
@@ -455,27 +456,27 @@ $(pv_value)</tooltip>
     </font>
     <width>145</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <lock_children>false</lock_children>
-    <scripts />
+    <scripts/>
     <height>20</height>
     <border_width>1</border_width>
     <name>Grouping Container</name>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <transparent>false</transparent>
     <show_scrollbar>false</show_scrollbar>
     <y>185</y>
-    <actions hook="false" />
+    <actions hook="false"/>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="0" green="0" blue="0"/>
     </foreground_color>
     <background_color>
-      <color red="187" green="187" blue="187" />
+      <color red="187" green="187" blue="187"/>
     </background_color>
     <x>94</x>
-    <tooltip />
+    <tooltip/>
     <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="1.0">
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <visible>true</visible>
@@ -484,7 +485,7 @@ $(pv_value)</tooltip>
       <show_units>false</show_units>
       <multiline_input>false</multiline_input>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>20</height>
       <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
       <name>Text Input</name>
@@ -494,30 +495,30 @@ $(pv_value)</tooltip>
       <selector_type>0</selector_type>
       <pv_name>$(P)$(PORT)PollDelay</pv_name>
       <background_color>
-        <color name="ioc_write_bg" />
+        <color name="ioc_write_bg"/>
       </background_color>
       <foreground_color>
-        <color name="Gray_14" />
+        <color name="Gray_14"/>
       </foreground_color>
       <widget_type>Text Input</widget_type>
       <enabled>true</enabled>
-      <text />
+      <text/>
       <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
       <precision>0</precision>
       <font>
-        <fontdata fontName="Sans" height="14" style="0" />
+        <fontdata fontName="Sans" height="14" style="0"/>
       </font>
       <width>50</width>
       <border_style>3</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <maximum>Infinity</maximum>
       <limits_from_pv>false</limits_from_pv>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>0</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>0</y>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -527,35 +528,35 @@ $(pv_value)</tooltip>
       <visible>true</visible>
       <vertical_alignment>1</vertical_alignment>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>15</height>
       <name>Label</name>
       <transparent>true</transparent>
       <show_scrollbar>false</show_scrollbar>
       <background_color>
-        <color red="255" green="255" blue="255" />
+        <color red="255" green="255" blue="255"/>
       </background_color>
       <foreground_color>
-        <color name="Gray_14" />
+        <color name="Gray_14"/>
       </foreground_color>
       <widget_type>Label</widget_type>
       <enabled>true</enabled>
       <text>Poll delay</text>
       <font>
-        <fontdata fontName="Sans" height="9" style="0" />
+        <fontdata fontName="Sans" height="9" style="0"/>
       </font>
       <width>90</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>1</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>3</y>
       <wrap_words>true</wrap_words>
-      <tooltip />
+      <tooltip/>
       <x>55</x>
     </widget>
   </widget>
@@ -571,42 +572,42 @@ $(pv_value)</tooltip>
     </font>
     <width>94</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <lock_children>false</lock_children>
-    <scripts />
+    <scripts/>
     <height>20</height>
     <border_width>1</border_width>
     <name>Grouping Container</name>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <transparent>false</transparent>
     <show_scrollbar>false</show_scrollbar>
     <y>210</y>
-    <actions hook="false" />
+    <actions hook="false"/>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="0" green="0" blue="0"/>
     </foreground_color>
     <background_color>
-      <color red="187" green="187" blue="187" />
+      <color red="187" green="187" blue="187"/>
     </background_color>
     <x>91</x>
-    <tooltip />
+    <tooltip/>
     <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0">
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <visible>true</visible>
       <actions_from_pv>false</actions_from_pv>
-      <scripts />
+      <scripts/>
       <height>20</height>
       <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
       <name>Menu Button</name>
       <transparent>false</transparent>
-      <pv_name />
+      <pv_name/>
       <background_color>
-        <color name="ioc_write_bg" />
+        <color name="ioc_write_bg"/>
       </background_color>
       <foreground_color>
-        <color name="Gray_14" />
+        <color name="Gray_14"/>
       </foreground_color>
       <widget_type>Menu Button</widget_type>
       <enabled>true</enabled>
@@ -616,16 +617,16 @@ $(pv_value)</tooltip>
       </font>
       <width>53</width>
       <border_style>6</border_style>
-      <label />
-      <rules />
+      <label/>
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <y>0</y>
       <actions hook="false">
         <action type="OPEN_OPI_IN_VIEW">
-          <path>../asyn/asynRecord.opi</path>
+          <path>asynRecord.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
             <R>$(PORT)Asyn</R>
@@ -660,35 +661,35 @@ $(pv_value)</tooltip>
       <visible>true</visible>
       <vertical_alignment>1</vertical_alignment>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>15</height>
       <name>Label</name>
       <transparent>true</transparent>
       <show_scrollbar>false</show_scrollbar>
       <background_color>
-        <color red="255" green="255" blue="255" />
+        <color red="255" green="255" blue="255"/>
       </background_color>
       <foreground_color>
-        <color name="Gray_14" />
+        <color name="Gray_14"/>
       </foreground_color>
       <widget_type>Label</widget_type>
       <enabled>true</enabled>
       <text>More</text>
       <font>
-        <fontdata fontName="Sans" height="9" style="0" />
+        <fontdata fontName="Sans" height="9" style="0"/>
       </font>
       <width>36</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>1</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>3</y>
       <wrap_words>true</wrap_words>
-      <tooltip />
+      <tooltip/>
       <x>58</x>
     </widget>
   </widget>
@@ -704,34 +705,34 @@ $(pv_value)</tooltip>
     </font>
     <width>134</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <lock_children>false</lock_children>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <border_width>1</border_width>
     <name>Grouping Container</name>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <transparent>false</transparent>
     <show_scrollbar>false</show_scrollbar>
     <y>235</y>
-    <actions hook="false" />
+    <actions hook="false"/>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="0" green="0" blue="0"/>
     </foreground_color>
     <background_color>
-      <color red="187" green="187" blue="187" />
+      <color red="187" green="187" blue="187"/>
     </background_color>
     <x>69</x>
-    <tooltip />
+    <tooltip/>
     <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0">
       <border_alarm_sensitive>true</border_alarm_sensitive>
       <visible>true</visible>
       <vertical_alignment>1</vertical_alignment>
       <show_units>false</show_units>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>15</height>
       <forecolor_alarm_sensitive>true</forecolor_alarm_sensitive>
       <name>Text Update</name>
@@ -740,10 +741,10 @@ $(pv_value)</tooltip>
       <transparent>false</transparent>
       <pv_name>$(P)$(R1).SEVR</pv_name>
       <background_color>
-        <color name="Gray_2" />
+        <color name="Gray_2"/>
       </background_color>
       <foreground_color>
-        <color name="Gray_14" />
+        <color name="Gray_14"/>
       </foreground_color>
       <widget_type>Text Update</widget_type>
       <enabled>true</enabled>
@@ -751,17 +752,17 @@ $(pv_value)</tooltip>
       <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
       <precision>0</precision>
       <font>
-        <fontdata fontName="Sans" height="9" style="0" />
+        <fontdata fontName="Sans" height="9" style="0"/>
       </font>
       <width>75</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>1</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>0</y>
       <wrap_words>false</wrap_words>
       <tooltip>$(pv_name)
@@ -772,35 +773,35 @@ $(pv_value)</tooltip>
       <visible>true</visible>
       <vertical_alignment>1</vertical_alignment>
       <auto_size>false</auto_size>
-      <scripts />
+      <scripts/>
       <height>15</height>
       <name>Label</name>
       <transparent>true</transparent>
       <show_scrollbar>false</show_scrollbar>
       <background_color>
-        <color red="255" green="255" blue="255" />
+        <color red="255" green="255" blue="255"/>
       </background_color>
       <foreground_color>
-        <color name="Gray_14" />
+        <color name="Gray_14"/>
       </foreground_color>
       <widget_type>Label</widget_type>
       <enabled>true</enabled>
       <text>Status</text>
       <font>
-        <fontdata fontName="Sans" height="9" style="0" />
+        <fontdata fontName="Sans" height="9" style="0"/>
       </font>
       <width>54</width>
       <border_style>0</border_style>
-      <rules />
+      <rules/>
       <border_width>1</border_width>
       <border_color>
-        <color red="0" green="128" blue="255" />
+        <color red="0" green="128" blue="255"/>
       </border_color>
       <horizontal_alignment>1</horizontal_alignment>
-      <actions hook="false" />
+      <actions hook="false"/>
       <y>0</y>
       <wrap_words>true</wrap_words>
-      <tooltip />
+      <tooltip/>
       <x>80</x>
     </widget>
   </widget>
@@ -808,245 +809,245 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>20</height>
     <name>Label</name>
     <transparent>true</transparent>
     <show_scrollbar>false</show_scrollbar>
     <background_color>
-      <color red="255" green="255" blue="255" />
+      <color red="255" green="255" blue="255"/>
     </background_color>
     <foreground_color>
-      <color name="Gray_14" />
+      <color name="Gray_14"/>
     </foreground_color>
     <widget_type>Label</widget_type>
     <enabled>true</enabled>
     <text>$(P)$(R1)-$(R4) Inputs</text>
     <font>
-      <fontdata fontName="Sans" height="14" style="0" />
+      <fontdata fontName="Sans" height="14" style="0"/>
     </font>
     <width>220</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>1</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>12</y>
     <wrap_words>true</wrap_words>
-    <tooltip />
+    <tooltip/>
     <x>55</x>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <name>Label</name>
     <transparent>true</transparent>
     <show_scrollbar>false</show_scrollbar>
     <background_color>
-      <color red="255" green="255" blue="255" />
+      <color red="255" green="255" blue="255"/>
     </background_color>
     <foreground_color>
-      <color name="Gray_14" />
+      <color name="Gray_14"/>
     </foreground_color>
     <widget_type>Label</widget_type>
     <enabled>true</enabled>
     <text>$(R1)</text>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>45</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>1</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>87</y>
     <wrap_words>true</wrap_words>
-    <tooltip />
+    <tooltip/>
     <x>10</x>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <name>Label</name>
     <transparent>true</transparent>
     <show_scrollbar>false</show_scrollbar>
     <background_color>
-      <color red="255" green="255" blue="255" />
+      <color red="255" green="255" blue="255"/>
     </background_color>
     <foreground_color>
-      <color name="Gray_14" />
+      <color name="Gray_14"/>
     </foreground_color>
     <widget_type>Label</widget_type>
     <enabled>true</enabled>
     <text>$(R2)</text>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>45</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>1</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>112</y>
     <wrap_words>true</wrap_words>
-    <tooltip />
+    <tooltip/>
     <x>10</x>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <name>Label</name>
     <transparent>true</transparent>
     <show_scrollbar>false</show_scrollbar>
     <background_color>
-      <color red="255" green="255" blue="255" />
+      <color red="255" green="255" blue="255"/>
     </background_color>
     <foreground_color>
-      <color name="Gray_14" />
+      <color name="Gray_14"/>
     </foreground_color>
     <widget_type>Label</widget_type>
     <enabled>true</enabled>
     <text>$(R3)</text>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>45</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>1</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>137</y>
     <wrap_words>true</wrap_words>
-    <tooltip />
+    <tooltip/>
     <x>10</x>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <name>Label</name>
     <transparent>true</transparent>
     <show_scrollbar>false</show_scrollbar>
     <background_color>
-      <color red="255" green="255" blue="255" />
+      <color red="255" green="255" blue="255"/>
     </background_color>
     <foreground_color>
-      <color name="Gray_14" />
+      <color name="Gray_14"/>
     </foreground_color>
     <widget_type>Label</widget_type>
     <enabled>true</enabled>
     <text>$(R4)</text>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>45</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>1</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>162</y>
     <wrap_words>true</wrap_words>
-    <tooltip />
+    <tooltip/>
     <x>10</x>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <name>Label</name>
     <transparent>true</transparent>
     <show_scrollbar>false</show_scrollbar>
     <background_color>
-      <color red="255" green="255" blue="255" />
+      <color red="255" green="255" blue="255"/>
     </background_color>
     <foreground_color>
-      <color name="Gray_14" />
+      <color name="Gray_14"/>
     </foreground_color>
     <widget_type>Label</widget_type>
     <enabled>true</enabled>
     <text>(ai records)</text>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>108</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>1</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>40</y>
     <wrap_words>true</wrap_words>
-    <tooltip />
+    <tooltip/>
     <x>111</x>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0">
     <visible>true</visible>
     <vertical_alignment>1</vertical_alignment>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <name>Label</name>
     <transparent>true</transparent>
     <show_scrollbar>false</show_scrollbar>
     <background_color>
-      <color red="255" green="255" blue="255" />
+      <color red="255" green="255" blue="255"/>
     </background_color>
     <foreground_color>
-      <color name="Gray_14" />
+      <color name="Gray_14"/>
     </foreground_color>
     <widget_type>Label</widget_type>
     <enabled>true</enabled>
     <text>RVAL</text>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>27</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>1</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>64</y>
     <wrap_words>true</wrap_words>
-    <tooltip />
+    <tooltip/>
     <x>85</x>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0">
@@ -1055,7 +1056,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <show_units>false</show_units>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <name>Text Update</name>
@@ -1064,10 +1065,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <pv_name>$(P)$(R1).RVAL</pv_name>
     <background_color>
-      <color name="Gray_2" />
+      <color name="Gray_2"/>
     </background_color>
     <foreground_color>
-      <color name="MEDM_COLOR_53" />
+      <color name="MEDM_COLOR_53"/>
     </foreground_color>
     <widget_type>Text Update</widget_type>
     <enabled>true</enabled>
@@ -1075,17 +1076,17 @@ $(pv_value)</tooltip>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <precision>0</precision>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>75</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>0</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>87</y>
     <wrap_words>false</wrap_words>
     <tooltip>$(pv_name)
@@ -1098,7 +1099,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <show_units>false</show_units>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <name>Text Update</name>
@@ -1107,10 +1108,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <pv_name>$(P)$(R2).RVAL</pv_name>
     <background_color>
-      <color name="Gray_2" />
+      <color name="Gray_2"/>
     </background_color>
     <foreground_color>
-      <color name="MEDM_COLOR_53" />
+      <color name="MEDM_COLOR_53"/>
     </foreground_color>
     <widget_type>Text Update</widget_type>
     <enabled>true</enabled>
@@ -1118,17 +1119,17 @@ $(pv_value)</tooltip>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <precision>0</precision>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>75</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>0</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>112</y>
     <wrap_words>false</wrap_words>
     <tooltip>$(pv_name)
@@ -1141,7 +1142,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <show_units>false</show_units>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <name>Text Update</name>
@@ -1150,10 +1151,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <pv_name>$(P)$(R3).RVAL</pv_name>
     <background_color>
-      <color name="Gray_2" />
+      <color name="Gray_2"/>
     </background_color>
     <foreground_color>
-      <color name="MEDM_COLOR_53" />
+      <color name="MEDM_COLOR_53"/>
     </foreground_color>
     <widget_type>Text Update</widget_type>
     <enabled>true</enabled>
@@ -1161,17 +1162,17 @@ $(pv_value)</tooltip>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <precision>0</precision>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>75</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>0</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>137</y>
     <wrap_words>false</wrap_words>
     <tooltip>$(pv_name)
@@ -1184,7 +1185,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <show_units>false</show_units>
     <auto_size>false</auto_size>
-    <scripts />
+    <scripts/>
     <height>15</height>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <name>Text Update</name>
@@ -1193,10 +1194,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <pv_name>$(P)$(R4).RVAL</pv_name>
     <background_color>
-      <color name="Gray_2" />
+      <color name="Gray_2"/>
     </background_color>
     <foreground_color>
-      <color name="MEDM_COLOR_53" />
+      <color name="MEDM_COLOR_53"/>
     </foreground_color>
     <widget_type>Text Update</widget_type>
     <enabled>true</enabled>
@@ -1204,17 +1205,17 @@ $(pv_value)</tooltip>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <precision>0</precision>
     <font>
-      <fontdata fontName="Sans" height="9" style="0" />
+      <fontdata fontName="Sans" height="9" style="0"/>
     </font>
     <width>75</width>
     <border_style>0</border_style>
-    <rules />
+    <rules/>
     <border_width>1</border_width>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="0" green="128" blue="255"/>
     </border_color>
     <horizontal_alignment>0</horizontal_alignment>
-    <actions hook="false" />
+    <actions hook="false"/>
     <y>162</y>
     <wrap_words>false</wrap_words>
     <tooltip>$(pv_name)
