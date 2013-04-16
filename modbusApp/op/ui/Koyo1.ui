@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+<class>MainWindow</class>
+<widget class="QMainWindow" name="MainWindow">
+    <property name="geometry">
+        <rect>
+            <x>100</x>
+            <y>100</y>
+            <width>170</width>
+            <height>145</height>
+        </rect>
+    </property>
+    <property name="styleSheet">
+        <string>
+
+QWidget#centralWidget {background: rgba(187, 187, 187, 255);}
+
+</string>
+    </property>
+    <widget class="QWidget" name="centralWidget">
+        <widget class="caLabel" name="caLabel_0">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>12</x>
+                    <y>12</y>
+                    <width>146</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="text">
+                <string>Koyo 1</string>
+            </property>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::Height</enum>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="caFrame" name="caFrame_0">
+            <property name="geometry">
+                <rect>
+                    <x>5</x>
+                    <y>51</y>
+                    <width>162</width>
+                    <height>87</height>
+                </rect>
+            </property>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay_0">
+                <property name="geometry">
+                    <rect>
+                        <x>0</x>
+                        <y>0</y>
+                        <width>158</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="foreground">
+                    <color alpha="255">
+                        <red>0</red>
+                        <green>0</green>
+                        <blue>0</blue>
+                    </color>
+                </property>
+                <property name="background">
+                    <color alpha="255">
+                        <red>187</red>
+                        <green>187</green>
+                        <blue>187</blue>
+                    </color>
+                </property>
+                <property name="label">
+                    <string>Inputs</string>
+                </property>
+                <property name="stackingMode">
+                    <enum>Menu</enum>
+                </property>
+                <property name="labels">
+                    <string>X0-X7 inputs (bit access);X0-X7 inputs (word access);Y0-Y7 inputs (bit access);Y0-Y7 inputs (word access);C0-C7 inputs (bit access);C0-C7 inputs (word access);C200-C207 inputs (bit access);C200-C207 inputs (word access)</string>
+                </property>
+                <property name="files">
+                    <string>Koyo_8inputs.adl;Koyo_8inputs.adl;Koyo_8inputs.adl;Koyo_8inputs.adl;Koyo_8inputs.adl;Koyo_8inputs.adl;Koyo_8inputs.adl;Koyo_8inputs.adl</string>
+                </property>
+                <property name="args">
+                    <string>P=KOYO1:,R=X,A=B,L=X0L,PORT=XnB,AC=Bit;P=KOYO1:,R=X,A=W,L=XnL,PORT=XnW,AC=Word;P=KOYO1:,R=Y,A=InB,L=Y0InBL,PORT=YnInB,AC=Bit;P=KOYO1:,R=Y,A=InW,L=YnInWL,PORT=YnInW,AC=Word;P=KOYO1:,R=C,A=InB,L=C0InBL,PORT=CnInB,AC=Bit;P=KOYO1:,R=C,A=InW,L=CnInWL,PORT=CnInW,AC=Word;P=KOYO1:,R=C20,A=InB,L=C200InBL,PORT=CnInB,AC=Bit;P=KOYO1:,R=C20,A=InW,L=C20nInWL,PORT=CnInW,AC=Word</string>
+                </property>
+                <property name="removeParent">
+                    <string>false;false;false;false;false;false;false;false</string>
+                </property>
+            </widget>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay_1">
+                <property name="geometry">
+                    <rect>
+                        <x>0</x>
+                        <y>30</y>
+                        <width>158</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="foreground">
+                    <color alpha="255">
+                        <red>0</red>
+                        <green>0</green>
+                        <blue>0</blue>
+                    </color>
+                </property>
+                <property name="background">
+                    <color alpha="255">
+                        <red>187</red>
+                        <green>187</green>
+                        <blue>187</blue>
+                    </color>
+                </property>
+                <property name="label">
+                    <string>Outputs</string>
+                </property>
+                <property name="stackingMode">
+                    <enum>Menu</enum>
+                </property>
+                <property name="labels">
+                    <string>Y0-Y7 outputs (bit access);Y0-Y7 outputs (word access);C200-C207 outputs (bit access);C200-C207 outputs (word access)</string>
+                </property>
+                <property name="files">
+                    <string>Koyo_8outputs.adl;Koyo_8outputs.adl;Koyo_8outputs.adl;Koyo_8outputs.adl</string>
+                </property>
+                <property name="args">
+                    <string>P=KOYO1:,R=Y,A=OutB,L=Y0OutBL,PORT=YnOutB,AC=Bit;P=KOYO1:,R=Y,A=OutW,L=YnOutWL,PORT=YnOutW,AC=Word;P=KOYO1:,R=C20,A=OutB,L=C200OutBL,PORT=C20nOutB,AC=Bit;P=KOYO1:,R=C20,A=OutW,L=C20nOutWL,PORT=CnOutW,AC=Word</string>
+                </property>
+                <property name="removeParent">
+                    <string>false;false;false;false</string>
+                </property>
+            </widget>
+            <widget class="caRelatedDisplay" name="caRelatedDisplay_2">
+                <property name="geometry">
+                    <rect>
+                        <x>2</x>
+                        <y>60</y>
+                        <width>158</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="foreground">
+                    <color alpha="255">
+                        <red>0</red>
+                        <green>0</green>
+                        <blue>0</blue>
+                    </color>
+                </property>
+                <property name="background">
+                    <color alpha="255">
+                        <red>187</red>
+                        <green>187</green>
+                        <blue>187</blue>
+                    </color>
+                </property>
+                <property name="label">
+                    <string>Octet asyn record</string>
+                </property>
+                <property name="stackingMode">
+                    <enum>Menu</enum>
+                </property>
+                <property name="labels">
+                    <string>Octet asyn record;Octet asyn record</string>
+                </property>
+                <property name="files">
+                    <string>asynRecord.adl;l</string>
+                </property>
+                <property name="args">
+                    <string>P=KOYO1:,R=OctetAsyn;P=KOYO1:,R=OctetAsyn</string>
+                </property>
+                <property name="removeParent">
+                    <string>false;false</string>
+                </property>
+            </widget>
+        </widget>
+        <zorder>caLabel_0</zorder>
+        <zorder>caFrame_0</zorder>
+        <zorder>caRelatedDisplay_0</zorder>
+        <zorder>caRelatedDisplay_1</zorder>
+        <zorder>caRelatedDisplay_2</zorder>
+    </widget>
+</widget>
+</ui>
