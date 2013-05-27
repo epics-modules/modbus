@@ -30,6 +30,14 @@
 /* Pack all structures defined here on 1-byte boundaries */
 #pragma pack(1)
 
+/* Note: GCC X.XX on the ARM has a bug an does not correctly process #pragma pack(1),
+ * so we use the following macro */
+#ifdef ARM
+#define PACKED_STRUCTURE __attribute__((__packed__))
+#else
+#define PACKED_STRUCTURE
+#endif
+
 /* All Modbus messages over TCP/IP are preceeded by the MBAP header */
 
 typedef struct modbusMBAPHeader_str
@@ -37,7 +45,8 @@ typedef struct modbusMBAPHeader_str
     unsigned short transactId;
     unsigned short protocolType;
     unsigned short cmdLength;
-} modbusMBAPHeader;
+} PACKED_STRUCTURE modbusMBAPHeader;
+
 
 
 /*---------------------------------------------*/
@@ -50,14 +59,14 @@ typedef struct modbusReadRequest_str
     unsigned char    fcode;
     unsigned short   startReg;
     unsigned short   numRead;
-} modbusReadRequest;
+} PACKED_STRUCTURE modbusReadRequest;
 
 typedef struct modbusReadResponse_str
 {
     unsigned char  fcode;
     unsigned char  byteCount;
     unsigned char  data[1];
-} modbusReadResponse;
+} PACKED_STRUCTURE modbusReadResponse;
 
 typedef struct modbusWriteSingleRequest_str
 {
@@ -65,7 +74,7 @@ typedef struct modbusWriteSingleRequest_str
     unsigned char  fcode;
     unsigned short startReg;
     unsigned short data;
-} modbusWriteSingleRequest;
+} PACKED_STRUCTURE modbusWriteSingleRequest;
 
 
 typedef struct modbusWriteSingleResponse_str
@@ -73,7 +82,7 @@ typedef struct modbusWriteSingleResponse_str
     unsigned char  fcode;
     unsigned short startReg;
     unsigned short data;
-} modbusWriteSingleResponse;
+} PACKED_STRUCTURE modbusWriteSingleResponse;
 
 typedef struct modbusWriteMultipleRequest_str
 {
@@ -83,7 +92,7 @@ typedef struct modbusWriteMultipleRequest_str
     unsigned short numOutput;
     unsigned char  byteCount;
     unsigned char  data[1];
-} modbusWriteMultipleRequest;
+} PACKED_STRUCTURE modbusWriteMultipleRequest;
 
 
 typedef struct modbusWriteMultipleResponse_str
@@ -91,13 +100,13 @@ typedef struct modbusWriteMultipleResponse_str
     unsigned char  fcode;
     unsigned short startReg;
     unsigned short numOutput;
-} modbusWriteMultipleResponse;
+} PACKED_STRUCTURE modbusWriteMultipleResponse;
 
 typedef struct modbusExceptionResponse_str
 {
     unsigned char  fcode;
     unsigned char  exception;
-} modbusExceptionResponse;
+} PACKED_STRUCTURE modbusExceptionResponse;
 
 /* Revert to packing that was in effect when compilation started */
 #pragma pack()
