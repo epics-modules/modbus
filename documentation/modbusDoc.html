@@ -12,11 +12,11 @@
     <h1>
       Driver Support for Modbus Protocol under EPICS</h1>
     <h2>
-      Release 2-4</h2>
+      Release 2-5</h2>
     <h2>
       Mark Rivers</h2>
     <h2>
-      May 22, 2012</h2>
+      May 31, 2013</h2>
     <hr />
   </div>
   <h2>
@@ -532,8 +532,9 @@
     when the port driver is created, and can be changed later at run-time. The values
     are read by EPICS using the standard asyn interfaces (asynUInt32Digital, asynInt32,
     asynFloat64, etc.) The values that are read are the last stored values from the
-    poller thread. This means that EPICS read operations are <i>synchronous</i>, i.e.
-    they do not block because no Modbus I/O is required.
+    poller thread. The means that EPICS read operations are <i>asynchronous</i>, i.e.
+    they can block. This is because although they do not directly result in Modbus I/O,
+    they do need to wait for a mutex that indicates that the poller thread is done.
   </p>
   <p>
     For read functions it is possible to set the EPICS records to "I/O Intr" scanning.
@@ -546,9 +547,9 @@
   <p>
     For write function codes the driver does not itself create a separate thread. Rather
     the driver does the Modbus I/O immediately in response to the write operations on
-    the standard asyn interfaces. This means that EPICS write operations are <i>asynchronous</i>,
-    i.e. they do block because Modbus I/O is required. When the <b>modbus</b> driver
-    is created it tells asynManager that it can block, and asynManager creates a separate
+    the standard asyn interfaces. This means that EPICS write operations are also <i>asynchronous</i>,
+    i.e. they block because Modbus I/O is required. When the <b>modbus</b> driver is
+    created it tells asynManager that it can block, and asynManager creates a separate
     thread that executes the write operations.
   </p>
   <p>
@@ -1290,7 +1291,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           MODBUS_DATA</td>
         <td>
-          ai, mbbi, longin</td>
+          ai, bi, mbbi, longin</td>
         <td>
           value = (epicsUInt32)Modbus data</td>
       </tr>
@@ -1318,7 +1319,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           MODBUS_DATA</td>
         <td>
-          ao, mbbo, longout</td>
+          ao, bo, mbbo, longout</td>
         <td>
           Modbus write value</td>
       </tr>
@@ -1344,9 +1345,24 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           NA</td>
         <td>
+          MODBUS_READ</td>
+        <td>
+          ao, bo, longout</td>
+        <td>
+          Writing to a Modbus input driver with this drvUser value will force the driver to
+          do a Modbus read operation, independent of the poller thread.</td>
+      </tr>
+      <tr>
+        <td>
+          Any</td>
+        <td>
+          NA</td>
+        <td>
+          NA</td>
+        <td>
           READ_OK</td>
         <td>
-          ai, mbbi, longin</td>
+          ai, longin</td>
         <td>
           Returns number of successful read operations on this asyn port</td>
       </tr>
@@ -1360,7 +1376,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           WRITE_OK</td>
         <td>
-          ai, mbbi, longin</td>
+          ai, longin</td>
         <td>
           Returns number of successful write operations on this asyn port</td>
       </tr>
@@ -1374,7 +1390,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           IO_ERRORS</td>
         <td>
-          ai, mbbi, longin</td>
+          ai, longin</td>
         <td>
           Returns number of I/O errors on this asyn port</td>
       </tr>
@@ -1388,7 +1404,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           LAST_IO_TIME</td>
         <td>
-          ai, mbbi, longin</td>
+          ai, longin</td>
         <td>
           Returns number of milliseconds for last I/O operation</td>
       </tr>
@@ -1402,7 +1418,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           MAX_IO_TIME</td>
         <td>
-          ai, mbbi, longin</td>
+          ai, longin</td>
         <td>
           Returns maximum number of milliseconds for I/O operations</td>
       </tr>
