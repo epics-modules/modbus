@@ -12,6 +12,7 @@
 #include <stdio.h>
 
 #include <iocsh.h>
+#include <epicsThread.h>
 #include <asynInt32SyncIO.h>
 #include <asynPortDriver.h>
 
@@ -24,7 +25,8 @@ static const char *driverName="testModbusSyncIO";
 
 /* These are the drvInfo strings that are used to identify the parameters.
  * They are used by asyn clients, including standard asyn device support */
-#define P_DataString   "DATA"  /* asynInt32,    r/o */
+#define P_SyncIOString  "SYNC_IO"  /* asynInt32,    r/w */
+#define P_LockIOString  "LOCK_IO"  /* asynInt32,    r/w */
 
 /** Class that tests using pasynInt32SyncIO to Modbus drivers */
 class testModbusSyncIO : public asynPortDriver {
@@ -37,14 +39,22 @@ public:
 
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
-    int P_Data_;
-    #define FIRST_COMMAND P_Data_
-    #define LAST_COMMAND P_Data_
+    int P_SyncIO_;
+    #define FIRST_COMMAND P_SyncIO_
+    int P_LockIO_;
+    #define LAST_COMMAND P_LockIO_
  
 private:
     /* Our data */
-    asynUser *pasynUserInput_;
-    asynUser *pasynUserOutput_;
+    asynUser  *pasynUserSyncInput_;
+    asynUser  *pasynUserSyncOutput_;
+    asynUser  *pasynUserLockForceRead_;
+    asynUser  *pasynUserLockInput_;
+    asynUser  *pasynUserLockOutput_;
+    asynInt32 *pasynInt32Input_;
+    void      *pasynInt32InputPvt_;
+    asynInt32 *pasynInt32Output_;
+    void      *pasynInt32OutputPvt_;
 };
 
 #define NUM_PARAMS (&LAST_COMMAND - &FIRST_COMMAND + 1)
@@ -64,21 +74,92 @@ testModbusSyncIO::testModbusSyncIO(const char *portName, const char *inputDriver
                     0) /* Default stack size*/    
 {
   const char *functionName = "testModbusSyncIO";
+  asynInterface *pasynInterface;
+  asynDrvUser *pasynDrvUser;
+  void *drvPvt;
   asynStatus status;
 
-  // Connect to the Modbus drivers
-  status = pasynInt32SyncIO->connect(inputDriver, 0, &pasynUserInput_, NULL);
+  // Connect to the Modbus drivers for asynInt32SyncIO
+  status = pasynInt32SyncIO->connect(inputDriver, 0, &pasynUserSyncInput_, NULL);
   if (status) {
-     printf("%s:%s: Error, unable to connect to Modbus input driver %s\n",
+     printf("%s:%s: Error, unable to connect pasynUserInput_ to Modbus input driver %s\n",
        driverName, functionName, inputDriver);
   }
-  status = pasynInt32SyncIO->connect(outputDriver, 0, &pasynUserOutput_, NULL);
+  status = pasynInt32SyncIO->connect(outputDriver, 0, &pasynUserSyncOutput_, NULL);
   if (status) {
-     printf("%s:%s: Error, unable to connect to Modbus output driver %s\n",
+     printf("%s:%s: Error, unable to connect pasynUserOutput_ to Modbus output driver %s\n",
+       driverName, functionName, outputDriver);
+  }
+  
+  // Connect to the Modbus drivers for asynInt32 calls with lockPort.  This is a little more complex.
+  pasynUserLockForceRead_ = pasynManager->createAsynUser(0, 0);
+  status = pasynManager->connectDevice(pasynUserLockForceRead_, inputDriver, 0);
+  if (status) {
+     printf("%s:%s: Error, unable to connect pasynUserLockForceRead_ to Modbus input driver %s\n",
+       driverName, functionName, inputDriver);
+  }
+  pasynUserLockInput_ = pasynManager->createAsynUser(0, 0);
+  status = pasynManager->connectDevice(pasynUserLockInput_, inputDriver, 0);
+  if (status) {
+     printf("%s:%s: Error, unable to connect pasynUserLockInput_ to Modbus input driver %s\n",
+       driverName, functionName, inputDriver);
+  }
+  pasynUserLockOutput_ = pasynManager->createAsynUser(0, 0);
+  status = pasynManager->connectDevice(pasynUserLockOutput_, outputDriver, 0);
+  if (status) {
+     printf("%s:%s: Error, unable to connect pasynUserLockOutput_ to Modbus output driver %s\n",
        driverName, functionName, outputDriver);
   }
 
-  createParam(P_DataString,  asynParamInt32, &P_Data_);
+  // Get asynInt32 interface in input and output drivers
+  pasynInterface = pasynManager->findInterface(pasynUserLockInput_, asynInt32Type, 1);
+  if (!pasynInterface) {
+      printf("%s:%s: unable to findInterface asynInt32Type for Modbus input driver %s\n",
+        driverName, functionName, inputDriver);
+  }
+  pasynInt32Input_ = (asynInt32 *)pasynInterface->pinterface;
+  pasynInt32InputPvt_ = pasynInterface->drvPvt;
+  pasynInterface = pasynManager->findInterface(pasynUserLockOutput_, asynInt32Type, 1);
+  if (!pasynInterface) {
+      printf("%s:%s: unable to findInterface asynInt32Type for Modbus output driver %s\n",
+        driverName, functionName, outputDriver);
+  }
+  pasynInt32Output_ = (asynInt32 *)pasynInterface->pinterface;
+  pasynInt32OutputPvt_ = pasynInterface->drvPvt;
+
+  // call drvUserCreate
+  pasynInterface = pasynManager->findInterface(pasynUserLockForceRead_, asynDrvUserType, 1);
+  if (!pasynInterface) {
+      printf("%s:%s: unable to findInterface asynDrvUser for Modbus input driver %s\n",
+        driverName, functionName, inputDriver);
+  }
+  pasynDrvUser = (asynDrvUser *)pasynInterface->pinterface;
+  drvPvt = pasynInterface->drvPvt;
+  status = pasynDrvUser->create(drvPvt, pasynUserLockInput_, "MODBUS_DATA", 0, 0);
+  if(status) {
+    printf("%s:%s: error calling drvUser->create %s\n",
+      driverName, functionName, pasynUserLockInput_->errorMessage);
+  }
+  status = pasynDrvUser->create(drvPvt, pasynUserLockForceRead_, "MODBUS_READ", 0, 0);
+  if(status) {
+    printf("%s:%s: error calling drvUser->create %s\n",
+      driverName, functionName, pasynUserLockForceRead_->errorMessage);
+  }
+  pasynInterface = pasynManager->findInterface(pasynUserLockOutput_, asynDrvUserType, 1);
+  if (!pasynInterface) {
+      printf("%s:%s: unable to findInterface asynDrvUser for Modbus output driver %s\n",
+        driverName, functionName, outputDriver);
+  }
+  pasynDrvUser = (asynDrvUser *)pasynInterface->pinterface;
+  drvPvt = pasynInterface->drvPvt;
+  status = pasynDrvUser->create(drvPvt, pasynUserLockOutput_, "MODBUS_DATA", 0, 0);
+  if(status) {
+    printf("%s:%s: error calling drvUser->create %s\n",
+      driverName, functionName, pasynUserLockInput_->errorMessage);
+  }
+
+  createParam(P_SyncIOString,  asynParamInt32, &P_SyncIO_);
+  createParam(P_LockIOString,  asynParamInt32, &P_LockIO_);
 }
 
 
@@ -90,18 +171,57 @@ asynStatus testModbusSyncIO::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
   int function = pasynUser->reason;
   asynStatus status;
+  epicsInt32 inValue;
   const char* functionName = "writeInt32";
 
   /* Set the parameter in the parameter library. */
   setIntegerParam(function, value);
 
-  if (function == P_Data_) {
+  if (function == P_SyncIO_) {
     /* Write the data to the Modbus driver */
-    status = pasynInt32SyncIO->write(pasynUserOutput_, value, TIMEOUT);
-  } 
-  else {
+    status = pasynInt32SyncIO->write(pasynUserSyncOutput_, value, TIMEOUT);
+  }
+  else if (function == P_LockIO_) {
+    /* Do an atomic read/wait/modify/write cycle */
+    /* Lock the input port, which disables the poller */
+    asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
+      "%s:%s: calling pasynManager->lockPort()\n",
+      driverName, functionName);
+    status = pasynManager->lockPort(pasynUserLockInput_);
+    asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
+      "%s:%s: calling epicsThreadSleep(1.0)\n",
+      driverName, functionName);
+    epicsThreadSleep(1.0);
+    /* Force a read of the input driver */
+    asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
+      "%s:%s: forcing a read by the Modbus input driver\n",
+      driverName, functionName);
+    status = pasynInt32Input_->write(pasynInt32InputPvt_, pasynUserLockForceRead_, 1);
+    /* Read the input value */
+    asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
+      "%s:%s: reading the input value from the Modbus input port, incrementing\n",
+      driverName, functionName);
+    status = pasynInt32Input_->read(pasynInt32InputPvt_, pasynUserLockInput_, &inValue);
+    /* Add the value passed to this function to the current value */
+    inValue += value;
+    /* Sleep for 2 seconds so we can prove the poller was idle */
+    asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
+      "%s:%s: calling epicsThreadSleep(2.0)\n",
+      driverName, functionName);
+    epicsThreadSleep(2.0);
+    /* Write the new value to the output driver */
+    asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
+      "%s:%s: writing value of Modbus output port\n",
+      driverName, functionName);
+    status = pasynInt32Output_->write(pasynInt32OutputPvt_, pasynUserLockOutput_, inValue);
+    /* Unlock the input port */
+    asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
+      "%s:%s: unlocking the Modbus input port\n",
+      driverName, functionName);
+    status = pasynManager->unlockPort(pasynUserLockInput_);
+  } else {
     asynPrint(pasynUser, ASYN_TRACE_ERROR, 
-      "%s:%s: Unknown parameter function=%d, value=%d", 
+      "%s:%s: Unknown parameter function=%d, value=%d",
       driverName, functionName, function, value);
     status = asynError;
   }
@@ -124,9 +244,9 @@ asynStatus testModbusSyncIO::readInt32(asynUser *pasynUser, epicsInt32 *value)
   asynStatus status;
   const char* functionName = "readInt32";
 
-  if (function == P_Data_) {
+  if (function == P_SyncIO_) {
     /* Read the data from the Modbus driver */
-    status = pasynInt32SyncIO->read(pasynUserInput_, value, TIMEOUT);
+    status = pasynInt32SyncIO->read(pasynUserSyncInput_, value, TIMEOUT);
   } 
   else {
     asynPrint(pasynUser, ASYN_TRACE_ERROR, 
