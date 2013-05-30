@@ -38,6 +38,8 @@ asynSetTraceIOMask("sim1",0,4)
 #asynSetTraceMask("sim1",0,9)
 
 testModbusSyncIOConfigure("TEST_SYNCIO", "A0_In_Word", "A0_Out_Word")
+asynSetTraceIOMask("TEST_SYNCIO", 0, 2)
+#asynSetTraceMask("TEST_SYNCIO", 0, 255)
 
 dbLoadTemplate("sim3.substitutions")
 
