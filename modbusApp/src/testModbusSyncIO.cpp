@@ -244,13 +244,13 @@ asynStatus testModbusSyncIO::readInt32(asynUser *pasynUser, epicsInt32 *value)
   asynStatus status;
   const char* functionName = "readInt32";
 
-  if (function == P_SyncIO_) {
+  if ((function == P_SyncIO_) || (function == P_LockIO_)) {
     /* Read the data from the Modbus driver */
     status = pasynInt32SyncIO->read(pasynUserSyncInput_, value, TIMEOUT);
   } 
   else {
     asynPrint(pasynUser, ASYN_TRACE_ERROR, 
-      "%s:%s: Unknown parameter function=%d, value=%d", 
+      "%s:%s: Unknown parameter function=%d, value=%d\n", 
       driverName, functionName, function, *value);
     status = asynError;
   }
