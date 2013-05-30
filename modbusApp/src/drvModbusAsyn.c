@@ -61,6 +61,7 @@
 
 typedef enum {
     modbusDataCommand,
+    modbusReadCommand,
     modbusEnableHistogramCommand,
     modbusReadHistogramCommand,
     modbusPollDelayCommand,
@@ -72,7 +73,7 @@ typedef enum {
 } modbusCommand;
 
 /* Note, this constant must match the number of enums in modbusCommand */
-#define MAX_MODBUS_COMMANDS 9
+#define MAX_MODBUS_COMMANDS 10
 
 typedef struct {
     modbusCommand command;
@@ -81,6 +82,7 @@ typedef struct {
 
 static modbusCommandStruct modbusCommands[MAX_MODBUS_COMMANDS] = {
     {modbusDataCommand,            MODBUS_DATA_STRING},    
+    {modbusReadCommand,            MODBUS_READ_STRING},    
     {modbusEnableHistogramCommand, MODBUS_ENABLE_HISTOGRAM_STRING},
     {modbusReadHistogramCommand,   MODBUS_READ_HISTOGRAM_STRING}, 
     {modbusPollDelayCommand,       MODBUS_POLL_DELAY_STRING}, 
@@ -90,9 +92,6 @@ static modbusCommandStruct modbusCommands[MAX_MODBUS_COMMANDS] = {
     {modbusLastIOTimeCommand,      MODBUS_LAST_IO_TIME_STRING},
     {modbusMaxIOTimeCommand,       MODBUS_MAX_IO_TIME_STRING} 
 };
-
-/* Note, this constant must match the number of enums in modbusCommand */
-#define MAX_MODBUS_COMMANDS 9
 
 typedef struct {
     modbusDataType_t dataType;
@@ -132,7 +131,6 @@ typedef struct modbusStr
     asynUser  *pasynUserCommon; /* asynUser for asynCommon interface to asyn octet port */
     asynUser  *pasynUserTrace;  /* asynUser for asynTrace on this port */
     asynStandardInterfaces asynStdInterfaces;  /* Structure for standard interfaces */
-    epicsMutexId mutexId;       /* Mutex for interlocking access to doModbusIO */
     int modbusSlave;            /* Modbus slave address */
     int modbusFunction;         /* Modbus function code */
     int modbusStartAddress;     /* Modbus starting addess for this port */
@@ -308,7 +306,6 @@ int drvModbusAsynConfigure(char *portName,
     pPlc->modbusLength = modbusLength;
     pPlc->pollDelay = pollMsec/1000.;
     if (pPlc->pollDelay < MIN_POLL_DELAY) pPlc->pollDelay = MIN_POLL_DELAY;
-    pPlc->mutexId = epicsMutexMustCreate();
 
     switch(pPlc->modbusFunction) {
         case MODBUS_READ_COILS:
@@ -886,6 +883,12 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser, epicsInt32 value
                       " modbusAddress=0%o, buffer[0]=0x%x, bufferLen=%d\n",
                       driver, pPlc->portName, pPlc->modbusFunction, 
                       modbusAddress, buffer[0], bufferLen);
+            break;            
+        case modbusReadCommand:
+            /* Read the data for this driver.  This can be used when the poller is disabled. */
+            status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
+                                        pPlc->modbusStartAddress, pPlc->data, pPlc->modbusLength);
+            if (status != asynSuccess) return(status);
             break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
@@ -1236,6 +1239,10 @@ static void readPoller(PLC_ID pPlc)
     /* Loop forever */    
     while (1)
     {
+        /* Lock the port.  It is important that the port be locked so other threads cannot access the pPlc
+         * structure while the poller thread is running. */
+         pasynManager->lockPort(pPlc->pasynUserTrace);
+         
         /* Read the data */
         pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
                                     pPlc->modbusStartAddress, pPlc->data, pPlc->modbusLength);
@@ -1322,7 +1329,7 @@ static void readPoller(PLC_ID pPlc)
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                       "%s::readPoller, calling client %p"
                       "callback=%p, data=0x%x\n",
-                      pInt32, pInt32->callback, int32Value);
+                      driver, pInt32, pInt32->callback, int32Value);
             pInt32->callback(pInt32->userPvt, pInt32->pasynUser,
                              int32Value);
             pnode = (interruptNode *)ellNext(&pnode->node);
@@ -1355,7 +1362,7 @@ static void readPoller(PLC_ID pPlc)
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                       "%s::readPoller, calling client %p"
                       "callback=%p, data=%f\n",
-                      pFloat64, pFloat64->callback, float64Value);
+                      driver, pFloat64, pFloat64->callback, float64Value);
             pFloat64->callback(pFloat64->userPvt, pFloat64->pasynUser,
                                float64Value);
             pnode = (interruptNode *)ellNext(&pnode->node);
@@ -1386,7 +1393,7 @@ static void readPoller(PLC_ID pPlc)
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                           "%s::readPoller, calling client %p"
                           "callback=%p\n",
-                           pInt32Array, pInt32Array->callback);
+                           driver, pInt32Array, pInt32Array->callback);
                 pInt32Array->callback(pInt32Array->userPvt, pInt32Array->pasynUser,
                                       int32Data, pPlc->modbusLength);
                 pnode = (interruptNode *)ellNext(&pnode->node);
@@ -1404,9 +1411,9 @@ static void readPoller(PLC_ID pPlc)
         memcpy(prevData, pPlc->data, pPlc->modbusLength*sizeof(epicsUInt16));
 
         sleep:
-        /* Sleep for the poll delay */
+        /* Sleep for the poll delay with the port unlocked */
+        pasynManager->unlockPort(pPlc->pasynUserTrace);
         epicsThreadSleep(pPlc->pollDelay);
-
     }
 }
 
@@ -1438,10 +1445,6 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
     unsigned char mask=0;
     int autoConnect;
  
-    /* We need to protect the code in this function with a Mutex, because it uses the 
-     * data buffers in the pPlc stucture for the I/O, and that is not thread safe. */
-    epicsMutexMustLock(pPlc->mutexId);
-
     /* If the Octet driver is not set for autoConnect then do connection management ourselves */
     status = pasynManager->isAutoConnect(pPlc->pasynUserOctet, &autoConnect);
     if (!autoConnect) {
@@ -1697,7 +1700,6 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
     }
 
     done:
-    epicsMutexUnlock(pPlc->mutexId);
     return(status);
 }
 
