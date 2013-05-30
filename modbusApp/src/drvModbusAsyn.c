@@ -292,7 +292,6 @@ int drvModbusAsynConfigure(char *portName,
     int needReadThread=0;
     int IOLength=0;
     int maxLength=0;
-    int canBlock=0;
     int readbackOffset=0;
     int i;
 
@@ -325,14 +324,12 @@ int drvModbusAsynConfigure(char *portName,
             IOLength = pPlc->modbusLength/16;
             maxLength = MAX_WRITE_WORDS;
             if (pollMsec != 0) pPlc->readOnceFunction = MODBUS_READ_COILS;
-            canBlock = ASYN_CANBLOCK;
             break;
        case MODBUS_WRITE_SINGLE_REGISTER:
        case MODBUS_WRITE_MULTIPLE_REGISTERS:
             IOLength = pPlc->modbusLength;
             maxLength = MAX_WRITE_WORDS;
             if (pollMsec != 0) pPlc->readOnceFunction = MODBUS_READ_HOLDING_REGISTERS;
-            canBlock = ASYN_CANBLOCK;
             break;
        default:
             errlogPrintf("%s::drvModbusAsynConfig port %s unsupported"
@@ -390,7 +387,7 @@ int drvModbusAsynConfigure(char *portName,
     pPlc->pasynUserTrace->userPvt = pPlc;
 
     status = pasynManager->registerPort(pPlc->portName,
-                                        ASYN_MULTIDEVICE | canBlock,
+                                        ASYN_MULTIDEVICE | ASYN_CANBLOCK,
                                         1, /* autoconnect */
                                         0, /* medium priority */
                                         0); /* default stack size */
@@ -1265,7 +1262,7 @@ static void readPoller(PLC_ID pPlc)
         anyChanged = memcmp(pPlc->data, prevData, 
                             pPlc->modbusLength*sizeof(epicsUInt16));
  
-        /* Process callbacks to device support.  
+        /* Process callbacks to device support. */
 
         /* See if there are any asynUInt32Digital callbacks registered to be called
          * when data changes.  These callbacks only happen if the value has changed */
