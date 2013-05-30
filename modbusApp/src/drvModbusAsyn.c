@@ -1232,20 +1232,13 @@ static void readPoller(PLC_ID pPlc)
                                  "drvModbusAsyn::readPoller");
     int32Data = callocMustSucceed(pPlc->modbusLength, sizeof(epicsInt32), 
                                  "drvModbusAsyn::readPoller");
-
-
-    /* Don't start polling until EPICS interruptAccept flag is set, 
-     * because it does callbacks to device support. */
-    while (!interruptAccept) {
-        epicsThreadSleep(0.1);
-    }
                             
     /* Loop forever */    
     while (1)
     {
         /* Lock the port.  It is important that the port be locked so other threads cannot access the pPlc
          * structure while the poller thread is running. */
-         pasynManager->lockPort(pPlc->pasynUserTrace);
+        pasynManager->lockPort(pPlc->pasynUserTrace);
          
         /* Read the data */
         pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
@@ -1262,6 +1255,14 @@ static void readPoller(PLC_ID pPlc)
         anyChanged = memcmp(pPlc->data, prevData, 
                             pPlc->modbusLength*sizeof(epicsUInt16));
  
+        /* Don't start polling until EPICS interruptAccept flag is set, 
+         * because it does callbacks to device support. */
+        while (!interruptAccept) {
+            pasynManager->unlockPort(pPlc->pasynUserTrace);
+            epicsThreadSleep(0.1);
+            pasynManager->lockPort(pPlc->pasynUserTrace);
+        }
+
         /* Process callbacks to device support. */
 
         /* See if there are any asynUInt32Digital callbacks registered to be called
