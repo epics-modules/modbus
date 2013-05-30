@@ -1236,6 +1236,13 @@ static void readPoller(PLC_ID pPlc)
     int32Data = callocMustSucceed(pPlc->modbusLength, sizeof(epicsInt32), 
                                  "drvModbusAsyn::readPoller");
 
+
+    /* Don't start polling until EPICS interruptAccept flag is set, 
+     * because it does callbacks to device support. */
+    while (!interruptAccept) {
+        epicsThreadSleep(0.1);
+    }
+                            
     /* Loop forever */    
     while (1)
     {
@@ -1253,15 +1260,13 @@ static void readPoller(PLC_ID pPlc)
         /* If the I/O status has changed then force callbacks */
         if (pPlc->ioStatus != prevIOStatus) pPlc->forceCallback = 1;
         
-        /* We process callbacks to device support.  
-         * Don't do this until EPICS interruptAccept flag is set. */
-        if (!interruptAccept) goto sleep;
-                            
         /* See if any memory location has actually changed.  
          * If not, no need to do callbacks. */
         anyChanged = memcmp(pPlc->data, prevData, 
                             pPlc->modbusLength*sizeof(epicsUInt16));
  
+        /* Process callbacks to device support.  
+
         /* See if there are any asynUInt32Digital callbacks registered to be called
          * when data changes.  These callbacks only happen if the value has changed */
         if (pPlc->forceCallback || anyChanged){
@@ -1612,7 +1617,7 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
                  "%s::doModbusIO port %s error calling writeRead,"
                  " error=%s, nwrite=%d/%d, nread=%d\n", 
                  driver, pPlc->portName, 
-                 pPlc->pasynUserOctet->errorMessage, nwrite, requestSize, nread);
+                 pPlc->pasynUserOctet->errorMessage, (int)nwrite, requestSize, (int)nread);
         pPlc->IOErrors++;
         goto done;
     }
