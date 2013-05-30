@@ -12,12 +12,17 @@ file "../../db/longout.template" { pattern
 # These records talk to the SYNCIO driver
 file "../../db/longinInt32.template" { pattern
 {P,           R,           PORT,     OFFSET,  DATA_TYPE,     SCAN}
-{SIM1:,   SYNC_IN:INT32,   TEST_SYNCIO,     0,   DATA,      ".1 second"}
+{SIM1:,   SYNC_IN:INT32,   TEST_SYNCIO,     0,   SYNC_IO,      ".1 second"}
 }
 
 file "../../db/longoutInt32.template" { pattern
 {P,           R,           PORT,      OFFSET,  DATA_TYPE}
-{SIM1:,   SYNC_OUT:INT32,  TEST_SYNCIO,    0,    DATA}
+{SIM1:,   SYNC_OUT:INT32,  TEST_SYNCIO,    0,    SYNC_IO}
+}
+
+file "../../db/longoutInt32.template" { pattern
+{P,           R,           PORT,      OFFSET,  DATA_TYPE}
+{SIM1:,   LOCK_OUT:INT32,  TEST_SYNCIO,    0,    LOCK_IO}
 }
 
 ### asyn records for debugging
