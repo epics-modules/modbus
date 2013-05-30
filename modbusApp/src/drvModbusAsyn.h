@@ -14,6 +14,7 @@
  */
 
 #define MODBUS_DATA_STRING             "MODBUS_DATA" 
+#define MODBUS_READ_STRING             "MODBUS_READ" 
 #define MODBUS_UINT16_STRING           "UINT16" 
 #define MODBUS_INT16_SM_STRING         "INT16SM" 
 #define MODBUS_BCD_UNSIGNED_STRING     "BCD_UNSIGNED" 
