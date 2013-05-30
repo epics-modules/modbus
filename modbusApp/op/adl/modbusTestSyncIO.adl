@@ -5,10 +5,10 @@ file {
 }
 display {
 	object {
-		x=278
-		y=58
+		x=644
+		y=65
 		width=350
-		height=180
+		height=205
 	}
 	clr=14
 	bclr=4
@@ -103,7 +103,7 @@ text {
 "related display" {
 	object {
 		x=115
-		y=150
+		y=175
 		width=120
 		height=20
 	}
@@ -257,4 +257,32 @@ menu {
 		clr=14
 		bclr=4
 	}
+}
+"text entry" {
+	object {
+		x=148
+		y=140
+		width=80
+		height=20
+	}
+	control {
+		chan="SIM1:LOCK_OUT:INT32"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=8
+		y=140
+		width=130
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="LockIO output"
+	align="horiz. centered"
 }
