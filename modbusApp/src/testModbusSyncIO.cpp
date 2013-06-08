@@ -170,7 +170,7 @@ testModbusSyncIO::testModbusSyncIO(const char *portName, const char *inputDriver
 asynStatus testModbusSyncIO::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
   int function = pasynUser->reason;
-  asynStatus status;
+  int status = asynSuccess;
   epicsInt32 inValue;
   const char* functionName = "writeInt32";
 
@@ -183,11 +183,16 @@ asynStatus testModbusSyncIO::writeInt32(asynUser *pasynUser, epicsInt32 value)
   }
   else if (function == P_LockIO_) {
     /* Do an atomic read/wait/modify/write cycle */
+    /* Lock the output port, which we need to do because we are call write() directly */
+    asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
+      "%s:%s: locking the Modbus output port\n",
+      driverName, functionName);
+    status |= pasynManager->lockPort(pasynUserLockOutput_);
     /* Lock the input port, which disables the poller */
     asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
-      "%s:%s: calling pasynManager->lockPort()\n",
+      "%s:%s: locking the Modbus input port\n",
       driverName, functionName);
-    status = pasynManager->lockPort(pasynUserLockInput_);
+    status |= pasynManager->lockPort(pasynUserLockInput_);
     asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
       "%s:%s: calling epicsThreadSleep(1.0)\n",
       driverName, functionName);
@@ -196,12 +201,12 @@ asynStatus testModbusSyncIO::writeInt32(asynUser *pasynUser, epicsInt32 value)
     asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
       "%s:%s: forcing a read by the Modbus input driver\n",
       driverName, functionName);
-    status = pasynInt32Input_->write(pasynInt32InputPvt_, pasynUserLockForceRead_, 1);
+    status |= pasynInt32Input_->write(pasynInt32InputPvt_, pasynUserLockForceRead_, 1);
     /* Read the input value */
     asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
       "%s:%s: reading the input value from the Modbus input port, incrementing\n",
       driverName, functionName);
-    status = pasynInt32Input_->read(pasynInt32InputPvt_, pasynUserLockInput_, &inValue);
+    status |= pasynInt32Input_->read(pasynInt32InputPvt_, pasynUserLockInput_, &inValue);
     /* Add the value passed to this function to the current value */
     inValue += value;
     /* Sleep for 2 seconds so we can prove the poller was idle */
@@ -213,12 +218,21 @@ asynStatus testModbusSyncIO::writeInt32(asynUser *pasynUser, epicsInt32 value)
     asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
       "%s:%s: writing value of Modbus output port\n",
       driverName, functionName);
-    status = pasynInt32Output_->write(pasynInt32OutputPvt_, pasynUserLockOutput_, inValue);
+    status |= pasynInt32Output_->write(pasynInt32OutputPvt_, pasynUserLockOutput_, inValue);
     /* Unlock the input port */
     asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
       "%s:%s: unlocking the Modbus input port\n",
       driverName, functionName);
-    status = pasynManager->unlockPort(pasynUserLockInput_);
+    status |= pasynManager->unlockPort(pasynUserLockInput_);
+    asynPrint(pasynUserLockInput_, ASYN_TRACE_FLOW,
+      "%s:%s: unlocking the Modbus output port\n",
+      driverName, functionName);
+    status |= pasynManager->unlockPort(pasynUserLockOutput_);
+    if (status) {
+      asynPrint(pasynUserLockInput_, ASYN_TRACE_ERROR,
+        "%s:%s: error in one or more calls in sequence = %d\n",
+        driverName, functionName, status);
+    }
   } else {
     asynPrint(pasynUser, ASYN_TRACE_ERROR, 
       "%s:%s: Unknown parameter function=%d, value=%d",
@@ -232,7 +246,7 @@ asynStatus testModbusSyncIO::writeInt32(asynUser *pasynUser, epicsInt32 value)
   asynPrint(pasynUser, ASYN_TRACEIO_DRIVER, 
     "%s:%s: function=%d, value=%d\n", 
     driverName, functionName, function, value);
-  return status;
+  return (asynStatus)status;
 }
 
 /** Called when asyn clients call pasynInt32->read().
