@@ -14,7 +14,7 @@
     <h2>
       Release 2-5</h2>
     <h2>
-      May 31, 2013</h2>
+      June 8, 2013</h2>
   </div>
   <ul>
     <li>Fixed a mutex issue with the input poller. Previous versions had a potential problem
@@ -51,26 +51,19 @@
         <li>Doing an atomic "read/modify/write" cycle using the following sequence of operations.
           This uses pasynManager->lockPort to disable the poller and allow this thread to
           directly call the asynInt32->write() and asynInt32->read() functions. It uses the
-          following code, which has asynPrint statements and status checking removed for clarity.
-          <pre>
-/* Do an atomic read/wait/modify/write cycle */
-/* Lock the input port, which disables the poller */
-status = pasynManager->lockPort(pasynUserLockInput_);
-/* Sleep for 1 second so we can prove the poller was idle */
-epicsThreadSleep(1.0);
-/* Force a read of the input driver */
-status = pasynInt32Input_->write(pasynInt32InputPvt_, pasynUserLockForceRead_, 1);
-/* Read the input value */
-status = pasynInt32Input_->read(pasynInt32InputPvt_, pasynUserLockInput_, &inValue);
-/* Add the value passed to this function to the current value */
-inValue += value;
-/* Sleep for 2 seconds so we can prove the poller was idle */
-epicsThreadSleep(2.0);
-/* Write the new value to the output driver */
-status = pasynInt32Output_->write(pasynInt32OutputPvt_, pasynUserLockOutput_, inValue);
-/* Unlock the input port */
-status = pasynManager->unlockPort(pasynUserLockInput_);
-     </pre>
+          following logic:
+          <ul>
+            <li>Lock the output port.  Needed because we are directly calling the write() function.</li>
+            <li>Lock the input port, which disables the poller and because we are directly calling read().</li>
+            <li>Sleep for 1 second so we can prove the poller was idle.</li>
+            <li>Force a read of the Modbus input by writing on asynInt32 interface with the MODBUS_READ drvInfo.</li>
+            <li>Read the input value on the asynInt32 interface.</li>
+            <li>Add the value passed to this function to the current value just read.</li>
+            <li>Sleep for 2 seconds so we can prove the poller was idle.</li>
+            <li>Write the new value to the output driver.</li>
+            <li>Unlock the input port.</li>
+            <li>Unlock the output port.</li>
+          </ul>
           This new example driver can be tested with the new files iocBoot/iocTest/sim3.cmd
           and sim3.substitutions. </li>
       </ol>
