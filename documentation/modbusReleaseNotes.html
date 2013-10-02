@@ -14,7 +14,7 @@
     <h2>
       Release 2-5</h2>
     <h2>
-      June 8, 2013</h2>
+      October 2, 2013</h2>
   </div>
   <ul>
     <li>Fixed a mutex issue with the input poller. Previous versions had a potential problem
@@ -53,10 +53,12 @@
           directly call the asynInt32->write() and asynInt32->read() functions. It uses the
           following logic:
           <ul>
-            <li>Lock the output port.  Needed because we are directly calling the write() function.</li>
-            <li>Lock the input port, which disables the poller and because we are directly calling read().</li>
+            <li>Lock the output port. Needed because we are directly calling the write() function.</li>
+            <li>Lock the input port, which disables the poller and because we are directly calling
+              read().</li>
             <li>Sleep for 1 second so we can prove the poller was idle.</li>
-            <li>Force a read of the Modbus input by writing on asynInt32 interface with the MODBUS_READ drvInfo.</li>
+            <li>Force a read of the Modbus input by writing on asynInt32 interface with the MODBUS_READ
+              drvInfo.</li>
             <li>Read the input value on the asynInt32 interface.</li>
             <li>Add the value passed to this function to the current value just read.</li>
             <li>Sleep for 2 seconds so we can prove the poller was idle.</li>
