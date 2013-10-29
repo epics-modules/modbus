@@ -20,6 +20,13 @@ record(waveform,"$(P)$(R)Hist") {
     field(FLNK,"$(P)$(R)ReadOK.PROC")
 }
 
+record(longout,"$(P)$(R)MsPerBin") {
+    field(DTYP,"asynInt32")
+    field(OUT,"@asyn($(PORT) 0)HISTOGRAM_TIME")
+    field(DRVL,"0")
+    field(VAL, "1")
+}
+
 record(longin,"$(P)$(R)ReadOK") {
     field(DTYP,"asynInt32")
     field(INP,"@asyn($(PORT) 0)READ_OK")
