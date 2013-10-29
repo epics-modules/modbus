@@ -64,6 +64,7 @@ typedef enum {
     modbusReadCommand,
     modbusEnableHistogramCommand,
     modbusReadHistogramCommand,
+    modbusHistogramTimeCommand,
     modbusPollDelayCommand,
     modbusReadOKCommand,
     modbusWriteOKCommand,
@@ -73,7 +74,7 @@ typedef enum {
 } modbusCommand;
 
 /* Note, this constant must match the number of enums in modbusCommand */
-#define MAX_MODBUS_COMMANDS 10
+#define MAX_MODBUS_COMMANDS 11
 
 typedef struct {
     modbusCommand command;
@@ -85,6 +86,7 @@ static modbusCommandStruct modbusCommands[MAX_MODBUS_COMMANDS] = {
     {modbusReadCommand,            MODBUS_READ_STRING},    
     {modbusEnableHistogramCommand, MODBUS_ENABLE_HISTOGRAM_STRING},
     {modbusReadHistogramCommand,   MODBUS_READ_HISTOGRAM_STRING}, 
+    {modbusHistogramTimeCommand,   MODBUS_HISTOGRAM_TIME_STRING}, 
     {modbusPollDelayCommand,       MODBUS_POLL_DELAY_STRING}, 
     {modbusReadOKCommand,          MODBUS_READ_OK_STRING}, 
     {modbusWriteOKCommand,         MODBUS_WRITE_OK_STRING}, 
@@ -151,6 +153,7 @@ typedef struct modbusStr
     int lastIOMsec; 
     epicsInt32 timeHistogram[HISTOGRAM_LENGTH];     /* Histogram of read-times */
     int enableHistogram;
+    int histogramMsPerBin;
 } modbusStr_t;
 
 
@@ -305,6 +308,7 @@ int drvModbusAsynConfigure(char *portName,
     pPlc->modbusLength = modbusLength;
     pPlc->pollDelay = pollMsec/1000.;
     if (pPlc->pollDelay < MIN_POLL_DELAY) pPlc->pollDelay = MIN_POLL_DELAY;
+    pPlc->histogramMsPerBin = 1;
 
     switch(pPlc->modbusFunction) {
         case MODBUS_READ_COILS:
@@ -572,6 +576,7 @@ static void asynReport(void *drvPvt, FILE *fp, int details)
         fprintf(fp, "    pollDelay:          %f\n", pPlc->pollDelay);
         fprintf(fp, "    Time for last I/O   %d msec\n", pPlc->lastIOMsec);
         fprintf(fp, "    Max. I/O time:      %d msec\n", pPlc->maxIOMsec);
+        fprintf(fp, "    Time per hist. bin: %d msec\n", pPlc->histogramMsPerBin);
     }
 
 }
@@ -813,6 +818,9 @@ static asynStatus readInt32 (void *drvPvt, asynUser *pasynUser, epicsInt32 *valu
         case modbusMaxIOTimeCommand: 
             *value = pPlc->maxIOMsec;
             break;
+        case modbusHistogramTimeCommand: 
+            *value = pPlc->histogramMsPerBin;
+            break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                       "%s::readInt32 port %s invalid pasynUser->reason %d\n",
@@ -886,6 +894,15 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser, epicsInt32 value
             status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
                                         pPlc->modbusStartAddress, pPlc->data, pPlc->modbusLength);
             if (status != asynSuccess) return(status);
+            break;
+        case modbusHistogramTimeCommand:
+            /* Set the time per histogram bin in ms */
+            pPlc->histogramMsPerBin = value;
+            if (pPlc->histogramMsPerBin < 1) pPlc->histogramMsPerBin = 1;
+            /* Since the time might have changed erase existing data */
+            for (i=0; i<HISTOGRAM_LENGTH; i++) {
+                pPlc->timeHistogram[i] = 0;
+            }
             break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
@@ -1445,6 +1462,7 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
     int eomReason;
     double dT;
     int msec;
+    int bin;
     unsigned char mask=0;
     int autoConnect;
  
@@ -1625,9 +1643,11 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
     pPlc->lastIOMsec = msec;
     if (msec > pPlc->maxIOMsec) pPlc->maxIOMsec = msec;
     if (pPlc->enableHistogram) {
+        bin = msec / pPlc->histogramMsPerBin;
+        if (bin < 0) bin = 0;
         /* Longer times go in last bin of histogram */
-        if (msec >= HISTOGRAM_LENGTH-1) msec = HISTOGRAM_LENGTH-1; 
-        pPlc->timeHistogram[msec]++;
+        if (bin >= HISTOGRAM_LENGTH-1) bin = HISTOGRAM_LENGTH-1; 
+        pPlc->timeHistogram[bin]++;
     }     
 
     /* See if there is a Modbus exception */
