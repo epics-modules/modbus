@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/devel/modbus1-1/modbusApp/op/adl/modbusStatistics.adl"
-	version=030000
+	name="/home/epics/devel/modbus/modbusApp/op/adl/modbusStatistics.adl"
+	version=030107
 }
 display {
 	object {
 		x=730
 		y=50
 		width=560
-		height=355
+		height=375
 	}
 	clr=14
 	bclr=4
@@ -105,6 +105,7 @@ display {
 	trace[0] {
 		ydata="$(P)$(R)Hist"
 		data_clr=54
+		yaxis=0
 	}
 }
 "choice button" {
@@ -158,24 +159,74 @@ text {
 	}
 	textix="Update:"
 }
+text {
+	object {
+		x=11
+		y=309
+		width=72
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="msec per bin"
+}
 composite {
 	object {
 		x=10
-		y=312
-		width=145
-		height=15
+		y=329
+		width=542
+		height=36
 	}
 	"composite name"=""
 	children {
+		composite {
+			object {
+				x=10
+				y=329
+				width=145
+				height=15
+			}
+			"composite name"=""
+			children {
+				"text update" {
+					object {
+						x=85
+						y=329
+						width=70
+						height=15
+					}
+					monitor {
+						chan="$(P)$(R)ReadOK"
+						clr=53
+						bclr=2
+					}
+					limits {
+					}
+				}
+				text {
+					object {
+						x=10
+						y=329
+						width=72
+						height=15
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="Read OK:"
+				}
+			}
+		}
 		"text update" {
 			object {
-				x=85
-				y=312
+				x=251
+				y=329
 				width=70
 				height=15
 			}
 			monitor {
-				chan="$(P)$(R)ReadOK"
+				chan="$(P)$(R)WriteOK"
 				clr=53
 				bclr=2
 			}
@@ -184,102 +235,102 @@ composite {
 		}
 		text {
 			object {
-				x=10
-				y=312
-				width=72
+				x=165
+				y=329
+				width=81
 				height=15
 			}
 			"basic attribute" {
 				clr=14
 			}
-			textix="Read OK:"
+			textix="Write OK:"
 		}
-	}
-}
-"text update" {
-	object {
-		x=251
-		y=312
-		width=70
-		height=15
-	}
-	monitor {
-		chan="$(P)$(R)WriteOK"
-		clr=53
-		bclr=2
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=165
-		y=312
-		width=81
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="Write OK:"
-}
-"text update" {
-	object {
-		x=445
-		y=312
-		width=70
-		height=15
-	}
-	monitor {
-		chan="$(P)$(R)IOErrors"
-		clr=53
-		bclr=2
-	}
-	limits {
-	}
-}
-text {
-	object {
-		x=342
-		y=312
-		width=99
-		height=15
-	}
-	"basic attribute" {
-		clr=14
-	}
-	textix="I/O Errors:"
-}
-composite {
-	object {
-		x=10
-		y=333
-		width=265
-		height=15
-	}
-	"composite name"=""
-	children {
+		"text update" {
+			object {
+				x=445
+				y=329
+				width=70
+				height=15
+			}
+			monitor {
+				chan="$(P)$(R)IOErrors"
+				clr=53
+				bclr=2
+			}
+			limits {
+			}
+		}
 		text {
 			object {
+				x=342
+				y=329
+				width=99
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="I/O Errors:"
+		}
+		composite {
+			object {
 				x=10
-				y=333
+				y=350
+				width=265
+				height=15
+			}
+			"composite name"=""
+			children {
+				text {
+					object {
+						x=10
+						y=350
+						width=189
+						height=15
+					}
+					"basic attribute" {
+						clr=14
+					}
+					textix="Last I/O Time (msec):"
+				}
+				"text update" {
+					object {
+						x=205
+						y=350
+						width=70
+						height=15
+					}
+					monitor {
+						chan="$(P)$(R)LastIOTime"
+						clr=53
+						bclr=2
+					}
+					limits {
+					}
+				}
+			}
+		}
+		text {
+			object {
+				x=287
+				y=350
 				width=189
 				height=15
 			}
 			"basic attribute" {
 				clr=14
 			}
-			textix="Last I/O Time (msec):"
+			textix="Max. I/O Time (msec):"
 		}
 		"text update" {
 			object {
-				x=205
-				y=333
+				x=482
+				y=350
 				width=70
 				height=15
 			}
 			monitor {
-				chan="$(P)$(R)LastIOTime"
+				chan="$(P)$(R)MaxIOTime"
 				clr=53
 				bclr=2
 			}
@@ -288,29 +339,17 @@ composite {
 		}
 	}
 }
-text {
+"text entry" {
 	object {
-		x=287
-		y=333
-		width=189
+		x=129
+		y=309
+		width=78
 		height=15
 	}
-	"basic attribute" {
+	control {
+		chan="$(P)$(R)MsPerBin"
 		clr=14
-	}
-	textix="Max. I/O Time (msec):"
-}
-"text update" {
-	object {
-		x=482
-		y=333
-		width=70
-		height=15
-	}
-	monitor {
-		chan="$(P)$(R)MaxIOTime"
-		clr=53
-		bclr=2
+		bclr=51
 	}
 	limits {
 	}
