@@ -64,7 +64,8 @@ typedef enum {
     modbusReadCommand,
     modbusEnableHistogramCommand,
     modbusReadHistogramCommand,
-    modbusHistogramTimeCommand,
+    modbusHistogramBinTimeCommand,
+    modbusHistogramTimeAxisCommand,
     modbusPollDelayCommand,
     modbusReadOKCommand,
     modbusWriteOKCommand,
@@ -74,7 +75,7 @@ typedef enum {
 } modbusCommand;
 
 /* Note, this constant must match the number of enums in modbusCommand */
-#define MAX_MODBUS_COMMANDS 11
+#define MAX_MODBUS_COMMANDS 12
 
 typedef struct {
     modbusCommand command;
@@ -86,7 +87,8 @@ static modbusCommandStruct modbusCommands[MAX_MODBUS_COMMANDS] = {
     {modbusReadCommand,            MODBUS_READ_STRING},    
     {modbusEnableHistogramCommand, MODBUS_ENABLE_HISTOGRAM_STRING},
     {modbusReadHistogramCommand,   MODBUS_READ_HISTOGRAM_STRING}, 
-    {modbusHistogramTimeCommand,   MODBUS_HISTOGRAM_TIME_STRING}, 
+    {modbusHistogramBinTimeCommand,  MODBUS_HISTOGRAM_BIN_TIME_STRING}, 
+    {modbusHistogramTimeAxisCommand, MODBUS_HISTOGRAM_TIME_AXIS_STRING}, 
     {modbusPollDelayCommand,       MODBUS_POLL_DELAY_STRING}, 
     {modbusReadOKCommand,          MODBUS_READ_OK_STRING}, 
     {modbusWriteOKCommand,         MODBUS_WRITE_OK_STRING}, 
@@ -152,6 +154,7 @@ typedef struct modbusStr
     int maxIOMsec;
     int lastIOMsec; 
     epicsInt32 timeHistogram[HISTOGRAM_LENGTH];     /* Histogram of read-times */
+    epicsInt32 histogramTimeAxis[HISTOGRAM_LENGTH]; /* Time axis of histogram of read-times */
     int enableHistogram;
     int histogramMsPerBin;
 } modbusStr_t;
@@ -818,7 +821,7 @@ static asynStatus readInt32 (void *drvPvt, asynUser *pasynUser, epicsInt32 *valu
         case modbusMaxIOTimeCommand: 
             *value = pPlc->maxIOMsec;
             break;
-        case modbusHistogramTimeCommand: 
+        case modbusHistogramBinTimeCommand: 
             *value = pPlc->histogramMsPerBin;
             break;
         default:
@@ -895,13 +898,14 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser, epicsInt32 value
                                         pPlc->modbusStartAddress, pPlc->data, pPlc->modbusLength);
             if (status != asynSuccess) return(status);
             break;
-        case modbusHistogramTimeCommand:
+        case modbusHistogramBinTimeCommand:
             /* Set the time per histogram bin in ms */
             pPlc->histogramMsPerBin = value;
             if (pPlc->histogramMsPerBin < 1) pPlc->histogramMsPerBin = 1;
             /* Since the time might have changed erase existing data */
             for (i=0; i<HISTOGRAM_LENGTH; i++) {
                 pPlc->timeHistogram[i] = 0;
+                pPlc->histogramTimeAxis[i] = i * pPlc->histogramMsPerBin;
             }
             break;
         default:
@@ -1135,6 +1139,15 @@ static asynStatus readInt32Array (void *drvPvt, asynUser *pasynUser, epicsInt32 
             *nactual = nread;
             for (i=0; i<nread; i++) {
                 data[i] = pPlc->timeHistogram[i];
+            }
+            break;
+        
+        case modbusHistogramTimeAxisCommand:
+            nread = maxChans;
+            if (nread > HISTOGRAM_LENGTH) nread = HISTOGRAM_LENGTH;
+            *nactual = nread;
+            for (i=0; i<nread; i++) {
+                data[i] = pPlc->histogramTimeAxis[i];
             }
             break;
         
