@@ -103,6 +103,7 @@ display {
 	}
 	style="fill-under"
 	trace[0] {
+		xdata="$(P)$(R)HistTimeAxis"
 		ydata="$(P)$(R)Hist"
 		data_clr=54
 		yaxis=0
