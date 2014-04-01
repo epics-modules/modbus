@@ -12,6 +12,19 @@
   </div>
   <div style="text-align: center">
     <h2>
+      Release 2-6</h2>
+    <h2>
+      April 2, 2014</h2>
+  </div>
+  <ul>
+    <li>Fixed a problem with function code 6 (write single register) on Wago devices when
+      the MASK was not 0x0 or 0xFFFF. In this case a read/modify/write operation is required,
+      and the driver was reading from the wrong address. On Wago devices the readback
+      address for a register is offset by 0x200 from the write address. This offset was
+      not being applied. </li>
+  </ul>
+  <div style="text-align: center">
+    <h2>
       Release 2-5</h2>
     <h2>
       October 2, 2013</h2>
