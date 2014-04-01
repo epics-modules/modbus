@@ -54,7 +54,10 @@
 
 #define WAGO_ID_STRING      "Wago"      /* If the plcName parameter to drvModbusAsynConfigure contains
                                          * this substring then the driver will do the initial readback
-                                         * for write operations at address plus 0x200. */
+                                         * for write operations and the readback for read/modify/write
+                                         * operations at address plus 0x200. */
+                                         
+#define WAGO_OFFSET         0x200       /* The offset for readback operations on Wago devices */
 
 
 /* Structures for drvUser interface */
@@ -438,9 +441,9 @@ int drvModbusAsynConfigure(char *portName,
     
     /* If this is an output function do a readOnce operation if required. */
     if (pPlc->readOnceFunction) {
-        /* If this is a Wago device then the readback address is offset by 0x200. */
+        /* If this is a Wago device then the readback address is offset */
         if (strstr(pPlc->plcType, WAGO_ID_STRING) != NULL) 
-            readbackOffset = 0x200;
+            readbackOffset = WAGO_OFFSET;
         status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->readOnceFunction, 
                             (pPlc->modbusStartAddress + readbackOffset), 
                             pPlc->data, pPlc->modbusLength);
@@ -681,8 +684,12 @@ static asynStatus writeUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 va
                         status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
                                              modbusAddress, &data, 1);
                     } else {
+                        int readbackOffset = 0;
+                        /* If this is a Wago device then the readback address is offset */
+                        if (strstr(pPlc->plcType, WAGO_ID_STRING) != NULL) 
+                            readbackOffset = WAGO_OFFSET;
                         status = doModbusIO(pPlc, pPlc->modbusSlave, MODBUS_READ_HOLDING_REGISTERS,
-                                            modbusAddress, &data, 1);
+                                            modbusAddress + readbackOffset, &data, 1);
                         if (status != asynSuccess) return(status);
                         /* Set bits that are set in the value and set in the mask */
                         data |=  (value & mask);
