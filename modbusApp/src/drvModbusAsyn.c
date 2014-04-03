@@ -160,6 +160,7 @@ typedef struct modbusStr
     epicsInt32 histogramTimeAxis[HISTOGRAM_LENGTH]; /* Time axis of histogram of read-times */
     int enableHistogram;
     int histogramMsPerBin;
+    int readbackOffset;  /* Readback offset for Wago devices */
 } modbusStr_t;
 
 
@@ -301,7 +302,6 @@ int drvModbusAsynConfigure(char *portName,
     int needReadThread=0;
     int IOLength=0;
     int maxLength=0;
-    int readbackOffset=0;
     int i;
 
     pPlc = callocMustSucceed(1, sizeof(*pPlc), "drvModbusAsynConfigure");
@@ -315,6 +315,11 @@ int drvModbusAsynConfigure(char *portName,
     pPlc->pollDelay = pollMsec/1000.;
     if (pPlc->pollDelay < MIN_POLL_DELAY) pPlc->pollDelay = MIN_POLL_DELAY;
     pPlc->histogramMsPerBin = 1;
+
+    /* Set readback offset for Wago devices for which the register readback address 
+     * is different from the register write address */
+    if (strstr(pPlc->plcType, WAGO_ID_STRING) != NULL) 
+        pPlc->readbackOffset = WAGO_OFFSET;
 
     switch(pPlc->modbusFunction) {
         case MODBUS_READ_COILS:
@@ -441,11 +446,8 @@ int drvModbusAsynConfigure(char *portName,
     
     /* If this is an output function do a readOnce operation if required. */
     if (pPlc->readOnceFunction) {
-        /* If this is a Wago device then the readback address is offset */
-        if (strstr(pPlc->plcType, WAGO_ID_STRING) != NULL) 
-            readbackOffset = WAGO_OFFSET;
-        status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->readOnceFunction, 
-                            (pPlc->modbusStartAddress + readbackOffset), 
+         status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->readOnceFunction, 
+                            (pPlc->modbusStartAddress + pPlc->readbackOffset), 
                             pPlc->data, pPlc->modbusLength);
         if (status == asynSuccess) pPlc->readOnceDone = 1;
     }
@@ -684,12 +686,8 @@ static asynStatus writeUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 va
                         status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
                                              modbusAddress, &data, 1);
                     } else {
-                        int readbackOffset = 0;
-                        /* If this is a Wago device then the readback address is offset */
-                        if (strstr(pPlc->plcType, WAGO_ID_STRING) != NULL) 
-                            readbackOffset = WAGO_OFFSET;
                         status = doModbusIO(pPlc, pPlc->modbusSlave, MODBUS_READ_HOLDING_REGISTERS,
-                                            modbusAddress + readbackOffset, &data, 1);
+                                            modbusAddress + pPlc->readbackOffset, &data, 1);
                         if (status != asynSuccess) return(status);
                         /* Set bits that are set in the value and set in the mask */
                         data |=  (value & mask);
