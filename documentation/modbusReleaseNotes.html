@@ -22,6 +22,10 @@
       and the driver was reading from the wrong address. On Wago devices the readback
       address for a register is offset by 0x200 from the write address. This offset was
       not being applied. </li>
+    <li>
+    Added 2 new records to statistics.template. $(P)$(R)HistTimeAxis is a waveform record
+    that contains the X time axis for histogram plots, and MsPerBin is the time per
+    histogram bin in msec.
   </ul>
   <div style="text-align: center">
     <h2>
