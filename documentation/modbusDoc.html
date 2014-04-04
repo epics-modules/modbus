@@ -1422,6 +1422,20 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           Returns maximum number of milliseconds for I/O operations</td>
       </tr>
+      <tr>
+        <td>
+          Any</td>
+        <td>
+          NA</td>
+        <td>
+          NA</td>
+        <td>
+          HISTOGRAM_BIN_TIME</td>
+        <td>
+          ao, longout</td>
+        <td>
+          Sets the time per bin in msec in the statistics histogram</td>
+      </tr>
     </tbody>
   </table>
   <h3>
@@ -1636,6 +1650,21 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           Returns a histogram array of the I/O times in milliseconds since histogramming was
           last enabled.</td>
+      </tr>
+      <tr>
+        <td>
+          Any</td>
+        <td>
+          NA</td>
+        <td>
+          NA</td>
+        <td>
+          HISTOGRAM_TIME_AXIS</td>
+        <td>
+          waveform (input)</td>
+        <td>
+          Returns the time axis of the histogram data. Each element is HISTOGRAM_BIN_TIME
+          msec.</td>
       </tr>
     </tbody>
   </table>
