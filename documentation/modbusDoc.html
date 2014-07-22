@@ -77,8 +77,8 @@
         <td>
           RTU</td>
         <td>
-          RTU uses an additional CRC for packet checking. RTU is normally run over serial
-          communicaton linke, i.e. RS-232, RS-422, or RS-485. The protocol directly transmits
+          RTU is normally run over serial communicaton linke, i.e. RS-232, RS-422, or RS-485.
+          RTU uses an additional CRC for packet checking. The protocol directly transmits
           each byte as 8 data bits, so uses "binary" rather than ASCII encoding. When using
           serial links start and end of message frames is detected by timing rather than by
           specific characters. RTU can also be run over TCP, though this is less common than
@@ -89,11 +89,12 @@
           Serial ASCII</td>
         <td>
           Serial protocol, which is normally run over serial communication links, i.e. RS-232,
-          RS-422, or RS-485. The protocol encodes each byte as 2 ASCII characters. The start
-          and end of message frames is detected by specific characters (":" to start a message
-          and CR/LF to end a message). This protocol is less efficient than RTU, but may be
-          more reliable in some environments. ASCII can also be run over TCP, though this
-          is much less common than the standard Modbus TCP.</td>
+          RS-422, or RS-485. Serial ASCII uses an additional LRC for packet checking. The
+          protocol encodes each byte as 2 ASCII characters. The start and end of message frames
+          is detected by specific characters (":" to start a message and CR/LF to end a message).
+          This protocol is less efficient than RTU, but may be more reliable in some environments.
+          ASCII can also be run over TCP, though this is much less common than the standard
+          Modbus TCP.</td>
       </tr>
     </tbody>
   </table>
