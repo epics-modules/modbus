@@ -11,14 +11,15 @@
 #define MODBUS_H
 
 /* Modbus function codes */
-#define MODBUS_READ_COILS               0x01
-#define MODBUS_READ_DISCRETE_INPUTS     0x02
-#define MODBUS_READ_HOLDING_REGISTERS   0x03
-#define MODBUS_READ_INPUT_REGISTERS     0x04
-#define MODBUS_WRITE_SINGLE_COIL        0x05
-#define MODBUS_WRITE_SINGLE_REGISTER    0x06
-#define MODBUS_WRITE_MULTIPLE_COILS     0x0F
-#define MODBUS_WRITE_MULTIPLE_REGISTERS 0x10
+#define MODBUS_READ_COILS                    0x01
+#define MODBUS_READ_DISCRETE_INPUTS          0x02
+#define MODBUS_READ_HOLDING_REGISTERS        0x03
+#define MODBUS_READ_INPUT_REGISTERS          0x04
+#define MODBUS_WRITE_SINGLE_COIL             0x05
+#define MODBUS_WRITE_SINGLE_REGISTER         0x06
+#define MODBUS_WRITE_MULTIPLE_COILS          0x0F
+#define MODBUS_WRITE_MULTIPLE_REGISTERS      0x10
+#define MODBUS_READ_WRITE_MULTIPLE_REGISTERS 0x17
 
 #define MODBUS_EXCEPTION_FCN            0x80
 
@@ -101,6 +102,18 @@ typedef struct modbusWriteMultipleResponse_str
     unsigned short startReg;
     unsigned short numOutput;
 } PACKED_STRUCTURE modbusWriteMultipleResponse;
+
+typedef struct modbusReadWriteMultipleRequest_str
+{
+    unsigned char  slave;
+    unsigned char  fcode;
+    unsigned short startReadReg;
+    unsigned short numRead;
+    unsigned short startWriteReg;
+    unsigned short numOutput;
+    unsigned char  byteCount;
+    unsigned char  data[1];
+} PACKED_STRUCTURE modbusReadWriteMultipleRequest;
 
 typedef struct modbusExceptionResponse_str
 {
