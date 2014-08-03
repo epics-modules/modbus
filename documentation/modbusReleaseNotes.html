@@ -12,6 +12,19 @@
   </div>
   <div style="text-align: center">
     <h2>
+      Release 2-7</h2>
+    <h2>
+      August 3, 2014</h2>
+  </div>
+  <ul>
+    <li>Added support for function code 23, Read/Write Multiple Registers. Because of
+      the architecute of the EPICS Modbus support, a driver that uses function 23 is restricted
+      to being either a read-only driver where no data is written, or a write-only driver
+      where no data is read. It is preferable to use functions codes 3, 4, 6, or 16 if
+      they are supported. However, some older devices only support function code 23.</li>
+  </ul>
+  <div style="text-align: center">
+    <h2>
       Release 2-6</h2>
     <h2>
       April 10, 2014</h2>
@@ -22,10 +35,9 @@
       and the driver was reading from the wrong address. On Wago devices the readback
       address for a register is offset by 0x200 from the write address. This offset was
       not being applied. </li>
-    <li>
-    Added 2 new records to statistics.template. $(P)$(R)HistTimeAxis is a waveform record
-    that contains the X time axis for histogram plots, and MsPerBin is the time per
-    histogram bin in msec.
+    <li>Added 2 new records to statistics.template. $(P)$(R)HistTimeAxis is a waveform
+      record that contains the X time axis for histogram plots, and MsPerBin is the time
+      per histogram bin in msec.</li>
   </ul>
   <div style="text-align: center">
     <h2>
