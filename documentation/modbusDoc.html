@@ -12,11 +12,11 @@
     <h1>
       Driver Support for Modbus Protocol under EPICS</h1>
     <h2>
-      Release 2-6</h2>
+      Release 2-7</h2>
     <h2>
       Mark Rivers</h2>
     <h2>
-      April 10, 2014</h2>
+      August 3, 2014</h2>
     <hr />
   </div>
   <h2>
@@ -179,7 +179,7 @@
   <h3>
     Modbus function codes</h3>
   <p>
-    <b>modbus</b> supports the following 8 Modbus function codes:
+    <b>modbus</b> supports the following 9 Modbus function codes:
   </p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
     <tbody>
@@ -258,6 +258,14 @@
           Write Multiple Registers</td>
         <td>
           16</td>
+      </tr>
+      <tr>
+        <td>
+          16-bit word access</td>
+        <td>
+          Read/Write Multiple Registers</td>
+        <td>
+          23</td>
       </tr>
     </tbody>
   </table>
@@ -521,8 +529,8 @@
     C300-C377.
   </p>
   <p>
-    The behavior of the port driver differs for read function codes (1, 2, 3, 4) and
-    write function codes (5, 6, 15, 16).
+    The behavior of the port driver differs for read function codes (1, 2, 3, 4), write
+    function codes (5, 6, 15, 16), and read/write function codes (23).
   </p>
   <h3>
     Modbus read functions</h3>
@@ -570,6 +578,26 @@
     Modbus RTU specifies a minimum delay of 3.5 character times between writes to the
     device. The modbusInterposeConfig function allows one to specify a write delay in
     msec before each write.</p>
+  <h3>
+    Modbus write/read functions</h3>
+  <p>
+    Modbus function code 23 allows for writing a set of registers and reading a set
+    of registers in a single operation. The read operation is performed after the write
+    operation, and the register range to be read can be different from the register
+    range to be written. Function code 23 is not widely used, and the write/read operation
+    is not a good fit to the <b>modbus</b> driver model of read-only and write-only
+    drivers. Function code 23 is implemented in <b>modbus</b> with the following restrictions:</p>
+  <ul>
+    <li>A driver that uses Modbus function code 23 is either <i>read-only</i> or <i>write-only</i>.</li>
+    <li>A read-only driver is created by specifying function code 123 to the drvModbusAsynConfigure
+      command described below. The driver will use Modbus function code 23 for the Modbus
+      protocol. It will only read registers (like function codes 3 and 4), it will not
+      write any data to the device.</li>
+    <li>A write-only driver is created by specifying function code 223 to the drvModbusAsynConfigure
+      command described below. The driver will use Modbus function code 23 for the Modbus
+      protocol. It will only write registers (like function code 16), it will not read
+      any data from the device.</li>
+  </ul>
   <h3>
     Platform independence</h3>
   <p>
@@ -801,7 +829,8 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
         <td>
           int</td>
         <td>
-          Modbus function code (1, 2, 3, 4, 5, 6, 15, or 16).</td>
+          Modbus function code (1, 2, 3, 4, 5, 6, 15, 16, 123 (for 23 read-only), or 223 (for
+          23 write-only)).</td>
       </tr>
       <tr>
         <td>
@@ -820,9 +849,9 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
         <td>
           The length of the Modbus data segment to be accessed.<br />
           This is specified in bits for Modbus functions 1, 2, 5 and 15.<br />
-          It is specified in 16-bit words for Modbus functions 3, 4, 6 and 16.<br />
+          It is specified in 16-bit words for Modbus functions 3, 4, 6, 16, or 23.<br />
           Length limit is 2000 for functions 1 and 2, 1968 for functions 5 and 15,<br />
-          125 for functions 3 and 4, and 123 for functions 6 and 16. </td>
+          125 for functions 3 and 4, and 123 for functions 6, 16, and 23. </td>
       </tr>
       <tr>
         <td>
@@ -1157,7 +1186,7 @@ field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          3, 4</td>
+          3, 4, 23</td>
         <td>
           16-bit word</td>
         <td>
@@ -1298,7 +1327,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          3, 4</td>
+          3, 4, 23</td>
         <td>
           16-bit words</td>
         <td>
@@ -1326,7 +1355,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          6,16</td>
+          6, 16, 23</td>
         <td>
           16-bit words</td>
         <td>
@@ -1487,7 +1516,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
       </tr>
       <tr>
         <td>
-          3, 4</td>
+          3, 4, 23</td>
         <td>
           16-bit words</td>
         <td>
@@ -1515,7 +1544,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
       </tr>
       <tr>
         <td>
-          6, 16</td>
+          6, 16, 23</td>
         <td>
           16-bit word</td>
         <td>
@@ -1597,7 +1626,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          3, 4</td>
+          3, 4, 23</td>
         <td>
           NA</td>
         <td>
@@ -1625,7 +1654,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          16</td>
+          16, 23</td>
         <td>
           NA</td>
         <td>
