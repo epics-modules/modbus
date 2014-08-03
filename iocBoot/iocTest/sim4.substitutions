@@ -1,0 +1,30 @@
+# These are the A0 inputs done with word access
+file "../../db/longinInt32.template" { pattern
+{P,           R,                PORT,     OFFSET,   DATA_TYPE, SCAN}
+{SIM1:,    LI:UINT16,        A0_In_Word,     0,     INT16,     "I/O Intr"}
+}
+
+file "../../db/longoutInt32.template" { pattern
+{P,           R,               PORT,      OFFSET,   DATA_TYPE}
+{SIM1:,    LO:UINT16,        A0_Out_Word,    0,     INT16}
+}
+
+
+### asyn records for debugging
+# asyn record for the underlying asyn octet port
+file "$(ASYN)/db/asynRecord.db" { pattern
+{P,           R,       PORT,      ADDR,   IMAX,    OMAX}
+{SIM1:    OctetAsyn,   sim1,        0,      80,      80}
+}
+
+# asyn record for the Modbus input port
+file "$(ASYN)/db/asynRecord.db" { pattern
+{P,           R,       PORT,      ADDR,   IMAX,    OMAX}
+{SIM1:    InputAsyn,   A0_In_Word,  0,      80,      80}
+}
+
+# asyn record for the Modbus output port
+file "$(ASYN)/db/asynRecord.db" { pattern
+{P,           R,       PORT,      ADDR,   IMAX,    OMAX}
+{SIM1:    OutputAsyn,  A0_Out_Word, 0,      80,      80}
+}
