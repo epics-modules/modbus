@@ -1680,7 +1680,8 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
             /* We don't actually do anything with the values read from the device, but it does not
              * seem to be allowed to specify numRead=0, so we always read one word from the same address
              * we write to. */
-            readWriteMultipleReq->numRead = htons(1);
+            nread = 1;
+            readWriteMultipleReq->numRead = htons(nread);
             readWriteMultipleReq->startWriteReg = htons((epicsUInt16)start);
             pShortIn = (epicsUInt16 *)data;
             pShortOut = (epicsUInt16 *)&readWriteMultipleReq->data;
@@ -1696,7 +1697,7 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
                         driver, pPlc->portName);
             requestSize = sizeof(modbusReadWriteMultipleRequest) + byteCount - 1;
             /* The -1 below is because the modbusReadResponse struct already has 1 byte of data */
-            replySize = sizeof(modbusReadResponse) - 1;
+            replySize = sizeof(modbusReadResponse) + 2*nread - 1;
             break;
 
 
