@@ -29,7 +29,7 @@ static const char *driverName="testModbusSyncIO";
 #define P_LockIOString  "LOCK_IO"  /* asynInt32,    r/w */
 
 /** Class that tests using pasynInt32SyncIO to Modbus drivers */
-class testModbusSyncIO : public asynPortDriver {
+class epicsShareClass testModbusSyncIO : public asynPortDriver {
 public:
     testModbusSyncIO(const char *portName, const char *inputDriver, const char* outputDriver);
                  

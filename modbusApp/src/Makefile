@@ -19,6 +19,7 @@ LIBRARY_IOC = modbus
 
 LIB_SRCS += drvModbusAsyn.c
 LIB_SRCS += modbusInterpose.c
+LIB_SRCS += testModbusSyncIO.cpp
 LIB_LIBS += asyn 
 LIB_LIBS += $(EPICS_BASE_IOC_LIBS)
 LIB_SYS_LIBS_WIN32 += WS2_32
@@ -36,7 +37,6 @@ PROD_IOC = modbusApp
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
 PROD_SRCS_DEFAULT += modbus_registerRecordDeviceDriver.cpp modbusMain.cpp
 PROD_SRCS_vxWorks += modbus_registerRecordDeviceDriver.cpp
-PROD_SRCS += testModbusSyncIO.cpp
 
 PROD_LIBS += modbus
 PROD_LIBS += asyn
