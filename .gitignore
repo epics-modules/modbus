@@ -1,0 +1,17 @@
+*~
+O.*
+*.swp
+*BAK.adl
+bin/
+db/
+dbd/
+html/
+include/
+lib/
+templates/
+cdCommands
+envPaths
+dllPath.bat
+auto_settings.sav*
+auto_positions.sav*
+
