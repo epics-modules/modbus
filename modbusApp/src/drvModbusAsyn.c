@@ -1792,7 +1792,7 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
                 data[i] = ntohs(pShortIn[i]);
             }
             asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
-                        (char *)data, nread, 
+                        (char *)data, nread*2, 
                         "%s::doModbusIO port %s READ_REGISTERS\n",
                         driver, pPlc->portName);
             break;
