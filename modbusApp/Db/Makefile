@@ -30,6 +30,7 @@ DB += intarray_out.template
 DB += statistics.template
 DB += asynRecord.template
 DB += poll_delay.template
+DB += poll_trigger.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add
