@@ -25,6 +25,7 @@
 #include <epicsString.h>
 #include <epicsThread.h>
 #include <epicsMutex.h>
+#include <epicsEvent.h>
 #include <epicsTime.h>
 #include <epicsEndian.h>
 #include <cantProceed.h>
@@ -50,7 +51,6 @@
 #define MODBUS_READ_TIMEOUT  2.0        /* Timeout for asynOctetSyncIO->writeRead */
                                         /* Note: this value actually has no effect, the real 
                                          * timeout is set in modbusInterposeConfig */
-#define MIN_POLL_DELAY      .001        /* Minimum polling delay */
 
 #define WAGO_ID_STRING      "Wago"      /* If the plcName parameter to drvModbusAsynConfigure contains
                                          * this substring then the driver will do the initial readback
@@ -158,6 +158,7 @@ typedef struct modbusStr
     char modbusReply[MAX_MODBUS_FRAME_SIZE];        /* Modbus reply message */
     double pollDelay;           /* Delay for readPoller */
     epicsThreadId readPollerThreadId;
+    epicsEventId readPollerEventId;
     int forceCallback;
     int readOnceFunction;
     int readOnceDone;
@@ -228,7 +229,7 @@ static asynStatus writeInt32Array   (void *drvPvt, asynUser *pasynUser,
 static void readPoller(PLC_ID pPlc);
 static int doModbusIO(PLC_ID pPlc, int slave, int function, int start, 
                       epicsUInt16 *data, int len);
-static asynStatus readPlcInt(modbusStr_t *pPlc, int offset, epicsInt32 *value);
+static asynStatus readPlcInt(modbusStr_t *pPlc, int offset, int numValues, epicsInt32 *value, size_t *numActual);
 static asynStatus writePlcInt(modbusStr_t *pPlc, int offset, epicsInt32 value, epicsUInt16 *buffer, int *bufferLen);
 static asynStatus readPlcFloat(modbusStr_t *pPlc, int offset, epicsFloat64 *value);
 static asynStatus writePlcFloat(modbusStr_t *pPlc, int offset, epicsFloat64 value, epicsUInt16 *buffer, int *bufferLen);
@@ -323,7 +324,6 @@ int drvModbusAsynConfigure(char *portName,
     pPlc->modbusStartAddress = modbusStartAddress;
     pPlc->modbusLength = modbusLength;
     pPlc->pollDelay = pollMsec/1000.;
-    if (pPlc->pollDelay < MIN_POLL_DELAY) pPlc->pollDelay = MIN_POLL_DELAY;
     pPlc->histogramMsPerBin = 1;
 
     /* Set readback offset for Wago devices for which the register readback address 
@@ -467,6 +467,10 @@ int drvModbusAsynConfigure(char *portName,
                             pPlc->data, pPlc->modbusLength);
         if (status == asynSuccess) pPlc->readOnceDone = 1;
     }
+    
+    /* Create the epicsEvent to wake up the readPoller.  
+     * We do this even if there is no poller. */
+    pPlc->readPollerEventId = epicsEventCreate(epicsEventEmpty);
      
     /* Create the thread to read registers if this is a read function code */
     if (needReadThread) {
@@ -803,7 +807,7 @@ static asynStatus readInt32 (void *drvPvt, asynUser *pasynUser, epicsInt32 *valu
                 case MODBUS_READ_HOLDING_REGISTERS:
                 case MODBUS_READ_INPUT_REGISTERS:
                 case MODBUS_READ_INPUT_REGISTERS_F23:
-                    status = readPlcInt(pPlc, offset, value);
+                    status = readPlcInt(pPlc, offset, 1, value, NULL);
                     if (status != asynSuccess) return status;
                     break;
                 case MODBUS_WRITE_SINGLE_COIL:
@@ -815,7 +819,7 @@ static asynStatus readInt32 (void *drvPvt, asynUser *pasynUser, epicsInt32 *valu
                 case MODBUS_WRITE_MULTIPLE_REGISTERS:
                 case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
                     if (!pPlc->readOnceDone) return asynError;
-                    status = readPlcInt(pPlc, offset, value);
+                    status = readPlcInt(pPlc, offset, 1, value, NULL);
                     if (status != asynSuccess) return status;
                     break;
                 default:
@@ -830,6 +834,9 @@ static asynStatus readInt32 (void *drvPvt, asynUser *pasynUser, epicsInt32 *valu
                       " offset=0%o, value=0x%x\n",
                       driver, pPlc->portName, pPlc->modbusFunction, 
                       offset, *value);
+            break;
+        case modbusReadCommand: 
+            *value = 1;
             break;
         case modbusReadOKCommand: 
             *value = pPlc->readOK;
@@ -920,9 +927,7 @@ static asynStatus writeInt32(void *drvPvt, asynUser *pasynUser, epicsInt32 value
             break;            
         case modbusReadCommand:
             /* Read the data for this driver.  This can be used when the poller is disabled. */
-            status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
-                                        pPlc->modbusStartAddress, pPlc->data, pPlc->modbusLength);
-            if (status != asynSuccess) return(status);
+            epicsEventSignal(pPlc->readPollerEventId);
             break;
         case modbusHistogramBinTimeCommand:
             /* Set the time per histogram bin in ms */
@@ -1087,8 +1092,10 @@ static asynStatus writeFloat64 (void *drvPvt, asynUser *pasynUser, epicsFloat64 
                       modbusAddress, buffer[0]);
             break;
         case modbusPollDelayCommand:
-            if (value < MIN_POLL_DELAY) value = MIN_POLL_DELAY;
             pPlc->pollDelay = value;
+            /* Send an event to the poller, because it might have a long poll time, or
+             * not be polling at all */
+            epicsEventSignal(pPlc->readPollerEventId);
             break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
@@ -1108,47 +1115,43 @@ static asynStatus readInt32Array (void *drvPvt, asynUser *pasynUser, epicsInt32 
                                   size_t maxChans, size_t *nactual)
 {
     PLC_ID pPlc = (PLC_ID)drvPvt;
+    int offset;
     int nread;
     int i;
     asynStatus status;
     
+    pasynManager->getAddr(pasynUser, &offset);
     switch(pasynUser->reason) {
         case modbusDataCommand:
             if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
             nread = maxChans;
-            if (nread > pPlc->modbusLength) nread = pPlc->modbusLength;
+            if (nread > pPlc->modbusLength-offset) nread = pPlc->modbusLength-offset;
             *nactual = nread;
             switch(pPlc->modbusFunction) {
                 case MODBUS_READ_COILS:
                 case MODBUS_READ_DISCRETE_INPUTS:
                     for (i=0; i<nread; i++) {
-                        data[i] = pPlc->data[i];
+                        data[i] = pPlc->data[offset+i];
                     }
                     break;
                 case MODBUS_READ_HOLDING_REGISTERS:
                 case MODBUS_READ_INPUT_REGISTERS:
                 case MODBUS_READ_INPUT_REGISTERS_F23:
-                    for (i=0; i<nread; i++) {
-                        status = readPlcInt(pPlc, i, &data[i]);
-                        if (status != asynSuccess) return status;
-                    }
+                    status = readPlcInt(pPlc, offset, nread, data, nactual);
                     break;
                     
                 case MODBUS_WRITE_SINGLE_COIL:
                 case MODBUS_WRITE_MULTIPLE_COILS:
                     if (!pPlc->readOnceDone) return asynError;
                     for (i=0; i<nread; i++) {
-                        data[i] = pPlc->data[i];
+                        data[i] = pPlc->data[offset+i];
                     }
                     break;
                 case MODBUS_WRITE_SINGLE_REGISTER:
                 case MODBUS_WRITE_MULTIPLE_REGISTERS:
                 case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
                     if (!pPlc->readOnceDone) return asynError;
-                    for (i=0; i<nread; i++) {
-                        status = readPlcInt(pPlc, i, &data[i]);
-                        if (status != asynSuccess) return status;
-                    }
+                    status = readPlcInt(pPlc, offset, nread, data, nactual);
                     break;
                     
                 default:
@@ -1281,7 +1284,7 @@ static void readPoller(PLC_ID pPlc)
     int offset;
     int anyChanged;
     asynStatus prevIOStatus=asynSuccess;
-    int i;
+    size_t numActual;
     epicsUInt16 newValue, prevValue, mask;
     epicsUInt32 uInt32Value;
     epicsInt32 int32Value;
@@ -1295,9 +1298,19 @@ static void readPoller(PLC_ID pPlc)
     int32Data = callocMustSucceed(pPlc->modbusLength, sizeof(epicsInt32), 
                                  "drvModbusAsyn::readPoller");
                             
+    pasynManager->lockPort(pPlc->pasynUserTrace);
+
     /* Loop forever */    
     while (1)
     {
+        /* Sleep for the poll delay or waiting for epicsEvent with the port unlocked */
+        pasynManager->unlockPort(pPlc->pasynUserTrace);
+        if (pPlc->pollDelay > 0.0) {
+            epicsEventWaitWithTimeout(pPlc->readPollerEventId, pPlc->pollDelay);
+        } else {
+            epicsEventWait(pPlc->readPollerEventId);
+        }
+
         /* Lock the port.  It is important that the port be locked so other threads cannot access the pPlc
          * structure while the poller thread is running. */
         pasynManager->lockPort(pPlc->pasynUserTrace);
@@ -1307,7 +1320,7 @@ static void readPoller(PLC_ID pPlc)
                                     pPlc->modbusStartAddress, pPlc->data, pPlc->modbusLength);
         /* If we have an I/O error this time and the previous time, just try again */
         if (pPlc->ioStatus != asynSuccess &&
-            pPlc->ioStatus == prevIOStatus) goto sleep;
+            pPlc->ioStatus == prevIOStatus) continue;
 
         /* If the I/O status has changed then force callbacks */
         if (pPlc->ioStatus != prevIOStatus) pPlc->forceCallback = 1;
@@ -1388,7 +1401,7 @@ static void readPoller(PLC_ID pPlc)
                           driver, pPlc->portName, offset, pPlc->modbusLength);
                 break;
             }
-            status = readPlcInt(pPlc, offset, &int32Value);
+            status = readPlcInt(pPlc, offset, 1, &int32Value, NULL);
             /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
             pInt32->pasynUser->auxStatus = pPlc->ioStatus;
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
@@ -1450,9 +1463,7 @@ static void readPoller(PLC_ID pPlc)
                 }
                 /* Need to copy data to epicsInt32 buffer for callback */
                 pasynManager->getAddr(pInt32Array->pasynUser, &offset);
-                for (i=0; i<pPlc->modbusLength; i++) {
-                    status = readPlcInt(pPlc, offset+i, &int32Data[i]);
-                }
+                status = readPlcInt(pPlc, offset, pPlc->modbusLength, int32Data, &numActual);
                 /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
                 pInt32Array->pasynUser->auxStatus = pPlc->ioStatus;
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
@@ -1460,7 +1471,7 @@ static void readPoller(PLC_ID pPlc)
                           "callback=%p\n",
                            driver, pInt32Array, pInt32Array->callback);
                 pInt32Array->callback(pInt32Array->userPvt, pInt32Array->pasynUser,
-                                      int32Data, pPlc->modbusLength);
+                                      int32Data, numActual);
                 pnode = (interruptNode *)ellNext(&pnode->node);
             }
             pasynManager->interruptEnd(pPlc->asynStdInterfaces.int32ArrayInterruptPvt);
@@ -1474,11 +1485,6 @@ static void readPoller(PLC_ID pPlc)
 
         /* Copy the new data to the previous data */
         memcpy(prevData, pPlc->data, pPlc->modbusLength*sizeof(epicsUInt16));
-
-        sleep:
-        /* Sleep for the poll delay with the port unlocked */
-        pasynManager->unlockPort(pPlc->pasynUserTrace);
-        epicsThreadSleep(pPlc->pollDelay);
     }
 }
 
@@ -1826,14 +1832,14 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
 }
 
 
-asynStatus readPlcInt(modbusStr_t *pPlc, int offset, epicsInt32 *output)
+asynStatus readPlcInt(modbusStr_t *pPlc, int offset, int numValues, epicsInt32 *output, size_t *numActual)
 {
-    epicsUInt16 value = pPlc->data[offset];
+    epicsUInt16 value;
     modbusDataType_t dataType = pPlc->dataType[offset];
     epicsInt32 result=0;
     asynStatus status = asynSuccess;
     epicsFloat64 fValue;
-    int i;
+    int i, j;
     int mult=1;
     int signMask = 0x8000;
     int negative = 0;
@@ -1844,65 +1850,76 @@ asynStatus readPlcInt(modbusStr_t *pPlc, int offset, epicsInt32 *output)
         epicsUInt16 uint16[2];
     } int16_32;
     
-    switch (dataType) {
-        case dataTypeUInt16:
-            result = value;
-            break;
-            
-        case dataTypeInt16SM:
-            result = value;
-            if (result & signMask) {
-                result &= ~signMask;
-                result = -(epicsInt16)result;
-            }
-            break;
-            
-        case dataTypeBCDSigned:
-            if (value & signMask) {
-                negative=1;
-                value &= ~signMask;
-            } /* Note: no break here! */
-        case dataTypeBCDUnsigned:
-            for (i=0; i<4; i++) {
-                result += (value & 0xF)*mult;
-                mult = mult*10;
-                value = value >> 4;
-            }
-            if (negative) result = -result;
-            break;
-        
-        case dataTypeInt16:
-            result = (epicsInt16)value;
-            break;
-            
-        case dataTypeInt32LE:
-            int16_32.uint16[littleWord] = pPlc->data[offset];
-            int16_32.uint16[bigWord]    = pPlc->data[offset+1];
-            result = int16_32.int32;
-            break;
-            
-        case dataTypeInt32BE:
-            int16_32.uint16[bigWord]    = pPlc->data[offset];
-            int16_32.uint16[littleWord] = pPlc->data[offset+1];
-            result = int16_32.int32;
-            break;
-            
-        case dataTypeFloat32LE:
-        case dataTypeFloat32BE:        
-        case dataTypeFloat64LE:
-        case dataTypeFloat64BE:        
-            status = readPlcFloat(pPlc, offset, &fValue);
-            result = (epicsInt32)fValue;
-            break;
-            
-        default:
-            asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
-                      "%s::readPlcInt, port %s unknown data type %d\n", 
-                      driver, pPlc->portName, dataType);
-            status = asynError;
-    }
+    for (i=0; i<numValues && offset<pPlc->modbusLength; i++, offset++) {
+        value = pPlc->data[offset];
+        switch (dataType) {
+            case dataTypeUInt16:
+                result = value;
+                break;
 
-    *output = result;
+            case dataTypeInt16SM:
+                result = value;
+                if (result & signMask) {
+                    result &= ~signMask;
+                    result = -(epicsInt16)result;
+                }
+                break;
+
+            case dataTypeBCDSigned:
+                if (value & signMask) {
+                    negative=1;
+                    value &= ~signMask;
+                } /* Note: no break here! */
+            case dataTypeBCDUnsigned:
+                for (j=0; j<4; j++) {
+                    result += (value & 0xF)*mult;
+                    mult = mult*10;
+                    value = value >> 4;
+                }
+                if (negative) result = -result;
+                break;
+
+            case dataTypeInt16:
+                result = (epicsInt16)value;
+                break;
+
+            case dataTypeInt32LE:
+                int16_32.uint16[littleWord] = pPlc->data[offset];
+                int16_32.uint16[bigWord]    = pPlc->data[offset+1];
+                result = int16_32.int32;
+                offset++;
+                break;
+
+            case dataTypeInt32BE:
+                int16_32.uint16[bigWord]    = pPlc->data[offset];
+                int16_32.uint16[littleWord] = pPlc->data[offset+1];
+                result = int16_32.int32;
+                offset++;
+                break;
+
+            case dataTypeFloat32LE:
+            case dataTypeFloat32BE:        
+                status = readPlcFloat(pPlc, offset, &fValue);
+                result = (epicsInt32)fValue;
+                offset++;
+                break;
+
+            case dataTypeFloat64LE:
+            case dataTypeFloat64BE:        
+                status = readPlcFloat(pPlc, offset, &fValue);
+                result = (epicsInt32)fValue;
+                offset += 3;
+                break;
+
+            default:
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                          "%s::readPlcInt, port %s unknown data type %d\n", 
+                          driver, pPlc->portName, dataType);
+                status = asynError;
+        }
+        output[i] = result;
+    }
+    if (numActual) *numActual = i;
     return status;
 }
 
@@ -2015,7 +2032,7 @@ asynStatus readPlcFloat(modbusStr_t *pPlc, int offset, epicsFloat64 *output)
         case dataTypeInt16:
         case dataTypeInt32LE:
         case dataTypeInt32BE:
-            status = readPlcInt(pPlc, offset, &iValue);
+            status = readPlcInt(pPlc, offset, 1, &iValue, NULL);
             *output = (epicsFloat64)iValue;
             break;
             
