@@ -7,7 +7,7 @@ file "$(ASYN)/db/asynRecord.db" { pattern
 # Address 0, UINT16 data type
 file "../../db/intarray_in.template" { pattern
 {P,            R,         PORT,     ADDR, NELM,        SCAN}
-{SIM1:,    UINT16:Array,    UINT16,   10,  20,     "I/O Intr"}
+{SIM1:,    UINT16:Array,    UINT16,   0,  20,     "I/O Intr"}
 }
 
 file "../../db/poll_delay.template" { pattern
@@ -23,7 +23,7 @@ file "../../db/poll_trigger.template" { pattern
 # Address 20, INT16 data type
 file "../../db/intarray_in.template" { pattern
 {P,            R,           PORT,  ADDR,   NELM,        SCAN}
-{SIM1:,    INT16:Array,    INT16,    10,     20,     "I/O Intr"}
+{SIM1:,    INT16:Array,    INT16,    0,     20,     "I/O Intr"}
 }
 
 file "../../db/poll_delay.template" { pattern
@@ -39,7 +39,7 @@ file "../../db/poll_trigger.template" { pattern
 # Address 40, INT32_LE data type
 file "../../db/intarray_in.template" { pattern
 {P,            R,            PORT,   ADDR, NELM,        SCAN}
-{SIM1:,    INT32_LE:Array,  INT32_LE,  10,   20,     "I/O Intr"}
+{SIM1:,    INT32_LE:Array,  INT32_LE,  0,   20,     "I/O Intr"}
 }
 
 file "../../db/poll_delay.template" { pattern
@@ -55,7 +55,7 @@ file "../../db/poll_trigger.template" { pattern
 # Address 60, INT32_BE data type
 file "../../db/intarray_in.template" { pattern
 {P,            R,            PORT,    ADDR,  NELM,        SCAN}
-{SIM1:,    INT32_BE:Array,  INT32_BE,   10,     20,     "I/O Intr"}
+{SIM1:,    INT32_BE:Array,  INT32_BE,   0,     20,     "I/O Intr"}
 }
 
 file "../../db/poll_delay.template" { pattern
