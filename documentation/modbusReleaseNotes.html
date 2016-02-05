@@ -12,6 +12,50 @@
   </div>
   <div style="text-align: center">
     <h2>
+      Release 2-8</h2>
+    <h2>
+      February XXX, 2016</h2>
+  </div>
+  <ul>
+    <li>Improved the logic in the poller thread.
+      <ul>
+        <li>Previously there was a call to epicsThreadSleep at the end of the poller loop.
+          This meant that the poller always ran at least once, which might not be desirable.
+          It also meant that it one could only temporarily disable the poller by calling pasynManager-&gt;lockPort(),
+          or to make it run infreqently by setting POLL_DELAY to a long sleep time. In R2-5
+          the MODBUS_READ command was added. However, this just did a read operation without
+          triggering the poller thread, so records with I/O Intr scan would not process. It
+          also required disabling the poller thread with pasynManager-&gt;LockPort.</li>
+        <li>The poller thread has been changed so that if the POLL_DELAY is &gt;0 then it
+          calls epicsEventWaitWithTimeout, using the POLL_DELAY as the timeout. If POLL_DELAY
+          is &le;0 then it calls epicsEventWait, with no timeout. This allows the poller to
+          be suspended indefinitely and only run when the epicsEvent is signalled. The MODBUS_READ
+          command now signals the epicsEvent to trigger the poller, rather than directly doing
+          a read operation.</li>
+        <li>Added a new template file, poll_trigger.template which loads a record with the
+          MODBUS_READ drvInfo string to trigger the poller.</li>
+      </ul>
+    </li>
+    <li>Fixed problems when using waveform records with the asynInt32Array interface.
+      <ul>
+        <li>If the Modbus data type was not UINT16 or INT16 then the data were not read into
+          the waveform record correctly. This bug has been fixed, and a new file iocBoot/iocTest/array_test.cmd
+          and array_test.substitions were added to test it using the Modbus Slave Simulator.
+          New adl files, modbusTestArray.adl and array_test.adl were added for these tests.
+          array_test.adl also contains controls for POLL_DELAY and POLL_TRIGGER to verify
+          the improvements to the poller thread above.</li>
+        <li>Previously the first element in the waveform record was always the first register
+          in that modbus driver, i.e. it did not allow specifying a register offset using
+          the asyn ADDR address. This was improved so now one can specify an offset using
+          the ADDR field, as with the non-array records in modbus.</li>
+        <li>The Modbus data type to use is determined using the data type assigned to the
+          first register to be read. All subsequent registers in the array are assumed to
+          be this data type.</li>
+      </ul>
+    </li>
+  </ul>
+  <div style="text-align: center">
+    <h2>
       Release 2-7-1</h2>
     <h2>
       May 6, 2015</h2>
@@ -19,6 +63,7 @@
   <ul>
     <li>Minor changes to allow building dynamically on Cygwin.</li>
   </ul>
+  <div style="text-align: center">
     <h2>
       Release 2-7</h2>
     <h2>
