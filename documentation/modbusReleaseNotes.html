@@ -26,12 +26,13 @@
           the MODBUS_READ command was added. However, this just did a read operation without
           triggering the poller thread, so records with I/O Intr scan would not process. It
           also required disabling the poller thread with pasynManager-&gt;LockPort.</li>
-        <li>The poller thread has been changed so that if the POLL_DELAY is &gt;0 then it
-          calls epicsEventWaitWithTimeout, using the POLL_DELAY as the timeout. If POLL_DELAY
-          is &le;0 then it calls epicsEventWait, with no timeout. This allows the poller to
-          be suspended indefinitely and only run when the epicsEvent is signalled. The MODBUS_READ
-          command now signals the epicsEvent to trigger the poller, rather than directly doing
-          a read operation.</li>
+        <li>The poller thread has been changed so that it calls epicsEventWait or epicsEventWaitWithTimeout
+          at the beginning of the poller loop. If the POLL_DELAY is &gt;0 then it calls epicsEventWaitWithTimeout,
+          using the POLL_DELAY as the timeout. If POLL_DELAY is &le;0 then it calls epicsEventWait,
+          with no timeout. This allows the poller to be suspended indefinitely and only run
+          when the epicsEvent is signalled. It also means if POLL_DELAY &le;0 then the poller
+          does not at all until the epicsEvent is signalled. The MODBUS_READ command now signals
+          the epicsEvent to trigger the poller, rather than directly doing a read operation.</li>
         <li>Added a new template file, poll_trigger.template which loads a record with the
           MODBUS_READ drvInfo string to trigger the poller.</li>
       </ul>
