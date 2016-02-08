@@ -16,7 +16,7 @@
     <h2>
       Mark Rivers</h2>
     <h2>
-      February XXX, 2016</h2>
+      February 8, 2016</h2>
     <hr />
   </div>
   <h2>
@@ -1379,8 +1379,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           ao, bo, longout</td>
         <td>
-          Writing to a Modbus input driver with this drvUser value will force the driver to
-          do a Modbus read operation, independent of the poller thread.</td>
+          Writing to a Modbus input driver with this drvUser value will force the poller thread
+          to run once immediately, regardless of the value of POLL_DELAY.</td>
       </tr>
       <tr>
         <td>
@@ -1569,7 +1569,9 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
           ai, ao</td>
         <td>
           Read or write the delay time in seconds between polls for the read poller thread.
-        </td>
+          If &le;0 then the poller thread does not run periodically, it only runs when it
+          is woken up by an epicsEvent signal, which happens when the driver has an asynInt32
+          write with the MODBUS_READ drvUser string.</td>
       </tr>
     </tbody>
   </table>
@@ -1614,7 +1616,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           1, 2</td>
         <td>
-          NA</td>
+          Bit</td>
         <td>
           Array of bits</td>
         <td>
@@ -1642,7 +1644,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           15</td>
         <td>
-          NA</td>
+          Bit</td>
         <td>
           Array of bits</td>
         <td>
@@ -1766,7 +1768,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
           asynInt32Array support for waveform record with discrete, coil, or register inputs.
         </td>
         <td>
-          P, R, PORT, NELM, SCAN</td>
+          P, R, PORT, OFFSET, NELM, SCAN</td>
       </tr>
       <tr>
         <td>
@@ -1816,7 +1818,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
           asynInt32Array support for waveform record with discrete, coil, or register outputs.
         </td>
         <td>
-          P, R, PORT, NELM</td>
+          P, R, PORT, OFFSET, NELM</td>
       </tr>
       <tr>
         <td>
@@ -1874,6 +1876,14 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
           poll_delay.template</td>
         <td>
           Support for ao record to control the delay time for the poller thread.</td>
+        <td>
+          P, R, PORT</td>
+      </tr>
+      <tr>
+        <td>
+          poll_trigger.template</td>
+        <td>
+          Support for bo record to trigger running the poller thread.</td>
         <td>
           P, R, PORT</td>
       </tr>
