@@ -40,18 +40,15 @@
     <li>Fixed problems when using waveform records with the asynInt32Array interface.
       <ul>
         <li>If the Modbus data type was not UINT16 or INT16 then the data were not read into
-          the waveform record correctly. This bug has been fixed, and a new file iocBoot/iocTest/array_test.cmd
+          the waveform record correctly. This bug has been fixed, and new files iocBoot/iocTest/array_test.cmd
           and array_test.substitions were added to test it using the Modbus Slave Simulator.
           New adl files, modbusTestArray.adl and array_test.adl were added for these tests.
-          array_test.adl also contains controls for POLL_DELAY and POLL_TRIGGER to verify
+          modbusTestArray.adl also contains controls for POLL_DELAY and POLL_TRIGGER to verify
           the improvements to the poller thread above.</li>
         <li>Previously the first element in the waveform record was always the first register
           in that modbus driver, i.e. it did not allow specifying a register offset using
           the asyn ADDR address. This was improved so now one can specify an offset using
-          the ADDR field, as with the non-array records in modbus.</li>
-        <li>The Modbus data type to use is determined using the data type assigned to the
-          first register to be read. All subsequent registers in the array are assumed to
-          be this data type.</li>
+          the OFFSET macro parameter, as with the non-array records in modbus.</li>
       </ul>
     </li>
   </ul>
