@@ -103,7 +103,7 @@ display {
 	}
 	style="fill-under"
 	trace[0] {
-		ydata="$(P)$(R)Array"
+		ydata="$(P)$(R)ArrayIn"
 		data_clr=54
 		yaxis=0
 	}
@@ -129,7 +129,7 @@ text {
 		height=15
 	}
 	monitor {
-		chan="$(P)$(R)Array.SEVR"
+		chan="$(P)$(R)ArrayIn.SEVR"
 		clr=53
 		bclr=2
 	}
@@ -159,7 +159,7 @@ text {
 		height=15
 	}
 	monitor {
-		chan="$(P)$(R)Array.STAT"
+		chan="$(P)$(R)ArrayIn.STAT"
 		clr=53
 		bclr=2
 	}
@@ -176,7 +176,7 @@ menu {
 		height=20
 	}
 	control {
-		chan="$(P)$(R)Array.SCAN"
+		chan="$(P)$(R)ArrayIn.SCAN"
 		clr=14
 		bclr=4
 	}

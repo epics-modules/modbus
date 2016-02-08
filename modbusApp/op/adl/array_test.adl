@@ -1,11 +1,11 @@
 
 file {
-	name="/home/epics/devel/modbus/modbusApp/op/adl/array_test.adl"
+	name="/home/epics/devel/modbus-2-7/modbusApp/op/adl/array_test.adl"
 	version=030107
 }
 display {
 	object {
-		x=445
+		x=446
 		y=76
 		width=250
 		height=100
@@ -100,58 +100,47 @@ text {
 	textix="Array Test"
 	align="horiz. centered"
 }
-composite {
+"related display" {
+	object {
+		x=98
+		y=58
+		width=120
+		height=20
+	}
+	display[0] {
+		label="UINT16"
+		name="modbusArrayTest.adl"
+		args="P=SIM1:,R=UINT16:"
+	}
+	display[1] {
+		label="INT16"
+		name="modbusArrayTest.adl"
+		args="P=SIM1:,R=INT16:"
+	}
+	display[2] {
+		label="INT32_LE"
+		name="modbusArrayTest.adl"
+		args="P=SIM1:,R=INT32_LE:"
+	}
+	display[3] {
+		label="INT32_BE"
+		name="modbusArrayTest.adl"
+		args="P=SIM1:,R=INT32_BE:"
+	}
+	clr=14
+	bclr=51
+	label="Arrays"
+}
+text {
 	object {
 		x=33
 		y=58
-		width=185
+		width=60
 		height=20
 	}
-	"composite name"=""
-	children {
-		"related display" {
-			object {
-				x=98
-				y=58
-				width=120
-				height=20
-			}
-			display[0] {
-				label="UINT16"
-				name="modbusArrayTest.adl"
-				args="P=SIM1:,R=UINT16:"
-			}
-			display[1] {
-				label="INT16"
-				name="modbusArrayTest.adl"
-				args="P=SIM1:,R=INT16:"
-			}
-			display[2] {
-				label="INT32_LE"
-				name="modbusArrayTest.adl"
-				args="P=SIM1:,R=INT32_LE:"
-			}
-			display[3] {
-				label="INT32_BE"
-				name="modbusArrayTest.adl"
-				args="P=SIM1:,R=INT32_BE:"
-			}
-			clr=14
-			bclr=51
-			label="Arrays"
-		}
-		text {
-			object {
-				x=33
-				y=58
-				width=60
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Arrays"
-			align="horiz. centered"
-		}
+	"basic attribute" {
+		clr=14
 	}
+	textix="Arrays"
+	align="horiz. centered"
 }
