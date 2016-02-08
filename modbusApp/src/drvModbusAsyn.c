@@ -1169,19 +1169,19 @@ static asynStatus readInt32Array (void *drvPvt, asynUser *pasynUser, epicsInt32 
             
         case modbusReadHistogramCommand:
             nread = maxChans;
-            if (nread > HISTOGRAM_LENGTH) nread = HISTOGRAM_LENGTH;
+            if (nread > HISTOGRAM_LENGTH-offset) nread = HISTOGRAM_LENGTH-offset;
             *nactual = nread;
             for (i=0; i<nread; i++) {
-                data[i] = pPlc->timeHistogram[i];
+                data[i] = pPlc->timeHistogram[i+offset];
             }
             break;
         
         case modbusHistogramTimeAxisCommand:
             nread = maxChans;
-            if (nread > HISTOGRAM_LENGTH) nread = HISTOGRAM_LENGTH;
+            if (nread > HISTOGRAM_LENGTH-offset) nread = HISTOGRAM_LENGTH-offset;
             *nactual = nread;
             for (i=0; i<nread; i++) {
-                data[i] = pPlc->histogramTimeAxis[i];
+                data[i] = pPlc->histogramTimeAxis[i+offset];
             }
             break;
         
