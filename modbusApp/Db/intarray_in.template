@@ -1,6 +1,6 @@
 record(waveform,"$(P)$(R)") {
     field(DTYP,"asynInt32ArrayIn")
-    field(INP,"@asyn($(PORT) $(ADDR=0))MODBUS_DATA")
+    field(INP,"@asyn($(PORT) $(OFFSET=0))MODBUS_DATA")
     field(SCAN,"$(SCAN)")
     field(FTVL,"LONG")
     field(NELM,"$(NELM)")
