@@ -4,66 +4,94 @@ file "$(ASYN)/db/asynRecord.db" { pattern
 {SIM1:    OctetAsyn,   sim1,        0,      80,      80}
 }
 
-# Address 0, UINT16 data type
+#################################
+# Address 0, UINT16 data type input waveform
+#################################
 file "../../db/intarray_in.template" { pattern
-{P,            R,         PORT,     ADDR, NELM,        SCAN}
-{SIM1:,    UINT16:Array,    UINT16,   0,  20,     "I/O Intr"}
+{P,            R,           PORT,     OFFSET, NELM,        SCAN}
+{SIM1:,    UINT16:ArrayIn, UINT16_F3,      0,   20,     "I/O Intr"}
+}
+
+file "../../db/intarray_out.template" { pattern
+{P,            R,           PORT,      OFFSET, NELM}
+{SIM1:,    UINT16:ArrayOut, UINT16_F16,    0,  20}
 }
 
 file "../../db/poll_delay.template" { pattern
 {P,           R,            PORT}
-{SIM1:,    UINT16:PollDelay, UINT16}
+{SIM1:,    UINT16:PollDelay, UINT16_F3}
 }
 
 file "../../db/poll_trigger.template" { pattern
 {P,           R,            PORT}
-{SIM1:,    UINT16:PollTrigger, UINT16}
+{SIM1:,    UINT16:PollTrigger, UINT16_F3}
 }
 
+#################################
 # Address 20, INT16 data type
+#################################
 file "../../db/intarray_in.template" { pattern
-{P,            R,           PORT,  ADDR,   NELM,        SCAN}
-{SIM1:,    INT16:Array,    INT16,    0,     20,     "I/O Intr"}
+{P,            R,           PORT,  OFFSET,   NELM,        SCAN}
+{SIM1:,    INT16:ArrayIn,  INT16_F3,    0,     20,     "I/O Intr"}
+}
+
+file "../../db/intarray_out.template" { pattern
+{P,            R,           PORT,   OFFSET, NELM}
+{SIM1:,    INT16:ArrayOut, INT16_F16,    0,  20}
 }
 
 file "../../db/poll_delay.template" { pattern
 {P,            R,            PORT}
-{SIM1:,    INT16:PollDelay, INT16}
+{SIM1:,    INT16:PollDelay, INT16_F3}
 }
 
 file "../../db/poll_trigger.template" { pattern
 {P,           R,            PORT}
-{SIM1:,    INT16:PollTrigger, INT16}
+{SIM1:,    INT16:PollTrigger, INT16_F3}
 }
 
+#################################
 # Address 40, INT32_LE data type
+#################################
 file "../../db/intarray_in.template" { pattern
-{P,            R,            PORT,   ADDR, NELM,        SCAN}
-{SIM1:,    INT32_LE:Array,  INT32_LE,  0,   20,     "I/O Intr"}
+{P,            R,                PORT,  OFFSET, NELM,     SCAN}
+{SIM1:,    INT32_LE:ArrayIn, INT32_LE_F3,    0,   20,  "I/O Intr"}
+}
+
+file "../../db/intarray_out.template" { pattern
+{P,            R,             PORT,      OFFSET, NELM}
+{SIM1:,    INT32_LE:ArrayOut, INT32_LE_F16,   0,  20}
 }
 
 file "../../db/poll_delay.template" { pattern
 {P,            R,            PORT}
-{SIM1:,    INT32_LE:PollDelay, INT32_LE}
+{SIM1:,    INT32_LE:PollDelay, INT32_LE_F3}
 }
 
 file "../../db/poll_trigger.template" { pattern
 {P,           R,               PORT}
-{SIM1:,    INT32_LE:PollTrigger, INT32_LE}
+{SIM1:,    INT32_LE:PollTrigger, INT32_LE_F3}
 }
 
+#################################
 # Address 60, INT32_BE data type
+#################################
 file "../../db/intarray_in.template" { pattern
-{P,            R,            PORT,    ADDR,  NELM,        SCAN}
-{SIM1:,    INT32_BE:Array,  INT32_BE,   0,     20,     "I/O Intr"}
+{P,            R,            PORT,      OFFSET,  NELM,        SCAN}
+{SIM1:,    INT32_BE:ArrayIn,  INT32_BE_F3,   0,     20,     "I/O Intr"}
+}
+
+file "../../db/intarray_out.template" { pattern
+{P,            R,             PORT,      OFFSET, NELM}
+{SIM1:,    INT32_BE:ArrayOut, INT32_BE_F16,   0,  20}
 }
 
 file "../../db/poll_delay.template" { pattern
 {P,            R,            PORT}
-{SIM1:,    INT32_BE:PollDelay, INT32_BE}
+{SIM1:,    INT32_BE:PollDelay, INT32_BE_F3}
 }
 
 file "../../db/poll_trigger.template" { pattern
 {P,           R,               PORT}
-{SIM1:,    INT32_BE:PollTrigger, INT32_BE}
+{SIM1:,    INT32_BE:PollTrigger, INT32_BE_F3}
 }
