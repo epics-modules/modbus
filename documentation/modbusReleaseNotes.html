@@ -21,7 +21,7 @@
       <ul>
         <li>Previously there was a call to epicsThreadSleep at the end of the poller loop.
           This meant that the poller always ran at least once, which might not be desirable.
-          It also meant that it one could only temporarily disable the poller by calling pasynManager-&gt;lockPort(),
+          It also meant that one could only temporarily disable the poller by calling pasynManager-&gt;lockPort(),
           or to make it run infreqently by setting POLL_DELAY to a long sleep time. In R2-5
           the MODBUS_READ command was added. However, this just did a read operation without
           triggering the poller thread, so records with I/O Intr scan would not process. It
