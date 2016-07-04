@@ -1800,6 +1800,14 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
             readResp = (modbusReadResponse *)pPlc->modbusReply;
             nread = readResp->byteCount/2;
             pShortIn = (epicsUInt16 *)&readResp->data;
+            /* Check to make sure we got back the expected number of words */
+            if (nread != len) {
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                          "%s::doModbusIO, port %s expected %d words, actually received %d\n", 
+                          driver, pPlc->portName, len, (int)nread);
+                status = asynError;
+                goto done;
+            }
             for (i=0; i<(int)nread; i++) { 
                 data[i] = ntohs(pShortIn[i]);
             }
