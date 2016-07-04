@@ -395,7 +395,7 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             if (LRC != data[i]) {
                 asynPrint(pasynUser, ASYN_TRACE_ERROR,
                           "%s::readIt, LRC error, nRead=%d, received LRC=0x%x, computed LRC=0x%x\n",
-                          driver, nRead, data[i], LRC);
+                          driver, (int)nRead, data[i], LRC);
                 return asynError;
             }
             /* The buffer now contains binary data, but the first byte is address.  
