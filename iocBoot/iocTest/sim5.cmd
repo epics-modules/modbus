@@ -23,7 +23,7 @@ modbusInterposeConfig("sim1",0,2000,0)
 # Bit read access, Function Code 1
 # Function code=1
 # drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
-drvModbusAsynConfigure("FC1", "sim1", 0, 1,  -1, 1, 0, 100, "Simulator")
+drvModbusAsynConfigure("FC1", "sim1", 0, 1,  -1, 8, 0, 100, "Simulator")
 
 # Bit write access, Function Code 5
 # drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")

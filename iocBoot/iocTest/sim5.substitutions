@@ -21,8 +21,8 @@ file "../../db/mbbiDirect.template" { pattern
 {SIM1:,    MBBID0,   FC1,     1000,       0xFFFF, "1 second"}
 }
 file "../../db/intarray_in.template" { pattern
-{P,           R,      PORT,      NELM,   SCAN}
-{SIM1:,    BIArray,    FC1,      32,     "1 second"}
+{P,           R,      PORT,   OFFSET,   NELM,   SCAN}
+{SIM1:,    BIArray,    FC1,   1000,        8,   "1 second"}
 }
 file "../../db/asynRecord.template" { pattern
 {P,           R,     PORT,    ADDR,     TMOD,  IFACE}
@@ -81,6 +81,10 @@ file "../../db/longinInt32.template" { pattern
 {SIM1:,    LI:FLOAT64_BE,    FC3,   10016,     FLOAT64_BE,   "1 second"}
 {SIM1:,    LI:DEFAULT,       FC3,   10020,     "",           "1 second"}
 }
+file "../../db/intarray_in.template" { pattern
+{P,           R,      PORT,   OFFSET,   NELM,   SCAN}
+{SIM1:,    LIArray,    FC3,   10000,       4,   "1 second"}
+}
 
 # These are the A0 outputs done with word access.
 file "../../db/longoutInt32.template" { pattern
@@ -111,6 +115,10 @@ file "../../db/aiFloat64.template" { pattern
 {SIM1:,    AI:FLOAT64_LE,    FC3,  40042,     FLOAT64_LE,   -1e6,  1e6,    3,   "1 second"}
 {SIM1:,    AI:FLOAT64_BE,    FC3,  40046,     FLOAT64_BE,   -1e6,  1e6,    3,   "1 second"}
 {SIM1:,    AI:DEFAULT,       FC3,  40050,     ""        ,   -1e6,  1e6,    3,   "1 second"}
+}
+file "../../db/intarray_in.template" { pattern
+{P,           R,      PORT,   OFFSET,   NELM,   SCAN}
+{SIM1:,    AIArray,    FC3,   40030,       4,   "1 second"}
 }
 
 file "../../db/aoFloat64.template" { pattern
