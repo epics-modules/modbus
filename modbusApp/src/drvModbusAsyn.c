@@ -228,6 +228,7 @@ static asynStatus writeInt32Array   (void *drvPvt, asynUser *pasynUser,
 static void readPoller(PLC_ID pPlc);
 static modbusDataType_t getDataType(PLC_ID pPlc, asynUser *pasynUser);
 static int checkOffset(PLC_ID pPlc, int offset);
+static int checkModbusFunction(PLC_ID pPlc, int *modbusFunction);
 static int doModbusIO(PLC_ID pPlc, int slave, int function, int start, 
                       epicsUInt16 *data, int len);
 static asynStatus readPlcInt   (modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
@@ -627,8 +628,8 @@ static asynStatus readUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 *va
 {
     PLC_ID pPlc = (PLC_ID)drvPvt;
     int offset;
-    
-    
+    int modbusFunction;
+
     switch(pasynUser->reason) {
         case modbusDataCommand:
             pasynManager->getAddr(pasynUser, &offset);
@@ -640,7 +641,7 @@ static asynStatus readUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 *va
             }
             if (pPlc->absoluteAddressing) {
                 /* If absolute addressing then there is no poller running */
-                int modbusFunction = pPlc->readOnceFunction ? pPlc->readOnceFunction : pPlc->modbusFunction; 
+                if (checkModbusFunction(pPlc, &modbusFunction)) return asynError;
                 pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusSlave, modbusFunction,
                                             offset, pPlc->data, pPlc->modbusLength);
                 if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
@@ -811,6 +812,7 @@ static asynStatus readInt32 (void *drvPvt, asynUser *pasynUser, epicsInt32 *valu
     int offset;
     asynStatus status;
     int bufferLen;
+    int modbusFunction;
     
     *value = 0;
     
@@ -825,7 +827,7 @@ static asynStatus readInt32 (void *drvPvt, asynUser *pasynUser, epicsInt32 *valu
                 }
             if (pPlc->absoluteAddressing) {
                 /* If absolute addressing then there is no poller running */
-                int modbusFunction = pPlc->readOnceFunction ? pPlc->readOnceFunction : pPlc->modbusFunction; 
+                if (checkModbusFunction(pPlc, &modbusFunction)) return asynError;
                 pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusSlave, modbusFunction,
                                             offset, pPlc->data, pPlc->modbusLength);
                 if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
@@ -1015,6 +1017,7 @@ static asynStatus readFloat64 (void *drvPvt, asynUser *pasynUser, epicsFloat64 *
     modbusDataType_t dataType = getDataType(pPlc, pasynUser);
     int offset;
     int bufferLen;
+    int modbusFunction;
     asynStatus status = asynSuccess;
     
     *value = 0;
@@ -1030,7 +1033,7 @@ static asynStatus readFloat64 (void *drvPvt, asynUser *pasynUser, epicsFloat64 *
             }
             if (pPlc->absoluteAddressing) {
                 /* If absolute addressing then there is no poller running */
-                int modbusFunction = pPlc->readOnceFunction ? pPlc->readOnceFunction : pPlc->modbusFunction; 
+                if (checkModbusFunction(pPlc, &modbusFunction)) return asynError;
                 pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusSlave, modbusFunction,
                                             offset, pPlc->data, pPlc->modbusLength);
                 if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
@@ -1178,6 +1181,7 @@ static asynStatus readInt32Array (void *drvPvt, asynUser *pasynUser, epicsInt32 
     int offset;
     int i;
     int bufferLen;
+    int modbusFunction;
     asynStatus status;
     
     *nactual = 0;
@@ -1186,7 +1190,7 @@ static asynStatus readInt32Array (void *drvPvt, asynUser *pasynUser, epicsInt32 
         case modbusDataCommand:
             if (pPlc->absoluteAddressing) {
                 /* If absolute addressing then there is no poller running */
-                int modbusFunction = pPlc->readOnceFunction ? pPlc->readOnceFunction : pPlc->modbusFunction; 
+                if (checkModbusFunction(pPlc, &modbusFunction)) return asynError;
                 pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusSlave, modbusFunction,
                                             offset, pPlc->data, pPlc->modbusLength);
                 if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
@@ -1944,6 +1948,16 @@ int checkOffset(PLC_ID pPlc, int offset)
     }
     return asynSuccess;
 }
+
+int checkModbusFunction(PLC_ID pPlc, int *modbusFunction)
+{
+    /* If this is an initial read operation on a write function code and 
+     * pollDelay is not > 0 then return error */
+    if (pPlc->readOnceFunction && (pPlc->pollDelay <= 0)) return asynError;
+    *modbusFunction = pPlc->readOnceFunction ? pPlc->readOnceFunction : pPlc->modbusFunction;
+    return asynSuccess;
+}
+
 
 
 asynStatus readPlcInt(modbusStr_t *pPlc, modbusDataType_t dataType, int offset, epicsInt32 *output, int *bufferLen)
