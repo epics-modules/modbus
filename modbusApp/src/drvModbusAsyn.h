@@ -26,6 +26,10 @@
 #define MODBUS_FLOAT32_BE_STRING       "FLOAT32_BE" 
 #define MODBUS_FLOAT64_LE_STRING       "FLOAT64_LE" 
 #define MODBUS_FLOAT64_BE_STRING       "FLOAT64_BE" 
+#define MODBUS_STRING_HIGH_STRING      "STRING_HIGH" 
+#define MODBUS_STRING_LOW_STRING       "STRING_LOW" 
+#define MODBUS_STRING_HIGH_LOW_STRING  "STRING_HIGH_LOW" 
+#define MODBUS_STRING_LOW_HIGH_STRING  "STRING_LOW_HIGH" 
 #define MODBUS_ENABLE_HISTOGRAM_STRING "ENABLE_HISTOGRAM"
 #define MODBUS_READ_HISTOGRAM_STRING   "READ_HISTOGRAM"
 #define MODBUS_HISTOGRAM_BIN_TIME_STRING  "HISTOGRAM_BIN_TIME"
@@ -48,10 +52,14 @@ typedef enum {
     dataTypeFloat32LE,        /* 32-bit float little-endian    drvuser=FLOAT32_LE */
     dataTypeFloat32BE,        /* 32-bit float big-endian       drvUser=FLOAT32_BE */
     dataTypeFloat64LE,        /* 64-bit float little-endian    drvuser=FLOAT64_LE */
-    dataTypeFloat64BE         /* 64-bit float big-endian       drvUser=FLOAT64_BE */
+    dataTypeFloat64BE,        /* 64-bit float big-endian       drvUser=FLOAT64_BE */
+    dataTypeStringHigh,       /* String, high byte of each word           drvUser=STRING_HIGH */
+    dataTypeStringLow,        /* String, low byte of each word            drvUser=STRING_LOW*/
+    dataTypeStringHighLow,    /* String, high then low byte of each word  drvUser=STRING_HIGH_LOW */
+    dataTypeStringLowHigh     /* String, low then high byte of each word  drvUser=STRING_LOW_HIGH*/
 } modbusDataType_t;
 
-#define MAX_MODBUS_DATA_TYPES 11
+#define MAX_MODBUS_DATA_TYPES 15
 
 
 int drvModbusAsynConfigure(char *portName, 
