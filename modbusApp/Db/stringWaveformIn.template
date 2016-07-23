@@ -1,0 +1,7 @@
+record(waveform,"$(P)$(R)") {
+    field(DTYP,"asynOctetRead")
+    field(INP,"@asyn($(PORT) $(OFFSET=0))$(DATA_TYPE)")
+    field(SCAN,"$(SCAN)")
+    field(FTVL,"CHAR")
+    field(NELM,"$(NELM)")
+}
