@@ -116,17 +116,21 @@ typedef struct {
 } modbusDataTypeStruct;
 
 static modbusDataTypeStruct modbusDataTypes[MAX_MODBUS_DATA_TYPES] = {
-    {dataTypeUInt16,       MODBUS_UINT16_STRING},    
-    {dataTypeInt16SM,      MODBUS_INT16_SM_STRING},    
-    {dataTypeBCDUnsigned,  MODBUS_BCD_UNSIGNED_STRING},    
-    {dataTypeBCDSigned,    MODBUS_BCD_SIGNED_STRING},    
-    {dataTypeInt16,        MODBUS_INT16_STRING},    
-    {dataTypeInt32LE,      MODBUS_INT32_LE_STRING},    
-    {dataTypeInt32BE,      MODBUS_INT32_BE_STRING},    
-    {dataTypeFloat32LE,    MODBUS_FLOAT32_LE_STRING},    
-    {dataTypeFloat32BE,    MODBUS_FLOAT32_BE_STRING},    
-    {dataTypeFloat64LE,    MODBUS_FLOAT64_LE_STRING},    
-    {dataTypeFloat64BE,    MODBUS_FLOAT64_BE_STRING},    
+    {dataTypeUInt16,        MODBUS_UINT16_STRING},    
+    {dataTypeInt16SM,       MODBUS_INT16_SM_STRING},    
+    {dataTypeBCDUnsigned,   MODBUS_BCD_UNSIGNED_STRING},    
+    {dataTypeBCDSigned,     MODBUS_BCD_SIGNED_STRING},    
+    {dataTypeInt16,         MODBUS_INT16_STRING},    
+    {dataTypeInt32LE,       MODBUS_INT32_LE_STRING},    
+    {dataTypeInt32BE,       MODBUS_INT32_BE_STRING},    
+    {dataTypeFloat32LE,     MODBUS_FLOAT32_LE_STRING},    
+    {dataTypeFloat32BE,     MODBUS_FLOAT32_BE_STRING},    
+    {dataTypeFloat64LE,     MODBUS_FLOAT64_LE_STRING},    
+    {dataTypeFloat64BE,     MODBUS_FLOAT64_BE_STRING},    
+    {dataTypeStringHigh,    MODBUS_STRING_HIGH_STRING},    
+    {dataTypeStringLow,     MODBUS_STRING_LOW_STRING},    
+    {dataTypeStringHighLow, MODBUS_STRING_HIGH_LOW_STRING},    
+    {dataTypeStringLowHigh, MODBUS_STRING_LOW_HIGH_STRING},    
 };  
 
 
@@ -224,6 +228,14 @@ static asynStatus readInt32Array    (void *drvPvt, asynUser *pasynUser,
 static asynStatus writeInt32Array   (void *drvPvt, asynUser *pasynUser,
                                      epicsInt32 *data, size_t maxChans);
 
+/* These functions are in the asynOctet interface */
+static asynStatus writeOctet        (void *drvPvt, asynUser *pasynUser,
+                                     const char *value, size_t maxChars, 
+                                     size_t *nActual);
+static asynStatus readOctet         (void *drvPvt, asynUser *pasynUser,
+                                     char *value, size_t maxChars, 
+                                     size_t *nActual, int *eomReason);
+
 /* These functions are not in any of the asyn interfaces */
 static void readPoller(PLC_ID pPlc);
 static modbusDataType_t getDataType(PLC_ID pPlc, asynUser *pasynUser);
@@ -231,14 +243,18 @@ static int checkOffset(PLC_ID pPlc, int offset);
 static int checkModbusFunction(PLC_ID pPlc, int *modbusFunction);
 static int doModbusIO(PLC_ID pPlc, int slave, int function, int start, 
                       epicsUInt16 *data, int len);
-static asynStatus readPlcInt   (modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
-                                epicsInt32   *value,                      int *bufferLen);
-static asynStatus writePlcInt  (modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
-                                epicsInt32    value, epicsUInt16 *buffer, int *bufferLen);
-static asynStatus readPlcFloat (modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
-                                epicsFloat64 *value,                      int *bufferLen);
-static asynStatus writePlcFloat(modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
-                                epicsFloat64  value, epicsUInt16 *buffer, int *bufferLen);
+static asynStatus readPlcInt    (modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
+                                 epicsInt32   *value,                      int *bufferLen);
+static asynStatus writePlcInt   (modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
+                                 epicsInt32    value, epicsUInt16 *buffer, int *bufferLen);
+static asynStatus readPlcFloat  (modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
+                                 epicsFloat64 *value,                      int *bufferLen);
+static asynStatus writePlcFloat (modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
+                                 epicsFloat64  value, epicsUInt16 *buffer, int *bufferLen);
+static asynStatus readPlcString (modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
+                                 char *value, size_t maxChars,             int *bufferLen);
+static asynStatus writePlcString(modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
+                                 const char *value, size_t maxChars, size_t *nActual, int *bufferLen);
 
 
 /* asynCommon methods */
@@ -290,6 +306,17 @@ static asynInt32Array drvInt32Array = {
     NULL
 };
 
+static asynOctet drvOctet = {
+    writeOctet,
+    readOctet,
+    NULL,  /*  flushOctet */
+    NULL,  /* registerInterruptUser */
+    NULL,  /* cancelInterruptUser */
+    NULL,  /* setInputEosOctet */
+    NULL,  /* getInputEosOctet */
+    NULL,  /* setOutputEosOctet */
+    NULL   /* getOutputEosOctet */
+};
 
 
 
@@ -442,10 +469,12 @@ int drvModbusAsynConfigure(char *portName,
     pPlc->asynStdInterfaces.int32.pinterface           = (void *)&drvInt32;
     pPlc->asynStdInterfaces.float64.pinterface         = (void *)&drvFloat64;
     pPlc->asynStdInterfaces.int32Array.pinterface      = (void *)&drvInt32Array;
+    pPlc->asynStdInterfaces.octet.pinterface           = (void *)&drvOctet;
     pPlc->asynStdInterfaces.uInt32DigitalCanInterrupt  = 1;
     pPlc->asynStdInterfaces.int32CanInterrupt          = 1;
     pPlc->asynStdInterfaces.float64CanInterrupt        = 1;
     pPlc->asynStdInterfaces.int32ArrayCanInterrupt     = 1;
+    pPlc->asynStdInterfaces.octetCanInterrupt          = 1;
 
 
     status = pasynStandardInterfacesBase->initialize(pPlc->portName, &pPlc->asynStdInterfaces,
@@ -1344,6 +1373,119 @@ static asynStatus writeInt32Array (void *drvPvt, asynUser *pasynUser, epicsInt32
     return asynSuccess;
 }
 
+
+/* 
+**  asynOctet support
+*/
+static asynStatus readOctet (void *drvPvt, asynUser *pasynUser, char *data,
+                             size_t maxChars, size_t *nactual, int *eomReason)
+{
+    PLC_ID pPlc = (PLC_ID)drvPvt;
+    modbusDataType_t dataType = getDataType(pPlc, pasynUser);
+    int offset;
+    int bufferLen;
+    int modbusFunction;
+    
+    *nactual = 0;
+    pasynManager->getAddr(pasynUser, &offset);
+    switch(pasynUser->reason) {
+        case modbusDataCommand:
+            if (pPlc->absoluteAddressing) {
+                /* If absolute addressing then there is no poller running */
+                if (checkModbusFunction(pPlc, &modbusFunction)) return asynError;
+                pPlc->ioStatus = doModbusIO(pPlc, pPlc->modbusSlave, modbusFunction,
+                                            offset, pPlc->data, pPlc->modbusLength);
+                if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
+                offset = 0;
+            } else {
+                if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
+            }
+            switch(pPlc->modbusFunction) {
+                case MODBUS_WRITE_SINGLE_REGISTER:
+                case MODBUS_WRITE_MULTIPLE_REGISTERS:
+                case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
+                    if (!pPlc->readOnceDone) return asynError;
+                case MODBUS_READ_HOLDING_REGISTERS:
+                case MODBUS_READ_INPUT_REGISTERS:
+                case MODBUS_READ_INPUT_REGISTERS_F23:
+                    readPlcString(pPlc, dataType, offset, data, maxChars, &bufferLen);
+                    *nactual = bufferLen;
+                    *eomReason = ASYN_EOM_CNT;
+                    break;
+                    
+                default:
+                    asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                              "%s::readInt32 port %s invalid request for Modbus"
+                              " function %d\n",
+                              driver, pPlc->portName, pPlc->modbusFunction);
+                    return asynError;
+            }
+            asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
+                        (char *)pPlc->data, *nactual, 
+                        "%s::readOctet port %s, function=0x%x\n",
+                        driver, pPlc->portName, pPlc->modbusFunction);
+            break;
+            
+        default:
+            asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                      "%s::readOctet port %s invalid pasynUser->reason %d\n",
+                      driver, pPlc->portName, pasynUser->reason);
+            return asynError;
+        }
+
+    return asynSuccess;
+}
+
+
+static asynStatus writeOctet (void *drvPvt, asynUser *pasynUser, const char *data, size_t maxChars, size_t *nActual)
+{
+    PLC_ID pPlc = (PLC_ID)drvPvt;
+    modbusDataType_t dataType = getDataType(pPlc, pasynUser);
+    int modbusAddress;
+    epicsUInt16 *dataAddress;
+    int offset;
+    int bufferLen;
+    asynStatus status;
+
+    pasynManager->getAddr(pasynUser, &offset);
+    if (pPlc->absoluteAddressing) {
+        modbusAddress = offset;
+        dataAddress = pPlc->data;
+    } else {
+        modbusAddress = pPlc->modbusStartAddress + offset;
+        dataAddress = pPlc->data + offset;
+    }
+    switch(pasynUser->reason) {
+        case modbusDataCommand:
+            switch(pPlc->modbusFunction) {
+                case MODBUS_WRITE_MULTIPLE_REGISTERS:
+                case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
+                    writePlcString(pPlc, dataType, offset, data, maxChars, nActual, &bufferLen);
+                    status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
+                                        modbusAddress, dataAddress, bufferLen);
+                    if (status != asynSuccess) return(status);
+                    break;
+                default:
+                    asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                              "%s::writeOctet port %s invalid request for Modbus"
+                              " function %d\n",
+                              driver, pPlc->portName, pPlc->modbusFunction);
+                    return asynError;
+            }
+            asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
+                        (char *)pPlc->data, bufferLen*2, 
+                        "%s::writeOctet port %s, function=0x%x\n",
+                        driver, pPlc->portName, pPlc->modbusFunction);
+            break;
+            
+        default:
+            asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                      "%s::writeInt32Array port %s invalid pasynUser->reason %d\n",
+                      driver, pPlc->portName, pasynUser->reason);
+            return asynError;
+    }
+    return asynSuccess;
+}
 
 
 /*
@@ -1362,16 +1504,19 @@ static void readPoller(PLC_ID pPlc)
     asynInt32Interrupt *pInt32;
     asynFloat64Interrupt *pFloat64;
     asynInt32ArrayInterrupt *pInt32Array;
+    asynOctetInterrupt *pOctet;
     int offset;
     int bufferLen;
     int anyChanged;
     asynStatus prevIOStatus=asynSuccess;
+    asynUser *pasynUser;
     int i;
     epicsUInt16 newValue, prevValue, mask;
     epicsUInt32 uInt32Value;
     epicsInt32 int32Value;
     epicsFloat64 float64Value;
     modbusDataType_t dataType;
+    char stringBuffer[MAX_READ_WORDS * 2];
     epicsUInt16 *prevData;    /* Previous contents of memory buffer */
     epicsInt32 *int32Data;    /* Buffer used for asynInt32Array callbacks */
 
@@ -1429,13 +1574,14 @@ static void readPoller(PLC_ID pPlc)
             pnode = (interruptNode *)ellFirst(pclientList);
             while (pnode) {
                 pUInt32D = pnode->drvPvt;
-                if (pUInt32D->pasynUser->reason != modbusDataCommand) {
+                pasynUser = pUInt32D->pasynUser;
+                if (pasynUser->reason != modbusDataCommand) {
                     asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                               "%s::readPoller port %s invalid pasynUser->reason %d\n",
-                              driver, pPlc->portName, pUInt32D->pasynUser->reason);
+                              driver, pPlc->portName, pasynUser->reason);
                     break;
                 }
-                pasynManager->getAddr(pUInt32D->pasynUser, &offset);
+                pasynManager->getAddr(pasynUser, &offset);
                 if (checkOffset(pPlc, offset)) {
                     asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                               "%s::readPoller port %s invalid offset %d, max=%d\n",
@@ -1448,15 +1594,14 @@ static void readPoller(PLC_ID pPlc)
                 prevValue = prevData[offset];
                 if ((mask != 0 ) && (mask != 0xFFFF)) prevValue &= mask;
                 /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
-                pUInt32D->pasynUser->auxStatus = pPlc->ioStatus;
+                pasynUser->auxStatus = pPlc->ioStatus;
                 if (pPlc->forceCallback || (newValue != prevValue)) {
                     uInt32Value = newValue;
                     asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                               "%s::readPoller, calling client %p"
                               " mask=0x%x, callback=%p, data=0x%x\n",
                               driver, pUInt32D, pUInt32D->mask, pUInt32D->callback, uInt32Value);
-                    pUInt32D->callback(pUInt32D->userPvt, pUInt32D->pasynUser,
-                                       uInt32Value);
+                    pUInt32D->callback(pUInt32D->userPvt, pasynUser, uInt32Value);
                 }
                 pnode = (interruptNode *)ellNext(&pnode->node);
             }
@@ -1470,28 +1615,29 @@ static void readPoller(PLC_ID pPlc)
         pnode = (interruptNode *)ellFirst(pclientList);
         while (pnode) {
             pInt32 = pnode->drvPvt;
-            if (pInt32->pasynUser->reason != modbusDataCommand) {
+            pasynUser = pInt32->pasynUser;
+            if (pasynUser->reason != modbusDataCommand) {
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                           "%s::readPoller port %s invalid pasynUser->reason %d\n",
-                          driver, pPlc->portName, pInt32->pasynUser->reason);
+                          driver, pPlc->portName, pasynUser->reason);
                 break;
             }
-            pasynManager->getAddr(pInt32->pasynUser, &offset);
+            pasynManager->getAddr(pasynUser, &offset);
             if (checkOffset(pPlc, offset)) {
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                           "%s::readPoller port %s invalid memory request %d, max=%d\n",
                           driver, pPlc->portName, offset, pPlc->modbusLength);
                 break;
             }
-            dataType = getDataType(pPlc, pInt32->pasynUser);
+            dataType = getDataType(pPlc, pasynUser);
             readPlcInt(pPlc, dataType, offset, &int32Value, &bufferLen);
             /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
-            pInt32->pasynUser->auxStatus = pPlc->ioStatus;
+            pasynUser->auxStatus = pPlc->ioStatus;
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                       "%s::readPoller, calling client %p"
                       "callback=%p, data=0x%x\n",
                       driver, pInt32, pInt32->callback, int32Value);
-            pInt32->callback(pInt32->userPvt, pInt32->pasynUser,
+            pInt32->callback(pInt32->userPvt, pasynUser,
                              int32Value);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -1504,20 +1650,21 @@ static void readPoller(PLC_ID pPlc)
         pnode = (interruptNode *)ellFirst(pclientList);
         while (pnode) {
             pFloat64 = pnode->drvPvt;
-            if (pFloat64->pasynUser->reason != modbusDataCommand) {
+            pasynUser = pFloat64->pasynUser;
+            if (pasynUser->reason != modbusDataCommand) {
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                           "%s::readPoller port %s invalid pasynUser->reason %d\n",
-                          driver, pPlc->portName, pFloat64->pasynUser->reason);
+                          driver, pPlc->portName, pasynUser->reason);
                 break;
             }
-            pasynManager->getAddr(pFloat64->pasynUser, &offset);
+            pasynManager->getAddr(pasynUser, &offset);
             if (checkOffset(pPlc, offset)) {
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                           "%s::readPoller port %s invalid memory request %d, max=%d\n",
                           driver, pPlc->portName, offset, pPlc->modbusLength);
                 break;
             }
-            dataType = getDataType(pPlc, pFloat64->pasynUser);
+            dataType = getDataType(pPlc, pasynUser);
             readPlcFloat(pPlc, dataType, offset, &float64Value, &bufferLen);
             /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
             pFloat64->pasynUser->auxStatus = pPlc->ioStatus;
@@ -1525,7 +1672,7 @@ static void readPoller(PLC_ID pPlc)
                       "%s::readPoller, calling client %p"
                       "callback=%p, data=%f\n",
                       driver, pFloat64, pFloat64->callback, float64Value);
-            pFloat64->callback(pFloat64->userPvt, pFloat64->pasynUser,
+            pFloat64->callback(pFloat64->userPvt, pasynUser,
                                float64Value);
             pnode = (interruptNode *)ellNext(&pnode->node);
         }
@@ -1539,32 +1686,68 @@ static void readPoller(PLC_ID pPlc)
             pnode = (interruptNode *)ellFirst(pclientList);
             while (pnode) {
                 pInt32Array = pnode->drvPvt;
-                if (pInt32Array->pasynUser->reason != modbusDataCommand) {
+                pasynUser = pInt32Array->pasynUser;
+                if (pasynUser->reason != modbusDataCommand) {
                     asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
                               "%s::readPoller port %s invalid pasynUser->reason %d\n",
-                              driver, pPlc->portName, pInt32Array->pasynUser->reason);
+                              driver, pPlc->portName, pasynUser->reason);
                     break;
                 }
                 /* Need to copy data to epicsInt32 buffer for callback */
-                pasynManager->getAddr(pInt32Array->pasynUser, &offset);
-                dataType = getDataType(pPlc, pInt32Array->pasynUser);
+                pasynManager->getAddr(pasynUser, &offset);
+                dataType = getDataType(pPlc, pasynUser);
                 for (i=0; i<pPlc->modbusLength && offset < pPlc->modbusLength; i++) {
                     readPlcInt(pPlc, dataType, offset, &int32Data[i], &bufferLen);
                     offset += bufferLen;
                 }
                 /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
-                pInt32Array->pasynUser->auxStatus = pPlc->ioStatus;
+                pasynUser->auxStatus = pPlc->ioStatus;
                 asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
                           "%s::readPoller, calling client %p"
                           "callback=%p\n",
                            driver, pInt32Array, pInt32Array->callback);
-                pInt32Array->callback(pInt32Array->userPvt, pInt32Array->pasynUser,
+                pInt32Array->callback(pInt32Array->userPvt, pasynUser,
                                       int32Data, i);
                 pnode = (interruptNode *)ellNext(&pnode->node);
             }
             pasynManager->interruptEnd(pPlc->asynStdInterfaces.int32ArrayInterruptPvt);
         }
 
+        /* See if there are any asynOctet callbacks registered to be called
+         * when data changes.  These callbacks only happen if any data in this port has changed */
+        if (pPlc->forceCallback || anyChanged){
+            pasynManager->interruptStart(pPlc->asynStdInterfaces.octetInterruptPvt, &pclientList);
+            pnode = (interruptNode *)ellFirst(pclientList);
+            while (pnode) {
+                pOctet = pnode->drvPvt;
+                pasynUser = pOctet->pasynUser;
+                if (pasynUser->reason != modbusDataCommand) {
+                    asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                              "%s::readPoller port %s invalid pasynUser->reason %d\n",
+                              driver, pPlc->portName, pasynUser->reason);
+                    break;
+                }
+                pasynManager->getAddr(pasynUser, &offset);
+                dataType = getDataType(pPlc, pasynUser);
+                if (checkOffset(pPlc, offset)) {
+                    asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                              "%s::readPoller port %s invalid offset %d, max=%d\n",
+                              driver, pPlc->portName, offset, pPlc->modbusLength);
+                    break;
+                }
+                readPlcString(pPlc, dataType, offset, stringBuffer, sizeof(stringBuffer), &bufferLen);
+                /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
+                pasynUser->auxStatus = pPlc->ioStatus;
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_FLOW,
+                          "%s::readPoller, calling client %p"
+                          " callback=%p, data=%s\n",
+                          driver, pOctet, pOctet->callback, stringBuffer);
+                pOctet->callback(pOctet->userPvt, pasynUser, stringBuffer, bufferLen, ASYN_EOM_CNT);
+                pnode = (interruptNode *)ellNext(&pnode->node);
+            }
+            pasynManager->interruptEnd(pPlc->asynStdInterfaces.octetInterruptPvt);
+        }
+                
         /* Reset the forceCallback flag */
         pPlc->forceCallback = 0;
 
@@ -1584,9 +1767,9 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
     modbusReadRequest *readReq;
     modbusReadResponse *readResp;
     modbusWriteSingleRequest *writeSingleReq;
-    modbusWriteSingleResponse *writeSingleResp;
+    /* modbusWriteSingleResponse *writeSingleResp; */
     modbusWriteMultipleRequest *writeMultipleReq;
-    modbusWriteMultipleResponse *writeMultipleResp;
+    /* modbusWriteMultipleResponse *writeMultipleResp; */
     modbusReadWriteMultipleRequest *readWriteMultipleReq;
     modbusExceptionResponse *exceptionResp;
     int requestSize=0;
@@ -1904,16 +2087,20 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
         case MODBUS_WRITE_SINGLE_COIL:
         case MODBUS_WRITE_SINGLE_REGISTER:
             pPlc->writeOK++;
+            /* Not using value for now so comment out to avoid compiler warning
             writeSingleResp = (modbusWriteSingleResponse *)pPlc->modbusReply;
+            */
             break;
         case MODBUS_WRITE_MULTIPLE_COILS:
         case MODBUS_WRITE_MULTIPLE_REGISTERS:
             pPlc->writeOK++;
+            /* Not using value for now so comment out to avoid compiler warning
             writeMultipleResp = (modbusWriteMultipleResponse *)pPlc->modbusReply;
+            */
             break;
         case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
             pPlc->writeOK++;
-            readResp = (modbusReadResponse *)pPlc->modbusReply;
+            //readResp = (modbusReadResponse *)pPlc->modbusReply;
             break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
@@ -2261,6 +2448,104 @@ asynStatus writePlcFloat(modbusStr_t *pPlc, modbusDataType_t dataType, int offse
     return status;
 }
 
+static asynStatus readPlcString(modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
+                                char *data, size_t maxChars, int *bufferLen)
+{
+    int i;
+    asynStatus status = asynSuccess;
+
+    for (i=0; i<maxChars && offset<pPlc->modbusLength; i++, offset++) {
+        switch (dataType) {
+            case dataTypeStringHigh:
+                data[i] = (pPlc->data[offset] >> 8) & 0x00ff;
+                break;
+
+            case dataTypeStringLow:
+                data[i] = pPlc->data[offset] & 0x00ff;
+                break;
+
+            case dataTypeStringHighLow:
+                data[i] = (pPlc->data[offset] >> 8) & 0x00ff;
+                if (i<maxChars-1) {
+                    i++;
+                    data[i] = pPlc->data[offset] & 0x00ff;
+                }
+                break;
+
+            case dataTypeStringLowHigh:
+                data[i] = pPlc->data[offset] & 0x00ff;
+                if (i<maxChars-1) {
+                    i++;
+                    data[i] = (pPlc->data[offset] >> 8) & 0x00ff;
+                }
+                break;
+
+            default:
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                          "%s::readPlcFloat, port %s unknown data type %d\n", 
+                          driver, pPlc->portName, dataType);
+                status = asynError;
+        }
+    }
+    /* Nil terminate and set number of characters to include trailing nil */
+    if (i >= maxChars) {
+        i = maxChars-1;
+    } 
+    data[i] = 0;
+    *bufferLen = strlen(data) + 1;
+    return status;
+}
+
+static asynStatus writePlcString(modbusStr_t *pPlc, modbusDataType_t dataType, int offset, 
+                                 const char *data, size_t maxChars, size_t *nActual, int *bufferLen)
+{
+    int i;
+    asynStatus status = asynSuccess;
+    
+    
+    for (i=0, *bufferLen=0; i<maxChars && offset<pPlc->modbusLength; i++, offset++) {
+        /* devAsynOctet passes maxChars to include the terminating nil if there is room.  
+         * We don't want to write that but we want to tell devAsynOctet we did or we get errors */
+        if (data[i] == 0) {
+            (*nActual)++;
+            break;
+        }
+        switch (dataType) {
+            case dataTypeStringHigh:
+                pPlc->data[offset] = (data[i] << 8) & 0xff00;
+                break;
+
+            case dataTypeStringLow:
+                pPlc->data[offset] = data[i] & 0x00ff;
+                break;
+
+            case dataTypeStringHighLow:
+                pPlc->data[offset] = (data[i] << 8) & 0xff00;
+                if (i<maxChars-1) {
+                    i++;
+                    pPlc->data[offset] |= data[i] & 0x00ff;
+                }
+                break;
+
+            case dataTypeStringLowHigh:
+                pPlc->data[offset] = data[i] & 0x00ff;
+                if (i<maxChars-1) {
+                    i++;
+                    pPlc->data[offset] |= (data[i] << 8) & 0xff00;
+                }
+                break;
+
+            default:
+                asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                          "%s::readPlcFloat, port %s unknown data type %d\n", 
+                          driver, pPlc->portName, dataType);
+                status = asynError;
+        }
+        *nActual = i + 1;
+        (*bufferLen)++;
+      }
+    return status;
+}
 
 
 /* iocsh functions */
