@@ -28,6 +28,23 @@
       Modbus reads and writes are for 16-bit registers, but it would be 4 if 64-bit floats
       (4 16-bit registers) are being used, and 100 (for example) if an Int32 waveform
       record with NELM=100 is being read or written.</li>
+    <li>Added support for strings using the asynOctet interface. Some vendors use Modbus
+      for string data. The Modbus standard does not specify how strings should be stored,
+      and different vendors do it differently. The driver supports 4 new Modbus data types,
+      using the following drvInfo strings:
+      <ul>
+        <li>MODBUS_STRING_HIGH One character is stored in the high byte of each register.</li>
+        <li>MODBUS_STRING_LOW One character is stored in the low byte of each register.</li>
+        <li>MODBUS_STRING_HIGH_LOW Two characters are stored in each register, the first in
+          the high byte and the second in the low byte.</li>
+        <li>MODBUS_STRING_LOW_HIGH Two characters are stored in each register, the first in
+          the low byte and the second in the high byte.</li>
+      </ul>
+      The standard asynOctet device support is used. This supports stringout, stringin,
+      and waveform records. Wabveform records can be used for either input or output.
+      The stringin and stringout records are limited to 40 characters strings, while waveform
+      records are limited only by the 125/123 register limit of Modbus for read/write
+      operatations i.e. up to 250 characters. </li>
     <li>Added error checking to make sure the length of the reply from the Modbus server
       is the expected value. Previously garbled communications could cause a crash because
       of array bounds violation.</li>
