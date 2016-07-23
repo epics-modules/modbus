@@ -3,4 +3,5 @@ record(waveform,"$(P)$(R)") {
     field(INP,"@asyn($(PORT) $(OFFSET=0))$(DATA_TYPE)")
     field(FTVL,"CHAR")
     field(NELM,"$(NELM)")
+    info(asyn:INITIAL_READBACK, "$(INITIAL_READBACK=0)")
 }
