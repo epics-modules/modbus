@@ -520,18 +520,19 @@
     quite small (fewer than 2,500 lines).
   </p>
   <p>
-    Each <b>modbus</b> port driver is assigned a single Modbus function code.  
-    Usually a drivers is also assigned a single
-    contiguous range of Modbus memory, up to 2000 bits or 125 words. One typically creates
-    several <b>modbus</b> port drivers for a single PLC, each driver reading or writing
-    a different set of discrete inputs, coils, input registers or holding registers.
-    For example, one might create one port driver to read discrete inputs X0-X37, a
-    second to read control registers C0-C377, and a third to write control registers
-    C300-C377.  In this case the asyn address that is used by each record is relative to the
-    starting address for that driver.</p>
-    <p>It is also possible to create a driver is allowed to address any location in the 16-bit
-    Modbus address space.  Each read or write operation is still limited to the 125/123 word limits.
-    In this case the asyn address that is used by each record is the absolute Modbus address.
+    Each <b>modbus</b> port driver is assigned a single Modbus function code. Usually
+    a drivers is also assigned a single contiguous range of Modbus memory, up to 2000
+    bits or 125 words. One typically creates several <b>modbus</b> port drivers for
+    a single PLC, each driver reading or writing a different set of discrete inputs,
+    coils, input registers or holding registers. For example, one might create one port
+    driver to read discrete inputs X0-X37, a second to read control registers C0-C377,
+    and a third to write control registers C300-C377. In this case the asyn address
+    that is used by each record is relative to the starting address for that driver.</p>
+  <p>
+    It is also possible to create a driver is allowed to address any location in the
+    16-bit Modbus address space. Each read or write operation is still limited to the
+    125/123 word limits. In this case the asyn address that is used by each record is
+    the absolute Modbus address.
   </p>
   <p>
     The behavior of the port driver differs for read function codes (1, 2, 3, 4), write
@@ -540,16 +541,16 @@
   <h3>
     Modbus read functions</h3>
   <p>
-    For read function codes (when absolute addressing is not being used) 
-    the driver spawns a poller thread. The poller thread reads
-    the entire block of Modbus memory assigned to this port in a single Modbus transaction.
-    The values are stored in a buffer in the driver. The delay between polls is set
-    when the port driver is created, and can be changed later at run-time. The values
-    are read by EPICS using the standard asyn interfaces (asynUInt32Digital, asynInt32,
-    asynFloat64, etc.) The values that are read are the last stored values from the
-    poller thread. The means that EPICS read operations are <i>asynchronous</i>, i.e.
-    they can block. This is because although they do not directly result in Modbus I/O,
-    they do need to wait for a mutex that indicates that the poller thread is done.
+    For read function codes (when absolute addressing is not being used) the driver
+    spawns a poller thread. The poller thread reads the entire block of Modbus memory
+    assigned to this port in a single Modbus transaction. The values are stored in a
+    buffer in the driver. The delay between polls is set when the port driver is created,
+    and can be changed later at run-time. The values are read by EPICS using the standard
+    asyn interfaces (asynUInt32Digital, asynInt32, asynFloat64, etc.) The values that
+    are read are the last stored values from the poller thread. The means that EPICS
+    read operations are <i>asynchronous</i>, i.e. they can block. This is because although
+    they do not directly result in Modbus I/O, they do need to wait for a mutex that
+    indicates that the poller thread is done.
   </p>
   <p>
     For read functions it is possible to set the EPICS records to "I/O Intr" scanning.
@@ -557,14 +558,17 @@
     is new data for that input. This improves efficiency, because such records only
     process when needed, they do not need to be periodically scanned.
   </p>
-  <p>The previous paragraphs describe the normal configuration for read operations, where relative
-  Modbus addressing is being used.  If absolute addressing is being used then the driver does not
-  create a poller thread, because it does not know what parts of the Modbus address space should be polled.
-  In this case read records cannot have SCAN=I/O Intr.  They must either be periodically scanned, or scanned
-  by directly causing the record to process, such as writing 1 to the .PROC field.  Each
-  time the record processes it will result in a separate Modbus read operation.  NOTE: This is <b>much</b> less
-  efficient that reading many registers at once with relative Modbus addressing.  For this reason absolute 
-  Modbus addressing with read functions should normally be avoided.</p>
+  <p>
+    The previous paragraphs describe the normal configuration for read operations, where
+    relative Modbus addressing is being used. If absolute addressing is being used then
+    the driver does not create a poller thread, because it does not know what parts
+    of the Modbus address space should be polled. In this case read records cannot have
+    SCAN=I/O Intr. They must either be periodically scanned, or scanned by directly
+    causing the record to process, such as writing 1 to the .PROC field. Each time the
+    record processes it will result in a separate Modbus read operation. NOTE: This
+    is <b>much</b> less efficient that reading many registers at once with relative
+    Modbus addressing. For this reason absolute Modbus addressing with read functions
+    should normally be avoided.</p>
   <h3>
     Modbus write functions</h3>
   <p>
@@ -615,9 +619,10 @@
   <h3>
     Platform independence</h3>
   <p>
-    <b>modbus</b> should run on all EPICS platforms. It has been tested on linux-x86, linux-x86_64,
-    vxWorks, win32-x86, windows-x64, (native Windows with Microsoft Visual Studio 2010 C++ compiler), and
-    cygwin-x86 (Windows with gcc compiler and Cygwin library).
+    <b>modbus</b> should run on all EPICS platforms. It has been tested on linux-x86,
+    linux-x86_64, vxWorks, win32-x86, windows-x64, (native Windows with Microsoft Visual
+    Studio 2010 C++ compiler), and cygwin-x86 (Windows with gcc compiler and Cygwin
+    library).
   </p>
   <p>
     The only thing that may be architecture dependent in <b>modbus</b> is the structure
@@ -852,8 +857,9 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
         <td>
           int</td>
         <td>
-          Start address for the Modbus data segment to be accessed.<br />
-          (0-65535 decimal, 0-0177777 octal).</td>
+          Start address for the Modbus data segment to be accessed. For relative addressing
+          this must be in the range 0-65535 decimal, or 0-0177777 octal. For absolute addressing
+          this must be set to -1.</td>
       </tr>
       <tr>
         <td>
@@ -865,7 +871,12 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
           This is specified in bits for Modbus functions 1, 2, 5 and 15.<br />
           It is specified in 16-bit words for Modbus functions 3, 4, 6, 16, or 23.<br />
           Length limit is 2000 for functions 1 and 2, 1968 for functions 5 and 15,<br />
-          125 for functions 3 and 4, and 123 for functions 6, 16, and 23. </td>
+          125 for functions 3 and 4, and 123 for functions 6, 16, and 23.<br />
+          For absolute addressing this must be set to the size of required by the largest
+          single Modbus operation that may be used. This would be 1 if all Modbus reads and
+          writes are for 16-bit registers, but it would be 4 if 64-bit floats (4 16-bit registers)
+          are being used, and 100 (for example) if an Int32 waveform record with NELM=100
+          is being read or written.</td>
       </tr>
       <tr>
         <td>
