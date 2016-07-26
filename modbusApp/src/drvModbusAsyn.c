@@ -1401,7 +1401,6 @@ static asynStatus readOctet (void *drvPvt, asynUser *pasynUser, char *data,
                 if (pPlc->ioStatus != asynSuccess) return(pPlc->ioStatus);
             }
             switch(pPlc->modbusFunction) {
-                case MODBUS_WRITE_SINGLE_REGISTER:
                 case MODBUS_WRITE_MULTIPLE_REGISTERS:
                 case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
                     if (!pPlc->readOnceDone) return asynError;
@@ -1461,6 +1460,7 @@ static asynStatus writeOctet (void *drvPvt, asynUser *pasynUser, const char *dat
                 case MODBUS_WRITE_MULTIPLE_REGISTERS:
                 case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
                     writePlcString(pPlc, dataType, offset, data, maxChars, nActual, &bufferLen);
+                    if (bufferLen <= 0) break;
                     status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
                                         modbusAddress, dataAddress, bufferLen);
                     if (status != asynSuccess) return(status);
@@ -2501,15 +2501,8 @@ static asynStatus writePlcString(modbusStr_t *pPlc, modbusDataType_t dataType, i
 {
     int i;
     asynStatus status = asynSuccess;
-    
-    
-    for (i=0, *bufferLen=0; i<maxChars && offset<pPlc->modbusLength; i++, offset++) {
-        /* devAsynOctet passes maxChars to include the terminating nil if there is room.  
-         * We don't want to write that but we want to tell devAsynOctet we did or we get errors */
-        if (data[i] == 0) {
-            (*nActual)++;
-            break;
-        }
+
+    for (i=0, *bufferLen=0, *nActual=0; i<maxChars && offset<pPlc->modbusLength; i++, offset++) {
         switch (dataType) {
             case dataTypeStringHigh:
                 pPlc->data[offset] = (data[i] << 8) & 0xff00;
@@ -2543,7 +2536,7 @@ static asynStatus writePlcString(modbusStr_t *pPlc, modbusDataType_t dataType, i
         }
         *nActual = i + 1;
         (*bufferLen)++;
-      }
+    }
     return status;
 }
 
