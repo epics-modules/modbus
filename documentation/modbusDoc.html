@@ -16,7 +16,7 @@
     <h2>
       Mark Rivers</h2>
     <h2>
-      July 23, 2016</h2>
+      July XXX, 2016</h2>
     <hr />
   </div>
   <h2>
@@ -1049,6 +1049,40 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
           64-bit floating point, big endian (most significant word at Modbus address N, least
           significant word at Modbus address N+3)</td>
       </tr>
+      <tr>
+        <td>
+          11</td>
+        <td>
+          STRING_HIGH</td>
+        <td>
+          String data. One character is stored in the high byte of each register.</td>
+      </tr>
+      <tr>
+        <td>
+          12</td>
+        <td>
+          STRING_LOW</td>
+        <td>
+          String data. One character is stored in the low byte of each register.</td>
+      </tr>
+      <tr>
+        <td>
+          11</td>
+        <td>
+          STRING_HIGH_LOW</td>
+        <td>
+          String data. Two characters are stored in each register, the first in the high byte
+          and the second in the low byte.</td>
+      </tr>
+      <tr>
+        <td>
+          11</td>
+        <td>
+          STRING_LOW_HIGH</td>
+        <td>
+          String data. Two characters are stored in each register, the first in the low byte
+          and the second in the high byte.</td>
+      </tr>
     </tbody>
   </table>
   <p>
@@ -1125,6 +1159,7 @@ record(ai, "$(P)$(R)") {
     <li>asynInt32</li>
     <li>asynInt32Array</li>
     <li>asynFloat64</li>
+    <li>asynOctet</li>
     <li>asynCommon</li>
     <li>asynDrvUser</li>
   </ul>
@@ -1156,6 +1191,10 @@ record(ai, "$(P)$(R)") {
     X inputs are at this Modbus starting address for Modbus function 2, so <b>offset=2</b>
     is input X2.</p>
   <p>
+    If absolute addressing is being used then the <b>offset</b> parameter is an absolute
+    16-bit Modbus address, and is not relative to the starting Modbus address, which
+    is -1.</p>
+  <p>
     The <b>offset</b> is specified in words for drivers using Modbus functions 3, 4,
     6 and 16 that address input registers or holding registers. For example, if the
     Modbus function is set to 6 and the Modbus address is 040600 then <b>offset=2</b>
@@ -1165,6 +1204,10 @@ record(ai, "$(P)$(R)") {
   <p>
     For 32-bit or 64-bit data types (INT32_LE, INT32_BE, FLOAT32_LE, FLOAT32_BE) the
     <b>offset</b> specifies the location of the first 16-bit register, and the second
+    register is at <b>offset+1</b>, etc.</p>
+  <p>
+    For string data types (STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, STRING_LOW_HIGH)
+    the <b>offset</b> specifies the location of the first 16-bit register, and the second
     register is at <b>offset+1</b>, etc.</p>
   <h3>
     asynUInt32Digital</h3>
@@ -1726,6 +1769,88 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
     </tbody>
   </table>
   <h3>
+    asynOctet</h3>
+  <p>
+    asynOctet device support is selected with</p>
+  <pre>field(DTYP,"asynOctetRead")
+field(INP,"@asyn(portName,offset,timeout)drvUser")
+    </pre>
+  <p>
+    or</p>
+  <pre>field(DTYP,"asynOctetWrite")
+field(INP,"@asyn(portName,offset,timeout)drvUser")
+    </pre>
+  <p>
+    asynOctet device support is used to read or write strings of up to 250 characters.</p>
+  <p>
+    Note: The 0 terminating byte at the end of the string in a waveform record or stringout
+    record is not written to the Modbus device.</p>
+  <p>
+    Note: On input number of characters read from the Modbus device will be the lesser
+    of:<br />
+    - the number of characters in the record minus the terminating 0 byte (39 for stringin,
+    NELM-1 for waveform) or
+    <br />
+    - the number of characters contained in the registers defined modbusLength argument
+    to drvModbusAsynConfigure (modbusLength or modbusLength*2 depending on whether the
+    drvUser field specifies 1 or 2 characters per register.</p>
+  <p>
+    The string will be truncated if any of the characters read from Modbus is a 0 byte,
+    but there is no guarantee that the last character in the string is followed by a
+    0 byte in the Modbus registers. Generally either modbusLength or NELM in the waveform
+    record should be used to define the correct length for the string.
+  </p>
+  <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
+    <tbody>
+      <tr>
+        <th align="center" colspan="6,">
+          asynOctet Device Support</th>
+      </tr>
+      <tr>
+        <th>
+          Modbus function</th>
+        <th>
+          Offset type</th>
+        <th>
+          Data type</th>
+        <th>
+          drvUser</th>
+        <th>
+          Records supported</th>
+        <th>
+          Description</th>
+      </tr>
+      <tr>
+        <td>
+          3, 4, 23</td>
+        <td>
+          16-bit word</td>
+        <td>
+          String of characters</td>
+        <td>
+          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH</td>
+        <td>
+          waveform (input) or stringin</td>
+        <td>
+          value = Modbus data[]</td>
+      </tr>
+      <tr>
+        <td>
+          16, 23</td>
+        <td>
+          16-bit word</td>
+        <td>
+          String of characters</td>
+        <td>
+          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH</td>
+        <td>
+          waveform (output) or stringout</td>
+        <td>
+          Modbus write value[]</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3>
     Template files</h3>
   <p>
     <b>modbus</b> provides example template files in the modbusApp/Db directory. These
@@ -1886,6 +2011,38 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
           asynFloat64 support for ao record</td>
         <td>
           P, R, PORT, OFFSET, LOPR, HOPR, PREC, DATA_TYPE</td>
+      </tr>
+      <tr>
+        <td>
+          stringin.template</td>
+        <td>
+          asynOctet support for stringin record</td>
+        <td>
+          P, R, PORT, OFFSET, DATA_TYPE, SCAN</td>
+      </tr>
+      <tr>
+        <td>
+          stringout.template</td>
+        <td>
+          asynOctet support for stringout record</td>
+        <td>
+          P, R, PORT, OFFSET, DATA_TYPE, INITIAL_READBACK</td>
+      </tr>
+      <tr>
+        <td>
+          stringWaveformIn.template</td>
+        <td>
+          asynOctet input support for waveform record</td>
+        <td>
+          P, R, PORT, OFFSET, DATA_TYPE, NELM, SCAN</td>
+      </tr>
+      <tr>
+        <td>
+          stringWaveformOut.template</td>
+        <td>
+          asynOctet output support for waveform record</td>
+        <td>
+          P, R, PORT, OFFSET, DATA_TYPE, NELM, INITIAL_READBACK</td>
       </tr>
       <tr>
         <td>
@@ -2067,6 +2224,13 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
         <td>
           Scan rate for record (e.g. "1 second", "I/O Intr", etc.).</td>
       </tr>
+      <tr>
+        <td>
+          INITIAL_READBACK</td>
+        <td>
+          Controls whether an initial readback from the device is done for the stringout or
+          string waveform output records.</td>
+      </tr>
     </tbody>
   </table>
   <h2 id="Example_Applications">
@@ -2207,10 +2371,10 @@ drvModbusAsynConfigure("K1_Cn_Out_Word_Array", "Koyo1", 1, 16, 040600, 020,    0
     one would normally only load at most 2 drivers for the C control relays, for example
     function code 1 (read coils), and function code 5 (write single coil).</p>
   <p>
-    There is another example application in the iocTest directory, sim1.cmd and sim1.substutions.
-    This example is used for testing the different Modbus data types. It was tested
-    with the <a href="http://www.modbustools.com/modbus_slave.asp">Modbus Slave</a>
-    program, which is an inexpensive Modbus slave emulator.</p>
+    There are another example applications in the iocTest directory, sim*.cmd and sim*.substitutions.
+    These examples are used for testing the different Modbus data types and other features.
+    I have used them with the <a href="http://www.modbustools.com/modbus_slave.asp">Modbus
+      Slave</a> program, which is an inexpensive Modbus slave emulator.</p>
   <h2 id="medm_screens">
     medm screens</h2>
   <p>
@@ -2425,7 +2589,7 @@ epics> asynSetTraceMask "K1_Yn_In_Word",0,1     # Disable traceIODriver
   <div style="text-align: center">
     <hr />
     <h3>
-      asynRegister.adl.adl</h3>
+      asynRegister.adl</h3>
     <h3>
       Using the asynRecord to perform actual I/O to a PLC. Note that Interface (IFACE)=asynUInt32Digital,
       Transfer (TMOD)=Write, and Output (UI32OUT)=1. This value will be written to the
