@@ -1,0 +1,14 @@
+find . -name 'auto_settings*.sav*_*' -exec rm -fv {} \;
+find . -name 'core.*' -exec rm -fv {} \;
+pushd ..
+tar czvf /home/epics/public_html/pub/modbusStandalone_2-9.tgz  \
+asyn-4-29/db \
+asyn-4-29/opi \
+modbus-2-9/documentation \
+modbus-2-9/modbusApp/Db \
+modbus-2-9/modbusApp/op \
+modbus-2-9/bin/win32-x86-static \
+modbus-2-9/bin/windows-x64-static \
+modbus-2-9/dbd/ \
+modbus-2-9/iocBoot
+popd
