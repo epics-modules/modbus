@@ -1,0 +1,6 @@
+# longin record template for register inputs
+record(stringin,"$(P)$(R)") {
+    field(DTYP,"asynOctetRead")
+    field(INP,"@asyn($(PORT) $(OFFSET))$(DATA_TYPE)")
+    field(SCAN,"$(SCAN)")
+}

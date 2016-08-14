@@ -1,0 +1,41 @@
+# asyn record for the underlying asyn octet port
+file "$(ASYN)/db/asynRecord.db" { pattern
+{P,           R,       PORT,      ADDR,   IMAX,    OMAX}
+{SIM1:    OctetAsyn,   sim1,        0,      80,      80}
+}
+
+# stringin records
+file "../../db/stringin.template" { pattern
+{P,        R,          PORT,    OFFSET,   DATA_TYPE         SCAN}
+{SIM1:,    SIHigh,     IN1,          0,   STRING_HIGH,      "I/O Intr"}
+{SIM1:,    SILow,      IN1,         40,   STRING_LOW,       "I/O Intr"}
+{SIM1:,    SIHighLow,  IN1,         80,   STRING_HIGH_LOW,  "I/O Intr"}
+{SIM1:,    SILowHigh,  IN1,        100,   STRING_LOW_HIGH,  "I/O Intr"}
+}
+
+# stringout records
+file "../../db/stringout.template" { pattern
+{P,        R,          PORT,    OFFSET,   DATA_TYPE,        INITIAL_READBACK}
+{SIM1:,    SOHigh,     OUT1,       0,     STRING_HIGH,      1}
+{SIM1:,    SOLow,      OUT1,      40,     STRING_LOW,       1}
+{SIM1:,    SOHighLow,  OUT1,      80,     STRING_HIGH_LOW,  1}
+{SIM1:,    SOLowHigh,  OUT1,     100,     STRING_LOW_HIGH,  1}
+}
+
+# waveform input records
+file "../../db/stringWaveformIn.template" { pattern
+{P,        R,           PORT,    OFFSET,  DATA_TYPE,       NELM,  SCAN}
+{SIM1:,    WFInHigh,    IN2,        0,    STRING_HIGH,      10,   "I/O Intr"}
+{SIM1:,    WFInLow,     IN2,       60,    STRING_LOW,       10,   "I/O Intr"}
+{SIM1:,    WFInHighLow, IN3,        0,    STRING_HIGH_LOW,  10,   "I/O Intr"}
+{SIM1:,    WFInLowHigh, IN3,       60,    STRING_LOW_HIGH,  10,   "I/O Intr"}
+}
+
+# waveform output records
+file "../../db/stringWaveformOut.template" { pattern
+{P,        R,            PORT,   OFFSET,   DATA_TYPE,        INITIAL_READBACK,  NELM}
+{SIM1:,    WFOutHigh,    OUT2,       0,    STRING_HIGH,      1,                 10}
+{SIM1:,    WFOutLow,     OUT2,      60,    STRING_LOW,       1,                 10}
+{SIM1:,    WFOutHighLow, OUT3,       0,    STRING_HIGH_LOW,  1,                 10}
+{SIM1:,    WFOutLowHigh, OUT3,      60,    STRING_LOW_HIGH,  1,                 10}
+}

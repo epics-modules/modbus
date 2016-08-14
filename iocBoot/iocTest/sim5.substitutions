@@ -1,0 +1,157 @@
+# asyn record for the underlying asyn octet port
+file "$(ASYN)/db/asynRecord.db" { pattern
+{P,           R,       PORT,      ADDR,   IMAX,    OMAX}
+{SIM1:    OctetAsyn,   sim1,        0,      80,      80}
+}
+
+# These are the A0 inputs done with bit access
+file "../../db/bi_bit.template" { pattern
+{P,        R,        PORT,    OFFSET,      ZNAM,   ONAM,  ZSV,       OSV,    SCAN}
+{SIM1:,    BI0B,     FC1,     1000,        Low,    High,  NO_ALARM,  MAJOR,  "1 second"}
+{SIM1:,    BI1B,     FC1,     1001,        Low,    High,  NO_ALARM,  MAJOR,  "1 second"}
+{SIM1:,    BI2B,     FC1,     1002,        Low,    High,  NO_ALARM,  MAJOR,  "1 second"}
+{SIM1:,    BI3B,     FC1,     1003,        Low,    High,  NO_ALARM,  MAJOR,  "1 second"}
+{SIM1:,    BI4B,     FC1,     1004,        Low,    High,  NO_ALARM,  MAJOR,  "1 second"}
+{SIM1:,    BI5B,     FC1,     1005,        Low,    High,  NO_ALARM,  MAJOR,  "1 second"}
+{SIM1:,    BI6B,     FC1,     1006,        Low,    High,  NO_ALARM,  MAJOR,  "1 second"}
+{SIM1:,    BI7B,     FC1,     1007,        Low,    High,  NO_ALARM,  MAJOR,  "1 second"}
+}
+file "../../db/mbbiDirect.template" { pattern
+{P,           R,    PORT,     OFFSET,     MASK,   SCAN}
+{SIM1:,    MBBID0,   FC1,     1000,       0xFFFF, "1 second"}
+}
+file "../../db/intarray_in.template" { pattern
+{P,           R,      PORT,   OFFSET,   NELM,   SCAN}
+{SIM1:,    BIArray,    FC1,   1000,        8,   "1 second"}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,     PORT,    ADDR,     TMOD,  IFACE}
+{SIM1:,    BIAsyn,   FC1,     0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,        R,      PORT,        SCAN}
+{SIM1:,    BI,     FC1,  "10 second"}
+} 
+file "../../db/poll_delay.template" { pattern
+{P,           R,        PORT}
+{SIM1:,    BIPollDelay, FC1}
+}
+
+# These are the A0 outputs done with bit access.
+file "../../db/bo_bit.template" { pattern
+{P,        R,        PORT,    OFFSET,      ZNAM,   ONAM}
+{SIM1:,    BO0B,     FC5,     1000,        Low,    High}
+{SIM1:,    BO1B,     FC5,     1001,        Low,    High}
+{SIM1:,    BO2B,     FC5,     1002,        Low,    High}
+{SIM1:,    BO3B,     FC5,     1003,        Low,    High}
+{SIM1:,    BO4B,     FC5,     1004,        Low,    High}
+{SIM1:,    BO5B,     FC5,     1005,        Low,    High}
+{SIM1:,    BO6B,     FC5,     1006,        Low,    High}
+{SIM1:,    BO7B,     FC5,     1007,        Low,    High}
+}
+file "../../db/mbboDirect.template" { pattern
+{P,           R,       PORT,  OFFSET,    MASK}
+{SIM1:,    MBBOD0,     FC5,   1000,      0xFFFF}
+}
+file "../../db/asynRecord.template" { pattern
+{P,           R,     PORT,    ADDR,     TMOD,  IFACE}
+{SIM1:,    BOAsyn,   FC5,     0,        Read,  asynUInt32Digital}
+}
+file "../../db/statistics.template" { pattern
+{P,        R,      PORT, SCAN}
+{SIM1:,    BO,     FC5,  "10 second"}
+} 
+file "../../db/poll_delay.template" { pattern
+{P,           R,        PORT}
+{SIM1:,    BOPollDelay, FC5}
+}
+
+# These are the A0 inputs done with word access
+file "../../db/longinInt32.template" { pattern
+{P,           R,             PORT,  OFFSET,    DATA_TYPE,      SCAN}
+{SIM1:,    LI:UINT16,        FC3,   10000,     UINT16,       "1 second"}
+{SIM1:,    LI:BCD_UNSIGNED,  FC3,   10001,     BCD_UNSIGNED, "1 second"}
+{SIM1:,    LI:BCD_SIGNED,    FC3,   10002,     BCD_SIGNED,   "1 second"}
+{SIM1:,    LI:INT16,         FC3,   10003,     INT16,        "1 second"}
+{SIM1:,    LI:INT32_LE,      FC3,   10004,     INT32_LE,     "1 second"}
+{SIM1:,    LI:INT32_BE,      FC3,   10006,     INT32_BE,     "1 second"}
+{SIM1:,    LI:FLOAT32_LE,    FC3,   10008,     FLOAT32_LE,   "1 second"}
+{SIM1:,    LI:FLOAT32_BE,    FC3,   10010,     FLOAT32_BE,   "1 second"}
+{SIM1:,    LI:FLOAT64_LE,    FC3,   10012,     FLOAT64_LE,   "1 second"}
+{SIM1:,    LI:FLOAT64_BE,    FC3,   10016,     FLOAT64_BE,   "1 second"}
+{SIM1:,    LI:DEFAULT,       FC3,   10020,     "",           "1 second"}
+}
+file "../../db/intarray_in.template" { pattern
+{P,           R,      PORT,   OFFSET,   NELM,   SCAN}
+{SIM1:,    LIArray,    FC3,   10000,       4,   "1 second"}
+}
+
+# These are the A0 outputs done with word access.
+file "../../db/longoutInt32.template" { pattern
+{P,           R,             PORT,  OFFSET,    DATA_TYPE}
+{SIM1:,    LO:UINT16,        FC6,   10000,     UINT16}
+{SIM1:,    LO:BCD_UNSIGNED,  FC6,   10001,     BCD_UNSIGNED}
+{SIM1:,    LO:BCD_SIGNED,    FC6,   10002,     BCD_SIGNED}
+{SIM1:,    LO:INT16,         FC6,   10003,     INT16}
+{SIM1:,    LO:INT32_LE,      FC6,   10004,     INT32_LE}
+{SIM1:,    LO:INT32_BE,      FC6,   10006,     INT32_BE}
+{SIM1:,    LO:FLOAT32_LE,    FC6,   10008,     FLOAT32_LE}
+{SIM1:,    LO:FLOAT32_BE,    FC6,   10010,     FLOAT32_BE}
+{SIM1:,    LO:FLOAT64_LE,    FC6,   10012,     FLOAT64_LE}
+{SIM1:,    LO:FLOAT64_BE,    FC6,   10016,     FLOAT64_BE}
+{SIM1:,    LO:DEFAULT,       FC6,   10020,     ""}
+}
+
+file "../../db/aiFloat64.template" { pattern
+{P,           R,             PORT, OFFSET,    DATA_TYPE,    LOPR, HOPR, PREC,    SCAN}
+{SIM1:,    AI:UINT16,        FC3,  40030,     UINT16,       -1e6,  1e6,    0,   "1 second"}
+{SIM1:,    AI:BCD_UNSIGNED,  FC3,  40031,     BCD_UNSIGNED, -1e6,  1e6,    0,   "1 second"}
+{SIM1:,    AI:BCD_SIGNED,    FC3,  40032,     BCD_SIGNED,   -1e6,  1e6,    0,   "1 second"}
+{SIM1:,    AI:INT16,         FC3,  40033,     INT16,        -1e6,  1e6,    0,   "1 second"}
+{SIM1:,    AI:INT32_LE,      FC3,  40034,     INT32_LE,     -1e6,  1e6,    0,   "1 second"}
+{SIM1:,    AI:INT32_BE,      FC3,  40036,     INT32_BE,     -1e6,  1e6,    0,   "1 second"}
+{SIM1:,    AI:FLOAT32_LE,    FC3,  40038,     FLOAT32_LE,   -1e6,  1e6,    3,   "1 second"}
+{SIM1:,    AI:FLOAT32_BE,    FC3,  40040,     FLOAT32_BE,   -1e6,  1e6,    3,   "1 second"}
+{SIM1:,    AI:FLOAT64_LE,    FC3,  40042,     FLOAT64_LE,   -1e6,  1e6,    3,   "1 second"}
+{SIM1:,    AI:FLOAT64_BE,    FC3,  40046,     FLOAT64_BE,   -1e6,  1e6,    3,   "1 second"}
+{SIM1:,    AI:DEFAULT,       FC3,  40050,     ""        ,   -1e6,  1e6,    3,   "1 second"}
+}
+file "../../db/intarray_in.template" { pattern
+{P,           R,      PORT,   OFFSET,   NELM,   SCAN}
+{SIM1:,    AIArray,    FC3,   40030,       4,   "1 second"}
+}
+
+file "../../db/aoFloat64.template" { pattern
+{P,           R,             PORT, OFFSET,    DATA_TYPE,    LOPR, HOPR, PREC}
+{SIM1:,    AO:UINT16,        FC6,  40030,     UINT16,       -1e6,  1e6,    0}
+{SIM1:,    AO:BCD_UNSIGNED,  FC6,  40031,     BCD_UNSIGNED, -1e6,  1e6,    0}
+{SIM1:,    AO:BCD_SIGNED,    FC6,  40032,     BCD_SIGNED,   -1e6,  1e6,    0}
+{SIM1:,    AO:INT16,         FC6,  40033,     INT16,        -1e6,  1e6,    0}
+{SIM1:,    AO:INT32_LE,      FC6,  40034,     INT32_LE,     -1e6,  1e6,    0}
+{SIM1:,    AO:INT32_BE,      FC6,  40036,     INT32_BE,     -1e6,  1e6,    0}
+{SIM1:,    AO:FLOAT32_LE,    FC6,  40038,     FLOAT32_LE,   -1e6,  1e6,    3}
+{SIM1:,    AO:FLOAT32_BE,    FC6,  40040,     FLOAT32_BE,   -1e6,  1e6,    3}
+{SIM1:,    AO:FLOAT64_LE,    FC6,  40042,     FLOAT64_LE,   -1e6,  1e6,    3}
+{SIM1:,    AO:FLOAT64_BE,    FC6,  40046,     FLOAT64_BE,   -1e6,  1e6,    3}
+{SIM1:,    AO:DEFAULT,       FC6,  40050,     "",           -1e6,  1e6,    3}
+}
+
+file "../../db/asynRecord.template" { pattern
+{P,           R,       PORT,  ADDR,   TMOD,  IFACE}
+{SIM1:,    A0:AsynIn,  FC3,     0,    Read, asynInt32}
+}
+
+file "../../db/asynRecord.template" { pattern
+{P,           R,        PORT,  ADDR,   TMOD,  IFACE}
+{SIM1:,    A0:AsynOut,  FC6,     0,    Read, asynInt32}
+}
+
+file "../../db/statistics.template" { pattern
+{P,           R,   PORT,       SCAN}
+{SIM1:,    A0:,     FC3,  "10 second"}
+} 
+
+file "../../db/poll_delay.template" { pattern
+{P,           R,         PORT}
+{SIM1:,    A0:PollDelay, FC3}
+}
