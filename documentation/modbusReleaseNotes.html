@@ -22,7 +22,7 @@
       or 123 registers (write operations), and the asyn "addr" field specified an offset
       relative to the modbusStartAddress passed as the fifth argument to drvAsynModbusConfigure().
       Now if the modbusStartAddress=-1 then the driver will use absolute addressing, and
-      the asyn "addr" specifes the absolute Modbus address in the range 0 to 65535. In
+      the asyn "addr" specifies the absolute Modbus address in the range 0 to 65535. In
       this case the modbusLength argument to drvAsynModbusConfigure() is the maximum length
       required for any single Modbus transaction by that driver. This would be 1 if all
       Modbus reads and writes are for 16-bit registers, but it would be 4 if 64-bit floats
