@@ -22,7 +22,7 @@ LIB_SRCS += modbusInterpose.c
 LIB_SRCS += testModbusSyncIO.cpp
 LIB_LIBS += asyn 
 LIB_LIBS += $(EPICS_BASE_IOC_LIBS)
-LIB_SYS_LIBS_WIN32 += WS2_32
+LIB_SYS_LIBS_WIN32 += ws2_32
 
 #===========================
 
