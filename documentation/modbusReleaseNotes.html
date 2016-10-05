@@ -27,7 +27,7 @@
       required for any single Modbus transaction by that driver. This would be 1 if all
       Modbus reads and writes are for 16-bit registers, but it would be 4 if 64-bit floats
       (4 16-bit registers) are being used, and 100 (for example) if an Int32 waveform
-      record with NELM=100 is being read or written.</li>
+      record with NELM=100 and a 16-bit Modbus data type is being read or written.</li>
     <li>Added support for strings using the asynOctet interface. Some vendors use Modbus
       for string data. The Modbus standard does not specify how strings should be stored,
       and different vendors do it differently. The driver supports 4 new Modbus data types,
