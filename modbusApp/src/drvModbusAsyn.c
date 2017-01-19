@@ -347,6 +347,7 @@ int drvModbusAsynConfigure(char *portName,
     int IOLength=0;
     int maxLength=0;
 
+    if (plcType == NULL) plcType = "";
     pPlc = callocMustSucceed(1, sizeof(*pPlc), "drvModbusAsynConfigure");
     pPlc->portName = epicsStrDup(portName);
     pPlc->octetPortName = epicsStrDup(octetPortName);
