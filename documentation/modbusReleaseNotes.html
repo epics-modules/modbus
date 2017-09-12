@@ -20,9 +20,25 @@
     <li>Added an epicsAtExit handler which stops the poller task. This eliminates error
       messages from the poller task when the IOC exits.</li>
     <li>Greatly reduced the number of error messages printed when there are communication
-      errors with the Modbus device. Previously error messages were printed for each asyn
-      port on each poller loop. Now, there is a single message per port when an error
-      condition is detected, and a single message when the error condition ends.</li>
+      errors or timeouts with the Modbus device. Previously error messages were printed
+      for each asyn port on each poller loop. Now, there is a single message per port
+      when an error condition is detected, and a single message when the error condition
+      ends. For example this is the output from a Koyo PLC with 3 drvModbusAsyn input
+      ports that are polling at 10 Hz. The drvAsynIPPort has the asynOption "disconnectOnReadTimeout"
+      set to "Y" set so that it reconnects quickly when the network is reconnected. The
+      Ethernet cable was unplugged for about 8 seconds and then plugged back in.
+      <pre>2017/09/12 13:14:25.764 drvModbusAsyn::doModbusIO port K1_Xn_Bit error calling writeRead, error=164.54.160.197:502 read error: S_errno_EWOULDBLOCK, nwrite=6/6, nread=0
+2017/09/12 13:14:25.781 drvModbusAsyn::doModbusIO port K1_Yn_In_Bit error calling writeRead, error=asynManager::queueLockPort queueRequest timed out, nwrite=0/6, nread=0
+2017/09/12 13:14:25.814 drvModbusAsyn::doModbusIO port K1_Cn_In_Bit error calling writeRead, error=asynManager::queueLockPort queueRequest timed out, nwrite=0/6, nread=0
+2017/09/12 13:14:33.564 drvModbusAsyn::doModbusIO port K1_Xn_Bit writeRead status back to normal nwrite=6/6, nread=6
+2017/09/12 13:14:33.581 drvModbusAsyn::doModbusIO port K1_Yn_In_Bit writeRead status back to normal nwrite=6/6, nread=6
+2017/09/12 13:14:33.614 drvModbusAsyn::doModbusIO port K1_Cn_In_Bit writeRead status back to normal nwrite=6/6, nread=34
+</pre>
+      The first error message indicates that the K1_Xn_Bit driver got a timeout when reading
+      the device. That timeout causes drvAsynIPPort driver to disconnect the port because
+      of the asynOption described above. The next 2 errors are from the other two ports
+      which get queueRequest timeouts because the port is now disconnected. When the network
+      cable is reconnected each of the ports prints a "status back to normal" message.</li>
     <li>The example IOC startup scripts now call asynSetOption("disconnectOnReadTimeout",
       "Y"). for TCP ports. This ensures much faster reconnection when the Modbus device
       comes back online if it disconnects. Note that for this to work asyn R4-32 or later
