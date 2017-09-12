@@ -12,6 +12,25 @@
   </div>
   <div style="text-align: center">
     <h2>
+      Release 2-10</h2>
+    <h2>
+      September XXX, 2017</h2>
+  </div>
+  <ul>
+    <li>Added an epicsAtExit handler which stops the poller task. This eliminates error
+      messages from the poller task when the IOC exits.</li>
+    <li>Greatly reduced the number of error messages printed when there are communication
+      errors with the Modbus device. Previously error messages were printed for each asyn
+      port on each poller loop. Now, there is a single message per port when an error
+      condition is detected, and a single message when the error condition ends.</li>
+    <li>The example IOC startup scripts now call asynSetOption("disconnectOnReadTimeout",
+      "Y"). for TCP ports. This ensures much faster reconnection when the Modbus device
+      comes back online if it disconnects. Note that for this to work asyn R4-32 or later
+      is needed, because of a needed fix to asynManager::queueLockPort(), which is used
+      by the asynXXXSyncIO functions.</li>
+  </ul>
+  <div style="text-align: center">
+    <h2>
       Release 2-9</h2>
     <h2>
       August 23, 2016</h2>
