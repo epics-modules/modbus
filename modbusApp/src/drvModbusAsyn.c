@@ -28,6 +28,7 @@
 #include <epicsEvent.h>
 #include <epicsTime.h>
 #include <epicsEndian.h>
+#include <epicsExit.h>
 #include <cantProceed.h>
 #include <errlog.h>
 #include <osiSock.h>
@@ -165,6 +166,7 @@ typedef struct modbusStr
     int forceCallback;
     int readOnceFunction;
     int readOnceDone;
+    asynStatus prevIOStatus;
     int readOK;                 /* Statistics */
     int writeOK;
     int IOErrors;
@@ -180,6 +182,8 @@ typedef struct modbusStr
 
 /* Local variable declarations */
 static char *driver = "drvModbusAsyn";           /* String for asynPrint */
+static int modbusInitialized = 0;
+static int modbusExiting = 0;
 
 /* Local function declarations */
 
@@ -324,6 +328,10 @@ static asynOctet drvOctet = {
 **  global driver functions
 *********************************************************************
 */
+
+static void modbusExitCallback(void *pPvt) {
+    modbusExiting = 1;
+}
 
 /*
 ** drvModbusAsynConfigure() - create and init an asyn port driver for a PLC
@@ -519,6 +527,11 @@ int drvModbusAsynConfigure(char *portName,
         pPlc->forceCallback = 1;
     }
 
+    /* Register for epicsAtExit callback.  Only need to do this once per IOC */
+    if (!modbusInitialized) {
+        modbusInitialized = 1;
+        epicsAtExit(modbusExitCallback, pPlc);
+    }
     return asynSuccess;
 }
 
@@ -1539,6 +1552,8 @@ static void readPoller(PLC_ID pPlc)
             epicsEventWait(pPlc->readPollerEventId);
         }
 
+        if (modbusExiting) break;
+
         /* Lock the port.  It is important that the port be locked so other threads cannot access the pPlc
          * structure while the poller thread is running. */
         pasynManager->lockPort(pPlc->pasynUserTrace);
@@ -1548,7 +1563,10 @@ static void readPoller(PLC_ID pPlc)
                                     pPlc->modbusStartAddress, pPlc->data, pPlc->modbusLength);
         /* If we have an I/O error this time and the previous time, just try again */
         if (pPlc->ioStatus != asynSuccess &&
-            pPlc->ioStatus == prevIOStatus) continue;
+            pPlc->ioStatus == prevIOStatus) {
+            epicsThreadSleep(1.0);
+            continue;
+        }
 
         /* If the I/O status has changed then force callbacks */
         if (pPlc->ioStatus != prevIOStatus) pPlc->forceCallback = 1;
@@ -1987,10 +2005,6 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
             goto done;
     }
 
-    /* First we do connection stuff */
-    /* See if we are connected with pasynManager->isConnected */
-    /* If not connected then called asynCommon->connect (or connectDevice?) */
-
     /* Do the Modbus I/O as a write/read cycle */
     epicsTimeGetCurrent(&startTime);
     status = pasynOctetSyncIO->writeRead(pPlc->pasynUserOctet, 
@@ -1999,17 +2013,28 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
                                          MODBUS_READ_TIMEOUT,
                                          &nwrite, &nread, &eomReason);
     epicsTimeGetCurrent(&endTime);
-                                         
+
+    if (status != pPlc->prevIOStatus) {                                      
+      if (status != asynSuccess) {
+            asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                     "%s::doModbusIO port %s error calling writeRead,"
+                     " error=%s, nwrite=%d/%d, nread=%d\n", 
+                     driver, pPlc->portName, 
+                     pPlc->pasynUserOctet->errorMessage, (int)nwrite, requestSize, (int)nread);
+        } else {
+            asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
+                     "%s::doModbusIO port %s writeRead status back to normal"
+                     " nwrite=%d/%d, nread=%d\n", 
+                     driver, pPlc->portName, 
+                     (int)nwrite, requestSize, (int)nread);
+        }
+        pPlc->prevIOStatus = status;
+    }
     if (status != asynSuccess) {
-        asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
-                 "%s::doModbusIO port %s error calling writeRead,"
-                 " error=%s, nwrite=%d/%d, nread=%d\n", 
-                 driver, pPlc->portName, 
-                 pPlc->pasynUserOctet->errorMessage, (int)nwrite, requestSize, (int)nread);
         pPlc->IOErrors++;
         goto done;
     }
-               
+
     dT = epicsTimeDiffInSeconds(&endTime, &startTime);
     msec = (int)(dT*1000. + 0.5);
     pPlc->lastIOMsec = msec;
