@@ -15,6 +15,7 @@ modbus_registerRecordDeviceDriver(pdbbase)
 #drvAsynIPPortConfigure("sim1","164.54.160.31:502",0,0,1)
 # These 3 lines are for Modbus ASCII using Moxa terminal server connection
 drvAsynIPPortConfigure("sim1","164.54.160.187:2101",0,0,)
+asynSetOption("sim1",0, "disconnectOnReadTimeout", "Y")
 asynOctetSetOutputEos("sim1",0,"\r\n")
 asynOctetSetInputEos("sim1",0,"\r\n")
 #modbusInterposeConfig(const char *portName,

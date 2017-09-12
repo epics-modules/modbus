@@ -10,6 +10,7 @@ modbus_registerRecordDeviceDriver(pdbbase)
 #                       int noAutoConnect,
 #                       int noProcessEos);
 drvAsynIPPortConfigure("Koyo2","164.54.160.158:502",0,0,1)
+asynSetOption("Koyo2",0, "disconnectOnReadTimeout", "Y")
 #modbusInterposeConfig(const char *portName,
 #                      modbusLinkType linkType,
 #                      int timeoutMsec, 
