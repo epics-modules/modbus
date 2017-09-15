@@ -87,6 +87,7 @@ typedef struct modbusPvt {
     void           *octetPvt;
     modbusLinkType linkType;
     asynUser       *pasynUser;
+    int            transactionId;
     char           buffer[MAX_MODBUS_FRAME_SIZE];
 } modbusPvt;
     
@@ -230,7 +231,6 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
     size_t     nbytesActual = 0;
     size_t     nWrite;
     modbusMBAPHeader mbapHeader;
-    unsigned short transactId=1;
     unsigned short cmdLength = numchars;
     unsigned short modbusEncoding=0;
     int mbapSize = sizeof(modbusMBAPHeader);
@@ -247,7 +247,8 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
     switch(pPvt->linkType) {
         case modbusLinkTCP:
             /* Build the MBAP header */
-            mbapHeader.transactId    = htons(transactId);
+            pPvt->transactionId = (pPvt->transactionId + 1) & 0xFFFF;
+            mbapHeader.transactId    = htons(pPvt->transactionId);
             mbapHeader.protocolType  = htons(modbusEncoding);
             mbapHeader.cmdLength     = htons(cmdLength);
  
@@ -335,10 +336,16 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
     switch(pPvt->linkType) {
         case modbusLinkTCP:
             nRead = maxchars + mbapSize + 1;
-            status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
-                                            pPvt->buffer, nRead, 
-                                            &nbytesActual, eomReason);
-            if (status != asynSuccess) return status;
+            for (;;) {
+                status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
+                                                pPvt->buffer, nRead, 
+                                                &nbytesActual, eomReason);
+                if (status != asynSuccess) return status;
+                if (nbytesActual >= 2) {
+                    int id = ((pPvt->buffer[0] & 0xFF)<<8)|(pPvt->buffer[1]&0xFF);
+                    if (id == pPvt->transactionId) break;
+                }
+            }
             /* Copy bytes beyond mbapHeader to output buffer */
             nRead = nbytesActual;
             nRead = nRead - mbapSize - 1;
