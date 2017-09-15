@@ -19,8 +19,8 @@
   <ul>
     <li>Previously the Modbus/TCP transaction ID was set to 1 on writes and ignored on
       reads. Now the Modbus transaction ID is incremented by 1 on each message sent by
-      the driver. On the reply the driver until a message the correct transaction ID is
-      received, ignoring messages with any other transaction ID. This is more robust,
+      the driver. On the reply the driver waits until a message with the correct transaction
+      ID is received, ignoring messages with any other transaction ID. This is more robust,
       especially for Modbus/UDP links. Thanks to Eric Norum for this.</li>
   </ul>
   <div style="text-align: center">
