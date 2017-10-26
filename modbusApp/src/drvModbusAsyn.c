@@ -170,6 +170,7 @@ typedef struct modbusStr
     int readOK;                 /* Statistics */
     int writeOK;
     int IOErrors;
+    int currentIOErrors; /* IO Errors since last successful writeRead cycle */
     int maxIOMsec;
     int lastIOMsec; 
     epicsInt32 timeHistogram[HISTOGRAM_LENGTH];     /* Histogram of read-times */
@@ -2023,15 +2024,17 @@ static int doModbusIO(PLC_ID pPlc, int slave, int function, int start,
                      pPlc->pasynUserOctet->errorMessage, (int)nwrite, requestSize, (int)nread);
         } else {
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
-                     "%s::doModbusIO port %s writeRead status back to normal"
+                     "%s::doModbusIO port %s writeRead status back to normal having had %d errors,"
                      " nwrite=%d/%d, nread=%d\n", 
                      driver, pPlc->portName, 
-                     (int)nwrite, requestSize, (int)nread);
+                     pPlc->currentIOErrors, (int)nwrite, requestSize, (int)nread);
+            pPlc->currentIOErrors = 0;
         }
         pPlc->prevIOStatus = status;
     }
     if (status != asynSuccess) {
         pPlc->IOErrors++;
+        pPlc->currentIOErrors++;
         goto done;
     }
 
