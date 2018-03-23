@@ -1374,7 +1374,7 @@ static asynStatus writeInt32Array (void *drvPvt, asynUser *pasynUser, epicsInt32
                     return asynError;
             }
             asynPrintIO(pPlc->pasynUserTrace, ASYN_TRACEIO_DRIVER, 
-                        (char *)pPlc->data, i*2, 
+                        (char *)pPlc->data, nwrite*2, 
                         "%s::writeInt32Array port %s, function=0x%x\n",
                         driver, pPlc->portName, pPlc->modbusFunction);
             break;
