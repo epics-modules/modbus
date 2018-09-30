@@ -731,7 +731,7 @@ static asynStatus readUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 *va
             break;
         default:
             asynPrint(pPlc->pasynUserTrace, ASYN_TRACE_ERROR,
-                      "%s::writeUInt32D port %s invalid pasynUser->reason %d\n",
+                      "%s::readUInt32D port %s invalid pasynUser->reason %d\n",
                       driver, pPlc->portName, pasynUser->reason);
             return asynError;
     }
