@@ -40,4 +40,5 @@ CHECK_RELEASE = YES
 # file itself.
 -include $(TOP)/../CONFIG_SITE.local
 -include $(TOP)/configure/CONFIG_SITE.local
+-include $(SUPPORT)/configure/CONFIG_SITE
 
