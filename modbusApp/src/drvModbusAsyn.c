@@ -771,6 +771,7 @@ static asynStatus writeUInt32D(void *drvPvt, asynUser *pasynUser, epicsUInt32 va
                     if (status != asynSuccess) return(status);
                     break;
                 case MODBUS_WRITE_SINGLE_REGISTER:
+                case MODBUS_WRITE_MULTIPLE_REGISTERS:
                     /* Do this as a read/modify/write if mask is not all 0 or all 1 */
                     if ((mask == 0) || (mask == 0xFFFF)) {
                         status = doModbusIO(pPlc, pPlc->modbusSlave, pPlc->modbusFunction,
