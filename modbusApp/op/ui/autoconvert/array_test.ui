@@ -4,10 +4,10 @@
 <widget class="QMainWindow" name="MainWindow">
     <property name="geometry">
         <rect>
-            <x>100</x>
-            <y>100</y>
-            <width>170</width>
-            <height>120</height>
+            <x>446</x>
+            <y>76</y>
+            <width>250</width>
+            <height>100</height>
         </rect>
     </property>
     <property name="styleSheet">
@@ -125,7 +125,7 @@ border-radius: 2px;
                 </color>
             </property>
             <property name="text">
-                <string>Sim1 Test</string>
+                <string>Array Test</string>
             </property>
             <property name="fontScaleMode">
                 <enum>ESimpleLabel::WidthAndHeight</enum>
@@ -135,9 +135,9 @@ border-radius: 2px;
             </property>
             <property name="geometry">
                 <rect>
-                    <x>12</x>
-                    <y>12</y>
-                    <width>146</width>
+                    <x>65</x>
+                    <y>7</y>
+                    <width>120</width>
                     <height>25</height>
                 </rect>
             </property>
@@ -145,10 +145,10 @@ border-radius: 2px;
         <widget class="caRelatedDisplay" name="caRelatedDisplay_0">
             <property name="geometry">
                 <rect>
-                    <x>5</x>
-                    <y>51</y>
-                    <width>158</width>
-                    <height>25</height>
+                    <x>98</x>
+                    <y>58</y>
+                    <width>120</width>
+                    <height>20</height>
                 </rect>
             </property>
             <property name="foreground">
@@ -166,32 +166,27 @@ border-radius: 2px;
                 </color>
             </property>
             <property name="label">
-                <string>Inputs &amp; outputs</string>
+                <string>Arrays</string>
             </property>
             <property name="stackingMode">
                 <enum>Menu</enum>
             </property>
             <property name="labels">
-                <string>longout/longin;ao/ai;Binary inputs;Binary outputs</string>
+                <string>UINT16;INT16;INT32_LE;INT32_BE</string>
             </property>
             <property name="files">
-                <string>modbusDataTypes.adl;modbusDataTypes.adl;Koyo_8inputs.adl;Koyo_8outputs.adl</string>
+                <string>modbusArrayTest.adl;modbusArrayTest.adl;modbusArrayTest.adl;modbusArrayTest.adl</string>
             </property>
             <property name="args">
-                <string>P=SIM1:,OUT=LO:,IN=LI:,OREC=longout,IREC=longin;P=SIM1:,OUT=AO:,IN=AI:,OREC=ao,IREC=ai;P=SIM1:,R=BI,A=B,L=MBBID0,PORT=BI,AC=Bit;P=SIM1:,R=BO,A=B,L=MBBOD0,PORT=BO,AC=Bit</string>
+                <string>P=SIM1:,R=UINT16:;P=SIM1:,R=INT16:;P=SIM1:,R=INT32_LE:;P=SIM1:,R=INT32_BE:</string>
             </property>
             <property name="removeParent">
                 <string>false;false;false;false</string>
             </property>
         </widget>
-        <widget class="caRelatedDisplay" name="caRelatedDisplay_1">
-            <property name="geometry">
-                <rect>
-                    <x>7</x>
-                    <y>81</y>
-                    <width>158</width>
-                    <height>25</height>
-                </rect>
+        <widget class="caLabel" name="caLabel_1">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
             </property>
             <property name="foreground">
                 <color alpha="255">
@@ -201,34 +196,33 @@ border-radius: 2px;
                 </color>
             </property>
             <property name="background">
-                <color alpha="255">
-                    <red>115</red>
-                    <green>223</green>
-                    <blue>255</blue>
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
                 </color>
             </property>
-            <property name="label">
-                <string>Octet asyn record</string>
+            <property name="text">
+                <string>Arrays</string>
             </property>
-            <property name="stackingMode">
-                <enum>Menu</enum>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::WidthAndHeight</enum>
             </property>
-            <property name="labels">
-                <string>Octet asyn record;Octet asyn record</string>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignHCenter|Qt::AlignVCenter</set>
             </property>
-            <property name="files">
-                <string>asynRecord.adl;l</string>
-            </property>
-            <property name="args">
-                <string>P=SIM1:,R=OctetAsyn;P=SIM1:,R=OctetAsyn</string>
-            </property>
-            <property name="removeParent">
-                <string>false;false</string>
+            <property name="geometry">
+                <rect>
+                    <x>33</x>
+                    <y>58</y>
+                    <width>60</width>
+                    <height>20</height>
+                </rect>
             </property>
         </widget>
         <zorder>caLabel_0</zorder>
+        <zorder>caLabel_1</zorder>
         <zorder>caRelatedDisplay_0</zorder>
-        <zorder>caRelatedDisplay_1</zorder>
     </widget>
 </widget>
 </ui>

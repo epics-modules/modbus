@@ -14,11 +14,11 @@
     <color red="0" green="0" blue="0" />
   </foreground_color>
   <grid_space>5</grid_space>
-  <height>120</height>
+  <height>100</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>modbusDataTypesTest</name>
+  <name>array_test</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -27,9 +27,9 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>false</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>170</width>
-  <x>100</x>
-  <y>100</y>
+  <width>250</width>
+  <x>446</x>
+  <y>76</y>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
     <auto_size>false</auto_size>
@@ -59,72 +59,58 @@
     </scale_options>
     <scripts />
     <show_scrollbar>false</show_scrollbar>
-    <text>Sim1 Test</text>
+    <text>Array Test</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>146</width>
+    <width>120</width>
     <wrap_words>false</wrap_words>
-    <x>12</x>
-    <y>12</y>
+    <x>65</x>
+    <y>7</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>modbusDataTypes.opi</path>
+        <path>modbusArrayTest.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
           <P>SIM1:</P>
-          <OUT>LO:</OUT>
-          <IN>LI:</IN>
-          <OREC>longout</OREC>
-          <IREC>longin</IREC>
+          <R>UINT16:</R>
         </macros>
         <mode>1</mode>
-        <description>longout/longin</description>
+        <description>UINT16</description>
       </action>
       <action type="OPEN_DISPLAY">
-        <path>modbusDataTypes.opi</path>
+        <path>modbusArrayTest.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
           <P>SIM1:</P>
-          <OUT>AO:</OUT>
-          <IN>AI:</IN>
-          <OREC>ao</OREC>
-          <IREC>ai</IREC>
+          <R>INT16:</R>
         </macros>
         <mode>1</mode>
-        <description>ao/ai</description>
+        <description>INT16</description>
       </action>
       <action type="OPEN_DISPLAY">
-        <path>Koyo_8inputs.opi</path>
+        <path>modbusArrayTest.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
           <P>SIM1:</P>
-          <R>BI</R>
-          <A>B</A>
-          <L>MBBID0</L>
-          <PORT>BI</PORT>
-          <AC>Bit</AC>
+          <R>INT32_LE:</R>
         </macros>
         <mode>1</mode>
-        <description>Binary inputs</description>
+        <description>INT32_LE</description>
       </action>
       <action type="OPEN_DISPLAY">
-        <path>Koyo_8outputs.opi</path>
+        <path>modbusArrayTest.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
           <P>SIM1:</P>
-          <R>BO</R>
-          <A>B</A>
-          <L>MBBOD0</L>
-          <PORT>BO</PORT>
-          <AC>Bit</AC>
+          <R>INT32_BE:</R>
         </macros>
         <mode>1</mode>
-        <description>Binary outputs</description>
+        <description>INT32_BE</description>
       </action>
     </actions>
     <actions_from_pv>false</actions_from_pv>
@@ -147,8 +133,8 @@
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>25</height>
-    <label>Inputs &amp; outputs</label>
+    <height>20</height>
+    <label>Arrays</label>
     <name>Menu Button</name>
     <pv_name></pv_name>
     <pv_value />
@@ -165,56 +151,31 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Menu Button</widget_type>
-    <width>158</width>
-    <x>5</x>
-    <y>51</y>
+    <width>120</width>
+    <x>98</x>
+    <y>58</y>
   </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.MenuButton" version="1.0.0">
-    <actions hook="false" hook_all="false">
-      <action type="OPEN_DISPLAY">
-        <path>asynRecord.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-          <P>SIM1:</P>
-          <R>OctetAsyn</R>
-        </macros>
-        <mode>1</mode>
-        <description>Octet asyn record</description>
-      </action>
-      <action type="OPEN_DISPLAY">
-        <path></path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-        </macros>
-        <mode>1</mode>
-        <description></description>
-      </action>
-    </actions>
-    <actions_from_pv>false</actions_from_pv>
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
     <background_color>
-      <color red="115" green="223" blue="255" />
+      <color red="255" green="255" blue="255" />
     </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>6</border_style>
+    <border_style>0</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
-      <opifont.name fontName="Sans" height="10" style="0" pixels="false">Default</opifont.name>
+      <fontdata fontName="Sans" height="11" style="0" pixels="false" />
     </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>25</height>
-    <label>Octet asyn record</label>
-    <name>Menu Button</name>
-    <pv_name></pv_name>
-    <pv_value />
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label</name>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -222,14 +183,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_down_arrow>false</show_down_arrow>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <transparent>false</transparent>
+    <show_scrollbar>false</show_scrollbar>
+    <text>Arrays</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
-    <widget_type>Menu Button</widget_type>
-    <width>158</width>
-    <x>7</x>
-    <y>81</y>
+    <widget_type>Label</widget_type>
+    <width>60</width>
+    <wrap_words>false</wrap_words>
+    <x>33</x>
+    <y>58</y>
   </widget>
 </display>
