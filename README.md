@@ -7,6 +7,6 @@ and the EPICS asyn TCP/IP or serial port driver.
 
 Additional information:
 
-* [Home page](http://cars.uchicago.edu/software/epics/modbus.html)
-* [Documentation](http://cars.uchicago.edu/software/epics/modbusDoc.html)
-* [Release notes](http://cars.uchicago.edu/software/epics/modbusReleaseNotes.html)
+* [Home page](https://cars.uchicago.edu/software/epics/modbus.html)
+* [Documentation](https://cars.uchicago.edu/software/epics/modbusDoc.html)
+* [Release notes](https://cars.uchicago.edu/software/epics/modbusReleaseNotes.html)
