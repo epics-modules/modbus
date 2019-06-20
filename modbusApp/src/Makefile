@@ -17,6 +17,8 @@ INC += drvModbusAsyn.h
 
 LIBRARY_IOC = modbus
 
+USR_CFLAGS += -DUSE_TYPED_RSET
+
 LIB_SRCS += drvModbusAsyn.c
 LIB_SRCS += modbusInterpose.c
 LIB_SRCS += testModbusSyncIO.cpp

@@ -40,9 +40,7 @@ public:
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
     int P_SyncIO_;
-    #define FIRST_COMMAND P_SyncIO_
     int P_LockIO_;
-    #define LAST_COMMAND P_LockIO_
  
 private:
     /* Our data */
@@ -57,15 +55,12 @@ private:
     void      *pasynInt32OutputPvt_;
 };
 
-#define NUM_PARAMS (&LAST_COMMAND - &FIRST_COMMAND + 1)
-
 
 /** Constructor for the testModbusSyncIO class.
   * Calls constructor for the asynPortDriver base class. */
 testModbusSyncIO::testModbusSyncIO(const char *portName, const char *inputDriver, const char* outputDriver) 
    : asynPortDriver(portName, 
                     1, /* maxAddr */ 
-                    (int)NUM_PARAMS,
                     asynInt32Mask | asynDrvUserMask, /* Interface mask */
                     0, /* Interrupt mask */
                     ASYN_CANBLOCK, /* asynFlags.  This driver blocks and it is not multi-device*/
