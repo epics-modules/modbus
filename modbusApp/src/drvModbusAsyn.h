@@ -1,11 +1,13 @@
 /* drvModbusAsyn.h
  *
  *   Author: Mark Rivers
- *   4-Mar-2007
  *
  *   These are the public definitions for drvModbusAsyn.
  * 
  */
+
+#include <asynPortDriver.h>
+#include "modbus.h"
 
 /* These are the strings that device support passes to drivers via 
  * the asynDrvUser interface.
@@ -41,6 +43,8 @@
 #define MODBUS_LAST_IO_TIME_STRING     "LAST_IO_TIME"
 #define MODBUS_MAX_IO_TIME_STRING      "MAX_IO_TIME"
 
+#define HISTOGRAM_LENGTH 200  /* Length of time histogram */
+
 typedef enum {
     dataTypeUInt16,           /* 16-bit unsigned               drvUser=UINT16 */
     dataTypeInt16SM,          /* 16-bit sign and magnitude     drvUser=INT16SM */
@@ -61,13 +65,97 @@ typedef enum {
 
 #define MAX_MODBUS_DATA_TYPES 15
 
+class drvModbusAsyn : public asynPortDriver {
+public:
+    drvModbusAsyn(const char *portName, const char *octetPortName, 
+                  int modbusSlave, int modbusFunction, 
+                  int modbusStartAddress, int modbusLength,
+                  modbusDataType_t dataType,
+                  int pollMsec, 
+                  const char *plcType);
+                 
+    /* These are the methods that we override from asynPortDriver */
 
-int drvModbusAsynConfigure(char *portName, 
-                           char *octetPortName, 
-                           int modbusSlave,
-                           int modbusFunction, 
-                           int modbusStartAddress, 
-                           int modbusLength,
-                           modbusDataType_t dataType,
-                           int pollMsec, 
-                           char *plcType);
+    /* These functions are in the asynCommon interface */
+    virtual void report(FILE *fp, int details);
+    virtual asynStatus connect(asynUser *pasynUser);
+
+   /* These functions are in the asynDrvUser interface */
+    virtual asynStatus drvUserCreate(asynUser *pasynUser, const char *drvInfo, const char **pptypeName, size_t *psize);
+
+    /* These functions are in the asynUInt32Digital interface */
+    virtual asynStatus writeUInt32D(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
+    virtual asynStatus readUInt32D(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask);
+
+    /* These functions are in the asynInt32 interface */
+    virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
+    virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
+
+    /* These functions are in the asynFloat64 interface */
+    virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
+    virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
+
+    /* These functions are in the asynInt32Array interface */
+    virtual asynStatus readInt32Array(asynUser *pasynUser, epicsInt32 *data, size_t maxChans, size_t *nactual);
+    virtual asynStatus writeInt32Array(asynUser *pasynUser, epicsInt32 *data, size_t maxChans);
+
+    /* These functions are in the asynOctet interface */
+    virtual asynStatus writeOctet(asynUser *pasynUser, const char *value, size_t maxChars, size_t *nActual);
+    virtual asynStatus readOctet(asynUser *pasynUser, char *value, size_t maxChars, size_t *nActual, int *eomReason);
+
+    /* These are the methods that are new to this class */
+    void readPoller();
+    modbusDataType_t getDataType(asynUser *pasynUser);
+    asynStatus checkOffset(int offset);
+    asynStatus checkModbusFunction(int *modbusFunction);
+    asynStatus doModbusIO(int slave, int function, int start, epicsUInt16 *data, int len);
+    asynStatus readPlcInt(modbusDataType_t dataType, int offset, epicsInt32 *value, int *bufferLen);
+    asynStatus writePlcInt(modbusDataType_t dataType, int offset, epicsInt32 value, epicsUInt16 *buffer, int *bufferLen);
+    asynStatus readPlcFloat(modbusDataType_t dataType, int offset, epicsFloat64 *value, int *bufferLen);
+    asynStatus writePlcFloat(modbusDataType_t dataType, int offset, epicsFloat64  value, epicsUInt16 *buffer, int *bufferLen);
+    asynStatus readPlcString (modbusDataType_t dataType, int offset, char *value, size_t maxChars, int *bufferLen);
+    asynStatus writePlcString(modbusDataType_t dataType, int offset, const char *value, size_t maxChars, size_t *nActual, int *bufferLen);
+    int modbusExiting_;
+
+protected:
+    /** Values used for pasynUser->reason, and indexes into the parameter library. */
+    int P_Run;
+ 
+private:
+    /* Our data */
+    char *octetPortName_;        /* asyn port name for the asyn octet port */
+    char *plcType_;              /* String describing PLC type */
+    int isConnected_;            /* Connection status */
+    asynStatus ioStatus_;        /* I/O error status */
+    asynUser  *pasynUserOctet_;  /* asynUser for asynOctet interface to asyn octet port */ 
+    asynUser  *pasynUserCommon_; /* asynUser for asynCommon interface to asyn octet port */
+    asynUser  *pasynUserTrace_;  /* asynUser for asynTrace on this port */
+    int modbusSlave_;            /* Modbus slave address */
+    int modbusFunction_;         /* Modbus function code */
+    int modbusStartAddress_;     /* Modbus starting addess for this port */
+    int modbusLength_;           /* Number of words or bits of Modbus data */
+    bool absoluteAddressing_;    /* Address from asyn are absolute, rather than relative to modbusStartAddress */
+    modbusDataType_t dataType_;  /* Data type */
+    epicsUInt16 *data_;          /* Memory buffer */
+    char modbusRequest_[MAX_MODBUS_FRAME_SIZE];      /* Modbus request message */
+    char modbusReply_[MAX_MODBUS_FRAME_SIZE];        /* Modbus reply message */
+    double pollDelay_;           /* Delay for readPoller */
+    epicsThreadId readPollerThreadId_;
+    epicsEventId readPollerEventId_;
+    int forceCallback_;
+    int readOnceFunction_;
+    int readOnceDone_;
+    asynStatus prevIOStatus_;
+    int readOK_;                 /* Statistics */
+    int writeOK_;
+    int IOErrors_;
+    int currentIOErrors_; /* IO Errors since last successful writeRead cycle */
+    int maxIOMsec_;
+    int lastIOMsec_; 
+    epicsInt32 timeHistogram_[HISTOGRAM_LENGTH];     /* Histogram of read-times */
+    epicsInt32 histogramTimeAxis_[HISTOGRAM_LENGTH]; /* Time axis of histogram of read-times */
+    int enableHistogram_;
+    int histogramMsPerBin_;
+    int readbackOffset_;  /* Readback offset for Wago devices */
+    int modbusInitialized_;
+};
