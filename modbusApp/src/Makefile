@@ -18,18 +18,16 @@ INC += drvModbusAsyn.h
 LIBRARY_IOC = modbus
 
 USR_CFLAGS += -DUSE_TYPED_RSET
+USR_CPPFLAGS += -DUSE_TYPED_RSET
+USR_CPPFLAGS += -fmax-errors=10
 
-LIB_SRCS += drvModbusAsyn.c
+
+LIB_SRCS += drvModbusAsyn.cpp
 LIB_SRCS += modbusInterpose.c
 LIB_SRCS += testModbusSyncIO.cpp
 LIB_LIBS += asyn 
 LIB_LIBS += $(EPICS_BASE_IOC_LIBS)
 LIB_SYS_LIBS_WIN32 += ws2_32
-
-#===========================
-
-#Note that the command line that builds the
-#library $(LIBNAME) may be HUGE (>3kB)
 
 #=============================
 # build an ioc application
