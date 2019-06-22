@@ -15,8 +15,22 @@
  * for that command.
  */
 
-#define MODBUS_DATA_STRING             "MODBUS_DATA" 
-#define MODBUS_READ_STRING             "MODBUS_READ" 
+// These are the parameters we register with asynPortDriver
+#define MODBUS_DATA_STRING                "MODBUS_DATA" 
+#define MODBUS_READ_STRING                "MODBUS_READ" 
+#define MODBUS_ENABLE_HISTOGRAM_STRING    "ENABLE_HISTOGRAM"
+#define MODBUS_READ_HISTOGRAM_STRING      "READ_HISTOGRAM"
+#define MODBUS_HISTOGRAM_BIN_TIME_STRING  "HISTOGRAM_BIN_TIME"
+#define MODBUS_HISTOGRAM_TIME_AXIS_STRING "HISTOGRAM_TIME_AXIS"
+#define MODBUS_POLL_DELAY_STRING          "POLL_DELAY"
+#define MODBUS_READ_OK_STRING             "READ_OK"
+#define MODBUS_WRITE_OK_STRING            "WRITE_OK"
+#define MODBUS_IO_ERRORS_STRING           "IO_ERRORS"
+#define MODBUS_LAST_IO_TIME_STRING        "LAST_IO_TIME"
+#define MODBUS_MAX_IO_TIME_STRING         "MAX_IO_TIME"
+
+// These are the data type strings that are used in the drvUser parameter
+// They are not registered with asynPortDriver
 #define MODBUS_UINT16_STRING           "UINT16" 
 #define MODBUS_INT16_SM_STRING         "INT16SM" 
 #define MODBUS_BCD_UNSIGNED_STRING     "BCD_UNSIGNED" 
@@ -32,16 +46,6 @@
 #define MODBUS_STRING_LOW_STRING       "STRING_LOW" 
 #define MODBUS_STRING_HIGH_LOW_STRING  "STRING_HIGH_LOW" 
 #define MODBUS_STRING_LOW_HIGH_STRING  "STRING_LOW_HIGH" 
-#define MODBUS_ENABLE_HISTOGRAM_STRING "ENABLE_HISTOGRAM"
-#define MODBUS_READ_HISTOGRAM_STRING   "READ_HISTOGRAM"
-#define MODBUS_HISTOGRAM_BIN_TIME_STRING  "HISTOGRAM_BIN_TIME"
-#define MODBUS_HISTOGRAM_TIME_AXIS_STRING "HISTOGRAM_TIME_AXIS"
-#define MODBUS_POLL_DELAY_STRING       "POLL_DELAY"
-#define MODBUS_READ_OK_STRING          "READ_OK"
-#define MODBUS_WRITE_OK_STRING         "WRITE_OK"
-#define MODBUS_IO_ERRORS_STRING        "IO_ERRORS"
-#define MODBUS_LAST_IO_TIME_STRING     "LAST_IO_TIME"
-#define MODBUS_MAX_IO_TIME_STRING      "MAX_IO_TIME"
 
 #define HISTOGRAM_LENGTH 200  /* Length of time histogram */
 
@@ -79,13 +83,14 @@ public:
     /* These functions are in the asynCommon interface */
     virtual void report(FILE *fp, int details);
     virtual asynStatus connect(asynUser *pasynUser);
+    virtual asynStatus getAddress(asynUser *pasynUser, int *address);
 
    /* These functions are in the asynDrvUser interface */
     virtual asynStatus drvUserCreate(asynUser *pasynUser, const char *drvInfo, const char **pptypeName, size_t *psize);
 
     /* These functions are in the asynUInt32Digital interface */
-    virtual asynStatus writeUInt32D(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
-    virtual asynStatus readUInt32D(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask);
+    virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
+    virtual asynStatus readUInt32Digital(asynUser *pasynUser, epicsUInt32 *value, epicsUInt32 mask);
 
     /* These functions are in the asynInt32 interface */
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
@@ -119,7 +124,18 @@ public:
 
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
-    int P_Run;
+    int P_Data;
+    int P_Read;
+    int P_EnableHistogram;
+    int P_ReadHistogram;
+    int P_HistogramBinTime;
+    int P_HistogramTimeAxis;
+    int P_PollDelay;
+    int P_ReadOK;
+    int P_WriteOK;
+    int P_IOErrors;
+    int P_LastIOTime;
+    int P_MaxIOTime;
  
 private:
     /* Our data */
@@ -146,12 +162,12 @@ private:
     int readOnceFunction_;
     int readOnceDone_;
     asynStatus prevIOStatus_;
-    int readOK_;                 /* Statistics */
+    int readOK_;
     int writeOK_;
     int IOErrors_;
     int currentIOErrors_; /* IO Errors since last successful writeRead cycle */
     int maxIOMsec_;
-    int lastIOMsec_; 
+    int lastIOMsec_;
     epicsInt32 timeHistogram_[HISTOGRAM_LENGTH];     /* Histogram of read-times */
     epicsInt32 histogramTimeAxis_[HISTOGRAM_LENGTH]; /* Time axis of histogram of read-times */
     int enableHistogram_;
