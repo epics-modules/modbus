@@ -12,11 +12,11 @@
     <h1>
       Driver Support for Modbus Protocol under EPICS</h1>
     <h2>
-      Release 2-11</h2>
+      Release 3-0</h2>
     <h2>
       Mark Rivers</h2>
     <h2>
-      June 28, 1018</h2>
+      June XXX, 2019</h2>
     <hr />
   </div>
   <h2>
@@ -72,29 +72,24 @@
       </tr>
       <tr>
         <td>
-          TCP
-        </td>
+          TCP </td>
         <td>
-          TCP/IP using standard port 502.
-        </td>
+          TCP/IP using standard port 502. </td>
       </tr>
       <tr>
         <td>
-          RTU
-        </td>
+          RTU </td>
         <td>
           RTU is normally run over serial communication links, i.e. RS-232, RS-422, or RS-485.
           RTU uses an additional CRC for packet checking. The protocol directly transmits
           each byte as 8 data bits, so uses "binary" rather than ASCII encoding. When using
           serial links start and end of message frames is detected by timing rather than by
           specific characters. RTU can also be run over TCP, though this is less common than
-          the standard Modbus TCP without RTU.
-        </td>
+          the standard Modbus TCP without RTU. </td>
       </tr>
       <tr>
         <td>
-          Serial ASCII
-        </td>
+          Serial ASCII </td>
         <td>
           Serial protocol, which is normally run over serial communication links, i.e. RS-232,
           RS-422, or RS-485. Serial ASCII uses an additional LRC for packet checking. The
@@ -102,8 +97,7 @@
           is detected by specific characters (":" to start a message and CR/LF to end a message).
           This protocol is less efficient than RTU, but may be more reliable in some environments.
           ASCII can also be run over TCP, though this is much less common than the standard
-          Modbus TCP.
-        </td>
+          Modbus TCP. </td>
       </tr>
     </tbody>
   </table>
@@ -138,59 +132,43 @@
       </tr>
       <tr>
         <td>
-          Discrete Inputs
-        </td>
+          Discrete Inputs </td>
         <td>
-          Single bit
-        </td>
+          Single bit </td>
         <td>
-          Read-Only
-        </td>
+          Read-Only </td>
         <td>
-          This type of data can be provided by an I/O system.
-        </td>
+          This type of data can be provided by an I/O system. </td>
       </tr>
       <tr>
         <td>
-          Coils
-        </td>
+          Coils </td>
         <td>
-          Single bit
-        </td>
+          Single bit </td>
         <td>
-          Read-Write
-        </td>
+          Read-Write </td>
         <td>
-          This type of data can be alterable by an application program.
-        </td>
+          This type of data can be alterable by an application program. </td>
       </tr>
       <tr>
         <td>
-          Input Registers
-        </td>
+          Input Registers </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          Read-Only
-        </td>
+          Read-Only </td>
         <td>
-          This type of data can be provided by an I/O system.
-        </td>
+          This type of data can be provided by an I/O system. </td>
       </tr>
       <tr>
         <td>
-          Holding Registers
-        </td>
+          Holding Registers </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          Read-Write
-        </td>
+          Read-Write </td>
         <td>
-          This type of data can be alterable by an application program.
-        </td>
+          This type of data can be alterable by an application program. </td>
       </tr>
     </tbody>
   </table>
@@ -231,102 +209,75 @@
       </tr>
       <tr>
         <td>
-          Bit access
-        </td>
+          Bit access </td>
         <td>
-          Read Coils
-        </td>
+          Read Coils </td>
         <td>
-          1
-        </td>
+          1 </td>
       </tr>
       <tr>
         <td>
-          Bit access
-        </td>
+          Bit access </td>
         <td>
-          Read Discrete Inputs
-        </td>
+          Read Discrete Inputs </td>
         <td>
-          2
-        </td>
+          2 </td>
       </tr>
       <tr>
         <td>
-          Bit access
-        </td>
+          Bit access </td>
         <td>
-          Write Single Coil
-        </td>
+          Write Single Coil </td>
         <td>
-          5
-        </td>
+          5 </td>
       </tr>
       <tr>
         <td>
-          Bit access
-        </td>
+          Bit access </td>
         <td>
-          Write Multiple Coils
-        </td>
+          Write Multiple Coils </td>
         <td>
-          15
-        </td>
+          15 </td>
       </tr>
       <tr>
         <td>
-          16-bit word access
-        </td>
+          16-bit word access </td>
         <td>
-          Read Input Registers
-        </td>
+          Read Input Registers </td>
         <td>
-          4
-        </td>
+          4 </td>
       </tr>
       <tr>
         <td>
-          16-bit word access
-        </td>
+          16-bit word access </td>
         <td>
-          Read Holding Registers
-        </td>
+          Read Holding Registers </td>
         <td>
-          3
-        </td>
+          3 </td>
       </tr>
       <tr>
         <td>
-          16-bit word access
-        </td>
+          16-bit word access </td>
         <td>
-          Write Single Register
-        </td>
+          Write Single Register </td>
         <td>
-          6
-        </td>
+          6 </td>
       </tr>
       <tr>
         <td>
-          16-bit word access
-        </td>
+          16-bit word access </td>
         <td>
-          Write Multiple Registers
-        </td>
+          Write Multiple Registers </td>
         <td>
-          16
-        </td>
+          16 </td>
       </tr>
       <tr>
         <td>
-          16-bit word access
-        </td>
+          16-bit word access </td>
         <td>
-          Read/Write Multiple Registers
-        </td>
+          Read/Write Multiple Registers </td>
         <td>
-          23
-        </td>
+          23 </td>
       </tr>
     </tbody>
   </table>
@@ -365,80 +316,59 @@
       </tr>
       <tr>
         <td>
-          Inputs (X)
-        </td>
+          Inputs (X) </td>
         <td>
-          2048 (04000)
-        </td>
+          2048 (04000) </td>
         <td>
-          2
-        </td>
+          2 </td>
       </tr>
       <tr>
         <td>
-          Special Relays (SP)
-        </td>
+          Special Relays (SP) </td>
         <td>
-          3072 (06000)
-        </td>
+          3072 (06000) </td>
         <td>
-          2
-        </td>
+          2 </td>
       </tr>
       <tr>
         <td>
-          Outputs (Y)
-        </td>
+          Outputs (Y) </td>
         <td>
-          2048 (04000)
-        </td>
+          2048 (04000) </td>
         <td>
-          1, 5, 15
-        </td>
+          1, 5, 15 </td>
       </tr>
       <tr>
         <td>
-          Control Relays (C)
-        </td>
+          Control Relays (C) </td>
         <td>
-          3072 (06000)
-        </td>
+          3072 (06000) </td>
         <td>
-          1, 5, 15
-        </td>
+          1, 5, 15 </td>
       </tr>
       <tr>
         <td>
-          Timer Contacts (T)
-        </td>
+          Timer Contacts (T) </td>
         <td>
-          6144 (014000)
-        </td>
+          6144 (014000) </td>
         <td>
-          1, 5, 15
-        </td>
+          1, 5, 15 </td>
       </tr>
       <tr>
         <td>
-          Counter Contacts (CT)
-        </td>
+          Counter Contacts (CT) </td>
         <td>
-          6400 (014400)
-        </td>
+          6400 (014400) </td>
         <td>
-          1, 5, 15
-        </td>
+          1, 5, 15 </td>
       </tr>
       <tr>
         <td>
-          Stage Status Bits (S)
-        </td>
+          Stage Status Bits (S) </td>
         <td>
-          6144 (012000)
-        </td>
+          6144 (012000) </td>
         <td>
-          1, 5, 15
-        </td>
+          1, 5, 15 </td>
       </tr>
       <tr>
         <th align="center" colspan="3,">
@@ -447,124 +377,91 @@
       </tr>
       <tr>
         <td>
-          Timer Current Values (TA)
-        </td>
+          Timer Current Values (TA) </td>
         <td>
-          0 (00)
-        </td>
+          0 (00) </td>
         <td>
-          4
-        </td>
+          4 </td>
       </tr>
       <tr>
         <td>
-          Counter Current Values (CTA)
-        </td>
+          Counter Current Values (CTA) </td>
         <td>
-          512 (01000)
-        </td>
+          512 (01000) </td>
         <td>
-          4
-        </td>
+          4 </td>
       </tr>
       <tr>
         <td>
-          Global Inputs (VGX)
-        </td>
+          Global Inputs (VGX) </td>
         <td>
-          16384 (040000)
-        </td>
+          16384 (040000) </td>
         <td>
-          4
-        </td>
+          4 </td>
       </tr>
       <tr>
         <td>
-          Global Outputs (VGY)
-        </td>
+          Global Outputs (VGY) </td>
         <td>
-          16512 (040200)
-        </td>
+          16512 (040200) </td>
         <td>
-          3, 6, 16
-        </td>
+          3, 6, 16 </td>
       </tr>
       <tr>
         <td>
-          Inputs (VX)
-        </td>
+          Inputs (VX) </td>
         <td>
-          16640 (040400)
-        </td>
+          16640 (040400) </td>
         <td>
-          4
-        </td>
+          4 </td>
       </tr>
       <tr>
         <td>
-          Outputs (VY)
-        </td>
+          Outputs (VY) </td>
         <td>
-          16704 (040500)
-        </td>
+          16704 (040500) </td>
         <td>
-          3, 6, 16
-        </td>
+          3, 6, 16 </td>
       </tr>
       <tr>
         <td>
-          Control Relays (VC)
-        </td>
+          Control Relays (VC) </td>
         <td>
-          16768 (040600)
-        </td>
+          16768 (040600) </td>
         <td>
-          3, 6, 16
-        </td>
+          3, 6, 16 </td>
       </tr>
       <tr>
         <td>
-          Stage Status Bits (VS)
-        </td>
+          Stage Status Bits (VS) </td>
         <td>
-          16896 (041000)
-        </td>
+          16896 (041000) </td>
         <td>
-          3, 6, 16
-        </td>
+          3, 6, 16 </td>
       </tr>
       <tr>
         <td>
-          Timer Contacts (VT)
-        </td>
+          Timer Contacts (VT) </td>
         <td>
-          16960 (041100)
-        </td>
+          16960 (041100) </td>
         <td>
-          3, 6, 16
-        </td>
+          3, 6, 16 </td>
       </tr>
       <tr>
         <td>
-          Counter Contacts (VCT)
-        </td>
+          Counter Contacts (VCT) </td>
         <td>
-          16992 (041140)
-        </td>
+          16992 (041140) </td>
         <td>
-          3, 6, 16
-        </td>
+          3, 6, 16 </td>
       </tr>
       <tr>
         <td>
-          Special Relays (VSP)
-        </td>
+          Special Relays (VSP) </td>
         <td>
-          17024 (041200)
-        </td>
+          17024 (041200) </td>
         <td>
-          4
-        </td>
+          4 </td>
       </tr>
     </tbody>
   </table>
@@ -625,7 +522,9 @@
       asyn interfaces (asynUInt32Digital, asynInt32, etc.). This driver sends and receives
       device-independent Modbus frames via the standard asynOctet interface to the "interpose
       interface" (layer 3). These frames are independent of the underlying communications
-      protocol.</li>
+      protocol. Prior to R3-0 this driver was written in C. In R3-0 it was written as
+      a C++ class that inherits from asynPortDriver. This allows it to export its methods
+      in a way that is easy for other drivers to use, in particular the doModbusIO() method.</li>
     <li>An asyn "interpose interface" layer that handles the additional data required
       by the underlying communications layer (TCP, RTU, ASCII). This layer communicates
       via the standard asynOctet interface to both the overlying Modbus driver (layer
@@ -653,7 +552,14 @@
     It is also possible to create a driver is allowed to address any location in the
     16-bit Modbus address space. Each read or write operation is still limited to the
     125/123 word limits. In this case the asyn address that is used by each record is
-    the absolute Modbus address.
+    the absolute Modbus address. This absolute addressing mode is enabled by passing
+    -1 as the modbusStartAddress when creating the driver.
+  </p>
+  <p>
+    The restriction the modbus port driver to a single Modbus function does not apply
+    to the doModbusIO() method. This method can be used for arbitrary Modbus IO using
+    any function code. If absolute addressing is enabled as described above then the
+    doModbusIO() function can also address any Modbus memory location.
   </p>
   <p>
     The behavior of the port driver differs for read function codes (1, 2, 3, 4), write
@@ -687,7 +593,7 @@
     SCAN=I/O Intr. They must either be periodically scanned, or scanned by directly
     causing the record to process, such as writing 1 to the .PROC field. Each time the
     record processes it will result in a separate Modbus read operation. NOTE: This
-    is <b>much</b> less efficient that reading many registers at once with relative
+    is <b>much</b> less efficient than reading many registers at once with relative
     Modbus addressing. For this reason absolute Modbus addressing with read functions
     should normally be avoided.</p>
   <h3>
@@ -863,56 +769,44 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
       </tr>
       <tr>
         <td>
-          portName
-        </td>
+          portName </td>
         <td>
-          string
-        </td>
+          string </td>
         <td>
-          Name of the asynIPPort or asynSerialPort previously created.
-        </td>
+          Name of the asynIPPort or asynSerialPort previously created. </td>
       </tr>
       <tr>
         <td>
-          linkType
-        </td>
+          linkType </td>
         <td>
-          int
-        </td>
+          int </td>
         <td>
           Modbus link layer type:<br />
           0 = TCP/IP<br />
           1 = RTU<br />
-          2 = ASCII
-        </td>
+          2 = ASCII </td>
       </tr>
       <tr>
         <td>
-          timeoutMsec
-        </td>
+          timeoutMsec </td>
         <td>
-          int
-        </td>
+          int </td>
         <td>
           The timeout in milliseconds for write and read operations to the underlying asynOctet
           driver. This value is used in place of the timeout parameter specified in EPICS
           device support. If zero is specified then a default timeout of 2000 milliseconds
-          is used.
-        </td>
+          is used. </td>
       </tr>
       <tr>
         <td>
-          writeDelayMsec
-        </td>
+          writeDelayMsec </td>
         <td>
-          int
-        </td>
+          int </td>
         <td>
           The delay in milliseconds before each write from EPICS to the device. This is typically
           only needed for Serial RTU devices. The Modicon Modbus Protocol Reference Guide
           says this must be at least 3.5 character times, e.g. about 3.5ms at 9600 baud, for
-          Serial RTU. The default is 0.
-        </td>
+          Serial RTU. The default is 0. </td>
       </tr>
     </tbody>
   </table>
@@ -958,72 +852,55 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
       </tr>
       <tr>
         <td>
-          portName
-        </td>
+          portName </td>
         <td>
-          string
-        </td>
+          string </td>
         <td>
-          Name of the <b>modbus</b> port to be created.
-        </td>
+          Name of the <b>modbus</b> port to be created. </td>
       </tr>
       <tr>
         <td>
-          tcpPortName
-        </td>
+          tcpPortName </td>
         <td>
-          string
-        </td>
+          string </td>
         <td>
-          Name of the asyn IP or serial port previously created.
-        </td>
+          Name of the asyn IP or serial port previously created. </td>
       </tr>
       <tr>
         <td>
-          slaveAddress
-        </td>
+          slaveAddress </td>
         <td>
-          int
-        </td>
+          int </td>
         <td>
           The address of the Modbus slave. This must match the configuration of the Modbus
           slave (PLC) for RTU and ASCII. For TCP the slave address is used for the "unit identifier",
           the last field in the MBAP header. The "unit identifier" is ignored by most PLCs,
-          but may be required by some.
-        </td>
+          but may be required by some. </td>
       </tr>
       <tr>
         <td>
-          modbusFunction
-        </td>
+          modbusFunction </td>
         <td>
-          int
-        </td>
+          int </td>
         <td>
           Modbus function code (1, 2, 3, 4, 5, 6, 15, 16, 123 (for 23 read-only), or 223 (for
-          23 write-only)).
-        </td>
+          23 write-only)). </td>
       </tr>
       <tr>
         <td>
-          modbusStartAddress
-        </td>
+          modbusStartAddress </td>
         <td>
-          int
-        </td>
+          int </td>
         <td>
           Start address for the Modbus data segment to be accessed. For relative addressing
           this must be in the range 0-65535 decimal, or 0-0177777 octal. For absolute addressing
-          this must be set to -1.
-        </td>
+          this must be set to -1. </td>
       </tr>
       <tr>
         <td>
-          modbusLength
-        </td>
+          modbusLength </td>
         <td>
-          int
-        </td>
+          int </td>
         <td>
           The length of the Modbus data segment to be accessed.<br />
           This is specified in bits for Modbus functions 1, 2, 5 and 15.<br />
@@ -1034,49 +911,39 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
           single Modbus operation that may be used. This would be 1 if all Modbus reads and
           writes are for 16-bit registers, but it would be 4 if 64-bit floats (4 16-bit registers)
           are being used, and 100 (for example) if an Int32 waveform record with NELM=100
-          is being read or written.
-        </td>
+          is being read or written. </td>
       </tr>
       <tr>
         <td>
-          modbusDataType
-        </td>
+          modbusDataType </td>
         <td>
-          int
-        </td>
+          int </td>
         <td>
           This sets the default data type for this port. This is the data type used if the
           drvUser field of a record is empty, or if it is MODBUS_DATA. The supported Modbus
-          data types and correponding drvUser fields are described in the table below.
-        </td>
+          data types and correponding drvUser fields are described in the table below. </td>
       </tr>
       <tr>
         <td>
-          pollMsec
-        </td>
+          pollMsec </td>
         <td>
-          int
-        </td>
+          int </td>
         <td>
           Polling delay time in msec for the polling thread for read functions.<br />
           For write functions, a non-zero value means that the Modbus data should<br />
-          be read once when the port driver is first created.
-        </td>
+          be read once when the port driver is first created. </td>
       </tr>
       <tr>
         <td>
-          plcType
-        </td>
+          plcType </td>
         <td>
-          string
-        </td>
+          string </td>
         <td>
           Type of PLC (e.g. Koyo, Modicon, etc.).
           <br />
           This parameter is currently used to print information in asynReport.<br />
           It is also used to treat Wago devices specially if the plcType string contains the
-          substring "Wago". See the note below.
-        </td>
+          substring "Wago". See the note below. </td>
       </tr>
     </tbody>
   </table>
@@ -1119,22 +986,17 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
       </tr>
       <tr>
         <td>
-          0
-        </td>
+          0 </td>
         <td>
-          UINT16
-        </td>
+          UINT16 </td>
         <td>
-          Unsigned 16-bit binary integers
-        </td>
+          Unsigned 16-bit binary integers </td>
       </tr>
       <tr>
         <td>
-          1
-        </td>
+          1 </td>
         <td>
-          INT16SM
-        </td>
+          INT16SM </td>
         <td>
           16-bit binary integers, sign and magnitude format. In this format bit 15 is the
           sign bit, and bits 0-14 are the absolute value of the magnitude of the number. This
@@ -1143,11 +1005,9 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
       </tr>
       <tr>
         <td>
-          2
-        </td>
+          2 </td>
         <td>
-          BCD_UNSIGNED
-        </td>
+          BCD_UNSIGNED </td>
         <td>
           Binary coded decimal (BCD), unsigned. This data type is for a 16-bit number consisting
           of 4 4-bit nibbles, each of which encodes a decimal number from 0-9. A BCD number
@@ -1156,147 +1016,111 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
       </tr>
       <tr>
         <td>
-          3
-        </td>
+          3 </td>
         <td>
-          BCD_SIGNED
-        </td>
+          BCD_SIGNED </td>
         <td>
           4-digit binary coded decimal (BCD), signed. This data type is for a 16-bit number
           consisting of 3 4-bit nibbles, and one 3-bit nibble. Bit 15 is a sign bit. Signed
           BCD numbers can hold values from -7999 to +7999. This is one of the formats used
-          by Koyo PLCs for numbers such as ADC conversions.
-        </td>
+          by Koyo PLCs for numbers such as ADC conversions. </td>
       </tr>
       <tr>
         <td>
-          4
-        </td>
+          4 </td>
         <td>
-          INT16
-        </td>
+          INT16 </td>
         <td>
           16-bit signed (2's complement) integers. This data type extends the sign bit when
-          converting to epicsInt32.
-        </td>
+          converting to epicsInt32. </td>
       </tr>
       <tr>
         <td>
-          5
-        </td>
+          5 </td>
         <td>
-          INT32_LE
-        </td>
+          INT32_LE </td>
         <td>
           32-bit integers, little endian (least significant word at Modbus address N, most
-          significant word at Modbus address N+1)
-        </td>
+          significant word at Modbus address N+1) </td>
       </tr>
       <tr>
         <td>
-          6
-        </td>
+          6 </td>
         <td>
-          INT32_BE
-        </td>
+          INT32_BE </td>
         <td>
           32-bit integers, big endian (most significant word at Modbus address N, least significant
-          word at Modbus address N+1)
-        </td>
+          word at Modbus address N+1) </td>
       </tr>
       <tr>
         <td>
-          7
-        </td>
+          7 </td>
         <td>
-          FLOAT32_LE
-        </td>
+          FLOAT32_LE </td>
         <td>
           32-bit floating point, little endian (least significant word at Modbus address N,
-          most significant word at Modbus address N+1)
-        </td>
+          most significant word at Modbus address N+1) </td>
       </tr>
       <tr>
         <td>
-          8
-        </td>
+          8 </td>
         <td>
-          FLOAT32_BE
-        </td>
+          FLOAT32_BE </td>
         <td>
           32-bit floating point, big endian (most significant word at Modbus address N, least
-          significant word at Modbus address N+1)
-        </td>
+          significant word at Modbus address N+1) </td>
       </tr>
       <tr>
         <td>
-          9
-        </td>
+          9 </td>
         <td>
-          FLOAT64_LE
-        </td>
+          FLOAT64_LE </td>
         <td>
           64-bit floating point, little endian (least significant word at Modbus address N,
-          most significant word at Modbus address N+3)
-        </td>
+          most significant word at Modbus address N+3) </td>
       </tr>
       <tr>
         <td>
-          10
-        </td>
+          10 </td>
         <td>
-          FLOAT64_BE
-        </td>
+          FLOAT64_BE </td>
         <td>
           64-bit floating point, big endian (most significant word at Modbus address N, least
-          significant word at Modbus address N+3)
-        </td>
+          significant word at Modbus address N+3) </td>
       </tr>
       <tr>
         <td>
-          11
-        </td>
+          11 </td>
         <td>
-          STRING_HIGH
-        </td>
+          STRING_HIGH </td>
         <td>
-          String data. One character is stored in the high byte of each register.
-        </td>
+          String data. One character is stored in the high byte of each register. </td>
       </tr>
       <tr>
         <td>
-          12
-        </td>
+          12 </td>
         <td>
-          STRING_LOW
-        </td>
+          STRING_LOW </td>
         <td>
-          String data. One character is stored in the low byte of each register.
-        </td>
+          String data. One character is stored in the low byte of each register. </td>
       </tr>
       <tr>
         <td>
-          11
-        </td>
+          11 </td>
         <td>
-          STRING_HIGH_LOW
-        </td>
+          STRING_HIGH_LOW </td>
         <td>
           String data. Two characters are stored in each register, the first in the high byte
-          and the second in the low byte.
-        </td>
+          and the second in the low byte. </td>
       </tr>
       <tr>
         <td>
-          11
-        </td>
+          11 </td>
         <td>
-          STRING_LOW_HIGH
-        </td>
+          STRING_LOW_HIGH </td>
         <td>
           String data. Two characters are stored in each register, the first in the low byte
-          and the second in the high byte.
-        </td>
+          and the second in the high byte. </td>
       </tr>
     </tbody>
   </table>
@@ -1461,126 +1285,92 @@ field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          1, 2
-        </td>
+          1, 2 </td>
         <td>
-          Bit
-        </td>
+          Bit </td>
         <td>
-          Single bit
-        </td>
+          Single bit </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          bi, mbbi, mbbiDirect, longin
-        </td>
+          bi, mbbi, mbbiDirect, longin </td>
         <td>
           value = (Modbus data &amp; mask)<br />
-          (normally mask=1)
-        </td>
+          (normally mask=1) </td>
       </tr>
       <tr>
         <td>
-          3, 4, 23
-        </td>
+          3, 4, 23 </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          bi, mbbi, mbbiDirect, longin
-        </td>
+          bi, mbbi, mbbiDirect, longin </td>
         <td>
           value = (Modbus data &amp; mask)<br />
-          (mask selects bits of interest)
-        </td>
+          (mask selects bits of interest) </td>
       </tr>
       <tr>
         <td>
-          5
-        </td>
+          5 </td>
         <td>
-          Bit
-        </td>
+          Bit </td>
         <td>
-          Single bit
-        </td>
+          Single bit </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          bo, mbbo, mbboDirect, longout
-        </td>
+          bo, mbbo, mbboDirect, longout </td>
         <td>
           Modbus write (value &amp; mask)<br />
-          (normally mask=1)
-        </td>
+          (normally mask=1) </td>
       </tr>
       <tr>
         <td>
-          6
-        </td>
+          6 </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          bo, mbbo, mbboDirect, longout
-        </td>
+          bo, mbbo, mbboDirect, longout </td>
         <td>
           If mask==0 or mask==0xFFFF does Modbus write (value)<br />
           Else does read/modify/write:<br />
           Sets bits that are set in value and set in mask,<br />
-          Clears bits that are clear in value and set in mask
-        </td>
+          Clears bits that are clear in value and set in mask </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          ENABLE_HISTOGRAM
-        </td>
+          ENABLE_HISTOGRAM </td>
         <td>
-          bi, mbbi, mbbiDirect, longin
-        </td>
+          bi, mbbi, mbbiDirect, longin </td>
         <td>
           Returns 0/1 if I/O time histogramming is disabled/enabled in driver<br />
         </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          ENABLE_HISTOGRAM
-        </td>
+          ENABLE_HISTOGRAM </td>
         <td>
-          bo, mbbo, mbboDirect, longout
-        </td>
+          bo, mbbo, mbboDirect, longout </td>
         <td>
           If value = 0/1 then disable/enable I/O time histogramming in driver<br />
         </td>
@@ -1644,224 +1434,158 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          1, 2
-        </td>
+          1, 2 </td>
         <td>
-          Bit
-        </td>
+          Bit </td>
         <td>
-          Single bit
-        </td>
+          Single bit </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          ai, bi, mbbi, longin
-        </td>
+          ai, bi, mbbi, longin </td>
         <td>
-          value = (epicsUInt32)Modbus data
-        </td>
+          value = (epicsUInt32)Modbus data </td>
       </tr>
       <tr>
         <td>
-          3, 4, 23
-        </td>
+          3, 4, 23 </td>
         <td>
-          16-bit words
-        </td>
+          16-bit words </td>
         <td>
-          16, 32, or 64-bit word
-        </td>
+          16, 32, or 64-bit word </td>
         <td>
-          MODBUS_DATA (or datatype-specific value)
-        </td>
+          MODBUS_DATA (or datatype-specific value) </td>
         <td>
-          ai, mbbi, longin
-        </td>
+          ai, mbbi, longin </td>
         <td>
-          value = (epicsInt32)Modbus data
-        </td>
+          value = (epicsInt32)Modbus data </td>
       </tr>
       <tr>
         <td>
-          5
-        </td>
+          5 </td>
         <td>
-          Bit
-        </td>
+          Bit </td>
         <td>
-          Single bit
-        </td>
+          Single bit </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          ao, bo, mbbo, longout
-        </td>
+          ao, bo, mbbo, longout </td>
         <td>
-          Modbus write value
-        </td>
+          Modbus write value </td>
       </tr>
       <tr>
         <td>
-          6, 16, 23
-        </td>
+          6, 16, 23 </td>
         <td>
-          16-bit words
-        </td>
+          16-bit words </td>
         <td>
-          16, 32, or 64-bit word
-        </td>
+          16, 32, or 64-bit word </td>
         <td>
-          MODBUS_DATA (or datatype-specific value)
-        </td>
+          MODBUS_DATA (or datatype-specific value) </td>
         <td>
-          ao, mbbo, longout
-        </td>
+          ao, mbbo, longout </td>
         <td>
-          Modbus write value
-        </td>
+          Modbus write value </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          MODBUS_READ
-        </td>
+          MODBUS_READ </td>
         <td>
-          ao, bo, longout
-        </td>
+          ao, bo, longout </td>
         <td>
           Writing to a Modbus input driver with this drvUser value will force the poller thread
-          to run once immediately, regardless of the value of POLL_DELAY.
-        </td>
+          to run once immediately, regardless of the value of POLL_DELAY. </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          READ_OK
-        </td>
+          READ_OK </td>
         <td>
-          ai, longin
-        </td>
+          ai, longin </td>
         <td>
-          Returns number of successful read operations on this asyn port
-        </td>
+          Returns number of successful read operations on this asyn port </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          WRITE_OK
-        </td>
+          WRITE_OK </td>
         <td>
-          ai, longin
-        </td>
+          ai, longin </td>
         <td>
-          Returns number of successful write operations on this asyn port
-        </td>
+          Returns number of successful write operations on this asyn port </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          IO_ERRORS
-        </td>
+          IO_ERRORS </td>
         <td>
-          ai, longin
-        </td>
+          ai, longin </td>
         <td>
-          Returns number of I/O errors on this asyn port
-        </td>
+          Returns number of I/O errors on this asyn port </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          LAST_IO_TIME
-        </td>
+          LAST_IO_TIME </td>
         <td>
-          ai, longin
-        </td>
+          ai, longin </td>
         <td>
-          Returns number of milliseconds for last I/O operation
-        </td>
+          Returns number of milliseconds for last I/O operation </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          MAX_IO_TIME
-        </td>
+          MAX_IO_TIME </td>
         <td>
-          ai, longin
-        </td>
+          ai, longin </td>
         <td>
-          Returns maximum number of milliseconds for I/O operations
-        </td>
+          Returns maximum number of milliseconds for I/O operations </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          HISTOGRAM_BIN_TIME
-        </td>
+          HISTOGRAM_BIN_TIME </td>
         <td>
-          ao, longout
-        </td>
+          ao, longout </td>
         <td>
-          Sets the time per bin in msec in the statistics histogram
-        </td>
+          Sets the time per bin in msec in the statistics histogram </td>
       </tr>
     </tbody>
   </table>
@@ -1906,106 +1630,76 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")</pre>
       </tr>
       <tr>
         <td>
-          1, 2
-        </td>
+          1, 2 </td>
         <td>
-          Bit
-        </td>
+          Bit </td>
         <td>
-          Single bit
-        </td>
+          Single bit </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          ai
-        </td>
+          ai </td>
         <td>
-          value = (epicsFloat64)Modbus data
-        </td>
+          value = (epicsFloat64)Modbus data </td>
       </tr>
       <tr>
         <td>
-          3, 4, 23
-        </td>
+          3, 4, 23 </td>
         <td>
-          16-bit words
-        </td>
+          16-bit words </td>
         <td>
-          16, 32, or 64-bit word
-        </td>
+          16, 32, or 64-bit word </td>
         <td>
-          MODBUS_DATA (or datatype-specific value)
-        </td>
+          MODBUS_DATA (or datatype-specific value) </td>
         <td>
-          ai
-        </td>
+          ai </td>
         <td>
-          value = (epicsFloat64)Modbus data
-        </td>
+          value = (epicsFloat64)Modbus data </td>
       </tr>
       <tr>
         <td>
-          5
-        </td>
+          5 </td>
         <td>
-          Bit
-        </td>
+          Bit </td>
         <td>
-          Single bit
-        </td>
+          Single bit </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          ao
-        </td>
+          ao </td>
         <td>
-          Modbus write (epicsUInt16)value
-        </td>
+          Modbus write (epicsUInt16)value </td>
       </tr>
       <tr>
         <td>
-          6, 16, 23
-        </td>
+          6, 16, 23 </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          MODBUS_DATA (or datatype-specific value)
-        </td>
+          MODBUS_DATA (or datatype-specific value) </td>
         <td>
-          ao
-        </td>
+          ao </td>
         <td>
-          Modbus write value
-        </td>
+          Modbus write value </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          POLL_DELAY
-        </td>
+          POLL_DELAY </td>
         <td>
-          ai, ao
-        </td>
+          ai, ao </td>
         <td>
           Read or write the delay time in seconds between polls for the read poller thread.
           If &le;0 then the poller thread does not run periodically, it only runs when it
           is woken up by an epicsEvent signal, which happens when the driver has an asynInt32
-          write with the MODBUS_READ drvUser string.
-        </td>
+          write with the MODBUS_READ drvUser string. </td>
       </tr>
     </tbody>
   </table>
@@ -2055,125 +1749,89 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          1, 2
-        </td>
+          1, 2 </td>
         <td>
-          Bit
-        </td>
+          Bit </td>
         <td>
-          Array of bits
-        </td>
+          Array of bits </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          waveform (input)
-        </td>
+          waveform (input) </td>
         <td>
-          value = (epicsInt32)Modbus data[]
-        </td>
+          value = (epicsInt32)Modbus data[] </td>
       </tr>
       <tr>
         <td>
-          3, 4, 23
-        </td>
+          3, 4, 23 </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          Array of 16, 32 or 64-bit words
-        </td>
+          Array of 16, 32 or 64-bit words </td>
         <td>
-          MODBUS_DATA (or datatype-specific value)
-        </td>
+          MODBUS_DATA (or datatype-specific value) </td>
         <td>
-          waveform (input)
-        </td>
+          waveform (input) </td>
         <td>
-          value = (epicsInt32)Modbus data[]
-        </td>
+          value = (epicsInt32)Modbus data[] </td>
       </tr>
       <tr>
         <td>
-          15
-        </td>
+          15 </td>
         <td>
-          Bit
-        </td>
+          Bit </td>
         <td>
-          Array of bits
-        </td>
+          Array of bits </td>
         <td>
-          MODBUS_DATA
-        </td>
+          MODBUS_DATA </td>
         <td>
-          waveform (output)
-        </td>
+          waveform (output) </td>
         <td>
-          Modbus write (epicsUInt16)value[]
-        </td>
+          Modbus write (epicsUInt16)value[] </td>
       </tr>
       <tr>
         <td>
-          16, 23
-        </td>
+          16, 23 </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          Array of 16, 32, or 64-bit words
-        </td>
+          Array of 16, 32, or 64-bit words </td>
         <td>
-          MODBUS_DATA (or datatype-specific value)
-        </td>
+          MODBUS_DATA (or datatype-specific value) </td>
         <td>
-          waveform (output)
-        </td>
+          waveform (output) </td>
         <td>
-          Modbus write value[]
-        </td>
+          Modbus write value[] </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          32-bit word
-        </td>
+          32-bit word </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          READ_HISTOGRAM
-        </td>
+          READ_HISTOGRAM </td>
         <td>
-          waveform (input)
-        </td>
+          waveform (input) </td>
         <td>
           Returns a histogram array of the I/O times in milliseconds since histogramming was
-          last enabled.
-        </td>
+          last enabled. </td>
       </tr>
       <tr>
         <td>
-          Any
-        </td>
+          Any </td>
         <td>
-          32-bit word
-        </td>
+          32-bit word </td>
         <td>
-          NA
-        </td>
+          NA </td>
         <td>
-          HISTOGRAM_TIME_AXIS
-        </td>
+          HISTOGRAM_TIME_AXIS </td>
         <td>
-          waveform (input)
-        </td>
+          waveform (input) </td>
         <td>
           Returns the time axis of the histogram data. Each element is HISTOGRAM_BIN_TIME
-          msec.
-        </td>
+          msec. </td>
       </tr>
     </tbody>
   </table>
@@ -2238,43 +1896,31 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          3, 4, 23
-        </td>
+          3, 4, 23 </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          String of characters
-        </td>
+          String of characters </td>
         <td>
-          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH
-        </td>
+          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH </td>
         <td>
-          waveform (input) or stringin
-        </td>
+          waveform (input) or stringin </td>
         <td>
-          value = Modbus data[]
-        </td>
+          value = Modbus data[] </td>
       </tr>
       <tr>
         <td>
-          16, 23
-        </td>
+          16, 23 </td>
         <td>
-          16-bit word
-        </td>
+          16-bit word </td>
         <td>
-          String of characters
-        </td>
+          String of characters </td>
         <td>
-          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH
-        </td>
+          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH </td>
         <td>
-          waveform (output) or stringout
-        </td>
+          waveform (output) or stringout </td>
         <td>
-          Modbus write value[]
-        </td>
+          Modbus write value[] </td>
       </tr>
     </tbody>
   </table>
@@ -2303,280 +1949,212 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          bi_bit.template
-        </td>
+          bi_bit.template </td>
         <td>
           asynUInt32Digital support for bi record with discrete inputs or coils. Mask=1.
         </td>
         <td>
-          P, R, PORT, OFFSET, ZNAM, ONAM, ZSV, OSV, SCAN
-        </td>
+          P, R, PORT, OFFSET, ZNAM, ONAM, ZSV, OSV, SCAN </td>
       </tr>
       <tr>
         <td>
-          bi_word.template
-        </td>
+          bi_word.template </td>
         <td>
-          asynUInt32Digital support for bi record with register inputs.
-        </td>
+          asynUInt32Digital support for bi record with register inputs. </td>
         <td>
-          P, R, PORT, OFFSET, MASK, ZNAM, ONAM, ZSV, OSV, SCAN
-        </td>
+          P, R, PORT, OFFSET, MASK, ZNAM, ONAM, ZSV, OSV, SCAN </td>
       </tr>
       <tr>
         <td>
-          mbbiDirect.template
-        </td>
+          mbbiDirect.template </td>
         <td>
-          asynUInt32Digital support for mbbiDirect record with register inputs.
-        </td>
+          asynUInt32Digital support for mbbiDirect record with register inputs. </td>
         <td>
-          P, R, PORT, OFFSET, MASK, SCAN
-        </td>
+          P, R, PORT, OFFSET, MASK, SCAN </td>
       </tr>
       <tr>
         <td>
-          longin.template
-        </td>
+          longin.template </td>
         <td>
           asynUInt32Digital support for longin record with register inputs. Mask=0xFFFF.
         </td>
         <td>
-          P, R, PORT, OFFSET, SCAN
-        </td>
+          P, R, PORT, OFFSET, SCAN </td>
       </tr>
       <tr>
         <td>
-          longinInt32.template
-        </td>
+          longinInt32.template </td>
         <td>
-          asynInt32 support for longin record with register inputs.
-        </td>
+          asynInt32 support for longin record with register inputs. </td>
         <td>
-          P, R, PORT, OFFSET, SCAN, DATA_TYPE
-        </td>
+          P, R, PORT, OFFSET, SCAN, DATA_TYPE </td>
       </tr>
       <tr>
         <td>
-          intarray_in.template
-        </td>
+          intarray_in.template </td>
         <td>
           asynInt32Array support for waveform record with discrete, coil, or register inputs.
         </td>
         <td>
-          P, R, PORT, OFFSET, NELM, SCAN
-        </td>
+          P, R, PORT, OFFSET, NELM, SCAN </td>
       </tr>
       <tr>
         <td>
-          bo_bit.template
-        </td>
+          bo_bit.template </td>
         <td>
-          asynUInt32Digital support for bo record with coil outputs. Mask=1.
-        </td>
+          asynUInt32Digital support for bo record with coil outputs. Mask=1. </td>
         <td>
-          P, R, PORT, OFFSET, ZNAM, ONAM
-        </td>
+          P, R, PORT, OFFSET, ZNAM, ONAM </td>
       </tr>
       <tr>
         <td>
-          bo_word.template
-        </td>
+          bo_word.template </td>
         <td>
-          asynUInt32Digital support for bo record with register outputs.
-        </td>
+          asynUInt32Digital support for bo record with register outputs. </td>
         <td>
-          P, R, PORT, OFFSET, MASK, ZNAM, ONAM
-        </td>
+          P, R, PORT, OFFSET, MASK, ZNAM, ONAM </td>
       </tr>
       <tr>
         <td>
-          mbboDirect.template
-        </td>
+          mbboDirect.template </td>
         <td>
-          asynUInt32Digital support for mbboDirect record with register outputs.
-        </td>
+          asynUInt32Digital support for mbboDirect record with register outputs. </td>
         <td>
-          P, R, PORT, OFFSET, MASK
-        </td>
+          P, R, PORT, OFFSET, MASK </td>
       </tr>
       <tr>
         <td>
-          longout.template
-        </td>
+          longout.template </td>
         <td>
           asynUInt32Digital support for longout record with register outputs. Mask=0xFFFF.
         </td>
         <td>
-          P, R, PORT, OFFSET
-        </td>
+          P, R, PORT, OFFSET </td>
       </tr>
       <tr>
         <td>
-          longoutInt32.template
-        </td>
+          longoutInt32.template </td>
         <td>
-          asynInt32 support for longout record with register outputs.
-        </td>
+          asynInt32 support for longout record with register outputs. </td>
         <td>
-          P, R, PORT, OFFSET, DATA_TYPE
-        </td>
+          P, R, PORT, OFFSET, DATA_TYPE </td>
       </tr>
       <tr>
         <td>
-          intarray_out.template
-        </td>
+          intarray_out.template </td>
         <td>
           asynInt32Array support for waveform record with discrete, coil, or register outputs.
         </td>
         <td>
-          P, R, PORT, OFFSET, NELM
-        </td>
+          P, R, PORT, OFFSET, NELM </td>
       </tr>
       <tr>
         <td>
-          ai.template
-        </td>
+          ai.template </td>
         <td>
-          asynInt32 support for ai record with LINEAR conversion
-        </td>
+          asynInt32 support for ai record with LINEAR conversion </td>
         <td>
-          P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN
-        </td>
+          P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN </td>
       </tr>
       <tr>
         <td>
-          aiFloat64.template
-        </td>
+          aiFloat64.template </td>
         <td>
-          asynFloat64 support for ai record
-        </td>
+          asynFloat64 support for ai record </td>
         <td>
-          P, R, PORT, OFFSET, LOPR, HOPR, PREC, SCAN, DATA_TYPE
-        </td>
+          P, R, PORT, OFFSET, LOPR, HOPR, PREC, SCAN, DATA_TYPE </td>
       </tr>
       <tr>
         <td>
-          ai_average.template
-        </td>
+          ai_average.template </td>
         <td>
           asynInt32Average support for ai record with LINEAR conversion. This support gets
           callbacks each time the poll thread reads the analog input, and averages readings
-          until the record is processed.
-        </td>
+          until the record is processed. </td>
         <td>
-          P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN
-        </td>
+          P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN </td>
       </tr>
       <tr>
         <td>
-          ao.template
-        </td>
+          ao.template </td>
         <td>
-          asynInt32 support for ao record with LINEAR conversion
-        </td>
+          asynInt32 support for ao record with LINEAR conversion </td>
         <td>
-          P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC
-        </td>
+          P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC </td>
       </tr>
       <tr>
         <td>
-          aoFloat64.template
-        </td>
+          aoFloat64.template </td>
         <td>
-          asynFloat64 support for ao record
-        </td>
+          asynFloat64 support for ao record </td>
         <td>
-          P, R, PORT, OFFSET, LOPR, HOPR, PREC, DATA_TYPE
-        </td>
+          P, R, PORT, OFFSET, LOPR, HOPR, PREC, DATA_TYPE </td>
       </tr>
       <tr>
         <td>
-          stringin.template
-        </td>
+          stringin.template </td>
         <td>
-          asynOctet support for stringin record
-        </td>
+          asynOctet support for stringin record </td>
         <td>
-          P, R, PORT, OFFSET, DATA_TYPE, SCAN
-        </td>
+          P, R, PORT, OFFSET, DATA_TYPE, SCAN </td>
       </tr>
       <tr>
         <td>
-          stringout.template
-        </td>
+          stringout.template </td>
         <td>
-          asynOctet support for stringout record
-        </td>
+          asynOctet support for stringout record </td>
         <td>
-          P, R, PORT, OFFSET, DATA_TYPE, INITIAL_READBACK
-        </td>
+          P, R, PORT, OFFSET, DATA_TYPE, INITIAL_READBACK </td>
       </tr>
       <tr>
         <td>
-          stringWaveformIn.template
-        </td>
+          stringWaveformIn.template </td>
         <td>
-          asynOctet input support for waveform record
-        </td>
+          asynOctet input support for waveform record </td>
         <td>
-          P, R, PORT, OFFSET, DATA_TYPE, NELM, SCAN
-        </td>
+          P, R, PORT, OFFSET, DATA_TYPE, NELM, SCAN </td>
       </tr>
       <tr>
         <td>
-          stringWaveformOut.template
-        </td>
+          stringWaveformOut.template </td>
         <td>
-          asynOctet output support for waveform record
-        </td>
+          asynOctet output support for waveform record </td>
         <td>
-          P, R, PORT, OFFSET, DATA_TYPE, NELM, INITIAL_READBACK
-        </td>
+          P, R, PORT, OFFSET, DATA_TYPE, NELM, INITIAL_READBACK </td>
       </tr>
       <tr>
         <td>
-          asynRecord.template
-        </td>
+          asynRecord.template </td>
         <td>
           Support for asyn record. Useful for controlling trace printing, and for debugging.
         </td>
         <td>
-          P, R, PORT, ADDR, TMOD, IFACE
-        </td>
+          P, R, PORT, ADDR, TMOD, IFACE </td>
       </tr>
       <tr>
         <td>
-          poll_delay.template
-        </td>
+          poll_delay.template </td>
         <td>
-          Support for ao record to control the delay time for the poller thread.
-        </td>
+          Support for ao record to control the delay time for the poller thread. </td>
         <td>
-          P, R, PORT
-        </td>
+          P, R, PORT </td>
       </tr>
       <tr>
         <td>
-          poll_trigger.template
-        </td>
+          poll_trigger.template </td>
         <td>
-          Support for bo record to trigger running the poller thread.
-        </td>
+          Support for bo record to trigger running the poller thread. </td>
         <td>
-          P, R, PORT
-        </td>
+          P, R, PORT </td>
       </tr>
       <tr>
         <td>
-          statistics.template
-        </td>
+          statistics.template </td>
         <td>
           Support for bo, longin and waveform records to read I/O statistics for the port.
         </td>
         <td>
-          P, R, PORT, SCAN
-        </td>
+          P, R, PORT, SCAN </td>
       </tr>
     </tbody>
   </table>
@@ -2600,183 +2178,139 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
       </tr>
       <tr>
         <td>
-          P
-        </td>
+          P </td>
         <td>
-          Prefix for record name. Complete record name is $(P)$(R).
-        </td>
+          Prefix for record name. Complete record name is $(P)$(R). </td>
       </tr>
       <tr>
         <td>
-          R
-        </td>
+          R </td>
         <td>
-          Record name. Complete record name is $(P)$(R).
-        </td>
+          Record name. Complete record name is $(P)$(R). </td>
       </tr>
       <tr>
         <td>
-          PORT
-        </td>
+          PORT </td>
         <td>
-          Port name for <b>modbus</b> asyn port.
-        </td>
+          Port name for <b>modbus</b> asyn port. </td>
       </tr>
       <tr>
         <td>
-          OFFSET
-        </td>
+          OFFSET </td>
         <td>
-          Offset for Modbus data relative to start address for this port.
-        </td>
+          Offset for Modbus data relative to start address for this port. </td>
       </tr>
       <tr>
         <td>
-          MASK
-        </td>
+          MASK </td>
         <td>
-          Bit mask used to select data for this record.
-        </td>
+          Bit mask used to select data for this record. </td>
       </tr>
       <tr>
         <td>
-          ZNAM
-        </td>
+          ZNAM </td>
         <td>
-          String for 0 value for bi/bo records.
-        </td>
+          String for 0 value for bi/bo records. </td>
       </tr>
       <tr>
         <td>
-          ONAM
-        </td>
+          ONAM </td>
         <td>
-          String for 1 value for bi/bo records.
-        </td>
+          String for 1 value for bi/bo records. </td>
       </tr>
       <tr>
         <td>
-          ZSV
-        </td>
+          ZSV </td>
         <td>
-          0 severity for bi/bo records.
-        </td>
+          0 severity for bi/bo records. </td>
       </tr>
       <tr>
         <td>
-          OSV
-        </td>
+          OSV </td>
         <td>
-          1 severity for bi/bo records.
-        </td>
+          1 severity for bi/bo records. </td>
       </tr>
       <tr>
         <td>
-          BITS
-        </td>
+          BITS </td>
         <td>
-          Number of bits for analog I/O devices. &gt;0=unipolar, &lt;0=bipolar.
-        </td>
+          Number of bits for analog I/O devices. &gt;0=unipolar, &lt;0=bipolar. </td>
       </tr>
       <tr>
         <td>
-          DATA_TYPE
-        </td>
+          DATA_TYPE </td>
         <td>
           drvUser field specifying the Modbus data type. If this field is blank or is MODBUS_DATA
           then the default datatype specified in the drvModbusAsynConfigure command is used.
           Other allowed values are listed in the table above (UINT16, INT16SM, BCD_SIGNED,
-          etc.)
-        </td>
+          etc.) </td>
       </tr>
       <tr>
         <td>
-          EGUL
-        </td>
+          EGUL </td>
         <td>
-          Engineering value for lower limit of analog device.
-        </td>
+          Engineering value for lower limit of analog device. </td>
       </tr>
       <tr>
         <td>
-          EGUF
-        </td>
+          EGUF </td>
         <td>
-          Engineering value for upper limit of analog device.
-        </td>
+          Engineering value for upper limit of analog device. </td>
       </tr>
       <tr>
         <td>
-          LOPR
-        </td>
+          LOPR </td>
         <td>
-          Lower display limit of analog device.
-        </td>
+          Lower display limit of analog device. </td>
       </tr>
       <tr>
         <td>
-          HOPR
-        </td>
+          HOPR </td>
         <td>
-          Upper display limit of analog device.
-        </td>
+          Upper display limit of analog device. </td>
       </tr>
       <tr>
         <td>
-          PREC
-        </td>
+          PREC </td>
         <td>
-          Number of digits of precision for ai/ao records.
-        </td>
+          Number of digits of precision for ai/ao records. </td>
       </tr>
       <tr>
         <td>
-          NELM
-        </td>
+          NELM </td>
         <td>
-          Number of elements in waveform records.
-        </td>
+          Number of elements in waveform records. </td>
       </tr>
       <tr>
         <td>
-          ADDR
-        </td>
+          ADDR </td>
         <td>
-          Address for asyn record, same as OFFSET above.
-        </td>
+          Address for asyn record, same as OFFSET above. </td>
       </tr>
       <tr>
         <td>
-          TMOD
-        </td>
+          TMOD </td>
         <td>
-          Transfer mode for asyn record.
-        </td>
+          Transfer mode for asyn record. </td>
       </tr>
       <tr>
         <td>
-          IFACE
-        </td>
+          IFACE </td>
         <td>
-          asyn interface for asyn record.
-        </td>
+          asyn interface for asyn record. </td>
       </tr>
       <tr>
         <td>
-          SCAN
-        </td>
+          SCAN </td>
         <td>
-          Scan rate for record (e.g. "1 second", "I/O Intr", etc.).
-        </td>
+          Scan rate for record (e.g. "1 second", "I/O Intr", etc.). </td>
       </tr>
       <tr>
         <td>
-          INITIAL_READBACK
-        </td>
+          INITIAL_READBACK </td>
         <td>
           Controls whether an initial readback from the device is done for the stringout or
-          string waveform output records.
-        </td>
+          string waveform output records. </td>
       </tr>
     </tbody>
   </table>
@@ -2934,6 +2468,12 @@ iocInit
     These examples are used for testing the different Modbus data types and other features.
     I have used them with the <a href="http://www.modbustools.com/modbus_slave.asp">Modbus
       Slave</a> program, which is an inexpensive Modbus slave emulator.</p>
+  <hr />
+  <p>
+    There is another test application called testClient.cpp which demonstrates how to
+    instantiate a drvModbusAsyn object and use it to perform Modbus I/O to an external
+    device. This example is a pure C++ application running without an IOC. The same
+    code could be used in a driver in an IOC.</p>
   <h2 id="medm_screens">
     medm screens</h2>
   <p>
