@@ -1685,8 +1685,12 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
 
     dT = epicsTimeDiffInSeconds(&endTime, &startTime);
     msec = (int)(dT*1000. + 0.5);
+    lastIOMsec_ = msec;
     setIntegerParam(P_LastIOTime, msec);
-    if (msec > maxIOMsec_) setIntegerParam(P_MaxIOTime, msec);
+    if (msec > maxIOMsec_) {
+      maxIOMsec_ = msec;
+      setIntegerParam(P_MaxIOTime, msec);
+    }
     if (enableHistogram_) {
         bin = msec /histogramMsPerBin_;
         if (bin < 0) bin = 0;
