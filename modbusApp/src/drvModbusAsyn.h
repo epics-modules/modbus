@@ -120,7 +120,7 @@ public:
     asynStatus writePlcFloat(modbusDataType_t dataType, int offset, epicsFloat64  value, epicsUInt16 *buffer, int *bufferLen);
     asynStatus readPlcString (modbusDataType_t dataType, int offset, char *value, size_t maxChars, int *bufferLen);
     asynStatus writePlcString(modbusDataType_t dataType, int offset, const char *value, size_t maxChars, size_t *nActual, int *bufferLen);
-    int modbusExiting_;
+    bool modbusExiting_;
 
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
@@ -141,7 +141,7 @@ private:
     /* Our data */
     char *octetPortName_;        /* asyn port name for the asyn octet port */
     char *plcType_;              /* String describing PLC type */
-    int isConnected_;            /* Connection status */
+    bool isConnected_;            /* Connection status */
     asynStatus ioStatus_;        /* I/O error status */
     asynUser  *pasynUserOctet_;  /* asynUser for asynOctet interface to asyn octet port */ 
     asynUser  *pasynUserCommon_; /* asynUser for asynCommon interface to asyn octet port */
@@ -158,9 +158,9 @@ private:
     double pollDelay_;           /* Delay for readPoller */
     epicsThreadId readPollerThreadId_;
     epicsEventId readPollerEventId_;
-    int forceCallback_;
+    bool forceCallback_;
     int readOnceFunction_;
-    int readOnceDone_;
+    bool readOnceDone_;
     asynStatus prevIOStatus_;
     int readOK_;
     int writeOK_;
@@ -170,8 +170,7 @@ private:
     int lastIOMsec_;
     epicsInt32 timeHistogram_[HISTOGRAM_LENGTH];     /* Histogram of read-times */
     epicsInt32 histogramTimeAxis_[HISTOGRAM_LENGTH]; /* Time axis of histogram of read-times */
-    int enableHistogram_;
+    bool enableHistogram_;
     int histogramMsPerBin_;
     int readbackOffset_;  /* Readback offset for Wago devices */
-    int modbusInitialized_;
 };
