@@ -6,6 +6,9 @@
  * 
  */
 
+#include <epicsThread.h>
+#include <epicsEvent.h>
+
 #include <asynPortDriver.h>
 #include "modbus.h"
 
