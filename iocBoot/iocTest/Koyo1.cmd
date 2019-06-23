@@ -1,5 +1,7 @@
 # Koyo1.cmd
 
+< envPaths
+
 dbLoadDatabase("../../dbd/modbus.dbd")
 modbus_registerRecordDeviceDriver(pdbbase)
 
