@@ -12,9 +12,28 @@
   </div>
   <div style="text-align: center">
     <h2>
-      Release 2-11</h2>
+      Release 3-0</h2>
     <h2>
-      June 28, 2018</h2>
+      June XXX, 2019</h2>
+  </div>
+  <p>
+    This is a major rewrite of the driver, changing from C to C++ inheriting from asynPortDriver.
+    The major reason for the change is to be able to invoke the class methods such as
+    drvModbusAsyn::doModbusIO() from other drivers. This allows drivers that communicate
+    with Modbus devices to call methods to perform the Modbus I/O directly, which was
+    not possible with the previous C API.</p>
+  <p>
+    The new driver should be completely backwards compatible with previous versions,
+    so no changes to IOC startup scripts or OPI displays are required.</p>
+  <p>
+    A new example program, testClient.cpp, has been added. This program demonstrates
+    how to instantiate a drvModbusAsyn object and use it to perform Modbus I/O to an
+    external device. This example is a pure C++ application running without an IOC.
+    The same code could be used in a driver in an IOC.</p>
+  <h2>
+    Release 2-11</h2>
+  <h2>
+    June 28, 2018</h2>
   </div>
   <ul>
     <li>Fixed problem with asynPrintIO. It was printing too few bytes under some conditions.</li>
