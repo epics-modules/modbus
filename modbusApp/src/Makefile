@@ -14,6 +14,8 @@ DBD += modbus.dbd
 DBD += modbusSupport.dbd
 
 INC += drvModbusAsyn.h
+INC += modbusInterpose.h
+INC += modbus.h
 
 LIBRARY_IOC = modbus
 
