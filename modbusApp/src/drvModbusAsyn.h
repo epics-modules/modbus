@@ -6,6 +6,9 @@
  * 
  */
 
+#ifndef drvModbusAsyn_H
+#define drvModbusAsyn_H
+
 #include <epicsThread.h>
 #include <epicsEvent.h>
 
@@ -177,3 +180,5 @@ private:
     int histogramMsPerBin_;
     int readbackOffset_;  /* Readback offset for Wago devices */
 };
+
+#endif /* drvModbusAsyn_H */
