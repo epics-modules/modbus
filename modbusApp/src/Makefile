@@ -32,13 +32,13 @@ LIB_SYS_LIBS_WIN32 += ws2_32
 #=============================
 # build an ioc application
 
-PROD_IOC = modbusApp
-PROD_IOC = testClient
-testClient_SRCS += testClient.cpp
-
+PROD_IOC += modbusApp
 # <name>_registerRecordDeviceDriver.cpp will be created from <name>.dbd
 modbusApp_SRCS_DEFAULT += modbus_registerRecordDeviceDriver.cpp modbusMain.cpp
 modbusApp_SRCS_vxWorks += modbus_registerRecordDeviceDriver.cpp
+
+PROD_IOC += testClient
+testClient_SRCS += testClient.cpp
 
 PROD_LIBS += modbus
 PROD_LIBS += asyn
