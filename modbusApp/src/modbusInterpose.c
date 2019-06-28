@@ -231,7 +231,7 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
     size_t     nbytesActual = 0;
     size_t     nWrite;
     modbusMBAPHeader mbapHeader;
-    unsigned short cmdLength = numchars;
+    unsigned short cmdLength = (unsigned short)numchars;
     unsigned short modbusEncoding=0;
     int mbapSize = sizeof(modbusMBAPHeader);
     unsigned char CRC_Hi;
@@ -271,7 +271,7 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
             /* Next is the Modbus data */
             memcpy(pPvt->buffer, data, numchars);
             /* Compute the CRC */
-            computeCRC(pPvt->buffer, numchars, &CRC_Lo, &CRC_Hi);
+            computeCRC(pPvt->buffer, (int)numchars, &CRC_Lo, &CRC_Hi);
             pPvt->buffer[numchars] = CRC_Lo;
             pPvt->buffer[numchars+1] = CRC_Hi;
             /* Send the frame with the underlying driver */
@@ -285,7 +285,7 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
         case modbusLinkASCII:
             /* Put slave address and data in buffer to compute LRC */
             memcpy(pPvt->buffer, data, numchars);
-            computeLRC(pPvt->buffer, numchars, &LRC);
+            computeLRC(pPvt->buffer, (int)numchars, &LRC);
             /* Now convert to ASCII */
             /* First byte in the output is : */
             pout = pPvt->buffer;
@@ -364,7 +364,7 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             if (status != asynSuccess) return status;
             /* Compute and check the CRC including the CRC bytes themselves, 
              * should be 0 */
-            computeCRC(pPvt->buffer, nbytesActual, &CRC_Lo, &CRC_Hi);
+            computeCRC(pPvt->buffer, (int)nbytesActual, &CRC_Lo, &CRC_Hi);
             if ((CRC_Lo != 0) || (CRC_Hi != 0)) {
                 asynPrint(pasynUser, ASYN_TRACE_ERROR,
                           "%s::readIt, CRC error\n",
@@ -398,7 +398,7 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             }
             /* Number of bytes in buffer for computing LRC is i */
             nRead = i;
-            computeLRC(data, nRead, &LRC);
+            computeLRC(data, (int)nRead, &LRC);
             if (LRC != data[i]) {
                 asynPrint(pasynUser, ASYN_TRACE_ERROR,
                           "%s::readIt, LRC error, nRead=%d, received LRC=0x%x, computed LRC=0x%x\n",
