@@ -108,28 +108,6 @@ static void modbusExitCallback(void *pPvt) {
     pDriver->modbusExiting_ = true;
 }
 
-/*
-** drvModbusAsynConfigure() - create and init an asyn port driver for a PLC
-**                                                                    
-*/
-
-/** EPICS iocsh callable function to call constructor for the drvModbusAsyn class. */
-asynStatus drvModbusAsynConfigure(const char *portName, const char *octetPortName, 
-                                  int modbusSlave, int modbusFunction, 
-                                  int modbusStartAddress, int modbusLength,
-                                  int dataType,
-                                  int pollMsec, 
-                                  char *plcType)
-{
-    new drvModbusAsyn(portName, octetPortName, 
-                      modbusSlave, modbusFunction, 
-                      modbusStartAddress, modbusLength,
-                      (modbusDataType_t)dataType,
-                      pollMsec, 
-                      plcType);
-    return(asynSuccess);
-}
-
 drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName, 
                              int modbusSlave, int modbusFunction, 
                              int modbusStartAddress, int modbusLength,
@@ -1584,7 +1562,7 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
                 mask = mask << 1;
             }
             writeMultipleReq->numOutput = htons(len);
-            byteCount = pCharOut - writeMultipleReq->data + 1;
+            byteCount = (int) (pCharOut - writeMultipleReq->data + 1);
             writeMultipleReq->byteCount = byteCount;
             asynPrintIO(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
                         (char *)writeMultipleReq->data, byteCount, 
@@ -1622,7 +1600,7 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
              * seem to be allowed to specify numRead=0, so we always read one word from the same address
              * we write to. */
             nread = 1;
-            readWriteMultipleReq->numRead = htons(nread);
+            readWriteMultipleReq->numRead = htons((epicsUInt16)nread);
             readWriteMultipleReq->startWriteReg = htons((epicsUInt16)start);
             pShortIn = (epicsUInt16 *)data;
             pShortOut = (epicsUInt16 *)&readWriteMultipleReq->data;
@@ -1638,7 +1616,7 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
                         driverName, functionName, this->portName);
             requestSize = sizeof(modbusReadWriteMultipleRequest) + byteCount - 1;
             /* The -1 below is because the modbusReadResponse struct already has 1 byte of data */
-            replySize = sizeof(modbusReadResponse) + 2*nread - 1;
+            replySize = (int)(sizeof(modbusReadResponse) + 2*nread - 1);
             break;
 
 
@@ -2180,7 +2158,7 @@ asynStatus drvModbusAsyn::readPlcString(modbusDataType_t dataType, int offset,
         i = maxChars-1;
     } 
     data[i] = 0;
-    *bufferLen = strlen(data) + 1;
+    *bufferLen = (int)(strlen(data) + 1);
     return status;
 }
 
@@ -2229,7 +2207,29 @@ asynStatus drvModbusAsyn::writePlcString(modbusDataType_t dataType, int offset,
     return status;
 }
 
-
+extern "C" {
+/*
+** drvModbusAsynConfigure() - create and init an asyn port driver for a PLC
+**                                                                    
+*/
+
+/** EPICS iocsh callable function to call constructor for the drvModbusAsyn class. */
+asynStatus drvModbusAsynConfigure(const char *portName, const char *octetPortName, 
+                                  int modbusSlave, int modbusFunction, 
+                                  int modbusStartAddress, int modbusLength,
+                                  int dataType,
+                                  int pollMsec, 
+                                  char *plcType)
+{
+    new drvModbusAsyn(portName, octetPortName, 
+                      modbusSlave, modbusFunction, 
+                      modbusStartAddress, modbusLength,
+                      (modbusDataType_t)dataType,
+                      pollMsec, 
+                      plcType);
+    return(asynSuccess);
+}
+
 /* iocsh functions */
 
 static const iocshArg ConfigureArg0 = {"Port name",            iocshArgString};
@@ -2270,3 +2270,5 @@ static void drvModbusAsynRegister(void)
 }
 
 epicsExportRegistrar(drvModbusAsynRegister);
+
+} // extern "C"
