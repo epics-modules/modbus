@@ -21,8 +21,6 @@ LIBRARY_IOC = modbus
 
 USR_CFLAGS += -DUSE_TYPED_RSET
 USR_CPPFLAGS += -DUSE_TYPED_RSET
-USR_CPPFLAGS += -fmax-errors=10
-
 
 LIB_SRCS += drvModbusAsyn.cpp
 LIB_SRCS += modbusInterpose.c
