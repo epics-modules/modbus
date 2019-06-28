@@ -75,7 +75,7 @@ typedef enum {
 
 #define MAX_MODBUS_DATA_TYPES 15
 
-class drvModbusAsyn : public asynPortDriver {
+class epicsShareClass drvModbusAsyn : public asynPortDriver {
 public:
     drvModbusAsyn(const char *portName, const char *octetPortName, 
                   int modbusSlave, int modbusFunction, 
