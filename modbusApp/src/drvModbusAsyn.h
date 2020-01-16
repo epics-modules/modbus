@@ -73,6 +73,8 @@ typedef enum {
     dataTypeStringLowHigh     /* String, low then high byte of each word  drvUser=STRING_LOW_HIGH*/
 } modbusDataType_t;
 
+struct modbusDrvUser_t;
+
 #define MAX_MODBUS_DATA_TYPES 15
 
 class epicsShareClass drvModbusAsyn : public asynPortDriver {
@@ -93,6 +95,7 @@ public:
 
    /* These functions are in the asynDrvUser interface */
     virtual asynStatus drvUserCreate(asynUser *pasynUser, const char *drvInfo, const char **pptypeName, size_t *psize);
+    virtual asynStatus drvUserDestroy(asynUser *pasynUser);
 
     /* These functions are in the asynUInt32Digital interface */
     virtual asynStatus writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask);
@@ -117,6 +120,7 @@ public:
     /* These are the methods that are new to this class */
     void readPoller();
     modbusDataType_t getDataType(asynUser *pasynUser);
+    int getStringLen(asynUser *pasynUser, size_t maxChars);
     asynStatus checkOffset(int offset);
     asynStatus checkModbusFunction(int *modbusFunction);
     asynStatus doModbusIO(int slave, int function, int start, epicsUInt16 *data, int len);
@@ -158,6 +162,7 @@ private:
     int modbusLength_;           /* Number of words or bits of Modbus data */
     bool absoluteAddressing_;    /* Address from asyn are absolute, rather than relative to modbusStartAddress */
     modbusDataType_t dataType_;  /* Data type */
+    modbusDrvUser_t *drvUser_;    /* Drv user structure */
     epicsUInt16 *data_;          /* Memory buffer */
     char modbusRequest_[MAX_MODBUS_FRAME_SIZE];      /* Modbus request message */
     char modbusReply_[MAX_MODBUS_FRAME_SIZE];        /* Modbus reply message */

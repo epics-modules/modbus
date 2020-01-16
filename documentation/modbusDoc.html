@@ -1840,12 +1840,12 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
   <p>
     asynOctet device support is selected with</p>
   <pre>field(DTYP,"asynOctetRead")
-field(INP,"@asyn(portName,offset,timeout)drvUser")
+field(INP,"@asyn(portName,offset,timeout)drvUser[=number_of_characters]")
     </pre>
   <p>
     or</p>
   <pre>field(DTYP,"asynOctetWrite")
-field(INP,"@asyn(portName,offset,timeout)drvUser")
+field(INP,"@asyn(portName,offset,timeout)drvUser[=number_of_characters]")
     </pre>
   <p>
     asynOctet device support is used to read or write strings of up to 250 characters.</p>
@@ -1853,10 +1853,12 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
     Note: The 0 terminating byte at the end of the string in a waveform record or stringout
     record is not written to the Modbus device.</p>
   <p>
-    Note: On input number of characters read from the Modbus device will be the lesser
+    Note: On input the number of characters read from the Modbus device will be the lesser
     of:<br />
     - the number of characters in the record minus the terminating 0 byte (39 for stringin,
     NELM-1 for waveform) or
+    <br />
+    - the number of characters specified after drvUser (minus the terminating 0 byte) or
     <br />
     - the number of characters contained in the registers defined modbusLength argument
     to drvModbusAsynConfigure (modbusLength or modbusLength*2 depending on whether the
@@ -1864,7 +1866,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser")
   <p>
     The string will be truncated if any of the characters read from Modbus is a 0 byte,
     but there is no guarantee that the last character in the string is followed by a
-    0 byte in the Modbus registers. Generally either modbusLength or NELM in the waveform
+    0 byte in the Modbus registers. Generally either number_of_characters or NELM in the waveform
     record should be used to define the correct length for the string.
   </p>
   <table border="1" cellpadding="2" cellspacing="2" style="text-align: left">
