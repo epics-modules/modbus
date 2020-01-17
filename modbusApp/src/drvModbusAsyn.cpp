@@ -73,6 +73,11 @@ typedef struct {
     const char *dataTypeString;
 } modbusDataTypeStruct;
 
+struct modbusDrvUser_t {
+    modbusDataType_t dataType;
+    int              len;
+};
+
 static modbusDataTypeStruct modbusDataTypes[MAX_MODBUS_DATA_TYPES] = {
     {dataTypeUInt16,        MODBUS_UINT16_STRING},    
     {dataTypeInt16SM,       MODBUS_INT16_SM_STRING},    
@@ -136,6 +141,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
     modbusLength_(modbusLength),
     absoluteAddressing_(false),
     dataType_(dataType),
+    drvUser_(NULL),
     data_(0),
     pollDelay_(pollMsec/1000.),
     forceCallback_(false),
@@ -243,6 +249,11 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
      * data for asynInt32Array writes. */
     data_ = (epicsUInt16 *) callocMustSucceed(modbusLength_, sizeof(epicsUInt16), functionName);
 
+    /* Allocate and initialize the default drvUser structure */
+    drvUser_ = (modbusDrvUser_t *) callocMustSucceed(1, sizeof(modbusDrvUser_t), functionName);
+    drvUser_->dataType = dataType_;
+    drvUser_->len = -1;
+
     /* Connect to asyn octet port with asynOctetSyncIO */
     status = pasynOctetSyncIO->connect(octetPortName, 0, &pasynUserOctet_, 0);
     if (status != asynSuccess) {
@@ -289,7 +300,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
     initialized_ = true;
 }
 
-
+
 /* asynDrvUser routines */
 asynStatus drvModbusAsyn::drvUserCreate(asynUser *pasynUser,
                                         const char *drvInfo,
@@ -303,15 +314,31 @@ asynStatus drvModbusAsyn::drvUserCreate(asynUser *pasynUser,
     /* We are passed a string that identifies this command.
      * Set dataType and/or pasynUser->reason based on this string */
 
+    pasynUser->drvUser = drvUser_;
     if (initialized_ == false) {
        pasynManager->enable(pasynUser, 0);
        return asynDisabled;
     }
+  
+    struct drvInfoRAII_t {
+        char *str;
+        drvInfoRAII_t(const char *drvInfo) : str(epicsStrDup(drvInfo)) {
+        }
+        ~drvInfoRAII_t() {
+            free(str);
+        }
+    } drvInfoRAII(drvInfo);
 
-    pasynUser->drvUser = &dataType_;
+    /* Everything after an '=' sign is optional, strip it for now */
+    char *local_drvInfo = drvInfoRAII.str;
+    char *equal_sign;
+    if ((equal_sign = strchr(local_drvInfo, '='))) {
+        equal_sign[0] = '\0';
+    }
+
     for (i=0; i<MAX_MODBUS_DATA_TYPES; i++) {
         pstring = modbusDataTypes[i].dataTypeString;
-        if (epicsStrCaseCmp(drvInfo, pstring) == 0) {
+        if (epicsStrCaseCmp(local_drvInfo, pstring) == 0) {
             pasynManager->getAddr(pasynUser, &offset);
             if (checkOffset(offset)) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
@@ -319,7 +346,39 @@ asynStatus drvModbusAsyn::drvUserCreate(asynUser *pasynUser,
                           driverName, functionName, this->portName, offset);
                 return asynError;
             }
-            pasynUser->drvUser = &modbusDataTypes[i].dataType;
+            modbusDataType_t dataType = modbusDataTypes[i].dataType;
+            int len = -1;
+            if (equal_sign) {
+                switch (dataType) {
+                    case dataTypeStringHigh:
+                    case dataTypeStringLow:
+                    case dataTypeStringHighLow:
+                    case dataTypeStringLowHigh:
+                        char *endptr;
+                        len = strtol(equal_sign + 1, &endptr, 0);
+                        if (endptr[0] != '\0' || len < 0) {
+                            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                                      "%s::%s port %s invalid string length: %s\n",
+                                      driverName, functionName, this->portName, equal_sign + 1);
+                            return asynError;
+                        }
+                        break;
+
+                    default:
+                        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                                  "%s::%s port %s invalid drvUser: %s\n",
+                                  driverName, functionName, this->portName, drvInfo);
+                        return asynError;
+                }
+            }
+
+            /* Update pasynUser->drvUser if needed */
+            if (dataType != dataType_ || len != -1) {
+                modbusDrvUser_t *drvUser = (modbusDrvUser_t *) callocMustSucceed(1, sizeof(modbusDrvUser_t), functionName);
+                drvUser->dataType = dataType;
+                drvUser->len = len;
+                pasynUser->drvUser = drvUser;
+            }
             pasynUser->reason = P_Data;
             if (pptypeName) *pptypeName = epicsStrDup(MODBUS_DATA_STRING);
             if (psize) *psize = sizeof(MODBUS_DATA_STRING);
@@ -334,6 +393,19 @@ asynStatus drvModbusAsyn::drvUserCreate(asynUser *pasynUser,
     return asynPortDriver::drvUserCreate(pasynUser, drvInfo, pptypeName, psize);
 
 }
+
+
+asynStatus drvModbusAsyn::drvUserDestroy(asynUser *pasynUser)
+{
+    if (pasynUser->drvUser != drvUser_) {
+        free(pasynUser->drvUser);
+    }
+
+    pasynUser->drvUser = NULL;
+
+    return asynSuccess;
+}
+
 
 /***********************/
 /* asynCommon routines */
@@ -1023,6 +1095,8 @@ asynStatus drvModbusAsyn::readOctet(asynUser *pasynUser, char *data, size_t maxC
     int modbusFunction;
     static const char *functionName="readOctet";
     
+    maxChars = getStringLen(pasynUser, maxChars);
+
     *nactual = 0;
     pasynManager->getAddr(pasynUser, &offset);
     if (function == P_Data) {
@@ -1081,6 +1155,8 @@ asynStatus drvModbusAsyn::writeOctet (asynUser *pasynUser, const char *data, siz
     int bufferLen;
     asynStatus status;
     static const char *functionName="writeOctet";
+
+    maxChars = getStringLen(pasynUser, maxChars);
 
     pasynManager->getAddr(pasynUser, &offset);
     if (absoluteAddressing_) {
@@ -1383,7 +1459,7 @@ void drvModbusAsyn::readPoller()
                               driverName, functionName, this->portName, offset, modbusLength_);
                     break;
                 }
-                readPlcString(dataType, offset, stringBuffer, sizeof(stringBuffer), &bufferLen);
+                readPlcString(dataType, offset, stringBuffer, getStringLen(pasynUser, sizeof(stringBuffer)), &bufferLen);
                 /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
                 pasynUser->auxStatus = ioStatus_;
                 asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
@@ -1787,11 +1863,23 @@ modbusDataType_t drvModbusAsyn::getDataType(asynUser *pasynUser)
 {
     modbusDataType_t dataType;
     if (pasynUser->drvUser) {
-        dataType = *(modbusDataType_t *)pasynUser->drvUser;
+        dataType = ((modbusDrvUser_t *)pasynUser->drvUser)->dataType;
     } else {
         dataType = dataType_;
     }
     return dataType;
+}
+
+int drvModbusAsyn::getStringLen(asynUser *pasynUser, size_t maxLen)
+{
+    size_t len = maxLen;
+
+    if (pasynUser->drvUser) {
+        int drvlen = ((modbusDrvUser_t *)pasynUser->drvUser)->len;
+        if (drvlen > -1 && (size_t)drvlen < maxLen)
+            len = drvlen;
+    }
+    return len;
 }
 
 asynStatus drvModbusAsyn::checkOffset(int offset)
