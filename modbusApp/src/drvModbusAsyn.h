@@ -149,6 +149,7 @@ protected:
  
 private:
     /* Our data */
+    bool initialized_;           /* If initialized successfully */
     char *octetPortName_;        /* asyn port name for the asyn octet port */
     char *plcType_;              /* String describing PLC type */
     bool isConnected_;            /* Connection status */
