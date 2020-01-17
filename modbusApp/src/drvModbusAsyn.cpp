@@ -156,7 +156,6 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
     int status;
     char readThreadName[100];
     int needReadThread=0;
-    int IOLength=0;
     int maxLength=0;
     static const char *functionName="drvModbusAsyn";
 
@@ -193,31 +192,26 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
     switch(modbusFunction_) {
         case MODBUS_READ_COILS:
         case MODBUS_READ_DISCRETE_INPUTS:
-            IOLength = modbusLength_/16;
-            maxLength = MAX_READ_WORDS;
+            maxLength = MAX_READ_WORDS * 16;
             needReadThread = 1;
             break;
         case MODBUS_READ_HOLDING_REGISTERS:
         case MODBUS_READ_INPUT_REGISTERS:
         case MODBUS_READ_INPUT_REGISTERS_F23:
-            IOLength = modbusLength_;
             maxLength = MAX_READ_WORDS;
             needReadThread = 1;
             break;
         case MODBUS_WRITE_SINGLE_COIL:
         case MODBUS_WRITE_MULTIPLE_COILS:
-            IOLength = modbusLength_/16;
-            maxLength = MAX_WRITE_WORDS;
+            maxLength = MAX_WRITE_WORDS * 16;
             readOnceFunction_ = MODBUS_READ_COILS;
             break;
        case MODBUS_WRITE_SINGLE_REGISTER:
        case MODBUS_WRITE_MULTIPLE_REGISTERS:
-            IOLength = modbusLength_;
             maxLength = MAX_WRITE_WORDS;
             readOnceFunction_ = MODBUS_READ_HOLDING_REGISTERS;
             break;
        case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
-            IOLength = modbusLength_;
             maxLength = MAX_WRITE_WORDS;
             readOnceFunction_ = MODBUS_READ_INPUT_REGISTERS_F23;
             break;
@@ -238,11 +232,10 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
             driverName, functionName, this->portName);
         return;
     }
-    if (IOLength > maxLength) {
+    if (modbusLength_ > maxLength) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s::%s, port %s memory length=%d too large, max=%d\n",
-            driverName, functionName, this->portName, IOLength, maxLength);
-        return;
+            driverName, functionName, this->portName, modbusLength_, maxLength);
     }
     
     /* Note that we always allocate modbusLength words of memory.  
