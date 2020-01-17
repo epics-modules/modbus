@@ -125,6 +125,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
                     0), /* Default stack size*/
 
     modbusExiting_(false),
+    initialized_(false),
     octetPortName_(epicsStrDup(octetPortName)),
     plcType_(NULL),
     isConnected_(false),
@@ -218,6 +219,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                 "%s::%s port %s unsupported Modbus function %d\n",
                 driverName, functionName, this->portName, modbusFunction_);
+            return;
      }
  
     /* If we are using absolute addressing then don't start read thread */
@@ -228,6 +230,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s::%s, port %s memory length<=0\n",
             driverName, functionName, this->portName);
+        return;
     }
     if (modbusLength_ > maxLength) {
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
@@ -246,6 +249,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s::%s port %s can't connect to asynOctet on Octet server %s.\n",
             driverName, functionName, portName, octetPortName);
+        return;
     }
 
     /* Connect to asyn octet port with asynCommonSyncIO */
@@ -254,6 +258,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s::%s port %s can't connect to asynCommon on Octet server %s.\n",
         driverName, functionName, portName, octetPortName);
+        return;
      }
 
     /* If this is an output function do a readOnce operation if required. */
@@ -281,6 +286,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
 
     epicsAtExit(modbusExitCallback, this);
 
+    initialized_ = true;
 }
 
 
@@ -296,6 +302,11 @@ asynStatus drvModbusAsyn::drvUserCreate(asynUser *pasynUser,
     
     /* We are passed a string that identifies this command.
      * Set dataType and/or pasynUser->reason based on this string */
+
+    if (initialized_ == false) {
+       pasynManager->enable(pasynUser, 0);
+       return asynDisabled;
+    }
 
     pasynUser->drvUser = &dataType_;
     for (i=0; i<MAX_MODBUS_DATA_TYPES; i++) {
@@ -332,7 +343,9 @@ asynStatus drvModbusAsyn::drvUserCreate(asynUser *pasynUser,
 asynStatus drvModbusAsyn::connect(asynUser *pasynUser)
 {
     int offset;
-  
+
+    if (initialized_ == false) return asynDisabled;
+
     pasynManager->getAddr(pasynUser, &offset);
     if (offset < -1) return asynError;
     if (absoluteAddressing_) {
@@ -349,6 +362,7 @@ void drvModbusAsyn::report(FILE *fp, int details)
 {
     fprintf(fp, "modbus port: %s\n", this->portName);
     if (details) {
+        fprintf(fp, "    initialized:        %s\n", initialized_ ? "true" : "false");
         fprintf(fp, "    asynOctet server:   %s\n", octetPortName_);
         fprintf(fp, "    modbusSlave:        %d\n", modbusSlave_);
         fprintf(fp, "    modbusFunction:     %d\n", modbusFunction_);
