@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Koyo1</name>
+  <x>100</x>
+  <y>100</y>
+  <width>170</width>
+  <height>145</height>
+  <background_color>
+    <color red="187" green="187" blue="187">
+    </color>
+  </background_color>
+  <grid_visible>false</grid_visible>
+  <grid_step_x>5</grid_step_x>
+  <widget type="label" version="2.0.0">
+    <name>text #6</name>
+    <text>Koyo 1</text>
+    <x>12</x>
+    <y>12</y>
+    <width>146</width>
+    <height>30</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="30.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>composite #9</name>
+    <x>5</x>
+    <y>51</y>
+    <width>160</width>
+    <height>85</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="action_button" version="3.0.0">
+      <name>related display #12</name>
+      <actions>
+        <action type="open_display">
+          <file>Koyo_8inputs.opi</file>
+          <macros>
+            <A>B</A>
+            <AC>Bit</AC>
+            <L>X0L</L>
+            <P>KOYO1:</P>
+            <PORT>XnB</PORT>
+            <R>X</R>
+          </macros>
+          <target>tab</target>
+          <description>X0-X7 inputs (bit access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8inputs.opi</file>
+          <macros>
+            <A>W</A>
+            <AC>Word</AC>
+            <L>XnL</L>
+            <P>KOYO1:</P>
+            <PORT>XnW</PORT>
+            <R>X</R>
+          </macros>
+          <target>tab</target>
+          <description>X0-X7 inputs (word access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8inputs.opi</file>
+          <macros>
+            <A>InB</A>
+            <AC>Bit</AC>
+            <L>Y0InBL</L>
+            <P>KOYO1:</P>
+            <PORT>YnInB</PORT>
+            <R>Y</R>
+          </macros>
+          <target>tab</target>
+          <description>Y0-Y7 inputs (bit access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8inputs.opi</file>
+          <macros>
+            <A>InW</A>
+            <AC>Word</AC>
+            <L>YnInWL</L>
+            <P>KOYO1:</P>
+            <PORT>YnInW</PORT>
+            <R>Y</R>
+          </macros>
+          <target>tab</target>
+          <description>Y0-Y7 inputs (word access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8inputs.opi</file>
+          <macros>
+            <A>InB</A>
+            <AC>Bit</AC>
+            <L>C0InBL</L>
+            <P>KOYO1:</P>
+            <PORT>CnInB</PORT>
+            <R>C</R>
+          </macros>
+          <target>tab</target>
+          <description>C0-C7 inputs (bit access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8inputs.opi</file>
+          <macros>
+            <A>InW</A>
+            <AC>Word</AC>
+            <L>CnInWL</L>
+            <P>KOYO1:</P>
+            <PORT>CnInW</PORT>
+            <R>C</R>
+          </macros>
+          <target>tab</target>
+          <description>C0-C7 inputs (word access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8inputs.opi</file>
+          <macros>
+            <A>InB</A>
+            <AC>Bit</AC>
+            <L>C200InBL</L>
+            <P>KOYO1:</P>
+            <PORT>CnInB</PORT>
+            <R>C20</R>
+          </macros>
+          <target>tab</target>
+          <description>C200-C207 inputs (bit access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8inputs.opi</file>
+          <macros>
+            <A>InW</A>
+            <AC>Word</AC>
+            <L>C20nInWL</L>
+            <P>KOYO1:</P>
+            <PORT>CnInW</PORT>
+            <R>C20</R>
+          </macros>
+          <target>tab</target>
+          <description>C200-C207 inputs (word access)</description>
+        </action>
+      </actions>
+      <text>Inputs</text>
+      <width>158</width>
+      <height>25</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>related display #22</name>
+      <actions>
+        <action type="open_display">
+          <file>Koyo_8outputs.opi</file>
+          <macros>
+            <A>OutB</A>
+            <AC>Bit</AC>
+            <L>Y0OutBL</L>
+            <P>KOYO1:</P>
+            <PORT>YnOutB</PORT>
+            <R>Y</R>
+          </macros>
+          <target>tab</target>
+          <description>Y0-Y7 outputs (bit access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8outputs.opi</file>
+          <macros>
+            <A>OutW</A>
+            <AC>Word</AC>
+            <L>YnOutWL</L>
+            <P>KOYO1:</P>
+            <PORT>YnOutW</PORT>
+            <R>Y</R>
+          </macros>
+          <target>tab</target>
+          <description>Y0-Y7 outputs (word access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8outputs.opi</file>
+          <macros>
+            <A>OutB</A>
+            <AC>Bit</AC>
+            <L>C200OutBL</L>
+            <P>KOYO1:</P>
+            <PORT>C20nOutB</PORT>
+            <R>C20</R>
+          </macros>
+          <target>tab</target>
+          <description>C200-C207 outputs (bit access)</description>
+        </action>
+        <action type="open_display">
+          <file>Koyo_8outputs.opi</file>
+          <macros>
+            <A>OutW</A>
+            <AC>Word</AC>
+            <L>C20nOutWL</L>
+            <P>KOYO1:</P>
+            <PORT>CnOutW</PORT>
+            <R>C20</R>
+          </macros>
+          <target>tab</target>
+          <description>C200-C207 outputs (word access)</description>
+        </action>
+      </actions>
+      <text>Outputs</text>
+      <y>30</y>
+      <width>158</width>
+      <height>25</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>related display #28</name>
+      <actions>
+        <action type="open_display">
+          <file>asynRecord.opi</file>
+          <macros>
+            <P>KOYO1:</P>
+            <R>OctetAsyn</R>
+          </macros>
+          <target>tab</target>
+          <description>Octet asyn record</description>
+        </action>
+        <action type="open_display">
+          <file>l</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Octet asyn record</text>
+      <x>2</x>
+      <y>60</y>
+      <width>158</width>
+      <height>25</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+    </widget>
+  </widget>
+</display>

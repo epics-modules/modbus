@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>modbusStringTestTop</name>
+  <x>147</x>
+  <y>151</y>
+  <width>280</width>
+  <height>100</height>
+  <background_color>
+    <color red="187" green="187" blue="187">
+    </color>
+  </background_color>
+  <grid_visible>false</grid_visible>
+  <grid_step_x>5</grid_step_x>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #6</name>
+    <actions>
+      <action type="open_display">
+        <file>modbusStringTest.opi</file>
+        <macros>
+          <P>SIM1:</P>
+          <SI>SI</SI>
+          <SO>SO</SO>
+          <WFIN>WFIn</WFIN>
+          <WFOUT>WFOut</WFOUT>
+        </macros>
+        <target>tab</target>
+        <description>Modbus String Test</description>
+      </action>
+    </actions>
+    <text>StringTest</text>
+    <x>61</x>
+    <y>46</y>
+    <width>158</width>
+    <height>25</height>
+    <background_color>
+      <color red="187" green="187" blue="187">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #9</name>
+    <text>Modbus String Test Top</text>
+    <x>8</x>
+    <y>10</y>
+    <width>264</width>
+    <height>25</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+</display>

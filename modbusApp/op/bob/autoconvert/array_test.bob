@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>array_test</name>
+  <x>446</x>
+  <y>76</y>
+  <width>250</width>
+  <height>100</height>
+  <background_color>
+    <color red="187" green="187" blue="187">
+    </color>
+  </background_color>
+  <grid_visible>false</grid_visible>
+  <grid_step_x>5</grid_step_x>
+  <widget type="label" version="2.0.0">
+    <name>text #6</name>
+    <text>Array Test</text>
+    <x>65</x>
+    <y>7</y>
+    <width>120</width>
+    <height>25</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #9</name>
+    <actions>
+      <action type="open_display">
+        <file>modbusArrayTest.opi</file>
+        <macros>
+          <P>SIM1:</P>
+          <R>UINT16:</R>
+        </macros>
+        <target>tab</target>
+        <description>UINT16</description>
+      </action>
+      <action type="open_display">
+        <file>modbusArrayTest.opi</file>
+        <macros>
+          <P>SIM1:</P>
+          <R>INT16:</R>
+        </macros>
+        <target>tab</target>
+        <description>INT16</description>
+      </action>
+      <action type="open_display">
+        <file>modbusArrayTest.opi</file>
+        <macros>
+          <P>SIM1:</P>
+          <R>INT32_LE:</R>
+        </macros>
+        <target>tab</target>
+        <description>INT32_LE</description>
+      </action>
+      <action type="open_display">
+        <file>modbusArrayTest.opi</file>
+        <macros>
+          <P>SIM1:</P>
+          <R>INT32_BE:</R>
+        </macros>
+        <target>tab</target>
+        <description>INT32_BE</description>
+      </action>
+    </actions>
+    <text>Arrays</text>
+    <x>98</x>
+    <y>58</y>
+    <width>120</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #15</name>
+    <text>Arrays</text>
+    <x>33</x>
+    <y>58</y>
+    <width>60</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+</display>

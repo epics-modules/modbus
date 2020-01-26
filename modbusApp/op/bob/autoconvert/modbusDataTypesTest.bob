@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>modbusDataTypesTest</name>
+  <x>100</x>
+  <y>100</y>
+  <width>170</width>
+  <height>120</height>
+  <background_color>
+    <color red="187" green="187" blue="187">
+    </color>
+  </background_color>
+  <grid_visible>false</grid_visible>
+  <grid_step_x>5</grid_step_x>
+  <widget type="label" version="2.0.0">
+    <name>text #6</name>
+    <text>Sim1 Test</text>
+    <x>12</x>
+    <y>12</y>
+    <width>146</width>
+    <height>25</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #9</name>
+    <actions>
+      <action type="open_display">
+        <file>modbusDataTypes.opi</file>
+        <macros>
+          <IN>LI:</IN>
+          <IREC>longin</IREC>
+          <OREC>longout</OREC>
+          <OUT>LO:</OUT>
+          <P>SIM1:</P>
+        </macros>
+        <target>tab</target>
+        <description>longout/longin</description>
+      </action>
+      <action type="open_display">
+        <file>modbusDataTypes.opi</file>
+        <macros>
+          <IN>AI:</IN>
+          <IREC>ai</IREC>
+          <OREC>ao</OREC>
+          <OUT>AO:</OUT>
+          <P>SIM1:</P>
+        </macros>
+        <target>tab</target>
+        <description>ao/ai</description>
+      </action>
+      <action type="open_display">
+        <file>Koyo_8inputs.opi</file>
+        <macros>
+          <A>B</A>
+          <AC>Bit</AC>
+          <L>MBBID0</L>
+          <P>SIM1:</P>
+          <PORT>BI</PORT>
+          <R>BI</R>
+        </macros>
+        <target>tab</target>
+        <description>Binary inputs</description>
+      </action>
+      <action type="open_display">
+        <file>Koyo_8outputs.opi</file>
+        <macros>
+          <A>B</A>
+          <AC>Bit</AC>
+          <L>MBBOD0</L>
+          <P>SIM1:</P>
+          <PORT>BO</PORT>
+          <R>BO</R>
+        </macros>
+        <target>tab</target>
+        <description>Binary outputs</description>
+      </action>
+    </actions>
+    <text>Inputs &amp; outputs</text>
+    <x>5</x>
+    <y>51</y>
+    <width>158</width>
+    <height>25</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #15</name>
+    <actions>
+      <action type="open_display">
+        <file>asynRecord.opi</file>
+        <macros>
+          <P>SIM1:</P>
+          <R>OctetAsyn</R>
+        </macros>
+        <target>tab</target>
+        <description>Octet asyn record</description>
+      </action>
+      <action type="open_display">
+        <file>l</file>
+        <target>tab</target>
+      </action>
+    </actions>
+    <text>Octet asyn record</text>
+    <x>7</x>
+    <y>81</y>
+    <width>158</width>
+    <height>25</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+</display>
