@@ -340,7 +340,10 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
                 status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
                                                 pPvt->buffer, nRead, 
                                                 &nbytesActual, eomReason);
-                if (status != asynSuccess) return status;
+                if (status != asynSuccess) {
+                    *nbytesTransfered = nbytesActual;
+                    return status;
+                }
                 if (nbytesActual >= 2) {
                     int id = ((pPvt->buffer[0] & 0xFF)<<8)|(pPvt->buffer[1]&0xFF);
                     if (id == pPvt->transactionId) break;
@@ -361,7 +364,10 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
                                             pPvt->buffer, nRead,
                                             &nbytesActual, eomReason);
-            if (status != asynSuccess) return status;
+            if (status != asynSuccess) {
+                *nbytesTransfered = nbytesActual;
+                return status;
+            }
             /* Compute and check the CRC including the CRC bytes themselves, 
              * should be 0 */
             computeCRC(pPvt->buffer, (int)nbytesActual, &CRC_Lo, &CRC_Hi);
@@ -388,7 +394,10 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
                                             pPvt->buffer, nRead,
                                             &nbytesActual, eomReason);
-            if (status != asynSuccess) return status;
+            if (status != asynSuccess) {
+                *nbytesTransfered = nbytesActual;
+                return status;
+            }
             pin = pPvt->buffer;
             if (*pin != ':') return asynError;
             pin += 1;

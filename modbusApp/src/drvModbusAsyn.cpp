@@ -1720,6 +1720,9 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
                                          MODBUS_READ_TIMEOUT,
                                          &nwrite, &nread, &eomReason);
     epicsTimeGetCurrent(&endTime);
+    asynPrint(pasynUserSelf, ASYN_TRACEIO_DRIVER, 
+              "%s::%s port %s called pasynOctetSyncIO->writeRead, status=%d, requestSize=%d, replySize=%d, nwrite=%d, nread=%d, eomReason=%d\n",
+              driverName, functionName, this->portName, status, requestSize, replySize, (int)nwrite, (int)nread, eomReason);
 
     if (status != prevIOStatus_) {                                      
       if (status != asynSuccess) {
