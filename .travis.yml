@@ -1,0 +1,117 @@
+# .travis.yml for use with EPICS Base ci-scripts
+# (see: https://github.com/epics-base/ci-scripts)
+
+language: cpp
+compiler: gcc
+dist: xenial
+
+cache:
+  directories:
+  - $HOME/.cache
+
+env:
+  global:
+    - SETUP_PATH=.ci
+    - MODULES="asyn"
+    - ASYN=master
+
+addons:
+  apt:
+    packages:
+    # for all EPICS builds
+    - libreadline6-dev
+    - libncurses5-dev
+    - perl
+    # for clang compiler
+    - clang
+    # for mingw builds (32bit and 64bit)
+    - g++-mingw-w64-i686
+    - g++-mingw-w64-x86-64
+    # for RTEMS cross builds
+    - qemu-system-x86
+  homebrew:
+    packages:
+    # for all EPICS builds
+    - bash
+    # for the sequencer
+    - re2c
+    update: true
+
+install:
+  - ./.ci/travis/prepare.sh
+
+script:
+  - ./.ci/travis/build.sh
+
+# If you need to do more during install and build,
+# add a local directory to your module and do e.g.
+#  - ./.ci-local/travis/install-extras.sh
+
+# Define build jobs
+
+# Well-known variables to use
+# SET         source setup file
+# ADD_MODULES extra modules (for a specific job)
+# EXTRA       content will be added to make command line
+# STATIC      set to YES for static build (default: NO)
+# TEST        set to NO to skip running the tests (default: YES)
+# VV          set to make build scripts verbose (default: unset)
+
+# Usually from setup files, but may be specified or overridden
+#  on a job line
+# MODULES     list of dependency modules
+# BASE        branch or release tag name of the EPICS Base to use
+# <MODULE>    branch or release tag for a specific module
+# ...         see README for setup file syntax description
+
+jobs:
+  include:
+
+# Different configurations of default gcc and clang
+  - env: BASE=7.0
+
+  - env: BASE=7.0
+    compiler: clang
+
+  - env: BASE=7.0 EXTRA="CMD_CXXFLAGS=-std=c++11"
+
+  - env: BASE=7.0 EXTRA="CMD_CXXFLAGS=-std=c++11"
+    compiler: clang
+
+# Trusty: compiler versions very close to RHEL 7
+
+  - env: BASE=7.0
+    dist: trusty
+
+  - env: BASE=7.0 EXTRA="CMD_CXXFLAGS=-std=c++11"
+    dist: trusty
+
+# Cross-compilations to Windows using MinGW and WINE
+    
+  - env: BASE=7.0 WINE=32 TEST=NO STATIC=YES
+    compiler: mingw
+
+  - env: BASE=7.0 WINE=64 TEST=NO STATIC=NO
+    compiler: mingw
+
+# Cross-compilation to RTEMS
+
+  - env: BASE=7.0 RTEMS=4.10 TEST=NO
+
+  - env: BASE=7.0 RTEMS=4.9 TEST=NO
+
+# Other gcc versions (added as an extra package)
+
+  - env: BASE=7.0
+    compiler: gcc-6
+    addons: { apt: { packages: ["g++-6"], sources: ["ubuntu-toolchain-r-test"] } }
+
+  - env: BASE=7.0
+    compiler: gcc-7
+    addons: { apt: { packages: ["g++-7"], sources: ["ubuntu-toolchain-r-test"] } }
+
+# MacOS build
+
+  - env: BASE=7.0
+    os: osx
+    compiler: clang
