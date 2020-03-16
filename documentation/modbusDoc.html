@@ -1122,12 +1122,49 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
           String data. Two characters are stored in each register, the first in the low byte
           and the second in the high byte. </td>
       </tr>
+      <tr>
+        <td>
+          15</td>
+        <td>
+          ZSTRING_HIGH</td>
+        <td>
+          Zero terminated string data. One character is stored in the high byte of each register.</td>
+      </tr>
+      <tr>
+        <td>
+          16</td>
+        <td>
+          ZSTRING_LOW</td>
+        <td>
+          Zero terminated string data. One character is stored in the low byte of each register.</td>
+      </tr>
+      <tr>
+        <td>
+          17</td>
+        <td>
+          ZSTRING_HIGH_LOW</td>
+        <td>
+          Zero terminated string data. Two characters are stored in each register, the first in the high byte
+          and the second in the low byte.</td>
+      </tr>
+      <tr>
+        <td>
+          18</td>
+        <td>
+          ZSTRING_LOW_HIGH</td>
+        <td>
+          Zero terminated string data. Two characters are stored in each register, the first in the low byte
+          and the second in the high byte.</td>
+      </tr>
     </tbody>
   </table>
   <p>
-    Note that if it is desired to transmit BCD numbers untranslated to EPICS over the
+    NOTE: if it is desired to transmit BCD numbers untranslated to EPICS over the
     asynInt32 interface, then data type 0 should be used, because no translation is
-    done in this case.</p>
+    done in this case.</br>
+    NOTE: the ZSTRING_* types are meant for output records. For input records
+    they are identical to their STRING_* counterparts.
+  </p>
   <p>
     The following is an example ai record using 32-bit floating point values:</p>
   <pre>
@@ -1245,8 +1282,9 @@ record(ai, "$(P)$(R)") {
     <b>offset</b> specifies the location of the first 16-bit register, and the second
     register is at <b>offset+1</b>, etc.</p>
   <p>
-    For string data types (STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, STRING_LOW_HIGH)
-    the <b>offset</b> specifies the location of the first 16-bit register, and the second
+    For string data types (STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, STRING_LOW_HIGH,
+    ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, ZSTRING_LOW_HIGH) the <b>offset</b>
+    specifies the location of the first 16-bit register, and the second
     register is at <b>offset+1</b>, etc.</p>
   <h3>
     asynUInt32Digital</h3>
@@ -1851,7 +1889,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser[=number_of_characters]")
     asynOctet device support is used to read or write strings of up to 250 characters.</p>
   <p>
     Note: The 0 terminating byte at the end of the string in a waveform record or stringout
-    record is not written to the Modbus device.</p>
+    record is <b>only</b> written to the Modbus device <b>if</b> one of the ZSTRING_* drvUser
+    types is used.</p>
   <p>
     Note: On input the number of characters read from the Modbus device will be the lesser
     of:<br />
@@ -1904,7 +1943,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser[=number_of_characters]")
         <td>
           String of characters </td>
         <td>
-          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH </td>
+          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH</br>
+          ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH</td>
         <td>
           waveform (input) or stringin </td>
         <td>
@@ -1918,7 +1958,8 @@ field(INP,"@asyn(portName,offset,timeout)drvUser[=number_of_characters]")
         <td>
           String of characters </td>
         <td>
-          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH </td>
+          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH</br>
+          ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH</td>
         <td>
           waveform (output) or stringout </td>
         <td>
