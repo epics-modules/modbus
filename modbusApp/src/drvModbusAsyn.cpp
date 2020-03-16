@@ -242,6 +242,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
         asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
             "%s::%s, port %s memory length=%d too large, max=%d\n",
             driverName, functionName, this->portName, modbusLength_, maxLength);
+        return;
     }
     
     /* Note that we always allocate modbusLength words of memory.  
