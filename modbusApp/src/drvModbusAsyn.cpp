@@ -1162,6 +1162,8 @@ asynStatus drvModbusAsyn::writeOctet (asynUser *pasynUser, const char *data, siz
     pasynManager->getAddr(pasynUser, &offset);
     if (absoluteAddressing_) {
         modbusAddress = offset;
+        /* data_ is long enough to hold one data item only */
+        offset = 0;
         dataAddress = data_;
     } else {
         modbusAddress = modbusStartAddress_ + offset;
