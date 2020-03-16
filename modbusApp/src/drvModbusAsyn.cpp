@@ -79,21 +79,25 @@ struct modbusDrvUser_t {
 };
 
 static modbusDataTypeStruct modbusDataTypes[MAX_MODBUS_DATA_TYPES] = {
-    {dataTypeUInt16,        MODBUS_UINT16_STRING},    
-    {dataTypeInt16SM,       MODBUS_INT16_SM_STRING},    
-    {dataTypeBCDUnsigned,   MODBUS_BCD_UNSIGNED_STRING},    
-    {dataTypeBCDSigned,     MODBUS_BCD_SIGNED_STRING},    
-    {dataTypeInt16,         MODBUS_INT16_STRING},    
-    {dataTypeInt32LE,       MODBUS_INT32_LE_STRING},    
-    {dataTypeInt32BE,       MODBUS_INT32_BE_STRING},    
-    {dataTypeFloat32LE,     MODBUS_FLOAT32_LE_STRING},    
-    {dataTypeFloat32BE,     MODBUS_FLOAT32_BE_STRING},    
-    {dataTypeFloat64LE,     MODBUS_FLOAT64_LE_STRING},    
-    {dataTypeFloat64BE,     MODBUS_FLOAT64_BE_STRING},    
-    {dataTypeStringHigh,    MODBUS_STRING_HIGH_STRING},    
-    {dataTypeStringLow,     MODBUS_STRING_LOW_STRING},    
-    {dataTypeStringHighLow, MODBUS_STRING_HIGH_LOW_STRING},    
-    {dataTypeStringLowHigh, MODBUS_STRING_LOW_HIGH_STRING},    
+    {dataTypeUInt16,         MODBUS_UINT16_STRING},
+    {dataTypeInt16SM,        MODBUS_INT16_SM_STRING},
+    {dataTypeBCDUnsigned,    MODBUS_BCD_UNSIGNED_STRING},
+    {dataTypeBCDSigned,      MODBUS_BCD_SIGNED_STRING},
+    {dataTypeInt16,          MODBUS_INT16_STRING},
+    {dataTypeInt32LE,        MODBUS_INT32_LE_STRING},
+    {dataTypeInt32BE,        MODBUS_INT32_BE_STRING},
+    {dataTypeFloat32LE,      MODBUS_FLOAT32_LE_STRING},
+    {dataTypeFloat32BE,      MODBUS_FLOAT32_BE_STRING},
+    {dataTypeFloat64LE,      MODBUS_FLOAT64_LE_STRING},
+    {dataTypeFloat64BE,      MODBUS_FLOAT64_BE_STRING},
+    {dataTypeStringHigh,     MODBUS_STRING_HIGH_STRING},
+    {dataTypeStringLow,      MODBUS_STRING_LOW_STRING},
+    {dataTypeStringHighLow,  MODBUS_STRING_HIGH_LOW_STRING},
+    {dataTypeStringLowHigh,  MODBUS_STRING_LOW_HIGH_STRING},
+    {dataTypeZStringHigh,    MODBUS_ZSTRING_HIGH_STRING},
+    {dataTypeZStringLow,     MODBUS_ZSTRING_LOW_STRING},
+    {dataTypeZStringHighLow, MODBUS_ZSTRING_HIGH_LOW_STRING},
+    {dataTypeZStringLowHigh, MODBUS_ZSTRING_LOW_HIGH_STRING},
 };  
 
 
@@ -355,6 +359,10 @@ asynStatus drvModbusAsyn::drvUserCreate(asynUser *pasynUser,
                     case dataTypeStringLow:
                     case dataTypeStringHighLow:
                     case dataTypeStringLowHigh:
+                    case dataTypeZStringHigh:
+                    case dataTypeZStringLow:
+                    case dataTypeZStringHighLow:
+                    case dataTypeZStringLowHigh:
                         char *endptr;
                         len = strtol(equal_sign + 1, &endptr, 0);
                         if (endptr[0] != '\0' || len < 0) {
@@ -1155,9 +1163,24 @@ asynStatus drvModbusAsyn::writeOctet (asynUser *pasynUser, const char *data, siz
     int offset;
     int bufferLen;
     asynStatus status;
+    size_t newMaxChars = maxChars;
+    char zeroData[MAX_WRITE_WORDS * 2];
     static const char *functionName="writeOctet";
 
-    maxChars = getStringLen(pasynUser, maxChars);
+    if (isZeroTerminatedString(dataType)) {
+        /* Create a local copy that is guaranteed to have a terminating zero */
+        strncpy(zeroData, data, getStringLen(pasynUser, maxChars));
+        data = zeroData;
+        /* Account for the terminating zero character */
+        newMaxChars = getStringLen(pasynUser, maxChars + 1);
+        /* Check if the string needs to be truncated */
+        if (newMaxChars > maxChars)
+            zeroData[maxChars] = '\0';
+        else
+            zeroData[newMaxChars - 1] = '\0';
+    } else {
+        newMaxChars = getStringLen(pasynUser, maxChars);
+    }
 
     pasynManager->getAddr(pasynUser, &offset);
     if (absoluteAddressing_) {
@@ -1173,8 +1196,11 @@ asynStatus drvModbusAsyn::writeOctet (asynUser *pasynUser, const char *data, siz
         switch(modbusFunction_) {
             case MODBUS_WRITE_MULTIPLE_REGISTERS:
             case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
-                writePlcString(dataType, offset, data, maxChars, nActual, &bufferLen);
+                writePlcString(dataType, offset, data, newMaxChars, nActual, &bufferLen);
                 if (bufferLen <= 0) break;
+                /* The terminating zero is added by us; it must not be included in 'nActual' */
+                if (isZeroTerminatedString(dataType))
+                    --*nActual;
                 status = doModbusIO(modbusSlave_, modbusFunction_,
                                     modbusAddress, dataAddress, bufferLen);
                 if (status != asynSuccess) return(status);
@@ -1888,6 +1914,22 @@ int drvModbusAsyn::getStringLen(asynUser *pasynUser, size_t maxLen)
     return len;
 }
 
+bool drvModbusAsyn::isZeroTerminatedString(modbusDataType_t dataType)
+{
+    switch (dataType) {
+        case dataTypeZStringHigh:
+        case dataTypeZStringLow:
+        case dataTypeZStringHighLow:
+        case dataTypeZStringLowHigh:
+            return true;
+
+        default:
+            return false;
+    }
+
+    return false;
+}
+
 asynStatus drvModbusAsyn::checkOffset(int offset)
 {
     if (offset < 0) return asynError;
@@ -2225,14 +2267,17 @@ asynStatus drvModbusAsyn::readPlcString(modbusDataType_t dataType, int offset,
     for (i=0; i<maxChars && offset<modbusLength_; i++, offset++) {
         switch (dataType) {
             case dataTypeStringHigh:
+            case dataTypeZStringHigh:
                 data[i] = (data_[offset] >> 8) & 0x00ff;
                 break;
 
             case dataTypeStringLow:
+            case dataTypeZStringLow:
                 data[i] = data_[offset] & 0x00ff;
                 break;
 
             case dataTypeStringHighLow:
+            case dataTypeZStringHighLow:
                 data[i] = (data_[offset] >> 8) & 0x00ff;
                 if (i<maxChars-1) {
                     i++;
@@ -2241,6 +2286,7 @@ asynStatus drvModbusAsyn::readPlcString(modbusDataType_t dataType, int offset,
                 break;
 
             case dataTypeStringLowHigh:
+            case dataTypeZStringLowHigh:
                 data[i] = data_[offset] & 0x00ff;
                 if (i<maxChars-1) {
                     i++;
@@ -2274,14 +2320,17 @@ asynStatus drvModbusAsyn::writePlcString(modbusDataType_t dataType, int offset,
     for (i=0, *bufferLen=0, *nActual=0; i<maxChars && offset<modbusLength_; i++, offset++) {
         switch (dataType) {
             case dataTypeStringHigh:
+            case dataTypeZStringHigh:
                 data_[offset] = (data[i] << 8) & 0xff00;
                 break;
 
             case dataTypeStringLow:
+            case dataTypeZStringLow:
                 data_[offset] = data[i] & 0x00ff;
                 break;
 
             case dataTypeStringHighLow:
+            case dataTypeZStringHighLow:
                 data_[offset] = (data[i] << 8) & 0xff00;
                 if (i<maxChars-1) {
                     i++;
@@ -2290,6 +2339,7 @@ asynStatus drvModbusAsyn::writePlcString(modbusDataType_t dataType, int offset,
                 break;
 
             case dataTypeStringLowHigh:
+            case dataTypeZStringLowHigh:
                 data_[offset] = data[i] & 0x00ff;
                 if (i<maxChars-1) {
                     i++;
