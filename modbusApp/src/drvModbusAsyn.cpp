@@ -98,6 +98,8 @@ static modbusDataTypeStruct modbusDataTypes[MAX_MODBUS_DATA_TYPES] = {
     {dataTypeZStringLow,     MODBUS_ZSTRING_LOW_STRING},
     {dataTypeZStringHighLow, MODBUS_ZSTRING_HIGH_LOW_STRING},
     {dataTypeZStringLowHigh, MODBUS_ZSTRING_LOW_HIGH_STRING},
+    {dataTypeUInt32LE,       MODBUS_UINT32_LE_STRING},
+    {dataTypeUInt32BE,       MODBUS_UINT32_BE_STRING},
 };  
 
 
@@ -2123,6 +2125,7 @@ asynStatus drvModbusAsyn::writePlcInt(modbusDataType_t dataType, int offset, epi
 asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, epicsFloat64 *output, int *bufferLen)
 {
     union {
+        epicsUInt32  ui32;
         epicsFloat32 f32;
         epicsFloat64 f64;
         epicsUInt16  ui16[4];
@@ -2135,7 +2138,7 @@ asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, ep
         w32_0=1; w32_1=0; w64_0=3; w64_1=2; w64_2=1; w64_3=0;
     }
     static const char *functionName="readPlcFloat";
-    
+
     switch (dataType) {
         case dataTypeUInt16:
         case dataTypeInt16SM:
@@ -2147,21 +2150,35 @@ asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, ep
             status = readPlcInt(dataType, offset, &iValue, bufferLen);
             *output = (epicsFloat64)iValue;
             break;
-            
+
+        case dataTypeUInt32LE:
+            uIntFloat.ui16[w32_0] = data_[offset];
+            uIntFloat.ui16[w32_1] = data_[offset+1];
+            *output = (epicsFloat64)uIntFloat.ui32;
+            *bufferLen = 2;
+            break;
+
+        case dataTypeUInt32BE:
+            uIntFloat.ui16[w32_1] = data_[offset];
+            uIntFloat.ui16[w32_0] = data_[offset+1];
+            *output = (epicsFloat64)uIntFloat.ui32;
+            *bufferLen = 2;
+            break;
+
         case dataTypeFloat32LE:
             uIntFloat.ui16[w32_0] = data_[offset];
             uIntFloat.ui16[w32_1] = data_[offset+1];
             *output = (epicsFloat64)uIntFloat.f32;
             *bufferLen = 2;
             break;
-            
+
         case dataTypeFloat32BE:
             uIntFloat.ui16[w32_1] = data_[offset];
             uIntFloat.ui16[w32_0] = data_[offset+1];
             *output = (epicsFloat64)uIntFloat.f32;
             *bufferLen = 2;
             break;
-            
+
         case dataTypeFloat64LE:
             uIntFloat.ui16[w64_0] = data_[offset];
             uIntFloat.ui16[w64_1] = data_[offset+1];
@@ -2170,7 +2187,7 @@ asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, ep
             *output = (epicsFloat64)uIntFloat.f64;
             *bufferLen = 4;
             break;
-            
+
         case dataTypeFloat64BE:
             uIntFloat.ui16[w64_3] = data_[offset];
             uIntFloat.ui16[w64_2] = data_[offset+1];
@@ -2179,7 +2196,7 @@ asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, ep
             *output = (epicsFloat64)uIntFloat.f64;
             *bufferLen = 4;
             break;
-            
+
         default:
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                       "%s::%s, port %s unknown data type %d\n", 
@@ -2193,6 +2210,7 @@ asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, ep
 asynStatus drvModbusAsyn::writePlcFloat(modbusDataType_t dataType, int offset, epicsFloat64 value, epicsUInt16 *buffer, int *bufferLen)
 {
     union {
+        epicsUInt32  ui32;
         epicsFloat32 f32;
         epicsFloat64 f64;
         epicsUInt16  ui16[4];
@@ -2204,7 +2222,7 @@ asynStatus drvModbusAsyn::writePlcFloat(modbusDataType_t dataType, int offset, e
         w32_0=1; w32_1=0; w64_0=3; w64_1=2; w64_2=1; w64_3=0;
     }
     static const char *functionName="writePlcFloat";
-    
+
     switch (dataType) {
         case dataTypeUInt16:
         case dataTypeInt16SM:
@@ -2215,14 +2233,28 @@ asynStatus drvModbusAsyn::writePlcFloat(modbusDataType_t dataType, int offset, e
         case dataTypeInt32BE:
             status = writePlcInt(dataType, offset, (epicsInt32)value, buffer, bufferLen);
             break;
-            
+
+        case dataTypeUInt32LE:
+            *bufferLen = 2;
+            uIntFloat.ui32 = (epicsUInt32)value;
+            buffer[0] = uIntFloat.ui16[w32_0];
+            buffer[1] = uIntFloat.ui16[w32_1];
+            break;
+
+        case dataTypeUInt32BE:
+            *bufferLen = 2;
+            uIntFloat.ui32 = (epicsUInt32)value;
+            buffer[0] = uIntFloat.ui16[w32_1];
+            buffer[1] = uIntFloat.ui16[w32_0];
+            break;
+
         case dataTypeFloat32LE:
             *bufferLen = 2;
             uIntFloat.f32 = (epicsFloat32)value;
             buffer[0] = uIntFloat.ui16[w32_0];
             buffer[1] = uIntFloat.ui16[w32_1];
             break;
-            
+
         case dataTypeFloat32BE:
             *bufferLen = 2;
             uIntFloat.f32 = (epicsFloat32)value;
@@ -2238,7 +2270,7 @@ asynStatus drvModbusAsyn::writePlcFloat(modbusDataType_t dataType, int offset, e
             buffer[2] = uIntFloat.ui16[w64_2];
             buffer[3] = uIntFloat.ui16[w64_3];
             break;
-            
+
         case dataTypeFloat64BE:
             *bufferLen = 4;
             uIntFloat.f64 = value;
@@ -2247,7 +2279,7 @@ asynStatus drvModbusAsyn::writePlcFloat(modbusDataType_t dataType, int offset, e
             buffer[2] = uIntFloat.ui16[w64_1];
             buffer[3] = uIntFloat.ui16[w64_0];
             break;
-            
+
         default:
             asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                       "%s::%s, port %s unsupported data type %d\n", 

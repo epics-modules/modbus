@@ -1156,14 +1156,33 @@ asynOctetSetInputEos("Koyo1",0,"\r\n")
           Zero terminated string data. Two characters are stored in each register, the first in the low byte
           and the second in the high byte.</td>
       </tr>
+      <tr>
+        <td>
+          19</td>
+        <td>
+          UINT32_LE </td>
+        <td>
+          32-bit unsigned integers, little endian (least significant word at Modbus address N, most
+          significant word at Modbus address N+1) </td>
+      </tr>
+      <tr>
+        <td>
+          20</td>
+        <td>
+          UINT32_BE </td>
+        <td>
+          32-bit unsigned integers, big endian (most significant word at Modbus address N, least significant
+          word at Modbus address N+1) </td>
+      </tr>
     </tbody>
   </table>
   <p>
     NOTE: if it is desired to transmit BCD numbers untranslated to EPICS over the
     asynInt32 interface, then data type 0 should be used, because no translation is
-    done in this case.</br>
+    done in this case.<br />
     NOTE: the ZSTRING_* types are meant for output records. For input records
-    they are identical to their STRING_* counterparts.
+    they are identical to their STRING_* counterparts.<br />
+    NOTE: UINT32_LE and UINT32_BE can only be used with ai/ao records
   </p>
   <p>
     The following is an example ai record using 32-bit floating point values:</p>
@@ -1943,7 +1962,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser[=number_of_characters]")
         <td>
           String of characters </td>
         <td>
-          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH</br>
+          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH<br />
           ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH</td>
         <td>
           waveform (input) or stringin </td>
@@ -1958,7 +1977,7 @@ field(INP,"@asyn(portName,offset,timeout)drvUser[=number_of_characters]")
         <td>
           String of characters </td>
         <td>
-          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH</br>
+          STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH<br />
           ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH</td>
         <td>
           waveform (output) or stringout </td>

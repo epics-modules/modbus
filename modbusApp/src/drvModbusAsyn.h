@@ -44,6 +44,8 @@
 #define MODBUS_INT16_STRING             "INT16"
 #define MODBUS_INT32_LE_STRING          "INT32_LE"
 #define MODBUS_INT32_BE_STRING          "INT32_BE"
+#define MODBUS_UINT32_LE_STRING         "UINT32_LE"
+#define MODBUS_UINT32_BE_STRING         "UINT32_BE"
 #define MODBUS_FLOAT32_LE_STRING        "FLOAT32_LE"
 #define MODBUS_FLOAT32_BE_STRING        "FLOAT32_BE"
 #define MODBUS_FLOAT64_LE_STRING        "FLOAT64_LE"
@@ -78,12 +80,14 @@ typedef enum {
     dataTypeZStringHigh,      /* Zero terminated String, high byte of each word           drvUser=ZSTRING_HIGH */
     dataTypeZStringLow,       /* Zero terminated String, low byte of each word            drvUser=ZSTRING_LOW*/
     dataTypeZStringHighLow,   /* Zero terminated String, high then low byte of each word  drvUser=ZSTRING_HIGH_LOW */
-    dataTypeZStringLowHigh    /* Zero terminated String, low then high byte of each word  drvUser=ZSTRING_LOW_HIGH*/
+    dataTypeZStringLowHigh,   /* Zero terminated String, low then high byte of each word  drvUser=ZSTRING_LOW_HIGH*/
+    dataTypeUInt32LE,         /* 32-bit unsigned integer little-endian  drvUser=UINT32_LE */
+    dataTypeUInt32BE,         /* 32-bit unsigned integer big-endian     drvUser=UINT32_BE */
 } modbusDataType_t;
 
 struct modbusDrvUser_t;
 
-#define MAX_MODBUS_DATA_TYPES 19
+#define MAX_MODBUS_DATA_TYPES 21
 
 class epicsShareClass drvModbusAsyn : public asynPortDriver {
 public:
