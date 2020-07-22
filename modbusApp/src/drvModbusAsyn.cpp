@@ -2149,8 +2149,8 @@ asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, ep
             break;
             
         case dataTypeFloat32LE:
-            uIntFloat.ui16[w32_0] = data_[offset];
-            uIntFloat.ui16[w32_1] = data_[offset+1];
+            uIntFloat.ui16[w32_0] = htons(data_[offset]);
+            uIntFloat.ui16[w32_1] = htons(data_[offset+1]);
             *output = (epicsFloat64)uIntFloat.f32;
             *bufferLen = 2;
             break;
