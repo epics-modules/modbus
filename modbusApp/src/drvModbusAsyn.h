@@ -45,6 +45,7 @@
 #define MODBUS_INT32_LE_STRING          "INT32_LE"
 #define MODBUS_INT32_BE_STRING          "INT32_BE"
 #define MODBUS_FLOAT32_LE_STRING        "FLOAT32_LE"
+#define MODBUS_FLOAT32_LEBS_STRING      "FLOAT32_LEBS"
 #define MODBUS_FLOAT32_BE_STRING        "FLOAT32_BE"
 #define MODBUS_FLOAT64_LE_STRING        "FLOAT64_LE"
 #define MODBUS_FLOAT64_BE_STRING        "FLOAT64_BE"
@@ -68,6 +69,7 @@ typedef enum {
     dataTypeInt32LE,          /* 32-bit integer little-endian  drvUser=INT32_LE */
     dataTypeInt32BE,          /* 32-bit integer big-endian     drvUser=INT32_BE */
     dataTypeFloat32LE,        /* 32-bit float little-endian    drvuser=FLOAT32_LE */
+    dataTypeFloat32LEBS,      /* 32-bit float little-endian, each 16-bit float byteswap drvuser=FLOAT32_LE_BS */
     dataTypeFloat32BE,        /* 32-bit float big-endian       drvUser=FLOAT32_BE */
     dataTypeFloat64LE,        /* 64-bit float little-endian    drvuser=FLOAT64_LE */
     dataTypeFloat64BE,        /* 64-bit float big-endian       drvUser=FLOAT64_BE */
@@ -83,7 +85,7 @@ typedef enum {
 
 struct modbusDrvUser_t;
 
-#define MAX_MODBUS_DATA_TYPES 19
+#define MAX_MODBUS_DATA_TYPES 20
 
 class epicsShareClass drvModbusAsyn : public asynPortDriver {
 public:

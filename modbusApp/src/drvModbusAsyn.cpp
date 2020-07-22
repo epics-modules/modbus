@@ -87,6 +87,7 @@ static modbusDataTypeStruct modbusDataTypes[MAX_MODBUS_DATA_TYPES] = {
     {dataTypeInt32LE,        MODBUS_INT32_LE_STRING},
     {dataTypeInt32BE,        MODBUS_INT32_BE_STRING},
     {dataTypeFloat32LE,      MODBUS_FLOAT32_LE_STRING},
+    {dataTypeFloat32LEBS,    MODBUS_FLOAT32_LEBS_STRING},
     {dataTypeFloat32BE,      MODBUS_FLOAT32_BE_STRING},
     {dataTypeFloat64LE,      MODBUS_FLOAT64_LE_STRING},
     {dataTypeFloat64BE,      MODBUS_FLOAT64_BE_STRING},
@@ -2018,6 +2019,7 @@ asynStatus drvModbusAsyn::readPlcInt(modbusDataType_t dataType, int offset, epic
             break;
 
         case dataTypeFloat32LE:
+        case dataTypeFloat32LEBS:
         case dataTypeFloat32BE:        
         case dataTypeFloat64LE:
         case dataTypeFloat64BE:        
@@ -2104,6 +2106,7 @@ asynStatus drvModbusAsyn::writePlcInt(modbusDataType_t dataType, int offset, epi
             break;
             
         case dataTypeFloat32LE:
+        case dataTypeFloat32LEBS:
         case dataTypeFloat32BE:        
         case dataTypeFloat64LE:
         case dataTypeFloat64BE:        
@@ -2147,8 +2150,15 @@ asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, ep
             status = readPlcInt(dataType, offset, &iValue, bufferLen);
             *output = (epicsFloat64)iValue;
             break;
-            
+
         case dataTypeFloat32LE:
+            uIntFloat.ui16[w32_0] = data_[offset];
+            uIntFloat.ui16[w32_1] = data_[offset+1];
+            *output = (epicsFloat64)uIntFloat.f32;
+            *bufferLen = 2;
+            break;
+
+        case dataTypeFloat32LEBS:
             uIntFloat.ui16[w32_0] = htons(data_[offset]);
             uIntFloat.ui16[w32_1] = htons(data_[offset+1]);
             *output = (epicsFloat64)uIntFloat.f32;
@@ -2222,7 +2232,14 @@ asynStatus drvModbusAsyn::writePlcFloat(modbusDataType_t dataType, int offset, e
             buffer[0] = uIntFloat.ui16[w32_0];
             buffer[1] = uIntFloat.ui16[w32_1];
             break;
-            
+
+        case dataTypeFloat32LEBS:
+            *bufferLen = 2;
+            uIntFloat.f32 = (epicsFloat32)value;
+            buffer[0] = htons(uIntFloat.ui16[w32_0]);
+            buffer[1] = htons(uIntFloat.ui16[w32_1]);
+            break;
+
         case dataTypeFloat32BE:
             *bufferLen = 2;
             uIntFloat.f32 = (epicsFloat32)value;
