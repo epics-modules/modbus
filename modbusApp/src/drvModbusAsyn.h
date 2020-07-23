@@ -37,17 +37,35 @@
 
 // These are the data type strings that are used in the drvUser parameter
 // They are not registered with asynPortDriver
-#define MODBUS_UINT16_STRING            "UINT16"
+#define MODBUS_INT16_STRING             "INT16"
 #define MODBUS_INT16_SM_STRING          "INT16SM"
 #define MODBUS_BCD_UNSIGNED_STRING      "BCD_UNSIGNED"
 #define MODBUS_BCD_SIGNED_STRING        "BCD_SIGNED"
-#define MODBUS_INT16_STRING             "INT16"
+#define MODBUS_UINT16_STRING            "UINT16"
 #define MODBUS_INT32_LE_STRING          "INT32_LE"
+#define MODBUS_INT32_LE_BS_STRING       "INT32_LE_BS"
 #define MODBUS_INT32_BE_STRING          "INT32_BE"
+#define MODBUS_INT32_BE_BS_STRING       "INT32_BE_BS"
+#define MODBUS_UINT32_LE_STRING         "UINT32_LE"
+#define MODBUS_UINT32_LE_BS_STRING      "UINT32_LE_BS"
+#define MODBUS_UINT32_BE_STRING         "UINT32_BE"
+#define MODBUS_UINT32_BE_BS_STRING      "UINT32_BE_BS"
+#define MODBUS_INT64_LE_STRING          "INT64_LE"
+#define MODBUS_INT64_LE_BS_STRING       "INT64_LE_BS"
+#define MODBUS_INT64_BE_STRING          "INT64_BE"
+#define MODBUS_INT64_BE_BS_STRING       "INT64_BE_BS"
+#define MODBUS_UINT64_LE_STRING         "UINT64_LE"
+#define MODBUS_UINT64_LE_BS_STRING      "UINT64_LE_BS"
+#define MODBUS_UINT64_BE_STRING         "UINT64_BE"
+#define MODBUS_UINT64_BE_BS_STRING      "UINT64_BE_BS"
 #define MODBUS_FLOAT32_LE_STRING        "FLOAT32_LE"
+#define MODBUS_FLOAT32_LE_BS_STRING     "FLOAT32_LE_BS"
 #define MODBUS_FLOAT32_BE_STRING        "FLOAT32_BE"
+#define MODBUS_FLOAT32_BE_BS_STRING     "FLOAT32_BE_BS"
 #define MODBUS_FLOAT64_LE_STRING        "FLOAT64_LE"
+#define MODBUS_FLOAT64_LE_BS_STRING     "FLOAT64_LE_BS"
 #define MODBUS_FLOAT64_BE_STRING        "FLOAT64_BE"
+#define MODBUS_FLOAT64_BE_BS_STRING     "FLOAT64_BE_BS"
 #define MODBUS_STRING_HIGH_STRING       "STRING_HIGH"
 #define MODBUS_STRING_LOW_STRING        "STRING_LOW"
 #define MODBUS_STRING_HIGH_LOW_STRING   "STRING_HIGH_LOW"
@@ -60,30 +78,47 @@
 #define HISTOGRAM_LENGTH 200  /* Length of time histogram */
 
 typedef enum {
-    dataTypeUInt16,           /* 16-bit unsigned               drvUser=UINT16 */
-    dataTypeInt16SM,          /* 16-bit sign and magnitude     drvUser=INT16SM */
-    dataTypeBCDUnsigned,      /* 16-bit unsigned BCD           drvUser=BCD_SIGNED */
-    dataTypeBCDSigned,        /* 16-bit signed BCD             drvUser=BCD_UNSIGNED */
-    dataTypeInt16,            /* 16-bit 2's complement         drvUser=INT16 */
-    dataTypeInt32LE,          /* 32-bit integer little-endian  drvUser=INT32_LE */
-    dataTypeInt32BE,          /* 32-bit integer big-endian     drvUser=INT32_BE */
-    dataTypeFloat32LE,        /* 32-bit float little-endian    drvuser=FLOAT32_LE */
-    dataTypeFloat32BE,        /* 32-bit float big-endian       drvUser=FLOAT32_BE */
-    dataTypeFloat64LE,        /* 64-bit float little-endian    drvuser=FLOAT64_LE */
-    dataTypeFloat64BE,        /* 64-bit float big-endian       drvUser=FLOAT64_BE */
-    dataTypeStringHigh,       /* String, high byte of each word           drvUser=STRING_HIGH */
-    dataTypeStringLow,        /* String, low byte of each word            drvUser=STRING_LOW*/
-    dataTypeStringHighLow,    /* String, high then low byte of each word  drvUser=STRING_HIGH_LOW */
-    dataTypeStringLowHigh,    /* String, low then high byte of each word  drvUser=STRING_LOW_HIGH*/
-    dataTypeZStringHigh,      /* Zero terminated String, high byte of each word           drvUser=ZSTRING_HIGH */
-    dataTypeZStringLow,       /* Zero terminated String, low byte of each word            drvUser=ZSTRING_LOW*/
-    dataTypeZStringHighLow,   /* Zero terminated String, high then low byte of each word  drvUser=ZSTRING_HIGH_LOW */
-    dataTypeZStringLowHigh    /* Zero terminated String, low then high byte of each word  drvUser=ZSTRING_LOW_HIGH*/
+    dataTypeInt16,
+    dataTypeInt16SM,
+    dataTypeBCDUnsigned,
+    dataTypeBCDSigned,
+    dataTypeUInt16,
+    dataTypeInt32LE,
+    dataTypeInt32LEBS,
+    dataTypeInt32BE,
+    dataTypeInt32BEBS,
+    dataTypeUInt32LE,
+    dataTypeUInt32LEBS,
+    dataTypeUInt32BE,
+    dataTypeUInt32BEBS,
+    dataTypeInt64LE, 
+    dataTypeInt64LEBS, 
+    dataTypeInt64BE,  
+    dataTypeInt64BEBS,
+    dataTypeUInt64LE, 
+    dataTypeUInt64LEBS, 
+    dataTypeUInt64BE,  
+    dataTypeUInt64BEBS,
+    dataTypeFloat32LE, 
+    dataTypeFloat32LEBS,
+    dataTypeFloat32BE,
+    dataTypeFloat32BEBS,
+    dataTypeFloat64LE,
+    dataTypeFloat64LEBS,
+    dataTypeFloat64BE,
+    dataTypeFloat64BEBS,
+    dataTypeStringHigh,
+    dataTypeStringLow,
+    dataTypeStringHighLow,
+    dataTypeStringLowHigh,
+    dataTypeZStringHigh,
+    dataTypeZStringLow, 
+    dataTypeZStringHighLow,
+    dataTypeZStringLowHigh,
+    MAX_MODBUS_DATA_TYPES
 } modbusDataType_t;
 
 struct modbusDrvUser_t;
-
-#define MAX_MODBUS_DATA_TYPES 19
 
 class epicsShareClass drvModbusAsyn : public asynPortDriver {
 public:
@@ -113,6 +148,10 @@ public:
     virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
     virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
 
+    /* These functions are in the asynInt64 interface */
+    virtual asynStatus writeInt64(asynUser *pasynUser, epicsInt64 value);
+    virtual asynStatus readInt64(asynUser *pasynUser, epicsInt64 *value);
+
     /* These functions are in the asynFloat64 interface */
     virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
     virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
@@ -133,8 +172,10 @@ public:
     asynStatus checkOffset(int offset);
     asynStatus checkModbusFunction(int *modbusFunction);
     asynStatus doModbusIO(int slave, int function, int start, epicsUInt16 *data, int len);
-    asynStatus readPlcInt(modbusDataType_t dataType, int offset, epicsInt32 *value, int *bufferLen);
-    asynStatus writePlcInt(modbusDataType_t dataType, int offset, epicsInt32 value, epicsUInt16 *buffer, int *bufferLen);
+    asynStatus readPlcInt32(modbusDataType_t dataType, int offset, epicsInt32 *value, int *bufferLen);
+    asynStatus writePlcInt32(modbusDataType_t dataType, int offset, epicsInt32 value, epicsUInt16 *buffer, int *bufferLen);
+    asynStatus readPlcInt64(modbusDataType_t dataType, int offset, epicsInt64 *value, int *bufferLen);
+    asynStatus writePlcInt64(modbusDataType_t dataType, int offset, epicsInt64 value, epicsUInt16 *buffer, int *bufferLen);
     asynStatus readPlcFloat(modbusDataType_t dataType, int offset, epicsFloat64 *value, int *bufferLen);
     asynStatus writePlcFloat(modbusDataType_t dataType, int offset, epicsFloat64  value, epicsUInt16 *buffer, int *bufferLen);
     asynStatus readPlcString (modbusDataType_t dataType, int offset, char *value, size_t maxChars, int *bufferLen);
@@ -172,7 +213,7 @@ private:
     int modbusLength_;           /* Number of words or bits of Modbus data */
     bool absoluteAddressing_;    /* Address from asyn are absolute, rather than relative to modbusStartAddress */
     modbusDataType_t dataType_;  /* Data type */
-    modbusDrvUser_t *drvUser_;    /* Drv user structure */
+    modbusDrvUser_t *drvUser_;   /* Drv user structure */
     epicsUInt16 *data_;          /* Memory buffer */
     char modbusRequest_[MAX_MODBUS_FRAME_SIZE];      /* Modbus request message */
     char modbusReply_[MAX_MODBUS_FRAME_SIZE];        /* Modbus reply message */
