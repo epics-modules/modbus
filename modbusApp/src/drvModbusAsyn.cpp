@@ -150,8 +150,8 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
 
    : asynPortDriver(portName,
                     1, /* maxAddr */
-                    asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | asynInt32ArrayMask | asynOctetMask | asynDrvUserMask, /* Interface mask */
-                    asynInt32Mask | asynUInt32DigitalMask | asynFloat64Mask | asynInt32ArrayMask | asynOctetMask,                   /* Interrupt mask */
+                    asynInt32Mask | asynUInt32DigitalMask | asynInt64Mask | asynFloat64Mask | asynInt32ArrayMask | asynOctetMask | asynDrvUserMask, /* Interface mask */
+                    asynInt32Mask | asynUInt32DigitalMask | asynInt64Mask | asynFloat64Mask | asynInt32ArrayMask | asynOctetMask,                   /* Interrupt mask */
                     ASYN_CANBLOCK | ASYN_MULTIDEVICE, /* asynFlags */
                     1, /* Autoconnect */
                     0, /* Default priority */
