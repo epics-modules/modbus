@@ -3,7 +3,7 @@
  *   Author: Mark Rivers
  *
  *   These are the public definitions for drvModbusAsyn.
- * 
+ *
  */
 
 #ifndef drvModbusAsyn_H
@@ -15,15 +15,15 @@
 #include <asynPortDriver.h>
 #include "modbus.h"
 
-/* These are the strings that device support passes to drivers via 
+/* These are the strings that device support passes to drivers via
  * the asynDrvUser interface.
- * Drivers must return a value in pasynUser->reason that is unique 
+ * Drivers must return a value in pasynUser->reason that is unique
  * for that command.
  */
 
 // These are the parameters we register with asynPortDriver
-#define MODBUS_DATA_STRING                "MODBUS_DATA" 
-#define MODBUS_READ_STRING                "MODBUS_READ" 
+#define MODBUS_DATA_STRING                "MODBUS_DATA"
+#define MODBUS_READ_STRING                "MODBUS_READ"
 #define MODBUS_ENABLE_HISTOGRAM_STRING    "ENABLE_HISTOGRAM"
 #define MODBUS_READ_HISTOGRAM_STRING      "READ_HISTOGRAM"
 #define MODBUS_HISTOGRAM_BIN_TIME_STRING  "HISTOGRAM_BIN_TIME"
@@ -91,15 +91,15 @@ typedef enum {
     dataTypeUInt32LEBS,
     dataTypeUInt32BE,
     dataTypeUInt32BEBS,
-    dataTypeInt64LE, 
-    dataTypeInt64LEBS, 
-    dataTypeInt64BE,  
+    dataTypeInt64LE,
+    dataTypeInt64LEBS,
+    dataTypeInt64BE,
     dataTypeInt64BEBS,
-    dataTypeUInt64LE, 
-    dataTypeUInt64LEBS, 
-    dataTypeUInt64BE,  
+    dataTypeUInt64LE,
+    dataTypeUInt64LEBS,
+    dataTypeUInt64BE,
     dataTypeUInt64BEBS,
-    dataTypeFloat32LE, 
+    dataTypeFloat32LE,
     dataTypeFloat32LEBS,
     dataTypeFloat32BE,
     dataTypeFloat32BEBS,
@@ -112,7 +112,7 @@ typedef enum {
     dataTypeStringHighLow,
     dataTypeStringLowHigh,
     dataTypeZStringHigh,
-    dataTypeZStringLow, 
+    dataTypeZStringLow,
     dataTypeZStringHighLow,
     dataTypeZStringLowHigh,
     MAX_MODBUS_DATA_TYPES
@@ -122,13 +122,13 @@ struct modbusDrvUser_t;
 
 class epicsShareClass drvModbusAsyn : public asynPortDriver {
 public:
-    drvModbusAsyn(const char *portName, const char *octetPortName, 
-                  int modbusSlave, int modbusFunction, 
+    drvModbusAsyn(const char *portName, const char *octetPortName,
+                  int modbusSlave, int modbusFunction,
                   int modbusStartAddress, int modbusLength,
                   modbusDataType_t dataType,
-                  int pollMsec, 
+                  int pollMsec,
                   const char *plcType);
-                 
+
     /* These are the methods that we override from asynPortDriver */
 
     /* These functions are in the asynCommon interface */
@@ -196,7 +196,7 @@ protected:
     int P_IOErrors;
     int P_LastIOTime;
     int P_MaxIOTime;
- 
+
 private:
     /* Our data */
     bool initialized_;           /* If initialized successfully */
@@ -204,7 +204,7 @@ private:
     char *plcType_;              /* String describing PLC type */
     bool isConnected_;            /* Connection status */
     asynStatus ioStatus_;        /* I/O error status */
-    asynUser  *pasynUserOctet_;  /* asynUser for asynOctet interface to asyn octet port */ 
+    asynUser  *pasynUserOctet_;  /* asynUser for asynOctet interface to asyn octet port */
     asynUser  *pasynUserCommon_; /* asynUser for asynCommon interface to asyn octet port */
     asynUser  *pasynUserTrace_;  /* asynUser for asynTrace on this port */
     int modbusSlave_;            /* Modbus slave address */

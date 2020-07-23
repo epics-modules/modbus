@@ -12,7 +12,7 @@
  *
  */
 
-
+
 /* ANSI C includes  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -493,7 +493,7 @@ asynStatus drvModbusAsyn::getAddress(asynUser *pasynUser, int *address)
     return asynSuccess;
 }
 
-
+
 /*
 **  asynUInt32D support
 */
@@ -560,7 +560,7 @@ asynStatus drvModbusAsyn::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *va
     }
 }
 
-
+
 asynStatus drvModbusAsyn::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 value, epicsUInt32 mask)
 {
     int offset;
@@ -713,7 +713,7 @@ asynStatus drvModbusAsyn::readInt32 (asynUser *pasynUser, epicsInt32 *value)
     }
 }
 
-
+
 asynStatus drvModbusAsyn::writeInt32(asynUser *pasynUser, epicsInt32 value)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
@@ -873,7 +873,7 @@ asynStatus drvModbusAsyn::readInt64 (asynUser *pasynUser, epicsInt64 *value)
     }
 }
 
-
+
 asynStatus drvModbusAsyn::writeInt64(asynUser *pasynUser, epicsInt64 value)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
@@ -1019,7 +1019,7 @@ asynStatus drvModbusAsyn::readFloat64 (asynUser *pasynUser, epicsFloat64 *value)
     return asynSuccess;
 }
 
-
+
 asynStatus drvModbusAsyn::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
@@ -1091,7 +1091,7 @@ asynStatus drvModbusAsyn::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 }
 
 
-
+
 /*
 **  asynInt32Array support
 */
@@ -1190,7 +1190,7 @@ asynStatus drvModbusAsyn::readInt32Array (asynUser *pasynUser, epicsInt32 *data,
     return asynSuccess;
 }
 
-
+
 asynStatus drvModbusAsyn::writeInt32Array(asynUser *pasynUser, epicsInt32 *data, size_t maxChans)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
@@ -1261,7 +1261,7 @@ asynStatus drvModbusAsyn::writeInt32Array(asynUser *pasynUser, epicsInt32 *data,
     return asynSuccess;
 }
 
-
+
 /*
 **  asynOctet support
 */
@@ -1323,7 +1323,7 @@ asynStatus drvModbusAsyn::readOctet(asynUser *pasynUser, char *data, size_t maxC
     return asynSuccess;
 }
 
-
+
 asynStatus drvModbusAsyn::writeOctet (asynUser *pasynUser, const char *data, size_t maxChars, size_t *nActual)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
@@ -1404,7 +1404,7 @@ static void readPollerC(void *drvPvt)
     pPvt->readPoller();
 }
 
-
+
 /*
 ****************************************************************************
 ** Poller thread for port reads
@@ -2166,7 +2166,7 @@ asynStatus drvModbusAsyn::readPlcInt32(modbusDataType_t dataType, int offset, ep
     *output = (epicsInt32)i64Value;
     return status;
 }
-
+
 asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, epicsInt64 *output, int *bufferLen)
 {
     union {
@@ -2392,7 +2392,7 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
             isUnsigned = true;
         case dataTypeInt32LE:
             *bufferLen = 2;
-            if (isUnsigned) intUnion.ui32 = (epicsUInt32)value; else intUnion.i32 = (epicsInt32)value; 
+            if (isUnsigned) intUnion.ui32 = (epicsUInt32)value; else intUnion.i32 = (epicsInt32)value;
             buffer[0] = intUnion.ui16[w32_0];
             buffer[1] = intUnion.ui16[w32_1];
             break;
@@ -2401,7 +2401,7 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
             isUnsigned = true;
         case dataTypeInt32LEBS:
             *bufferLen = 2;
-            if (isUnsigned) intUnion.ui32 = (epicsUInt32)value; else intUnion.i32 = (epicsInt32)value; 
+            if (isUnsigned) intUnion.ui32 = (epicsUInt32)value; else intUnion.i32 = (epicsInt32)value;
             buffer[0] = bswap16(intUnion.ui16[w32_0]);
             buffer[1] = bswap16(intUnion.ui16[w32_1]);
             break;
@@ -2410,7 +2410,7 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
             isUnsigned = true;
         case dataTypeInt32BE:
             *bufferLen = 2;
-            if (isUnsigned) intUnion.ui32 = (epicsUInt32)value; else intUnion.i32 = (epicsInt32)value; 
+            if (isUnsigned) intUnion.ui32 = (epicsUInt32)value; else intUnion.i32 = (epicsInt32)value;
             buffer[0] = intUnion.ui16[w32_1];
             buffer[1] = intUnion.ui16[w32_0];
             break;
@@ -2419,7 +2419,7 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
             isUnsigned = true;
         case dataTypeInt32BEBS:
             *bufferLen = 2;
-            if (isUnsigned) intUnion.ui32 = (epicsUInt32)value; else intUnion.i32 = (epicsInt32)value; 
+            if (isUnsigned) intUnion.ui32 = (epicsUInt32)value; else intUnion.i32 = (epicsInt32)value;
             buffer[0] = bswap16(intUnion.ui16[w32_1]);
             buffer[1] = bswap16(intUnion.ui16[w32_0]);
             break;
@@ -2428,7 +2428,7 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
             isUnsigned = true;
         case dataTypeInt64LE:
             *bufferLen = 4;
-            if (isUnsigned) intUnion.ui64 = (epicsUInt64)value; else intUnion.i64 = (epicsInt64)value; 
+            if (isUnsigned) intUnion.ui64 = (epicsUInt64)value; else intUnion.i64 = (epicsInt64)value;
             buffer[0] = intUnion.ui16[w64_0];
             buffer[1] = intUnion.ui16[w64_1];
             buffer[2] = intUnion.ui16[w64_2];
@@ -2439,7 +2439,7 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
            isUnsigned = true;
         case dataTypeInt64LEBS:
             *bufferLen = 4;
-            if (isUnsigned) intUnion.ui64 = (epicsUInt64)value; else intUnion.i64 = (epicsInt64)value; 
+            if (isUnsigned) intUnion.ui64 = (epicsUInt64)value; else intUnion.i64 = (epicsInt64)value;
             buffer[0] = bswap16(intUnion.ui16[w64_0]);
             buffer[1] = bswap16(intUnion.ui16[w64_1]);
             buffer[2] = bswap16(intUnion.ui16[w64_2]);
@@ -2450,7 +2450,7 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
            isUnsigned = true;
         case dataTypeInt64BE:
             *bufferLen = 4;
-            if (isUnsigned) intUnion.ui64 = (epicsUInt64)value; else intUnion.i64 = (epicsInt64)value; 
+            if (isUnsigned) intUnion.ui64 = (epicsUInt64)value; else intUnion.i64 = (epicsInt64)value;
             buffer[0] = intUnion.ui16[w64_3];
             buffer[1] = intUnion.ui16[w64_2];
             buffer[2] = intUnion.ui16[w64_1];
@@ -2461,7 +2461,7 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
            isUnsigned = true;
         case dataTypeInt64BEBS:
             *bufferLen = 4;
-            if (isUnsigned) intUnion.ui64 = (epicsUInt64)value; else intUnion.i64 = (epicsInt64)value; 
+            if (isUnsigned) intUnion.ui64 = (epicsUInt64)value; else intUnion.i64 = (epicsInt64)value;
             buffer[0] = bswap16(intUnion.ui16[w64_3]);
             buffer[1] = bswap16(intUnion.ui16[w64_2]);
             buffer[2] = bswap16(intUnion.ui16[w64_1]);
