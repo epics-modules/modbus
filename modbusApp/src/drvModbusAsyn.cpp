@@ -2306,9 +2306,13 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
             break;
 
         case dataTypeFloat32LE:
+        case dataTypeFloat32LEBS:
         case dataTypeFloat32BE:
+        case dataTypeFloat32BEBS:
         case dataTypeFloat64LE:
+        case dataTypeFloat64LEBS:
         case dataTypeFloat64BE:
+        case dataTypeFloat64BEBS:
             status = readPlcFloat(dataType, offset, &fValue, bufferLen);
             i64Result = (epicsInt32)fValue;
             break;
@@ -2469,9 +2473,13 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
             break;
 
         case dataTypeFloat32LE:
+        case dataTypeFloat32LEBS:
         case dataTypeFloat32BE:
+        case dataTypeFloat32BEBS:
         case dataTypeFloat64LE:
+        case dataTypeFloat64LEBS:
         case dataTypeFloat64BE:
+        case dataTypeFloat64BEBS:
             status = writePlcFloat(dataType, offset, (epicsFloat64)value, buffer, bufferLen);
             break;
 
