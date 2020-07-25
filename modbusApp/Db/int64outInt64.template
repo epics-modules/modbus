@@ -1,0 +1,5 @@
+# int64out record template for register inputs
+record(int64out,"$(P)$(R)") {
+    field(DTYP,"asynInt64")
+    field(OUT,"@asyn($(PORT) $(OFFSET))$(DATA_TYPE)")
+}
