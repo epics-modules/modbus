@@ -66,7 +66,7 @@ file "../../db/poll_delay.template" { pattern
 {SIM1:,    BOPollDelay, A0_Out_Bits}
 }
 
-# These are the A0 inputs done with word access using asynInt32 interface
+# These are the A100 inputs done with word access using asynInt32 interface
 file "../../db/longinInt32.template" { pattern
 {P,           R,                PORT,       OFFSET,   DATA_TYPE,      SCAN}
 {SIM1:,    LI:UINT16,        A100_In_Word,     0,     UINT16,        "I/O Intr"}
@@ -78,18 +78,18 @@ file "../../db/longinInt32.template" { pattern
 {SIM1:,    LI:INT32_LE_BS,   A100_In_Word,     7,     INT32_LE_BS,   "I/O Intr"}
 {SIM1:,    LI:INT32_BE,      A100_In_Word,     9,     INT32_BE,      "I/O Intr"}
 {SIM1:,    LI:INT32_BE_BS,   A100_In_Word,    11,     INT32_BE_BS,   "I/O Intr"}
-{SIM1:,    LI:UINT32_LE,     A100_In_Word,    13,     INT32_LE,      "I/O Intr"}
-{SIM1:,    LI:UINT32_LE_BS,  A100_In_Word,    15,     INT32_LE_BS,   "I/O Intr"}
-{SIM1:,    LI:UINT32_BE,     A100_In_Word,    17,     INT32_BE,      "I/O Intr"}
-{SIM1:,    LI:UINT32_BE_BS,  A100_In_Word,    19,     INT32_BE_BS,   "I/O Intr"}
+{SIM1:,    LI:UINT32_LE,     A100_In_Word,    13,     UINT32_LE,     "I/O Intr"}
+{SIM1:,    LI:UINT32_LE_BS,  A100_In_Word,    15,     UINT32_LE_BS,  "I/O Intr"}
+{SIM1:,    LI:UINT32_BE,     A100_In_Word,    17,     UINT32_BE,     "I/O Intr"}
+{SIM1:,    LI:UINT32_BE_BS,  A100_In_Word,    19,     UINT32_BE_BS,  "I/O Intr"}
 {SIM1:,    LI:INT64_LE,      A100_In_Word,    21,     INT64_LE,      "I/O Intr"}
 {SIM1:,    LI:INT64_LE_BS,   A100_In_Word,    25,     INT64_LE_BS,   "I/O Intr"}
 {SIM1:,    LI:INT64_BE,      A100_In_Word,    29,     INT64_BE,      "I/O Intr"}
 {SIM1:,    LI:INT64_BE_BS,   A100_In_Word,    33,     INT64_BE_BS,   "I/O Intr"}
-{SIM1:,    LI:UINT64_LE,     A100_In_Word,    37,     INT64_LE,      "I/O Intr"}
-{SIM1:,    LI:UINT64_LE_BS,  A100_In_Word,    41,     INT64_LE_BS,   "I/O Intr"}
-{SIM1:,    LI:UINT64_BE,     A100_In_Word,    45,     INT64_BE,      "I/O Intr"}
-{SIM1:,    LI:UINT64_BE_BS,  A100_In_Word,    49,     INT64_BE_BS,   "I/O Intr"}
+{SIM1:,    LI:UINT64_LE,     A100_In_Word,    37,     UINT64_LE,     "I/O Intr"}
+{SIM1:,    LI:UINT64_LE_BS,  A100_In_Word,    41,     UINT64_LE_BS,  "I/O Intr"}
+{SIM1:,    LI:UINT64_BE,     A100_In_Word,    45,     UINT64_BE,     "I/O Intr"}
+{SIM1:,    LI:UINT64_BE_BS,  A100_In_Word,    49,     UINT64_BE_BS,  "I/O Intr"}
 {SIM1:,    LI:FLOAT32_LE,    A100_In_Word,    53,     FLOAT32_LE,    "I/O Intr"}
 {SIM1:,    LI:FLOAT32_LE_BS, A100_In_Word,    55,     FLOAT32_LE_BS, "I/O Intr"}
 {SIM1:,    LI:FLOAT32_BE,    A100_In_Word,    57,     FLOAT32_BE,    "I/O Intr"}
@@ -112,18 +112,18 @@ file "../../db/int64inInt64.template" { pattern
 {SIM1:,    I64I:INT32_LE_BS,   A200_In_Word,     7,     INT32_LE_BS,   "I/O Intr"}
 {SIM1:,    I64I:INT32_BE,      A200_In_Word,     9,     INT32_BE,      "I/O Intr"}
 {SIM1:,    I64I:INT32_BE_BS,   A200_In_Word,    11,     INT32_BE_BS,   "I/O Intr"}
-{SIM1:,    I64I:UINT32_LE,     A200_In_Word,    13,     INT32_LE,      "I/O Intr"}
-{SIM1:,    I64I:UINT32_LE_BS,  A200_In_Word,    15,     INT32_LE_BS,   "I/O Intr"}
-{SIM1:,    I64I:UINT32_BE,     A200_In_Word,    17,     INT32_BE,      "I/O Intr"}
-{SIM1:,    I64I:UINT32_BE_BS,  A200_In_Word,    19,     INT32_BE_BS,   "I/O Intr"}
+{SIM1:,    I64I:UINT32_LE,     A200_In_Word,    13,     UINT32_LE,     "I/O Intr"}
+{SIM1:,    I64I:UINT32_LE_BS,  A200_In_Word,    15,     UINT32_LE_BS,  "I/O Intr"}
+{SIM1:,    I64I:UINT32_BE,     A200_In_Word,    17,     UINT32_BE,     "I/O Intr"}
+{SIM1:,    I64I:UINT32_BE_BS,  A200_In_Word,    19,     UINT32_BE_BS,  "I/O Intr"}
 {SIM1:,    I64I:INT64_LE,      A200_In_Word,    21,     INT64_LE,      "I/O Intr"}
 {SIM1:,    I64I:INT64_LE_BS,   A200_In_Word,    25,     INT64_LE_BS,   "I/O Intr"}
 {SIM1:,    I64I:INT64_BE,      A200_In_Word,    29,     INT64_BE,      "I/O Intr"}
 {SIM1:,    I64I:INT64_BE_BS,   A200_In_Word,    33,     INT64_BE_BS,   "I/O Intr"}
-{SIM1:,    I64I:UINT64_LE,     A200_In_Word,    37,     INT64_LE,      "I/O Intr"}
-{SIM1:,    I64I:UINT64_LE_BS,  A200_In_Word,    41,     INT64_LE_BS,   "I/O Intr"}
-{SIM1:,    I64I:UINT64_BE,     A200_In_Word,    45,     INT64_BE,      "I/O Intr"}
-{SIM1:,    I64I:UINT64_BE_BS,  A200_In_Word,    49,     INT64_BE_BS,   "I/O Intr"}
+{SIM1:,    I64I:UINT64_LE,     A200_In_Word,    37,     UINT64_LE,     "I/O Intr"}
+{SIM1:,    I64I:UINT64_LE_BS,  A200_In_Word,    41,     UINT64_LE_BS,  "I/O Intr"}
+{SIM1:,    I64I:UINT64_BE,     A200_In_Word,    45,     UINT64_BE,     "I/O Intr"}
+{SIM1:,    I64I:UINT64_BE_BS,  A200_In_Word,    49,     UINT64_BE_BS,  "I/O Intr"}
 {SIM1:,    I64I:FLOAT32_LE,    A200_In_Word,    53,     FLOAT32_LE,    "I/O Intr"}
 {SIM1:,    I64I:FLOAT32_LE_BS, A200_In_Word,    55,     FLOAT32_LE_BS, "I/O Intr"}
 {SIM1:,    I64I:FLOAT32_BE,    A200_In_Word,    57,     FLOAT32_BE,    "I/O Intr"}
@@ -146,18 +146,18 @@ file "../../db/aiFloat64.template" { pattern
 {SIM1:,    AI:INT32_LE_BS,   A300_In_Word,     7,     INT32_LE_BS,    0,    "I/O Intr"}
 {SIM1:,    AI:INT32_BE,      A300_In_Word,     9,     INT32_BE,       0,    "I/O Intr"}
 {SIM1:,    AI:INT32_BE_BS,   A300_In_Word,    11,     INT32_BE_BS,    0,    "I/O Intr"}
-{SIM1:,    AI:UINT32_LE,     A300_In_Word,    13,     INT32_LE,       0,    "I/O Intr"}
-{SIM1:,    AI:UINT32_LE_BS,  A300_In_Word,    15,     INT32_LE_BS,    0,    "I/O Intr"}
-{SIM1:,    AI:UINT32_BE,     A300_In_Word,    17,     INT32_BE,       0,    "I/O Intr"}
-{SIM1:,    AI:UINT32_BE_BS,  A300_In_Word,    19,     INT32_BE_BS,    0,    "I/O Intr"}
+{SIM1:,    AI:UINT32_LE,     A300_In_Word,    13,     UINT32_LE,      0,    "I/O Intr"}
+{SIM1:,    AI:UINT32_LE_BS,  A300_In_Word,    15,     UINT32_LE_BS,   0,    "I/O Intr"}
+{SIM1:,    AI:UINT32_BE,     A300_In_Word,    17,     UINT32_BE,      0,    "I/O Intr"}
+{SIM1:,    AI:UINT32_BE_BS,  A300_In_Word,    19,     UINT32_BE_BS,   0,    "I/O Intr"}
 {SIM1:,    AI:INT64_LE,      A300_In_Word,    21,     INT64_LE,       0,    "I/O Intr"}
 {SIM1:,    AI:INT64_LE_BS,   A300_In_Word,    25,     INT64_LE_BS,    0,    "I/O Intr"}
 {SIM1:,    AI:INT64_BE,      A300_In_Word,    29,     INT64_BE,       0,    "I/O Intr"}
 {SIM1:,    AI:INT64_BE_BS,   A300_In_Word,    33,     INT64_BE_BS,    0,    "I/O Intr"}
-{SIM1:,    AI:UINT64_LE,     A300_In_Word,    37,     INT64_LE,       0,    "I/O Intr"}
-{SIM1:,    AI:UINT64_LE_BS,  A300_In_Word,    41,     INT64_LE_BS,    0,    "I/O Intr"}
-{SIM1:,    AI:UINT64_BE,     A300_In_Word,    45,     INT64_BE,       0,    "I/O Intr"}
-{SIM1:,    AI:UINT64_BE_BS,  A300_In_Word,    49,     INT64_BE_BS,    0,    "I/O Intr"}
+{SIM1:,    AI:UINT64_LE,     A300_In_Word,    37,     UINT64_LE,      0,    "I/O Intr"}
+{SIM1:,    AI:UINT64_LE_BS,  A300_In_Word,    41,     UINT64_LE_BS,   0,    "I/O Intr"}
+{SIM1:,    AI:UINT64_BE,     A300_In_Word,    45,     UINT64_BE,      0,    "I/O Intr"}
+{SIM1:,    AI:UINT64_BE_BS,  A300_In_Word,    49,     UINT64_BE_BS,   0,    "I/O Intr"}
 {SIM1:,    AI:FLOAT32_LE,    A300_In_Word,    53,     FLOAT32_LE,     3,    "I/O Intr"}
 {SIM1:,    AI:FLOAT32_LE_BS, A300_In_Word,    55,     FLOAT32_LE_BS,  3,    "I/O Intr"}
 {SIM1:,    AI:FLOAT32_BE,    A300_In_Word,    57,     FLOAT32_BE,     3,    "I/O Intr"}
@@ -180,18 +180,18 @@ file "../../db/longoutInt32.template" { pattern
 {SIM1:,    LO:INT32_LE_BS,   A100_Out_Word,     7,     INT32_LE_BS}
 {SIM1:,    LO:INT32_BE,      A100_Out_Word,     9,     INT32_BE}
 {SIM1:,    LO:INT32_BE_BS,   A100_Out_Word,    11,     INT32_BE_BS}
-{SIM1:,    LO:UINT32_LE,     A100_Out_Word,    13,     INT32_LE}
-{SIM1:,    LO:UINT32_LE_BS,  A100_Out_Word,    15,     INT32_LE_BS}
-{SIM1:,    LO:UINT32_BE,     A100_Out_Word,    17,     INT32_BE}
-{SIM1:,    LO:UINT32_BE_BS,  A100_Out_Word,    19,     INT32_BE_BS}
+{SIM1:,    LO:UINT32_LE,     A100_Out_Word,    13,     UINT32_LE}
+{SIM1:,    LO:UINT32_LE_BS,  A100_Out_Word,    15,     UINT32_LE_BS}
+{SIM1:,    LO:UINT32_BE,     A100_Out_Word,    17,     UINT32_BE}
+{SIM1:,    LO:UINT32_BE_BS,  A100_Out_Word,    19,     UINT32_BE_BS}
 {SIM1:,    LO:INT64_LE,      A100_Out_Word,    21,     INT64_LE}
 {SIM1:,    LO:INT64_LE_BS,   A100_Out_Word,    25,     INT64_LE_BS}
 {SIM1:,    LO:INT64_BE,      A100_Out_Word,    29,     INT64_BE}
 {SIM1:,    LO:INT64_BE_BS,   A100_Out_Word,    33,     INT64_BE_BS}
-{SIM1:,    LO:UINT64_LE,     A100_Out_Word,    37,     INT64_LE}
-{SIM1:,    LO:UINT64_LE_BS,  A100_Out_Word,    41,     INT64_LE_BS}
-{SIM1:,    LO:UINT64_BE,     A100_Out_Word,    45,     INT64_BE}
-{SIM1:,    LO:UINT64_BE_BS,  A100_Out_Word,    49,     INT64_BE_BS}
+{SIM1:,    LO:UINT64_LE,     A100_Out_Word,    37,     UINT64_LE}
+{SIM1:,    LO:UINT64_LE_BS,  A100_Out_Word,    41,     UINT64_LE_BS}
+{SIM1:,    LO:UINT64_BE,     A100_Out_Word,    45,     UINT64_BE}
+{SIM1:,    LO:UINT64_BE_BS,  A100_Out_Word,    49,     UINT64_BE_BS}
 {SIM1:,    LO:FLOAT32_LE,    A100_Out_Word,    53,     FLOAT32_LE}
 {SIM1:,    LO:FLOAT32_LE_BS, A100_Out_Word,    55,     FLOAT32_LE_BS}
 {SIM1:,    LO:FLOAT32_BE,    A100_Out_Word,    57,     FLOAT32_BE}
@@ -200,6 +200,26 @@ file "../../db/longoutInt32.template" { pattern
 {SIM1:,    LO:FLOAT64_LE_BS, A100_Out_Word,    65,     FLOAT64_LE_BS}
 {SIM1:,    LO:FLOAT64_BE,    A100_Out_Word,    69,     FLOAT64_BE}
 {SIM1:,    LO:FLOAT64_BE_BS, A100_Out_Word,    73,     FLOAT64_BE_BS}
+}
+
+file "../../db/asynRecord.template" { pattern
+{P,           R,         PORT,       ADDR,  TMOD,  IFACE}
+{SIM1:,    LO:AsynIn,  A100_In_Word,  0,  Read, asynInt32}
+}
+
+file "../../db/asynRecord.template" { pattern
+{P,           R,          PORT,       ADDR,   TMOD,  IFACE}
+{SIM1:,    LO:AsynOut,  A100_Out_Word, 0,   Read, asynInt32}
+}
+
+file "../../db/statistics.template" { pattern
+{P,           R,         PORT,       SCAN}
+{SIM1:,    LO:,     A100_In_Word,  "10 second"}
+} 
+
+file "../../db/poll_delay.template" { pattern
+{P,           R,              PORT}
+{SIM1:,    LO:PollDelay, A100_In_Word}
 }
 
 # These are the A200 outputs done with word access on the asynInt64 interface
@@ -214,18 +234,18 @@ file "../../db/int64outInt64.template" { pattern
 {SIM1:,    I64O:INT32_LE_BS,   A200_Out_Word,     7,     INT32_LE_BS}
 {SIM1:,    I64O:INT32_BE,      A200_Out_Word,     9,     INT32_BE}
 {SIM1:,    I64O:INT32_BE_BS,   A200_Out_Word,    11,     INT32_BE_BS}
-{SIM1:,    I64O:UINT32_LE,     A200_Out_Word,    13,     INT32_LE}
-{SIM1:,    I64O:UINT32_LE_BS,  A200_Out_Word,    15,     INT32_LE_BS}
-{SIM1:,    I64O:UINT32_BE,     A200_Out_Word,    17,     INT32_BE}
-{SIM1:,    I64O:UINT32_BE_BS,  A200_Out_Word,    19,     INT32_BE_BS}
+{SIM1:,    I64O:UINT32_LE,     A200_Out_Word,    13,     UINT32_LE}
+{SIM1:,    I64O:UINT32_LE_BS,  A200_Out_Word,    15,     UINT32_LE_BS}
+{SIM1:,    I64O:UINT32_BE,     A200_Out_Word,    17,     UINT32_BE}
+{SIM1:,    I64O:UINT32_BE_BS,  A200_Out_Word,    19,     UINT32_BE_BS}
 {SIM1:,    I64O:INT64_LE,      A200_Out_Word,    21,     INT64_LE}
 {SIM1:,    I64O:INT64_LE_BS,   A200_Out_Word,    25,     INT64_LE_BS}
 {SIM1:,    I64O:INT64_BE,      A200_Out_Word,    29,     INT64_BE}
 {SIM1:,    I64O:INT64_BE_BS,   A200_Out_Word,    33,     INT64_BE_BS}
-{SIM1:,    I64O:UINT64_LE,     A200_Out_Word,    37,     INT64_LE}
-{SIM1:,    I64O:UINT64_LE_BS,  A200_Out_Word,    41,     INT64_LE_BS}
-{SIM1:,    I64O:UINT64_BE,     A200_Out_Word,    45,     INT64_BE}
-{SIM1:,    I64O:UINT64_BE_BS,  A200_Out_Word,    49,     INT64_BE_BS}
+{SIM1:,    I64O:UINT64_LE,     A200_Out_Word,    37,     UINT64_LE}
+{SIM1:,    I64O:UINT64_LE_BS,  A200_Out_Word,    41,     UINT64_LE_BS}
+{SIM1:,    I64O:UINT64_BE,     A200_Out_Word,    45,     UINT64_BE}
+{SIM1:,    I64O:UINT64_BE_BS,  A200_Out_Word,    49,     UINT64_BE_BS}
 {SIM1:,    I64O:FLOAT32_LE,    A200_Out_Word,    53,     FLOAT32_LE}
 {SIM1:,    I64O:FLOAT32_LE_BS, A200_Out_Word,    55,     FLOAT32_LE_BS}
 {SIM1:,    I64O:FLOAT32_BE,    A200_Out_Word,    57,     FLOAT32_BE}
@@ -234,6 +254,26 @@ file "../../db/int64outInt64.template" { pattern
 {SIM1:,    I64O:FLOAT64_LE_BS, A200_Out_Word,    65,     FLOAT64_LE_BS}
 {SIM1:,    I64O:FLOAT64_BE,    A200_Out_Word,    69,     FLOAT64_BE}
 {SIM1:,    I64O:FLOAT64_BE_BS, A200_Out_Word,    73,     FLOAT64_BE_BS}
+}
+
+file "../../db/asynRecord.template" { pattern
+{P,           R,         PORT,       ADDR,  TMOD,  IFACE}
+{SIM1:,    I64O:AsynIn,  A200_In_Word,  0,  Read, asynInt32}
+}
+
+file "../../db/asynRecord.template" { pattern
+{P,           R,          PORT,       ADDR,   TMOD,  IFACE}
+{SIM1:,    I64O:AsynOut,  A200_Out_Word, 0,   Read, asynInt32}
+}
+
+file "../../db/statistics.template" { pattern
+{P,           R,         PORT,       SCAN}
+{SIM1:,    I64O:,     A200_In_Word,  "10 second"}
+} 
+
+file "../../db/poll_delay.template" { pattern
+{P,           R,              PORT}
+{SIM1:,    I64O:PollDelay, A100_In_Word}
 }
 
 # These are the A300 outputs done with word access on the asynFloat64 interface
@@ -248,18 +288,18 @@ file "../../db/aoFloat64.template" { pattern
 {SIM1:,    AO:INT32_LE_BS,   A300_Out_Word,     7,     INT32_LE_BS,   0}
 {SIM1:,    AO:INT32_BE,      A300_Out_Word,     9,     INT32_BE,      0}
 {SIM1:,    AO:INT32_BE_BS,   A300_Out_Word,    11,     INT32_BE_BS,   0}
-{SIM1:,    AO:UINT32_LE,     A300_Out_Word,    13,     INT32_LE,      0}
-{SIM1:,    AO:UINT32_LE_BS,  A300_Out_Word,    15,     INT32_LE_BS,   0}
-{SIM1:,    AO:UINT32_BE,     A300_Out_Word,    17,     INT32_BE,      0}
-{SIM1:,    AO:UINT32_BE_BS,  A300_Out_Word,    19,     INT32_BE_BS,   0}
+{SIM1:,    AO:UINT32_LE,     A300_Out_Word,    13,     UINT32_LE,     0}
+{SIM1:,    AO:UINT32_LE_BS,  A300_Out_Word,    15,     UINT32_LE_BS,  0}
+{SIM1:,    AO:UINT32_BE,     A300_Out_Word,    17,     UINT32_BE,     0}
+{SIM1:,    AO:UINT32_BE_BS,  A300_Out_Word,    19,     UINT32_BE_BS,  0}
 {SIM1:,    AO:INT64_LE,      A300_Out_Word,    21,     INT64_LE,      0}
 {SIM1:,    AO:INT64_LE_BS,   A300_Out_Word,    25,     INT64_LE_BS,   0}
 {SIM1:,    AO:INT64_BE,      A300_Out_Word,    29,     INT64_BE,      0}
 {SIM1:,    AO:INT64_BE_BS,   A300_Out_Word,    33,     INT64_BE_BS,   0}
-{SIM1:,    AO:UINT64_LE,     A300_Out_Word,    37,     INT64_LE,      0}
-{SIM1:,    AO:UINT64_LE_BS,  A300_Out_Word,    41,     INT64_LE_BS,   0}
-{SIM1:,    AO:UINT64_BE,     A300_Out_Word,    45,     INT64_BE,      0}
-{SIM1:,    AO:UINT64_BE_BS,  A300_Out_Word,    49,     INT64_BE_BS,   0}
+{SIM1:,    AO:UINT64_LE,     A300_Out_Word,    37,     UINT64_LE,     0}
+{SIM1:,    AO:UINT64_LE_BS,  A300_Out_Word,    41,     UINT64_LE_BS,  0}
+{SIM1:,    AO:UINT64_BE,     A300_Out_Word,    45,     UINT64_BE,     0}
+{SIM1:,    AO:UINT64_BE_BS,  A300_Out_Word,    49,     UINT64_BE_BS,  0}
 {SIM1:,    AO:FLOAT32_LE,    A300_Out_Word,    53,     FLOAT32_LE,    3}
 {SIM1:,    AO:FLOAT32_LE_BS, A300_Out_Word,    55,     FLOAT32_LE_BS, 3}
 {SIM1:,    AO:FLOAT32_BE,    A300_Out_Word,    57,     FLOAT32_BE,    3}
@@ -271,21 +311,21 @@ file "../../db/aoFloat64.template" { pattern
 }
 
 file "../../db/asynRecord.template" { pattern
-{P,           R,         PORT,       ADDR,   TMOD,  IFACE}
-{SIM1:,    AO:AsynIn,  A100_In_Word,     0,    Read, asynInt32}
+{P,           R,         PORT,       ADDR,  TMOD,  IFACE}
+{SIM1:,    AO:AsynIn,  A300_In_Word,  0,  Read, asynInt32}
 }
 
 file "../../db/asynRecord.template" { pattern
-{P,           R,         PORT,       ADDR,   TMOD,  IFACE}
-{SIM1:,    AO:AsynOut,  A100_Out_Word,     0,    Read, asynInt32}
+{P,           R,          PORT,       ADDR,   TMOD,  IFACE}
+{SIM1:,    AO:AsynOut,  A300_Out_Word, 0,   Read, asynInt32}
 }
 
 file "../../db/statistics.template" { pattern
-{P,           R,       PORT,       SCAN}
-{SIM1:,    AO:,     A100_In_Word,  "10 second"}
+{P,           R,         PORT,       SCAN}
+{SIM1:,    AO:,     A300_In_Word,  "10 second"}
 } 
 
 file "../../db/poll_delay.template" { pattern
-{P,           R,            PORT}
-{SIM1:,    AO:PollDelay, A100_In_Word}
+{P,           R,              PORT}
+{SIM1:,    AO:PollDelay, A300_In_Word}
 }
