@@ -1518,7 +1518,7 @@ void drvModbusAsyn::readPoller()
                 if (forceCallback_ || (newValue != prevValue)) {
                     uInt32Value = newValue;
                     asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
-                              "%s::%s, calling client %p"
+                              "%s::%s, calling asynUInt32Digital client %p"
                               " mask=0x%x, callback=%p, data=0x%x\n",
                               driverName, functionName, pUInt32D, pUInt32D->mask, pUInt32D->callback, uInt32Value);
                     pUInt32D->callback(pUInt32D->userPvt, pasynUser, uInt32Value);
@@ -1555,8 +1555,8 @@ void drvModbusAsyn::readPoller()
             /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
             pasynUser->auxStatus = ioStatus_;
             asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
-                      "%s::%s, calling client %p"
-                      "callback=%p, data=0x%x\n",
+                      "%s::%s, calling asynInt32 client %p"
+                      " callback=%p, data=0x%x\n",
                       driverName, functionName, pInt32, pInt32->callback, int32Value);
             pInt32->callback(pInt32->userPvt, pasynUser,
                              int32Value);
@@ -1591,8 +1591,8 @@ void drvModbusAsyn::readPoller()
             /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
             pasynUser->auxStatus = ioStatus_;
             asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
-                      "%s::%s, calling client %p"
-                      "callback=%p, data=0x%llx\n",
+                      "%s::%s, calling asynInt64 client %p"
+                      " callback=%p, data=0x%llx\n",
                       driverName, functionName, pInt64, pInt64->callback, int64Value);
             pInt64->callback(pInt64->userPvt, pasynUser,
                              int64Value);
@@ -1627,8 +1627,8 @@ void drvModbusAsyn::readPoller()
             /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
             pFloat64->pasynUser->auxStatus = ioStatus_;
             asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
-                      "%s::%s, calling client %p"
-                      "callback=%p, data=%f\n",
+                      "%s::%s, calling asynFloat64 client %p"
+                      " callback=%p, data=%f\n",
                       driverName, functionName, pFloat64, pFloat64->callback, float64Value);
             pFloat64->callback(pFloat64->userPvt, pasynUser,
                                float64Value);
@@ -2230,7 +2230,7 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
         case dataTypeInt32LE:
             intUnion.ui16[w32_0] = data_[offset];
             intUnion.ui16[w32_1] = data_[offset+1];
-            *output = isUnsigned ? (epicsInt64)intUnion.ui32 : (epicsInt64)intUnion.i32;
+            i64Result = isUnsigned ? (epicsInt64)intUnion.ui32 : (epicsInt64)intUnion.i32;
             *bufferLen = 2;
             break;
 
@@ -2239,7 +2239,7 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
         case dataTypeInt32LEBS:
             intUnion.ui16[w32_0] = bswap16(data_[offset]);
             intUnion.ui16[w32_1] = bswap16(data_[offset+1]);
-            *output = isUnsigned ? (epicsInt64)intUnion.ui32 : (epicsInt64)intUnion.i32;
+            i64Result = isUnsigned ? (epicsInt64)intUnion.ui32 : (epicsInt64)intUnion.i32;
             *bufferLen = 2;
             break;
 
@@ -2248,7 +2248,7 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
         case dataTypeInt32BE:
             intUnion.ui16[w32_1] = data_[offset];
             intUnion.ui16[w32_0] = data_[offset+1];
-            *output = isUnsigned ? (epicsInt64)intUnion.ui32 : (epicsInt64)intUnion.i32;
+            i64Result = isUnsigned ? (epicsInt64)intUnion.ui32 : (epicsInt64)intUnion.i32;
             *bufferLen = 2;
             break;
 
@@ -2257,7 +2257,7 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
         case dataTypeInt32BEBS:
             intUnion.ui16[w32_1] = bswap16(data_[offset]);
             intUnion.ui16[w32_0] = bswap16(data_[offset+1]);
-            *output = isUnsigned ? (epicsInt64)intUnion.ui32 : (epicsInt64)intUnion.i32;
+            i64Result = isUnsigned ? (epicsInt64)intUnion.ui32 : (epicsInt64)intUnion.i32;
             *bufferLen = 2;
             break;
 
@@ -2268,7 +2268,7 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
             intUnion.ui16[w64_1] = data_[offset+1];
             intUnion.ui16[w64_2] = data_[offset+2];
             intUnion.ui16[w64_3] = data_[offset+3];
-            *output = isUnsigned ? intUnion.ui64 : intUnion.i64;
+            i64Result = isUnsigned ? intUnion.ui64 : intUnion.i64;
             *bufferLen = 4;
             break;
 
@@ -2279,7 +2279,7 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
             intUnion.ui16[w64_1] = bswap16(data_[offset+1]);
             intUnion.ui16[w64_2] = bswap16(data_[offset+2]);
             intUnion.ui16[w64_3] = bswap16(data_[offset+3]);
-            *output = isUnsigned ? intUnion.ui64 : intUnion.i64;
+            i64Result = isUnsigned ? intUnion.ui64 : intUnion.i64;
             *bufferLen = 4;
             break;
 
@@ -2290,7 +2290,7 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
             intUnion.ui16[w64_2] = data_[offset+1];
             intUnion.ui16[w64_1] = data_[offset+2];
             intUnion.ui16[w64_0] = data_[offset+3];
-            *output = isUnsigned ? intUnion.ui64 : intUnion.i64;
+            i64Result = isUnsigned ? intUnion.ui64 : intUnion.i64;
             *bufferLen = 4;
             break;
 
@@ -2301,7 +2301,7 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
             intUnion.ui16[w64_2] = bswap16(data_[offset+1]);
             intUnion.ui16[w64_1] = bswap16(data_[offset+2]);
             intUnion.ui16[w64_0] = bswap16(data_[offset+3]);
-            *output = isUnsigned ? intUnion.ui64 : intUnion.i64;
+            i64Result = isUnsigned ? intUnion.ui64 : intUnion.i64;
             *bufferLen = 4;
             break;
 
@@ -2528,6 +2528,10 @@ asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, ep
         case dataTypeUInt32LEBS:
         case dataTypeUInt32BE:
         case dataTypeUInt32BEBS:
+            status = readPlcInt64(dataType, offset, &i64Value, bufferLen);
+            *output = (epicsFloat64)((epicsUInt32)i64Value);
+            break;
+
         case dataTypeInt64LE:
         case dataTypeInt64LEBS:
         case dataTypeInt64BE:
@@ -2642,14 +2646,14 @@ asynStatus drvModbusAsyn::writePlcFloat(modbusDataType_t dataType, int offset, e
         case dataTypeInt32LEBS:
         case dataTypeInt32BE:
         case dataTypeInt32BEBS:
-            status = writePlcInt32(dataType, offset, (epicsInt32)value, buffer, bufferLen);
+            status = writePlcInt64(dataType, offset, (epicsInt64)value, buffer, bufferLen);
             break;
 
         case dataTypeUInt32LE:
         case dataTypeUInt32LEBS:
         case dataTypeUInt32BE:
         case dataTypeUInt32BEBS:
-            status = writePlcInt32(dataType, offset, (epicsUInt32)value, buffer, bufferLen);
+            status = writePlcInt64(dataType, offset, (epicsUInt64)value, buffer, bufferLen);
             break;
 
         case dataTypeInt64LE:
