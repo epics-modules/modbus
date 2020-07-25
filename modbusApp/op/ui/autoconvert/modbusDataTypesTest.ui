@@ -172,16 +172,16 @@ border-radius: 2px;
                 <enum>Menu</enum>
             </property>
             <property name="labels">
-                <string>longout/longin;ao/ai;Binary inputs;Binary outputs</string>
+                <string>longout/longin;int64out/int64in;ao/ai;Binary inputs;Binary outputs</string>
             </property>
             <property name="files">
-                <string>modbusDataTypes.adl;modbusDataTypes.adl;Koyo_8inputs.adl;Koyo_8outputs.adl</string>
+                <string>modbusDataTypes.adl;modbusDataTypes.adl;modbusDataTypes.adl;Koyo_8inputs.adl;Koyo_8outputs.adl</string>
             </property>
             <property name="args">
-                <string>P=SIM1:,OUT=LO:,IN=LI:,OREC=longout,IREC=longin;P=SIM1:,OUT=AO:,IN=AI:,OREC=ao,IREC=ai;P=SIM1:,R=BI,A=B,L=MBBID0,PORT=BI,AC=Bit;P=SIM1:,R=BO,A=B,L=MBBOD0,PORT=BO,AC=Bit</string>
+                <string>P=SIM1:,OUT=LO:,IN=LI:,OREC=longout,IREC=longin;P=SIM1:,OUT=I64O:,IN=I64I:,OREC=int64out,IREC=int64in;P=SIM1:,OUT=AO:,IN=AI:,OREC=ao,IREC=ai;P=SIM1:,R=BI,A=B,L=MBBID0,PORT=BI,AC=Bit;P=SIM1:,R=BO,A=B,L=MBBOD0,PORT=BO,AC=Bit</string>
             </property>
             <property name="removeParent">
-                <string>false;false;false;false</string>
+                <string>false;false;false;false;false</string>
             </property>
         </widget>
         <widget class="caRelatedDisplay" name="caRelatedDisplay_1">

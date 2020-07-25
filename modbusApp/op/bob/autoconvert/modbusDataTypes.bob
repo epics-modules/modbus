@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <name>modbusDataTypes</name>
-  <x>580</x>
-  <y>420</y>
-  <width>840</width>
-  <height>450</height>
+  <x>434</x>
+  <y>121</y>
+  <width>725</width>
+  <height>870</height>
   <background_color>
     <color red="187" green="187" blue="187">
     </color>
@@ -14,7 +14,7 @@
   <widget type="label" version="2.0.0">
     <name>text #6</name>
     <text>Modbus Data Type Test</text>
-    <x>294</x>
+    <x>236</x>
     <y>12</y>
     <width>252</width>
     <height>25</height>
@@ -24,744 +24,163 @@
     </font>
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #9</name>
-    <pv_name>$(P)A0:PollDelay</pv_name>
-    <x>360</x>
-    <y>372</y>
-    <width>50</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #13</name>
-    <text>Poll delay</text>
-    <x>415</x>
-    <y>375</y>
-    <width>90</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>related display #16</name>
-    <actions>
-      <action type="open_display">
-        <file>asynRecord.opi</file>
-        <macros>
-          <R>A0:AsynOut</R>
-        </macros>
-        <target>tab</target>
-        <description>asynRecord Out</description>
-      </action>
-      <action type="open_display">
-        <file>asynRecord.opi</file>
-        <macros>
-          <R>A0:AsynIn</R>
-        </macros>
-        <target>tab</target>
-        <description>asynRecord In</description>
-      </action>
-      <action type="open_display">
-        <file>modbusStatistics.opi</file>
-        <macros>
-          <R>A0:</R>
-        </macros>
-        <target>tab</target>
-        <description>I/O Statistics</description>
-      </action>
-    </actions>
-    <text></text>
-    <x>357</x>
-    <y>397</y>
-    <width>53</width>
-    <height>20</height>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #21</name>
-    <text>More</text>
-    <x>415</x>
-    <y>400</y>
-    <width>36</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #24</name>
-    <pv_name>$(P)$(IN)UINT16.SCAN</pv_name>
-    <x>729</x>
-    <y>83</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #27</name>
-    <pv_name>$(P)$(IN)BCD_UNSIGNED.SCAN</pv_name>
-    <x>729</x>
-    <y>108</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #30</name>
-    <pv_name>$(P)$(IN)BCD_SIGNED.SCAN</pv_name>
-    <x>729</x>
-    <y>133</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #33</name>
-    <pv_name>$(P)$(IN)INT16.SCAN</pv_name>
-    <x>729</x>
-    <y>158</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #36</name>
-    <pv_name>$(P)$(IN)INT32_LE.SCAN</pv_name>
-    <x>729</x>
-    <y>183</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #39</name>
-    <pv_name>$(P)$(IN)INT32_BE.SCAN</pv_name>
-    <x>729</x>
-    <y>208</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #42</name>
-    <pv_name>$(P)$(IN)FLOAT32_LE.SCAN</pv_name>
-    <x>729</x>
-    <y>233</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #45</name>
-    <pv_name>$(P)$(IN)FLOAT32_BE.SCAN</pv_name>
-    <x>729</x>
-    <y>258</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #48</name>
-    <pv_name>$(P)$(IN)FLOAT64_LE.SCAN</pv_name>
-    <x>729</x>
-    <y>283</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #51</name>
-    <pv_name>$(P)$(IN)FLOAT64_BE.SCAN</pv_name>
-    <x>729</x>
-    <y>308</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>menu #54</name>
-    <pv_name>$(P)$(IN)DEFAULT.SCAN</pv_name>
-    <x>729</x>
-    <y>333</y>
-    <height>20</height>
-    <background_color>
-      <color red="187" green="187" blue="187">
-      </color>
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #57</name>
-    <text>Scan</text>
-    <x>744</x>
-    <y>59</y>
-    <width>70</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #60</name>
-    <pv_name>$(P)$(IN)UINT16</pv_name>
-    <x>489</x>
-    <y>86</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #64</name>
-    <pv_name>$(P)$(IN)BCD_UNSIGNED</pv_name>
-    <x>489</x>
-    <y>111</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #68</name>
-    <pv_name>$(P)$(IN)BCD_SIGNED</pv_name>
-    <x>489</x>
-    <y>136</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #72</name>
-    <pv_name>$(P)$(IN)INT16</pv_name>
-    <x>489</x>
-    <y>161</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #76</name>
-    <pv_name>$(P)$(IN)INT32_LE</pv_name>
-    <x>489</x>
-    <y>186</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #80</name>
-    <pv_name>$(P)$(IN)INT32_BE</pv_name>
-    <x>489</x>
-    <y>211</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #84</name>
-    <pv_name>$(P)$(IN)FLOAT32_LE</pv_name>
-    <x>489</x>
-    <y>236</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #88</name>
-    <pv_name>$(P)$(IN)FLOAT32_BE</pv_name>
-    <x>489</x>
-    <y>261</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #92</name>
-    <pv_name>$(P)$(IN)FLOAT64_LE</pv_name>
-    <x>489</x>
-    <y>286</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #96</name>
-    <pv_name>$(P)$(IN)FLOAT64_BE</pv_name>
-    <x>489</x>
-    <y>311</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #100</name>
-    <pv_name>$(P)$(IN)DEFAULT</pv_name>
-    <x>489</x>
-    <y>336</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #104</name>
-    <text>$(IREC)</text>
-    <x>491</x>
-    <y>59</y>
-    <width>70</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #107</name>
-    <text>$(OREC)</text>
-    <x>249</x>
-    <y>59</y>
-    <width>70</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #110</name>
-    <pv_name>$(P)$(OUT)UINT16</pv_name>
-    <x>244</x>
-    <y>83</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #114</name>
-    <pv_name>$(P)$(OUT)BCD_UNSIGNED</pv_name>
-    <x>244</x>
-    <y>108</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #118</name>
-    <pv_name>$(P)$(OUT)BCD_SIGNED</pv_name>
-    <x>244</x>
-    <y>133</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #122</name>
-    <pv_name>$(P)$(OUT)INT16</pv_name>
-    <x>244</x>
-    <y>158</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #126</name>
-    <pv_name>$(P)$(OUT)INT32_LE</pv_name>
-    <x>244</x>
-    <y>183</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #130</name>
-    <pv_name>$(P)$(OUT)INT32_BE</pv_name>
-    <x>244</x>
-    <y>208</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #134</name>
-    <pv_name>$(P)$(OUT)FLOAT32_LE</pv_name>
-    <x>244</x>
-    <y>233</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #138</name>
-    <pv_name>$(P)$(OUT)FLOAT32_BE</pv_name>
-    <x>244</x>
-    <y>258</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #142</name>
-    <pv_name>$(P)$(OUT)FLOAT64_LE</pv_name>
-    <x>244</x>
-    <y>283</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #146</name>
-    <pv_name>$(P)$(OUT)FLOAT64_BE</pv_name>
-    <x>244</x>
-    <y>308</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>text entry #150</name>
-    <pv_name>$(P)$(OUT)DEFAULT</pv_name>
-    <x>244</x>
-    <y>333</y>
-    <width>80</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <background_color>
-      <color red="115" green="223" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
   <widget type="group" version="2.0.0">
-    <name>composite #154</name>
-    <x>5</x>
-    <y>86</y>
-    <width>234</width>
-    <height>265</height>
+    <name>composite #9</name>
+    <x>288</x>
+    <y>818</y>
+    <width>148</width>
+    <height>45</height>
     <style>3</style>
     <transparent>true</transparent>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #12</name>
+      <pv_name>$(P)A0:PollDelay</pv_name>
+      <x>3</x>
+      <width>50</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
     <widget type="label" version="2.0.0">
-      <name>text #157</name>
-      <text>Unsigned 16-bit</text>
-      <x>99</x>
-      <width>135</width>
+      <name>text #16</name>
+      <text>Poll delay</text>
+      <x>58</x>
+      <y>3</y>
+      <width>90</width>
       <height>15</height>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>
       </font>
-      <horizontal_alignment>2</horizontal_alignment>
+      <horizontal_alignment>1</horizontal_alignment>
     </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #160</name>
-      <text>BCD unsigned</text>
-      <x>126</x>
+    <widget type="action_button" version="3.0.0">
+      <name>related display #19</name>
+      <actions>
+        <action type="open_display">
+          <file>asynRecord.opi</file>
+          <macros>
+            <R>A0:AsynOut</R>
+          </macros>
+          <target>tab</target>
+          <description>asynRecord Out</description>
+        </action>
+        <action type="open_display">
+          <file>asynRecord.opi</file>
+          <macros>
+            <R>A0:AsynIn</R>
+          </macros>
+          <target>tab</target>
+          <description>asynRecord In</description>
+        </action>
+        <action type="open_display">
+          <file>modbusStatistics.opi</file>
+          <macros>
+            <R>A0:</R>
+          </macros>
+          <target>tab</target>
+          <description>I/O Statistics</description>
+        </action>
+      </actions>
+      <text></text>
       <y>25</y>
-      <width>108</width>
+      <width>53</width>
+      <height>20</height>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #24</name>
+      <text>More</text>
+      <x>58</x>
+      <y>28</y>
+      <width>36</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>composite #27</name>
+    <x>10</x>
+    <y>60</y>
+    <width>707</width>
+    <height>745</height>
+    <style>3</style>
+    <transparent>true</transparent>
+    <widget type="combo" version="2.0.0">
+      <name>menu #30</name>
+      <pv_name>$(P)$(IN)UINT16.SCAN</pv_name>
+      <x>607</x>
+      <y>25</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #33</name>
+      <pv_name>$(P)$(IN)UINT16</pv_name>
+      <x>367</x>
+      <y>28</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #37</name>
+      <pv_name>$(P)$(OUT)UINT16</pv_name>
+      <x>122</x>
+      <y>25</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #41</name>
+      <text>UInt16</text>
+      <x>63</x>
+      <y>28</y>
+      <width>54</width>
       <height>15</height>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -769,11 +188,157 @@
       </font>
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #163</name>
-      <text>BCD signed</text>
-      <x>144</x>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #44</name>
+      <pv_name>$(P)$(IN)UINT16.STAT</pv_name>
+      <x>447</x>
+      <y>28</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #48</name>
+      <pv_name>$(P)$(IN)UINT16.SEVR</pv_name>
+      <x>527</x>
+      <y>28</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #52</name>
+      <pv_name>$(P)$(OUT)UINT16.STAT</pv_name>
+      <x>207</x>
+      <y>28</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #56</name>
+      <pv_name>$(P)$(OUT)UINT16.SEVR</pv_name>
+      <x>287</x>
+      <y>28</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #60</name>
+      <pv_name>$(P)$(IN)BCD_UNSIGNED.SCAN</pv_name>
+      <x>607</x>
       <y>50</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #63</name>
+      <pv_name>$(P)$(IN)BCD_UNSIGNED</pv_name>
+      <x>367</x>
+      <y>53</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #67</name>
+      <pv_name>$(P)$(OUT)BCD_UNSIGNED</pv_name>
+      <x>122</x>
+      <y>50</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #71</name>
+      <text>UInt16 BCD</text>
+      <x>27</x>
+      <y>53</y>
       <width>90</width>
       <height>15</height>
       <font>
@@ -782,11 +347,3177 @@
       </font>
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #166</name>
-      <text>Signed 16-bit</text>
-      <x>117</x>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #74</name>
+      <pv_name>$(P)$(IN)BCD_UNSIGNED.STAT</pv_name>
+      <x>447</x>
+      <y>53</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #78</name>
+      <pv_name>$(P)$(IN)BCD_UNSIGNED.SEVR</pv_name>
+      <x>527</x>
+      <y>53</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #82</name>
+      <pv_name>$(P)$(OUT)BCD_UNSIGNED.STAT</pv_name>
+      <x>207</x>
+      <y>53</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #86</name>
+      <pv_name>$(P)$(OUT)BCD_UNSIGNED.SEVR</pv_name>
+      <x>287</x>
+      <y>53</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #90</name>
+      <pv_name>$(P)$(IN)BCD_SIGNED.SCAN</pv_name>
+      <x>607</x>
       <y>75</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #93</name>
+      <pv_name>$(P)$(IN)BCD_SIGNED</pv_name>
+      <x>367</x>
+      <y>78</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #97</name>
+      <pv_name>$(P)$(OUT)BCD_SIGNED</pv_name>
+      <x>122</x>
+      <y>75</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #101</name>
+      <text>Int16 BCD</text>
+      <x>36</x>
+      <y>78</y>
+      <width>81</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #104</name>
+      <pv_name>$(P)$(IN)BCD_SIGNED.STAT</pv_name>
+      <x>447</x>
+      <y>78</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #108</name>
+      <pv_name>$(P)$(IN)BCD_SIGNED.SEVR</pv_name>
+      <x>527</x>
+      <y>78</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #112</name>
+      <pv_name>$(P)$(OUT)BCD_SIGNED.STAT</pv_name>
+      <x>207</x>
+      <y>78</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #116</name>
+      <pv_name>$(P)$(OUT)BCD_SIGNED.SEVR</pv_name>
+      <x>287</x>
+      <y>78</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #120</name>
+      <pv_name>$(P)$(IN)INT16.SCAN</pv_name>
+      <x>607</x>
+      <y>125</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #123</name>
+      <pv_name>$(P)$(IN)INT16</pv_name>
+      <x>367</x>
+      <y>128</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #127</name>
+      <pv_name>$(P)$(OUT)INT16</pv_name>
+      <x>122</x>
+      <y>125</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #131</name>
+      <text>Int16</text>
+      <x>72</x>
+      <y>128</y>
+      <width>45</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #134</name>
+      <pv_name>$(P)$(IN)INT16.STAT</pv_name>
+      <x>447</x>
+      <y>128</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #138</name>
+      <pv_name>$(P)$(IN)INT16.SEVR</pv_name>
+      <x>527</x>
+      <y>128</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #142</name>
+      <pv_name>$(P)$(OUT)INT16.STAT</pv_name>
+      <x>207</x>
+      <y>128</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #146</name>
+      <pv_name>$(P)$(OUT)INT16.SEVR</pv_name>
+      <x>287</x>
+      <y>128</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #150</name>
+      <pv_name>$(P)$(IN)INT32_LE.SCAN</pv_name>
+      <x>607</x>
+      <y>150</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #153</name>
+      <pv_name>$(P)$(IN)INT32_LE</pv_name>
+      <x>367</x>
+      <y>153</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #157</name>
+      <pv_name>$(P)$(OUT)INT32_LE</pv_name>
+      <x>122</x>
+      <y>150</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #161</name>
+      <text>Int32 LE</text>
+      <x>45</x>
+      <y>153</y>
+      <width>72</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #164</name>
+      <pv_name>$(P)$(IN)INT32_LE.STAT</pv_name>
+      <x>447</x>
+      <y>153</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #168</name>
+      <pv_name>$(P)$(IN)INT32_LE.SEVR</pv_name>
+      <x>527</x>
+      <y>153</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #172</name>
+      <pv_name>$(P)$(OUT)INT32_LE.STAT</pv_name>
+      <x>207</x>
+      <y>153</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #176</name>
+      <pv_name>$(P)$(OUT)INT32_LE.SEVR</pv_name>
+      <x>287</x>
+      <y>153</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #180</name>
+      <pv_name>$(P)$(IN)INT32_LE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>175</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #183</name>
+      <pv_name>$(P)$(IN)INT32_LE_BS</pv_name>
+      <x>367</x>
+      <y>178</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #187</name>
+      <pv_name>$(P)$(OUT)INT32_LE_BS</pv_name>
+      <x>122</x>
+      <y>175</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #191</name>
+      <text>Int32 LE BS</text>
+      <x>18</x>
+      <y>178</y>
+      <width>99</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #194</name>
+      <pv_name>$(P)$(IN)INT32_LE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>178</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #198</name>
+      <pv_name>$(P)$(IN)INT32_LE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>178</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #202</name>
+      <pv_name>$(P)$(OUT)INT32_LE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>178</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #206</name>
+      <pv_name>$(P)$(OUT)INT32_LE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>178</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #210</name>
+      <pv_name>$(P)$(IN)INT32_BE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>225</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #213</name>
+      <pv_name>$(P)$(IN)INT32_BE_BS</pv_name>
+      <x>367</x>
+      <y>228</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #217</name>
+      <pv_name>$(P)$(OUT)INT32_BE_BS</pv_name>
+      <x>122</x>
+      <y>225</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #221</name>
+      <text>Int32 BE BS</text>
+      <x>18</x>
+      <y>228</y>
+      <width>99</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #224</name>
+      <pv_name>$(P)$(IN)INT32_BE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>228</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #228</name>
+      <pv_name>$(P)$(IN)INT32_BE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>228</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #232</name>
+      <pv_name>$(P)$(OUT)INT32_BE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>228</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #236</name>
+      <pv_name>$(P)$(OUT)INT32_BE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>228</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #240</name>
+      <pv_name>$(P)$(IN)INT32_BE.SCAN</pv_name>
+      <x>607</x>
+      <y>200</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #243</name>
+      <pv_name>$(P)$(IN)INT32_BE</pv_name>
+      <x>367</x>
+      <y>203</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #247</name>
+      <pv_name>$(P)$(OUT)INT32_BE</pv_name>
+      <x>122</x>
+      <y>200</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #251</name>
+      <text>Int32 BE</text>
+      <x>45</x>
+      <y>203</y>
+      <width>72</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #254</name>
+      <pv_name>$(P)$(IN)INT32_BE.STAT</pv_name>
+      <x>447</x>
+      <y>203</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #258</name>
+      <pv_name>$(P)$(IN)INT32_BE.SEVR</pv_name>
+      <x>527</x>
+      <y>203</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #262</name>
+      <pv_name>$(P)$(OUT)INT32_BE.STAT</pv_name>
+      <x>207</x>
+      <y>203</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #266</name>
+      <pv_name>$(P)$(OUT)INT32_BE.SEVR</pv_name>
+      <x>287</x>
+      <y>203</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #270</name>
+      <pv_name>$(P)$(IN)UINT32_LE.SCAN</pv_name>
+      <x>607</x>
+      <y>250</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #273</name>
+      <pv_name>$(P)$(IN)UINT32_LE</pv_name>
+      <x>367</x>
+      <y>253</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #277</name>
+      <pv_name>$(P)$(OUT)UINT32_LE</pv_name>
+      <x>122</x>
+      <y>250</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #281</name>
+      <text>UInt32 LE</text>
+      <x>36</x>
+      <y>253</y>
+      <width>81</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #284</name>
+      <pv_name>$(P)$(IN)UINT32_LE.STAT</pv_name>
+      <x>447</x>
+      <y>253</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #288</name>
+      <pv_name>$(P)$(IN)UINT32_LE.SEVR</pv_name>
+      <x>527</x>
+      <y>253</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #292</name>
+      <pv_name>$(P)$(OUT)UINT32_LE.STAT</pv_name>
+      <x>207</x>
+      <y>253</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #296</name>
+      <pv_name>$(P)$(OUT)UINT32_LE.SEVR</pv_name>
+      <x>287</x>
+      <y>253</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #300</name>
+      <pv_name>$(P)$(IN)UINT32_LE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>275</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #303</name>
+      <pv_name>$(P)$(IN)UINT32_LE_BS</pv_name>
+      <x>367</x>
+      <y>278</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #307</name>
+      <pv_name>$(P)$(OUT)UINT32_LE_BS</pv_name>
+      <x>122</x>
+      <y>275</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #311</name>
+      <text>UInt32 LE BS</text>
+      <x>9</x>
+      <y>278</y>
+      <width>108</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #314</name>
+      <pv_name>$(P)$(IN)UINT32_LE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>278</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #318</name>
+      <pv_name>$(P)$(IN)UINT32_LE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>278</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #322</name>
+      <pv_name>$(P)$(OUT)UINT32_LE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>278</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #326</name>
+      <pv_name>$(P)$(OUT)UINT32_LE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>278</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #330</name>
+      <pv_name>$(P)$(IN)UINT32_BE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>325</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #333</name>
+      <pv_name>$(P)$(IN)UINT32_BE_BS</pv_name>
+      <x>367</x>
+      <y>328</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #337</name>
+      <pv_name>$(P)$(OUT)UINT32_BE_BS</pv_name>
+      <x>122</x>
+      <y>325</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #341</name>
+      <text>UInt32 BE BS</text>
+      <x>9</x>
+      <y>328</y>
+      <width>108</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #344</name>
+      <pv_name>$(P)$(IN)UINT32_BE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>328</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #348</name>
+      <pv_name>$(P)$(IN)UINT32_BE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>328</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #352</name>
+      <pv_name>$(P)$(OUT)UINT32_BE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>328</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #356</name>
+      <pv_name>$(P)$(OUT)UINT32_BE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>328</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #360</name>
+      <pv_name>$(P)$(IN)UINT32_BE.SCAN</pv_name>
+      <x>607</x>
+      <y>300</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #363</name>
+      <pv_name>$(P)$(IN)UINT32_BE</pv_name>
+      <x>367</x>
+      <y>303</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #367</name>
+      <pv_name>$(P)$(OUT)UINT32_BE</pv_name>
+      <x>122</x>
+      <y>300</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #371</name>
+      <text>UInt32 BE</text>
+      <x>36</x>
+      <y>303</y>
+      <width>81</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #374</name>
+      <pv_name>$(P)$(IN)UINT32_BE.STAT</pv_name>
+      <x>447</x>
+      <y>303</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #378</name>
+      <pv_name>$(P)$(IN)UINT32_BE.SEVR</pv_name>
+      <x>527</x>
+      <y>303</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #382</name>
+      <pv_name>$(P)$(OUT)UINT32_BE.STAT</pv_name>
+      <x>207</x>
+      <y>303</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #386</name>
+      <pv_name>$(P)$(OUT)UINT32_BE.SEVR</pv_name>
+      <x>287</x>
+      <y>303</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #390</name>
+      <pv_name>$(P)$(IN)INT64_LE.SCAN</pv_name>
+      <x>607</x>
+      <y>350</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #393</name>
+      <pv_name>$(P)$(IN)INT64_LE</pv_name>
+      <x>367</x>
+      <y>353</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #397</name>
+      <pv_name>$(P)$(OUT)INT64_LE</pv_name>
+      <x>122</x>
+      <y>350</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #401</name>
+      <text>Int64 LE</text>
+      <x>45</x>
+      <y>353</y>
+      <width>72</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #404</name>
+      <pv_name>$(P)$(IN)INT64_LE.STAT</pv_name>
+      <x>447</x>
+      <y>353</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #408</name>
+      <pv_name>$(P)$(IN)INT64_LE.SEVR</pv_name>
+      <x>527</x>
+      <y>353</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #412</name>
+      <pv_name>$(P)$(OUT)INT64_LE.STAT</pv_name>
+      <x>207</x>
+      <y>353</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #416</name>
+      <pv_name>$(P)$(OUT)INT64_LE.SEVR</pv_name>
+      <x>287</x>
+      <y>353</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #420</name>
+      <pv_name>$(P)$(IN)INT64_LE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>375</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #423</name>
+      <pv_name>$(P)$(IN)INT64_LE_BS</pv_name>
+      <x>367</x>
+      <y>378</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #427</name>
+      <pv_name>$(P)$(OUT)INT64_LE_BS</pv_name>
+      <x>122</x>
+      <y>375</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #431</name>
+      <text>Int64 LE BS</text>
+      <x>18</x>
+      <y>378</y>
+      <width>99</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #434</name>
+      <pv_name>$(P)$(IN)INT64_LE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>378</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #438</name>
+      <pv_name>$(P)$(IN)INT64_LE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>378</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #442</name>
+      <pv_name>$(P)$(OUT)INT64_LE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>378</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #446</name>
+      <pv_name>$(P)$(OUT)INT64_LE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>378</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #450</name>
+      <pv_name>$(P)$(IN)INT64_BE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>425</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #453</name>
+      <pv_name>$(P)$(IN)INT64_BE_BS</pv_name>
+      <x>367</x>
+      <y>428</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #457</name>
+      <pv_name>$(P)$(OUT)INT64_BE_BS</pv_name>
+      <x>122</x>
+      <y>425</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #461</name>
+      <text>Int64 BE BS</text>
+      <x>18</x>
+      <y>428</y>
+      <width>99</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #464</name>
+      <pv_name>$(P)$(IN)INT64_BE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>428</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #468</name>
+      <pv_name>$(P)$(IN)INT64_BE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>428</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #472</name>
+      <pv_name>$(P)$(OUT)INT64_BE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>428</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #476</name>
+      <pv_name>$(P)$(OUT)INT64_BE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>428</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #480</name>
+      <pv_name>$(P)$(IN)INT64_BE.SCAN</pv_name>
+      <x>607</x>
+      <y>400</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #483</name>
+      <pv_name>$(P)$(IN)INT64_BE</pv_name>
+      <x>367</x>
+      <y>403</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #487</name>
+      <pv_name>$(P)$(OUT)INT64_BE</pv_name>
+      <x>122</x>
+      <y>400</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #491</name>
+      <text>Int64 BE</text>
+      <x>45</x>
+      <y>403</y>
+      <width>72</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #494</name>
+      <pv_name>$(P)$(IN)INT64_BE.STAT</pv_name>
+      <x>447</x>
+      <y>403</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #498</name>
+      <pv_name>$(P)$(IN)INT64_BE.SEVR</pv_name>
+      <x>527</x>
+      <y>403</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #502</name>
+      <pv_name>$(P)$(OUT)INT64_BE.STAT</pv_name>
+      <x>207</x>
+      <y>403</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #506</name>
+      <pv_name>$(P)$(OUT)INT64_BE.SEVR</pv_name>
+      <x>287</x>
+      <y>403</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #510</name>
+      <pv_name>$(P)$(IN)UINT64_LE.SCAN</pv_name>
+      <x>607</x>
+      <y>450</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #513</name>
+      <pv_name>$(P)$(IN)UINT64_LE</pv_name>
+      <x>367</x>
+      <y>453</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #517</name>
+      <pv_name>$(P)$(OUT)UINT64_LE</pv_name>
+      <x>122</x>
+      <y>450</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #521</name>
+      <text>UInt64 LE</text>
+      <x>36</x>
+      <y>453</y>
+      <width>81</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #524</name>
+      <pv_name>$(P)$(IN)UINT64_LE.STAT</pv_name>
+      <x>447</x>
+      <y>453</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #528</name>
+      <pv_name>$(P)$(IN)UINT64_LE.SEVR</pv_name>
+      <x>527</x>
+      <y>453</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #532</name>
+      <pv_name>$(P)$(OUT)UINT64_LE.STAT</pv_name>
+      <x>207</x>
+      <y>453</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #536</name>
+      <pv_name>$(P)$(OUT)UINT64_LE.SEVR</pv_name>
+      <x>287</x>
+      <y>453</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #540</name>
+      <pv_name>$(P)$(IN)UINT64_LE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>475</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #543</name>
+      <pv_name>$(P)$(IN)UINT64_LE_BS</pv_name>
+      <x>367</x>
+      <y>478</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #547</name>
+      <pv_name>$(P)$(OUT)UINT64_LE_BS</pv_name>
+      <x>122</x>
+      <y>475</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #551</name>
+      <text>UInt64 LE BS</text>
+      <x>9</x>
+      <y>478</y>
+      <width>108</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #554</name>
+      <pv_name>$(P)$(IN)UINT64_LE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>478</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #558</name>
+      <pv_name>$(P)$(IN)UINT64_LE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>478</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #562</name>
+      <pv_name>$(P)$(OUT)UINT64_LE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>478</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #566</name>
+      <pv_name>$(P)$(OUT)UINT64_LE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>478</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #570</name>
+      <pv_name>$(P)$(IN)UINT64_BE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>525</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #573</name>
+      <pv_name>$(P)$(IN)UINT64_BE_BS</pv_name>
+      <x>367</x>
+      <y>528</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #577</name>
+      <pv_name>$(P)$(OUT)UINT64_BE_BS</pv_name>
+      <x>122</x>
+      <y>525</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #581</name>
+      <text>UInt64 BE BS</text>
+      <x>9</x>
+      <y>528</y>
+      <width>108</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #584</name>
+      <pv_name>$(P)$(IN)UINT64_BE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>528</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #588</name>
+      <pv_name>$(P)$(IN)UINT64_BE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>528</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #592</name>
+      <pv_name>$(P)$(OUT)UINT64_BE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>528</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #596</name>
+      <pv_name>$(P)$(OUT)UINT64_BE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>528</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #600</name>
+      <pv_name>$(P)$(IN)UINT64_BE.SCAN</pv_name>
+      <x>607</x>
+      <y>500</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #603</name>
+      <pv_name>$(P)$(IN)UINT64_BE</pv_name>
+      <x>367</x>
+      <y>503</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #607</name>
+      <pv_name>$(P)$(OUT)UINT64_BE</pv_name>
+      <x>122</x>
+      <y>500</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #611</name>
+      <text>UInt64 BE</text>
+      <x>36</x>
+      <y>503</y>
+      <width>81</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #614</name>
+      <pv_name>$(P)$(IN)UINT64_BE.STAT</pv_name>
+      <x>447</x>
+      <y>503</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #618</name>
+      <pv_name>$(P)$(IN)UINT64_BE.SEVR</pv_name>
+      <x>527</x>
+      <y>503</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #622</name>
+      <pv_name>$(P)$(OUT)UINT64_BE.STAT</pv_name>
+      <x>207</x>
+      <y>503</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #626</name>
+      <pv_name>$(P)$(OUT)UINT64_BE.SEVR</pv_name>
+      <x>287</x>
+      <y>503</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #630</name>
+      <pv_name>$(P)$(IN)FLOAT32_LE.SCAN</pv_name>
+      <x>607</x>
+      <y>550</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #633</name>
+      <pv_name>$(P)$(IN)FLOAT32_LE</pv_name>
+      <x>367</x>
+      <y>553</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #637</name>
+      <pv_name>$(P)$(OUT)FLOAT32_LE</pv_name>
+      <x>122</x>
+      <y>550</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #641</name>
+      <text>Float32 LE</text>
+      <x>27</x>
+      <y>553</y>
+      <width>90</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #644</name>
+      <pv_name>$(P)$(IN)FLOAT32_LE.STAT</pv_name>
+      <x>447</x>
+      <y>553</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #648</name>
+      <pv_name>$(P)$(IN)FLOAT32_LE.SEVR</pv_name>
+      <x>527</x>
+      <y>553</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #652</name>
+      <pv_name>$(P)$(OUT)FLOAT32_LE.STAT</pv_name>
+      <x>207</x>
+      <y>553</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #656</name>
+      <pv_name>$(P)$(OUT)FLOAT32_LE.SEVR</pv_name>
+      <x>287</x>
+      <y>553</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #660</name>
+      <pv_name>$(P)$(IN)FLOAT32_LE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>575</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #663</name>
+      <pv_name>$(P)$(IN)FLOAT32_LE_BS</pv_name>
+      <x>367</x>
+      <y>578</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #667</name>
+      <pv_name>$(P)$(OUT)FLOAT32_LE_BS</pv_name>
+      <x>122</x>
+      <y>575</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #671</name>
+      <text>Float32 LE BS</text>
+      <y>578</y>
       <width>117</width>
       <height>15</height>
       <font>
@@ -795,63 +3526,158 @@
       </font>
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #169</name>
-      <text>Default</text>
-      <x>171</x>
-      <y>250</y>
-      <width>63</width>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #674</name>
+      <pv_name>$(P)$(IN)FLOAT32_LE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>578</y>
+      <width>75</width>
       <height>15</height>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>
       </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #172</name>
-      <text>32-bit int little-endian</text>
-      <x>18</x>
-      <y>100</y>
-      <width>216</width>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #678</name>
+      <pv_name>$(P)$(IN)FLOAT32_LE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>578</y>
+      <width>75</width>
       <height>15</height>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>
       </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #175</name>
-      <text>32-bit int    big-endian</text>
-      <x>45</x>
-      <y>125</y>
-      <width>189</width>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #682</name>
+      <pv_name>$(P)$(OUT)FLOAT32_LE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>578</y>
+      <width>75</width>
       <height>15</height>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>
       </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #178</name>
-      <text>32-bit float little-endian</text>
-      <y>150</y>
-      <width>234</width>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #686</name>
+      <pv_name>$(P)$(OUT)FLOAT32_LE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>578</y>
+      <width>75</width>
       <height>15</height>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>
       </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #690</name>
+      <pv_name>$(P)$(IN)FLOAT32_BE.SCAN</pv_name>
+      <x>607</x>
+      <y>600</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #693</name>
+      <pv_name>$(P)$(IN)FLOAT32_BE</pv_name>
+      <x>367</x>
+      <y>603</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #697</name>
+      <pv_name>$(P)$(OUT)FLOAT32_BE</pv_name>
+      <x>122</x>
+      <y>600</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
     <widget type="label" version="2.0.0">
-      <name>text #181</name>
-      <text>32-bit float    big-endian</text>
+      <name>text #701</name>
+      <text>Float32 BE</text>
       <x>27</x>
-      <y>175</y>
-      <width>207</width>
+      <y>603</y>
+      <width>90</width>
       <height>15</height>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -859,574 +3685,11 @@
       </font>
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #184</name>
-      <text>64-bit float little-endian</text>
-      <y>200</y>
-      <width>234</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #187</name>
-      <text>64-bit float    big-endian</text>
-      <x>27</x>
-      <y>225</y>
-      <width>207</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #190</name>
-    <pv_name>$(P)$(IN)UINT16.STAT</pv_name>
-    <x>569</x>
-    <y>86</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #194</name>
-    <pv_name>$(P)$(IN)BCD_UNSIGNED.STAT</pv_name>
-    <x>569</x>
-    <y>111</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #198</name>
-    <pv_name>$(P)$(IN)BCD_SIGNED.STAT</pv_name>
-    <x>569</x>
-    <y>136</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #202</name>
-    <pv_name>$(P)$(IN)INT16.STAT</pv_name>
-    <x>569</x>
-    <y>161</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #206</name>
-    <pv_name>$(P)$(IN)INT32_LE.STAT</pv_name>
-    <x>569</x>
-    <y>186</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #210</name>
-    <pv_name>$(P)$(IN)INT32_BE.STAT</pv_name>
-    <x>569</x>
-    <y>211</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #214</name>
-    <pv_name>$(P)$(IN)FLOAT32_LE.STAT</pv_name>
-    <x>569</x>
-    <y>236</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #218</name>
-    <pv_name>$(P)$(IN)FLOAT32_BE.STAT</pv_name>
-    <x>569</x>
-    <y>261</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #222</name>
-    <pv_name>$(P)$(IN)FLOAT64_LE.STAT</pv_name>
-    <x>569</x>
-    <y>286</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #226</name>
-    <pv_name>$(P)$(IN)FLOAT64_BE.STAT</pv_name>
-    <x>569</x>
-    <y>311</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #230</name>
-    <pv_name>$(P)$(IN)DEFAULT.STAT</pv_name>
-    <x>569</x>
-    <y>336</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #234</name>
-    <text>Status</text>
-    <x>571</x>
-    <y>59</y>
-    <width>70</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #237</name>
-    <pv_name>$(P)$(IN)UINT16.SEVR</pv_name>
-    <x>649</x>
-    <y>86</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #241</name>
-    <pv_name>$(P)$(IN)BCD_UNSIGNED.SEVR</pv_name>
-    <x>649</x>
-    <y>111</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #245</name>
-    <pv_name>$(P)$(IN)BCD_SIGNED.SEVR</pv_name>
-    <x>649</x>
-    <y>136</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #249</name>
-    <pv_name>$(P)$(IN)INT16.SEVR</pv_name>
-    <x>649</x>
-    <y>161</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #253</name>
-    <pv_name>$(P)$(IN)INT32_LE.SEVR</pv_name>
-    <x>649</x>
-    <y>186</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #257</name>
-    <pv_name>$(P)$(IN)INT32_BE.SEVR</pv_name>
-    <x>649</x>
-    <y>211</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #261</name>
-    <pv_name>$(P)$(IN)FLOAT32_LE.SEVR</pv_name>
-    <x>649</x>
-    <y>236</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #265</name>
-    <pv_name>$(P)$(IN)FLOAT32_BE.SEVR</pv_name>
-    <x>649</x>
-    <y>261</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #269</name>
-    <pv_name>$(P)$(IN)FLOAT64_LE.SEVR</pv_name>
-    <x>649</x>
-    <y>286</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #273</name>
-    <pv_name>$(P)$(IN)FLOAT64_BE.SEVR</pv_name>
-    <x>649</x>
-    <y>311</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>text update #277</name>
-    <pv_name>$(P)$(IN)DEFAULT.SEVR</pv_name>
-    <x>649</x>
-    <y>336</y>
-    <width>75</width>
-    <height>15</height>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <foreground_color>
-      <color red="42" green="99" blue="228">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="218" green="218" blue="218">
-      </color>
-    </background_color>
-    <format>1</format>
-    <show_units>false</show_units>
-    <horizontal_alignment>2</horizontal_alignment>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>text #281</name>
-    <text>Severity</text>
-    <x>651</x>
-    <y>59</y>
-    <width>70</width>
-    <font>
-      <font family="Liberation Sans" style="REGULAR" size="16.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>composite #284</name>
-    <x>329</x>
-    <y>59</y>
-    <width>155</width>
-    <height>292</height>
-    <style>3</style>
-    <transparent>true</transparent>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #287</name>
-      <pv_name>$(P)$(OUT)UINT16.STAT</pv_name>
-      <y>27</y>
+      <name>text update #704</name>
+      <pv_name>$(P)$(IN)FLOAT32_BE.STAT</pv_name>
+      <x>447</x>
+      <y>603</y>
       <width>75</width>
       <height>15</height>
       <font>
@@ -1446,9 +3709,10 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #291</name>
-      <pv_name>$(P)$(OUT)BCD_UNSIGNED.STAT</pv_name>
-      <y>52</y>
+      <name>text update #708</name>
+      <pv_name>$(P)$(IN)FLOAT32_BE.SEVR</pv_name>
+      <x>527</x>
+      <y>603</y>
       <width>75</width>
       <height>15</height>
       <font>
@@ -1468,119 +3732,10 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #295</name>
-      <pv_name>$(P)$(OUT)BCD_SIGNED.STAT</pv_name>
-      <y>77</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #299</name>
-      <pv_name>$(P)$(OUT)INT16.STAT</pv_name>
-      <y>102</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #303</name>
-      <pv_name>$(P)$(OUT)INT32_LE.STAT</pv_name>
-      <y>127</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #307</name>
-      <pv_name>$(P)$(OUT)INT32_BE.STAT</pv_name>
-      <y>152</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #311</name>
-      <pv_name>$(P)$(OUT)FLOAT32_LE.STAT</pv_name>
-      <y>177</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #315</name>
+      <name>text update #712</name>
       <pv_name>$(P)$(OUT)FLOAT32_BE.STAT</pv_name>
-      <y>202</y>
+      <x>207</x>
+      <y>603</y>
       <width>75</width>
       <height>15</height>
       <font>
@@ -1600,9 +3755,304 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #319</name>
+      <name>text update #716</name>
+      <pv_name>$(P)$(OUT)FLOAT32_BE.SEVR</pv_name>
+      <x>287</x>
+      <y>603</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #720</name>
+      <pv_name>$(P)$(IN)FLOAT32_BE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>625</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #723</name>
+      <pv_name>$(P)$(IN)FLOAT32_BE_BS</pv_name>
+      <x>367</x>
+      <y>628</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #727</name>
+      <pv_name>$(P)$(OUT)FLOAT32_BE_BS</pv_name>
+      <x>122</x>
+      <y>625</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #731</name>
+      <text>Float32 BE BS</text>
+      <y>628</y>
+      <width>117</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #734</name>
+      <pv_name>$(P)$(IN)FLOAT32_BE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>628</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #738</name>
+      <pv_name>$(P)$(IN)FLOAT32_BE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>628</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #742</name>
+      <pv_name>$(P)$(OUT)FLOAT32_BE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>628</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #746</name>
+      <pv_name>$(P)$(OUT)FLOAT32_BE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>628</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #750</name>
+      <pv_name>$(P)$(IN)FLOAT64_LE.SCAN</pv_name>
+      <x>607</x>
+      <y>650</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #753</name>
+      <pv_name>$(P)$(IN)FLOAT64_LE</pv_name>
+      <x>367</x>
+      <y>653</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #757</name>
+      <pv_name>$(P)$(OUT)FLOAT64_LE</pv_name>
+      <x>122</x>
+      <y>650</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #761</name>
+      <text>Float64 LE</text>
+      <x>27</x>
+      <y>653</y>
+      <width>90</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #764</name>
+      <pv_name>$(P)$(IN)FLOAT64_LE.STAT</pv_name>
+      <x>447</x>
+      <y>653</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #768</name>
+      <pv_name>$(P)$(IN)FLOAT64_LE.SEVR</pv_name>
+      <x>527</x>
+      <y>653</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #772</name>
       <pv_name>$(P)$(OUT)FLOAT64_LE.STAT</pv_name>
-      <y>227</y>
+      <x>207</x>
+      <y>653</y>
       <width>75</width>
       <height>15</height>
       <font>
@@ -1622,9 +4072,304 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #323</name>
+      <name>text update #776</name>
+      <pv_name>$(P)$(OUT)FLOAT64_LE.SEVR</pv_name>
+      <x>287</x>
+      <y>653</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #780</name>
+      <pv_name>$(P)$(IN)FLOAT64_LE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>675</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #783</name>
+      <pv_name>$(P)$(IN)FLOAT64_LE_BS</pv_name>
+      <x>367</x>
+      <y>678</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #787</name>
+      <pv_name>$(P)$(OUT)FLOAT64_LE_BS</pv_name>
+      <x>122</x>
+      <y>675</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #791</name>
+      <text>Float64 LE BS</text>
+      <y>678</y>
+      <width>117</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #794</name>
+      <pv_name>$(P)$(IN)FLOAT64_LE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>678</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #798</name>
+      <pv_name>$(P)$(IN)FLOAT64_LE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>678</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #802</name>
+      <pv_name>$(P)$(OUT)FLOAT64_LE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>678</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #806</name>
+      <pv_name>$(P)$(OUT)FLOAT64_LE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>678</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #810</name>
+      <pv_name>$(P)$(IN)FLOAT64_BE.SCAN</pv_name>
+      <x>607</x>
+      <y>700</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #813</name>
+      <pv_name>$(P)$(IN)FLOAT64_BE</pv_name>
+      <x>367</x>
+      <y>703</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #817</name>
+      <pv_name>$(P)$(OUT)FLOAT64_BE</pv_name>
+      <x>122</x>
+      <y>700</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #821</name>
+      <text>Float64 BE</text>
+      <x>27</x>
+      <y>703</y>
+      <width>90</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #824</name>
+      <pv_name>$(P)$(IN)FLOAT64_BE.STAT</pv_name>
+      <x>447</x>
+      <y>703</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #828</name>
+      <pv_name>$(P)$(IN)FLOAT64_BE.SEVR</pv_name>
+      <x>527</x>
+      <y>703</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #832</name>
       <pv_name>$(P)$(OUT)FLOAT64_BE.STAT</pv_name>
-      <y>252</y>
+      <x>207</x>
+      <y>703</y>
       <width>75</width>
       <height>15</height>
       <font>
@@ -1644,9 +4389,327 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #327</name>
-      <pv_name>$(P)$(OUT)DEFAULT.STAT</pv_name>
-      <y>277</y>
+      <name>text update #836</name>
+      <pv_name>$(P)$(OUT)FLOAT64_BE.SEVR</pv_name>
+      <x>287</x>
+      <y>703</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #840</name>
+      <pv_name>$(P)$(IN)FLOAT64_BE_BS.SCAN</pv_name>
+      <x>607</x>
+      <y>725</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #843</name>
+      <pv_name>$(P)$(IN)FLOAT64_BE_BS</pv_name>
+      <x>367</x>
+      <y>728</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #847</name>
+      <pv_name>$(P)$(OUT)FLOAT64_BE_BS</pv_name>
+      <x>122</x>
+      <y>725</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #851</name>
+      <text>Float64 BE BS</text>
+      <y>728</y>
+      <width>117</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #854</name>
+      <pv_name>$(P)$(IN)FLOAT64_BE_BS.STAT</pv_name>
+      <x>447</x>
+      <y>728</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #858</name>
+      <pv_name>$(P)$(IN)FLOAT64_BE_BS.SEVR</pv_name>
+      <x>527</x>
+      <y>728</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #862</name>
+      <pv_name>$(P)$(OUT)FLOAT64_BE_BS.STAT</pv_name>
+      <x>207</x>
+      <y>728</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #866</name>
+      <pv_name>$(P)$(OUT)FLOAT64_BE_BS.SEVR</pv_name>
+      <x>287</x>
+      <y>728</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>menu #870</name>
+      <pv_name>$(P)$(IN)INT16SM.SCAN</pv_name>
+      <x>607</x>
+      <y>100</y>
+      <height>20</height>
+      <background_color>
+        <color red="187" green="187" blue="187">
+        </color>
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #873</name>
+      <pv_name>$(P)$(IN)INT16SM</pv_name>
+      <x>367</x>
+      <y>103</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>text entry #877</name>
+      <pv_name>$(P)$(OUT)INT16SM</pv_name>
+      <x>122</x>
+      <y>100</y>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <background_color>
+        <color red="115" green="223" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #881</name>
+      <text>Int16 SM</text>
+      <x>45</x>
+      <y>103</y>
+      <width>72</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #884</name>
+      <pv_name>$(P)$(IN)INT16SM.STAT</pv_name>
+      <x>447</x>
+      <y>103</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #888</name>
+      <pv_name>$(P)$(IN)INT16SM.SEVR</pv_name>
+      <x>527</x>
+      <y>103</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #892</name>
+      <pv_name>$(P)$(OUT)INT16SM.STAT</pv_name>
+      <x>207</x>
+      <y>103</y>
+      <width>75</width>
+      <height>15</height>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <foreground_color>
+        <color red="42" green="99" blue="228">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="218" green="218" blue="218">
+        </color>
+      </background_color>
+      <format>1</format>
+      <show_units>false</show_units>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>text update #896</name>
+      <pv_name>$(P)$(OUT)INT16SM.SEVR</pv_name>
+      <x>287</x>
+      <y>103</y>
       <width>75</width>
       <height>15</height>
       <font>
@@ -1666,9 +4729,20 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #331</name>
-      <text>Status</text>
-      <x>2</x>
+      <name>text #900</name>
+      <text>Scan</text>
+      <x>652</x>
+      <width>40</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #903</name>
+      <text>$(IREC)</text>
+      <x>384</x>
       <width>70</width>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
@@ -1676,264 +4750,55 @@
       </font>
       <horizontal_alignment>1</horizontal_alignment>
     </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #334</name>
-      <pv_name>$(P)$(OUT)UINT16.SEVR</pv_name>
-      <x>80</x>
-      <y>27</y>
-      <width>75</width>
-      <height>15</height>
+    <widget type="label" version="2.0.0">
+      <name>text #906</name>
+      <text>$(OREC)</text>
+      <x>142</x>
+      <width>70</width>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>
       </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #338</name>
-      <pv_name>$(P)$(OUT)BCD_UNSIGNED.SEVR</pv_name>
-      <x>80</x>
-      <y>52</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #342</name>
-      <pv_name>$(P)$(OUT)BCD_SIGNED.SEVR</pv_name>
-      <x>80</x>
-      <y>77</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #346</name>
-      <pv_name>$(P)$(OUT)INT16.SEVR</pv_name>
-      <x>80</x>
-      <y>102</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #350</name>
-      <pv_name>$(P)$(OUT)INT32_LE.SEVR</pv_name>
-      <x>80</x>
-      <y>127</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #354</name>
-      <pv_name>$(P)$(OUT)INT32_BE.SEVR</pv_name>
-      <x>80</x>
-      <y>152</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #358</name>
-      <pv_name>$(P)$(OUT)FLOAT32_LE.SEVR</pv_name>
-      <x>80</x>
-      <y>177</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #362</name>
-      <pv_name>$(P)$(OUT)FLOAT32_BE.SEVR</pv_name>
-      <x>80</x>
-      <y>202</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #366</name>
-      <pv_name>$(P)$(OUT)FLOAT64_LE.SEVR</pv_name>
-      <x>80</x>
-      <y>227</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #370</name>
-      <pv_name>$(P)$(OUT)FLOAT64_BE.SEVR</pv_name>
-      <x>80</x>
-      <y>252</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>text update #374</name>
-      <pv_name>$(P)$(OUT)DEFAULT.SEVR</pv_name>
-      <x>80</x>
-      <y>277</y>
-      <width>75</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
-      </font>
-      <foreground_color>
-        <color red="42" green="99" blue="228">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="218" green="218" blue="218">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <horizontal_alignment>2</horizontal_alignment>
+      <horizontal_alignment>1</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #378</name>
+      <name>text #909</name>
+      <text>Status</text>
+      <x>469</x>
+      <width>60</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #912</name>
       <text>Severity</text>
-      <x>82</x>
-      <width>70</width>
+      <x>539</x>
+      <width>80</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #915</name>
+      <text>Status</text>
+      <x>229</x>
+      <width>60</width>
+      <font>
+        <font family="Liberation Sans" style="REGULAR" size="16.0">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>text #918</name>
+      <text>Severity</text>
+      <x>299</x>
+      <width>80</width>
       <font>
         <font family="Liberation Sans" style="REGULAR" size="16.0">
         </font>

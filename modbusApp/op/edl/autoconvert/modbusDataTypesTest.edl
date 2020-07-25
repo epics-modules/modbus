@@ -61,31 +61,35 @@ botShadowColor rgb 17920 17920 17920
 font "helvetica-medium-r-14.0"
 icon
 buttonLabel "Inputs & outputs"
-numPvs 8
-numDsps 4
+numPvs 10
+numDsps 5
 displayFileName {
-  0 modbusDataTypes.edl
-  1 modbusDataTypes.edl
-  2 Koyo_8inputs.edl
-  3 Koyo_8outputs.edl
+  0 "modbusDataTypes.edl"
+  1 "modbusDataTypes.edl"
+  2 "modbusDataTypes.edl"
+  3 "Koyo_8inputs.edl"
+  4 "Koyo_8outputs.edl"
 }
 menuLabel {
-  0 longout/longin
-  1 ao/ai
-  2 Binary inputs
-  3 Binary outputs
+  0 "longout/longin"
+  1 "int64out/int64in"
+  2 "ao/ai"
+  3 "Binary inputs"
+  4 "Binary outputs"
 }
 symbols {
   0 "P=SIM1:,OUT=LO:,IN=LI:,OREC=longout,IREC=longin"
-  1 "P=SIM1:,OUT=AO:,IN=AI:,OREC=ao,IREC=ai"
-  2 "P=SIM1:,R=BI,A=B,L=MBBID0,PORT=BI,AC=Bit"
-  3 "P=SIM1:,R=BO,A=B,L=MBBOD0,PORT=BO,AC=Bit"
+  1 "P=SIM1:,OUT=I64O:,IN=I64I:,OREC=int64out,IREC=int64in"
+  2 "P=SIM1:,OUT=AO:,IN=AI:,OREC=ao,IREC=ai"
+  3 "P=SIM1:,R=BI,A=B,L=MBBID0,PORT=BI,AC=Bit"
+  4 "P=SIM1:,R=BO,A=B,L=MBBOD0,PORT=BO,AC=Bit"
 }
 replaceSymbols {
   0 1
   1 1
   2 1
   3 1
+  4 1
 }
 endObjectProperties
 
@@ -109,12 +113,12 @@ buttonLabel "Octet asyn record"
 numPvs 4
 numDsps 2
 displayFileName {
-  0 asynRecord.edl
-  1 l
+  0 "asynRecord.edl"
+  1 "l"
 }
 menuLabel {
-  0 Octet asyn record
-  1 
+  0 "Octet asyn record"
+  1 ""
 }
 symbols {
   0 "P=SIM1:,R=OctetAsyn"

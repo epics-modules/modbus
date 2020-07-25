@@ -90,6 +90,19 @@
         <macros>
           <include_parent_macros>true</include_parent_macros>
           <P>SIM1:</P>
+          <OUT>I64O:</OUT>
+          <IN>I64I:</IN>
+          <OREC>int64out</OREC>
+          <IREC>int64in</IREC>
+        </macros>
+        <mode>1</mode>
+        <description>int64out/int64in</description>
+      </action>
+      <action type="OPEN_DISPLAY">
+        <path>modbusDataTypes.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+          <P>SIM1:</P>
           <OUT>AO:</OUT>
           <IN>AI:</IN>
           <OREC>ao</OREC>

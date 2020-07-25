@@ -42,6 +42,18 @@
       <action type="open_display">
         <file>modbusDataTypes.opi</file>
         <macros>
+          <IN>I64I:</IN>
+          <IREC>int64in</IREC>
+          <OREC>int64out</OREC>
+          <OUT>I64O:</OUT>
+          <P>SIM1:</P>
+        </macros>
+        <target>tab</target>
+        <description>int64out/int64in</description>
+      </action>
+      <action type="open_display">
+        <file>modbusDataTypes.opi</file>
+        <macros>
           <IN>AI:</IN>
           <IREC>ai</IREC>
           <OREC>ao</OREC>
@@ -89,7 +101,7 @@
     </background_color>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>related display #15</name>
+    <name>related display #16</name>
     <actions>
       <action type="open_display">
         <file>asynRecord.opi</file>
