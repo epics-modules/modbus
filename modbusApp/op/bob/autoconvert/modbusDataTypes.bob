@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <name>modbusDataTypes</name>
-  <x>434</x>
-  <y>121</y>
+  <x>331</x>
+  <y>120</y>
   <width>725</width>
   <height>870</height>
   <background_color>
@@ -24,97 +24,90 @@
     </font>
     <horizontal_alignment>1</horizontal_alignment>
   </widget>
-  <widget type="group" version="2.0.0">
-    <name>composite #9</name>
-    <x>288</x>
+  <widget type="textentry" version="3.0.0">
+    <name>text entry #9</name>
+    <pv_name>$(P)$(OUT)PollDelay</pv_name>
+    <x>291</x>
     <y>818</y>
-    <width>148</width>
-    <height>45</height>
-    <style>3</style>
-    <transparent>true</transparent>
-    <widget type="textentry" version="3.0.0">
-      <name>text entry #12</name>
-      <pv_name>$(P)A0:PollDelay</pv_name>
-      <x>3</x>
-      <width>50</width>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
+    <width>50</width>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
       </font>
-      <background_color>
-        <color red="115" green="223" blue="255">
-        </color>
-      </background_color>
-      <format>1</format>
-      <show_units>false</show_units>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #16</name>
-      <text>Poll delay</text>
-      <x>58</x>
-      <y>3</y>
-      <width>90</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
+    </font>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <show_units>false</show_units>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #13</name>
+    <text>Poll delay</text>
+    <x>346</x>
+    <y>821</y>
+    <width>90</width>
+    <height>15</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
       </font>
-      <horizontal_alignment>1</horizontal_alignment>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>related display #19</name>
-      <actions>
-        <action type="open_display">
-          <file>asynRecord.opi</file>
-          <macros>
-            <R>A0:AsynOut</R>
-          </macros>
-          <target>tab</target>
-          <description>asynRecord Out</description>
-        </action>
-        <action type="open_display">
-          <file>asynRecord.opi</file>
-          <macros>
-            <R>A0:AsynIn</R>
-          </macros>
-          <target>tab</target>
-          <description>asynRecord In</description>
-        </action>
-        <action type="open_display">
-          <file>modbusStatistics.opi</file>
-          <macros>
-            <R>A0:</R>
-          </macros>
-          <target>tab</target>
-          <description>I/O Statistics</description>
-        </action>
-      </actions>
-      <text></text>
-      <y>25</y>
-      <width>53</width>
-      <height>20</height>
-      <background_color>
-        <color red="115" green="223" blue="255">
-        </color>
-      </background_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>text #24</name>
-      <text>More</text>
-      <x>58</x>
-      <y>28</y>
-      <width>36</width>
-      <height>15</height>
-      <font>
-        <font family="Liberation Sans" style="REGULAR" size="16.0">
-        </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>related display #16</name>
+    <actions>
+      <action type="open_display">
+        <file>asynRecord.opi</file>
+        <macros>
+          <R>$(OUT)AsynOut</R>
+        </macros>
+        <target>tab</target>
+        <description>asynRecord Out</description>
+      </action>
+      <action type="open_display">
+        <file>asynRecord.opi</file>
+        <macros>
+          <R>$(OUT)AsynIn</R>
+        </macros>
+        <target>tab</target>
+        <description>asynRecord In</description>
+      </action>
+      <action type="open_display">
+        <file>modbusStatistics.opi</file>
+        <macros>
+          <R>$(OUT)</R>
+        </macros>
+        <target>tab</target>
+        <description>I/O Statistics</description>
+      </action>
+    </actions>
+    <text></text>
+    <x>288</x>
+    <y>843</y>
+    <width>53</width>
+    <height>20</height>
+    <background_color>
+      <color red="115" green="223" blue="255">
+      </color>
+    </background_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>text #21</name>
+    <text>More</text>
+    <x>346</x>
+    <y>846</y>
+    <width>36</width>
+    <height>15</height>
+    <font>
+      <font family="Liberation Sans" style="REGULAR" size="16.0">
       </font>
-      <horizontal_alignment>1</horizontal_alignment>
-    </widget>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>composite #27</name>
+    <name>composite #24</name>
     <x>10</x>
     <y>60</y>
     <width>707</width>
@@ -122,7 +115,7 @@
     <style>3</style>
     <transparent>true</transparent>
     <widget type="combo" version="2.0.0">
-      <name>menu #30</name>
+      <name>menu #27</name>
       <pv_name>$(P)$(IN)UINT16.SCAN</pv_name>
       <x>607</x>
       <y>25</y>
@@ -134,7 +127,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #33</name>
+      <name>text update #30</name>
       <pv_name>$(P)$(IN)UINT16</pv_name>
       <x>367</x>
       <y>28</y>
@@ -158,7 +151,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #37</name>
+      <name>text entry #34</name>
       <pv_name>$(P)$(OUT)UINT16</pv_name>
       <x>122</x>
       <y>25</y>
@@ -176,7 +169,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #41</name>
+      <name>text #38</name>
       <text>UInt16</text>
       <x>63</x>
       <y>28</y>
@@ -189,7 +182,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #44</name>
+      <name>text update #41</name>
       <pv_name>$(P)$(IN)UINT16.STAT</pv_name>
       <x>447</x>
       <y>28</y>
@@ -212,7 +205,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #48</name>
+      <name>text update #45</name>
       <pv_name>$(P)$(IN)UINT16.SEVR</pv_name>
       <x>527</x>
       <y>28</y>
@@ -235,7 +228,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #52</name>
+      <name>text update #49</name>
       <pv_name>$(P)$(OUT)UINT16.STAT</pv_name>
       <x>207</x>
       <y>28</y>
@@ -258,7 +251,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #56</name>
+      <name>text update #53</name>
       <pv_name>$(P)$(OUT)UINT16.SEVR</pv_name>
       <x>287</x>
       <y>28</y>
@@ -281,7 +274,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #60</name>
+      <name>menu #57</name>
       <pv_name>$(P)$(IN)BCD_UNSIGNED.SCAN</pv_name>
       <x>607</x>
       <y>50</y>
@@ -293,7 +286,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #63</name>
+      <name>text update #60</name>
       <pv_name>$(P)$(IN)BCD_UNSIGNED</pv_name>
       <x>367</x>
       <y>53</y>
@@ -317,7 +310,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #67</name>
+      <name>text entry #64</name>
       <pv_name>$(P)$(OUT)BCD_UNSIGNED</pv_name>
       <x>122</x>
       <y>50</y>
@@ -335,7 +328,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #71</name>
+      <name>text #68</name>
       <text>UInt16 BCD</text>
       <x>27</x>
       <y>53</y>
@@ -348,7 +341,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #74</name>
+      <name>text update #71</name>
       <pv_name>$(P)$(IN)BCD_UNSIGNED.STAT</pv_name>
       <x>447</x>
       <y>53</y>
@@ -371,7 +364,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #78</name>
+      <name>text update #75</name>
       <pv_name>$(P)$(IN)BCD_UNSIGNED.SEVR</pv_name>
       <x>527</x>
       <y>53</y>
@@ -394,7 +387,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #82</name>
+      <name>text update #79</name>
       <pv_name>$(P)$(OUT)BCD_UNSIGNED.STAT</pv_name>
       <x>207</x>
       <y>53</y>
@@ -417,7 +410,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #86</name>
+      <name>text update #83</name>
       <pv_name>$(P)$(OUT)BCD_UNSIGNED.SEVR</pv_name>
       <x>287</x>
       <y>53</y>
@@ -440,7 +433,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #90</name>
+      <name>menu #87</name>
       <pv_name>$(P)$(IN)BCD_SIGNED.SCAN</pv_name>
       <x>607</x>
       <y>75</y>
@@ -452,7 +445,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #93</name>
+      <name>text update #90</name>
       <pv_name>$(P)$(IN)BCD_SIGNED</pv_name>
       <x>367</x>
       <y>78</y>
@@ -476,7 +469,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #97</name>
+      <name>text entry #94</name>
       <pv_name>$(P)$(OUT)BCD_SIGNED</pv_name>
       <x>122</x>
       <y>75</y>
@@ -494,7 +487,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #101</name>
+      <name>text #98</name>
       <text>Int16 BCD</text>
       <x>36</x>
       <y>78</y>
@@ -507,7 +500,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #104</name>
+      <name>text update #101</name>
       <pv_name>$(P)$(IN)BCD_SIGNED.STAT</pv_name>
       <x>447</x>
       <y>78</y>
@@ -530,7 +523,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #108</name>
+      <name>text update #105</name>
       <pv_name>$(P)$(IN)BCD_SIGNED.SEVR</pv_name>
       <x>527</x>
       <y>78</y>
@@ -553,7 +546,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #112</name>
+      <name>text update #109</name>
       <pv_name>$(P)$(OUT)BCD_SIGNED.STAT</pv_name>
       <x>207</x>
       <y>78</y>
@@ -576,7 +569,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #116</name>
+      <name>text update #113</name>
       <pv_name>$(P)$(OUT)BCD_SIGNED.SEVR</pv_name>
       <x>287</x>
       <y>78</y>
@@ -599,7 +592,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #120</name>
+      <name>menu #117</name>
       <pv_name>$(P)$(IN)INT16.SCAN</pv_name>
       <x>607</x>
       <y>125</y>
@@ -611,7 +604,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #123</name>
+      <name>text update #120</name>
       <pv_name>$(P)$(IN)INT16</pv_name>
       <x>367</x>
       <y>128</y>
@@ -635,7 +628,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #127</name>
+      <name>text entry #124</name>
       <pv_name>$(P)$(OUT)INT16</pv_name>
       <x>122</x>
       <y>125</y>
@@ -653,7 +646,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #131</name>
+      <name>text #128</name>
       <text>Int16</text>
       <x>72</x>
       <y>128</y>
@@ -666,7 +659,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #134</name>
+      <name>text update #131</name>
       <pv_name>$(P)$(IN)INT16.STAT</pv_name>
       <x>447</x>
       <y>128</y>
@@ -689,7 +682,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #138</name>
+      <name>text update #135</name>
       <pv_name>$(P)$(IN)INT16.SEVR</pv_name>
       <x>527</x>
       <y>128</y>
@@ -712,7 +705,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #142</name>
+      <name>text update #139</name>
       <pv_name>$(P)$(OUT)INT16.STAT</pv_name>
       <x>207</x>
       <y>128</y>
@@ -735,7 +728,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #146</name>
+      <name>text update #143</name>
       <pv_name>$(P)$(OUT)INT16.SEVR</pv_name>
       <x>287</x>
       <y>128</y>
@@ -758,7 +751,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #150</name>
+      <name>menu #147</name>
       <pv_name>$(P)$(IN)INT32_LE.SCAN</pv_name>
       <x>607</x>
       <y>150</y>
@@ -770,7 +763,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #153</name>
+      <name>text update #150</name>
       <pv_name>$(P)$(IN)INT32_LE</pv_name>
       <x>367</x>
       <y>153</y>
@@ -794,7 +787,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #157</name>
+      <name>text entry #154</name>
       <pv_name>$(P)$(OUT)INT32_LE</pv_name>
       <x>122</x>
       <y>150</y>
@@ -812,7 +805,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #161</name>
+      <name>text #158</name>
       <text>Int32 LE</text>
       <x>45</x>
       <y>153</y>
@@ -825,7 +818,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #164</name>
+      <name>text update #161</name>
       <pv_name>$(P)$(IN)INT32_LE.STAT</pv_name>
       <x>447</x>
       <y>153</y>
@@ -848,7 +841,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #168</name>
+      <name>text update #165</name>
       <pv_name>$(P)$(IN)INT32_LE.SEVR</pv_name>
       <x>527</x>
       <y>153</y>
@@ -871,7 +864,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #172</name>
+      <name>text update #169</name>
       <pv_name>$(P)$(OUT)INT32_LE.STAT</pv_name>
       <x>207</x>
       <y>153</y>
@@ -894,7 +887,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #176</name>
+      <name>text update #173</name>
       <pv_name>$(P)$(OUT)INT32_LE.SEVR</pv_name>
       <x>287</x>
       <y>153</y>
@@ -917,7 +910,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #180</name>
+      <name>menu #177</name>
       <pv_name>$(P)$(IN)INT32_LE_BS.SCAN</pv_name>
       <x>607</x>
       <y>175</y>
@@ -929,7 +922,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #183</name>
+      <name>text update #180</name>
       <pv_name>$(P)$(IN)INT32_LE_BS</pv_name>
       <x>367</x>
       <y>178</y>
@@ -953,7 +946,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #187</name>
+      <name>text entry #184</name>
       <pv_name>$(P)$(OUT)INT32_LE_BS</pv_name>
       <x>122</x>
       <y>175</y>
@@ -971,7 +964,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #191</name>
+      <name>text #188</name>
       <text>Int32 LE BS</text>
       <x>18</x>
       <y>178</y>
@@ -984,7 +977,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #194</name>
+      <name>text update #191</name>
       <pv_name>$(P)$(IN)INT32_LE_BS.STAT</pv_name>
       <x>447</x>
       <y>178</y>
@@ -1007,7 +1000,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #198</name>
+      <name>text update #195</name>
       <pv_name>$(P)$(IN)INT32_LE_BS.SEVR</pv_name>
       <x>527</x>
       <y>178</y>
@@ -1030,7 +1023,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #202</name>
+      <name>text update #199</name>
       <pv_name>$(P)$(OUT)INT32_LE_BS.STAT</pv_name>
       <x>207</x>
       <y>178</y>
@@ -1053,7 +1046,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #206</name>
+      <name>text update #203</name>
       <pv_name>$(P)$(OUT)INT32_LE_BS.SEVR</pv_name>
       <x>287</x>
       <y>178</y>
@@ -1076,7 +1069,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #210</name>
+      <name>menu #207</name>
       <pv_name>$(P)$(IN)INT32_BE_BS.SCAN</pv_name>
       <x>607</x>
       <y>225</y>
@@ -1088,7 +1081,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #213</name>
+      <name>text update #210</name>
       <pv_name>$(P)$(IN)INT32_BE_BS</pv_name>
       <x>367</x>
       <y>228</y>
@@ -1112,7 +1105,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #217</name>
+      <name>text entry #214</name>
       <pv_name>$(P)$(OUT)INT32_BE_BS</pv_name>
       <x>122</x>
       <y>225</y>
@@ -1130,7 +1123,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #221</name>
+      <name>text #218</name>
       <text>Int32 BE BS</text>
       <x>18</x>
       <y>228</y>
@@ -1143,7 +1136,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #224</name>
+      <name>text update #221</name>
       <pv_name>$(P)$(IN)INT32_BE_BS.STAT</pv_name>
       <x>447</x>
       <y>228</y>
@@ -1166,7 +1159,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #228</name>
+      <name>text update #225</name>
       <pv_name>$(P)$(IN)INT32_BE_BS.SEVR</pv_name>
       <x>527</x>
       <y>228</y>
@@ -1189,7 +1182,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #232</name>
+      <name>text update #229</name>
       <pv_name>$(P)$(OUT)INT32_BE_BS.STAT</pv_name>
       <x>207</x>
       <y>228</y>
@@ -1212,7 +1205,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #236</name>
+      <name>text update #233</name>
       <pv_name>$(P)$(OUT)INT32_BE_BS.SEVR</pv_name>
       <x>287</x>
       <y>228</y>
@@ -1235,7 +1228,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #240</name>
+      <name>menu #237</name>
       <pv_name>$(P)$(IN)INT32_BE.SCAN</pv_name>
       <x>607</x>
       <y>200</y>
@@ -1247,7 +1240,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #243</name>
+      <name>text update #240</name>
       <pv_name>$(P)$(IN)INT32_BE</pv_name>
       <x>367</x>
       <y>203</y>
@@ -1271,7 +1264,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #247</name>
+      <name>text entry #244</name>
       <pv_name>$(P)$(OUT)INT32_BE</pv_name>
       <x>122</x>
       <y>200</y>
@@ -1289,7 +1282,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #251</name>
+      <name>text #248</name>
       <text>Int32 BE</text>
       <x>45</x>
       <y>203</y>
@@ -1302,7 +1295,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #254</name>
+      <name>text update #251</name>
       <pv_name>$(P)$(IN)INT32_BE.STAT</pv_name>
       <x>447</x>
       <y>203</y>
@@ -1325,7 +1318,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #258</name>
+      <name>text update #255</name>
       <pv_name>$(P)$(IN)INT32_BE.SEVR</pv_name>
       <x>527</x>
       <y>203</y>
@@ -1348,7 +1341,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #262</name>
+      <name>text update #259</name>
       <pv_name>$(P)$(OUT)INT32_BE.STAT</pv_name>
       <x>207</x>
       <y>203</y>
@@ -1371,7 +1364,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #266</name>
+      <name>text update #263</name>
       <pv_name>$(P)$(OUT)INT32_BE.SEVR</pv_name>
       <x>287</x>
       <y>203</y>
@@ -1394,7 +1387,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #270</name>
+      <name>menu #267</name>
       <pv_name>$(P)$(IN)UINT32_LE.SCAN</pv_name>
       <x>607</x>
       <y>250</y>
@@ -1406,7 +1399,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #273</name>
+      <name>text update #270</name>
       <pv_name>$(P)$(IN)UINT32_LE</pv_name>
       <x>367</x>
       <y>253</y>
@@ -1430,7 +1423,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #277</name>
+      <name>text entry #274</name>
       <pv_name>$(P)$(OUT)UINT32_LE</pv_name>
       <x>122</x>
       <y>250</y>
@@ -1448,7 +1441,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #281</name>
+      <name>text #278</name>
       <text>UInt32 LE</text>
       <x>36</x>
       <y>253</y>
@@ -1461,7 +1454,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #284</name>
+      <name>text update #281</name>
       <pv_name>$(P)$(IN)UINT32_LE.STAT</pv_name>
       <x>447</x>
       <y>253</y>
@@ -1484,7 +1477,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #288</name>
+      <name>text update #285</name>
       <pv_name>$(P)$(IN)UINT32_LE.SEVR</pv_name>
       <x>527</x>
       <y>253</y>
@@ -1507,7 +1500,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #292</name>
+      <name>text update #289</name>
       <pv_name>$(P)$(OUT)UINT32_LE.STAT</pv_name>
       <x>207</x>
       <y>253</y>
@@ -1530,7 +1523,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #296</name>
+      <name>text update #293</name>
       <pv_name>$(P)$(OUT)UINT32_LE.SEVR</pv_name>
       <x>287</x>
       <y>253</y>
@@ -1553,7 +1546,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #300</name>
+      <name>menu #297</name>
       <pv_name>$(P)$(IN)UINT32_LE_BS.SCAN</pv_name>
       <x>607</x>
       <y>275</y>
@@ -1565,7 +1558,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #303</name>
+      <name>text update #300</name>
       <pv_name>$(P)$(IN)UINT32_LE_BS</pv_name>
       <x>367</x>
       <y>278</y>
@@ -1589,7 +1582,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #307</name>
+      <name>text entry #304</name>
       <pv_name>$(P)$(OUT)UINT32_LE_BS</pv_name>
       <x>122</x>
       <y>275</y>
@@ -1607,7 +1600,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #311</name>
+      <name>text #308</name>
       <text>UInt32 LE BS</text>
       <x>9</x>
       <y>278</y>
@@ -1620,7 +1613,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #314</name>
+      <name>text update #311</name>
       <pv_name>$(P)$(IN)UINT32_LE_BS.STAT</pv_name>
       <x>447</x>
       <y>278</y>
@@ -1643,7 +1636,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #318</name>
+      <name>text update #315</name>
       <pv_name>$(P)$(IN)UINT32_LE_BS.SEVR</pv_name>
       <x>527</x>
       <y>278</y>
@@ -1666,7 +1659,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #322</name>
+      <name>text update #319</name>
       <pv_name>$(P)$(OUT)UINT32_LE_BS.STAT</pv_name>
       <x>207</x>
       <y>278</y>
@@ -1689,7 +1682,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #326</name>
+      <name>text update #323</name>
       <pv_name>$(P)$(OUT)UINT32_LE_BS.SEVR</pv_name>
       <x>287</x>
       <y>278</y>
@@ -1712,7 +1705,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #330</name>
+      <name>menu #327</name>
       <pv_name>$(P)$(IN)UINT32_BE_BS.SCAN</pv_name>
       <x>607</x>
       <y>325</y>
@@ -1724,7 +1717,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #333</name>
+      <name>text update #330</name>
       <pv_name>$(P)$(IN)UINT32_BE_BS</pv_name>
       <x>367</x>
       <y>328</y>
@@ -1748,7 +1741,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #337</name>
+      <name>text entry #334</name>
       <pv_name>$(P)$(OUT)UINT32_BE_BS</pv_name>
       <x>122</x>
       <y>325</y>
@@ -1766,7 +1759,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #341</name>
+      <name>text #338</name>
       <text>UInt32 BE BS</text>
       <x>9</x>
       <y>328</y>
@@ -1779,7 +1772,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #344</name>
+      <name>text update #341</name>
       <pv_name>$(P)$(IN)UINT32_BE_BS.STAT</pv_name>
       <x>447</x>
       <y>328</y>
@@ -1802,7 +1795,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #348</name>
+      <name>text update #345</name>
       <pv_name>$(P)$(IN)UINT32_BE_BS.SEVR</pv_name>
       <x>527</x>
       <y>328</y>
@@ -1825,7 +1818,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #352</name>
+      <name>text update #349</name>
       <pv_name>$(P)$(OUT)UINT32_BE_BS.STAT</pv_name>
       <x>207</x>
       <y>328</y>
@@ -1848,7 +1841,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #356</name>
+      <name>text update #353</name>
       <pv_name>$(P)$(OUT)UINT32_BE_BS.SEVR</pv_name>
       <x>287</x>
       <y>328</y>
@@ -1871,7 +1864,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #360</name>
+      <name>menu #357</name>
       <pv_name>$(P)$(IN)UINT32_BE.SCAN</pv_name>
       <x>607</x>
       <y>300</y>
@@ -1883,7 +1876,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #363</name>
+      <name>text update #360</name>
       <pv_name>$(P)$(IN)UINT32_BE</pv_name>
       <x>367</x>
       <y>303</y>
@@ -1907,7 +1900,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #367</name>
+      <name>text entry #364</name>
       <pv_name>$(P)$(OUT)UINT32_BE</pv_name>
       <x>122</x>
       <y>300</y>
@@ -1925,7 +1918,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #371</name>
+      <name>text #368</name>
       <text>UInt32 BE</text>
       <x>36</x>
       <y>303</y>
@@ -1938,7 +1931,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #374</name>
+      <name>text update #371</name>
       <pv_name>$(P)$(IN)UINT32_BE.STAT</pv_name>
       <x>447</x>
       <y>303</y>
@@ -1961,7 +1954,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #378</name>
+      <name>text update #375</name>
       <pv_name>$(P)$(IN)UINT32_BE.SEVR</pv_name>
       <x>527</x>
       <y>303</y>
@@ -1984,7 +1977,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #382</name>
+      <name>text update #379</name>
       <pv_name>$(P)$(OUT)UINT32_BE.STAT</pv_name>
       <x>207</x>
       <y>303</y>
@@ -2007,7 +2000,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #386</name>
+      <name>text update #383</name>
       <pv_name>$(P)$(OUT)UINT32_BE.SEVR</pv_name>
       <x>287</x>
       <y>303</y>
@@ -2030,7 +2023,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #390</name>
+      <name>menu #387</name>
       <pv_name>$(P)$(IN)INT64_LE.SCAN</pv_name>
       <x>607</x>
       <y>350</y>
@@ -2042,7 +2035,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #393</name>
+      <name>text update #390</name>
       <pv_name>$(P)$(IN)INT64_LE</pv_name>
       <x>367</x>
       <y>353</y>
@@ -2066,7 +2059,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #397</name>
+      <name>text entry #394</name>
       <pv_name>$(P)$(OUT)INT64_LE</pv_name>
       <x>122</x>
       <y>350</y>
@@ -2084,7 +2077,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #401</name>
+      <name>text #398</name>
       <text>Int64 LE</text>
       <x>45</x>
       <y>353</y>
@@ -2097,7 +2090,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #404</name>
+      <name>text update #401</name>
       <pv_name>$(P)$(IN)INT64_LE.STAT</pv_name>
       <x>447</x>
       <y>353</y>
@@ -2120,7 +2113,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #408</name>
+      <name>text update #405</name>
       <pv_name>$(P)$(IN)INT64_LE.SEVR</pv_name>
       <x>527</x>
       <y>353</y>
@@ -2143,7 +2136,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #412</name>
+      <name>text update #409</name>
       <pv_name>$(P)$(OUT)INT64_LE.STAT</pv_name>
       <x>207</x>
       <y>353</y>
@@ -2166,7 +2159,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #416</name>
+      <name>text update #413</name>
       <pv_name>$(P)$(OUT)INT64_LE.SEVR</pv_name>
       <x>287</x>
       <y>353</y>
@@ -2189,7 +2182,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #420</name>
+      <name>menu #417</name>
       <pv_name>$(P)$(IN)INT64_LE_BS.SCAN</pv_name>
       <x>607</x>
       <y>375</y>
@@ -2201,7 +2194,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #423</name>
+      <name>text update #420</name>
       <pv_name>$(P)$(IN)INT64_LE_BS</pv_name>
       <x>367</x>
       <y>378</y>
@@ -2225,7 +2218,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #427</name>
+      <name>text entry #424</name>
       <pv_name>$(P)$(OUT)INT64_LE_BS</pv_name>
       <x>122</x>
       <y>375</y>
@@ -2243,7 +2236,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #431</name>
+      <name>text #428</name>
       <text>Int64 LE BS</text>
       <x>18</x>
       <y>378</y>
@@ -2256,7 +2249,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #434</name>
+      <name>text update #431</name>
       <pv_name>$(P)$(IN)INT64_LE_BS.STAT</pv_name>
       <x>447</x>
       <y>378</y>
@@ -2279,7 +2272,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #438</name>
+      <name>text update #435</name>
       <pv_name>$(P)$(IN)INT64_LE_BS.SEVR</pv_name>
       <x>527</x>
       <y>378</y>
@@ -2302,7 +2295,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #442</name>
+      <name>text update #439</name>
       <pv_name>$(P)$(OUT)INT64_LE_BS.STAT</pv_name>
       <x>207</x>
       <y>378</y>
@@ -2325,7 +2318,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #446</name>
+      <name>text update #443</name>
       <pv_name>$(P)$(OUT)INT64_LE_BS.SEVR</pv_name>
       <x>287</x>
       <y>378</y>
@@ -2348,7 +2341,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #450</name>
+      <name>menu #447</name>
       <pv_name>$(P)$(IN)INT64_BE_BS.SCAN</pv_name>
       <x>607</x>
       <y>425</y>
@@ -2360,7 +2353,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #453</name>
+      <name>text update #450</name>
       <pv_name>$(P)$(IN)INT64_BE_BS</pv_name>
       <x>367</x>
       <y>428</y>
@@ -2384,7 +2377,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #457</name>
+      <name>text entry #454</name>
       <pv_name>$(P)$(OUT)INT64_BE_BS</pv_name>
       <x>122</x>
       <y>425</y>
@@ -2402,7 +2395,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #461</name>
+      <name>text #458</name>
       <text>Int64 BE BS</text>
       <x>18</x>
       <y>428</y>
@@ -2415,7 +2408,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #464</name>
+      <name>text update #461</name>
       <pv_name>$(P)$(IN)INT64_BE_BS.STAT</pv_name>
       <x>447</x>
       <y>428</y>
@@ -2438,7 +2431,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #468</name>
+      <name>text update #465</name>
       <pv_name>$(P)$(IN)INT64_BE_BS.SEVR</pv_name>
       <x>527</x>
       <y>428</y>
@@ -2461,7 +2454,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #472</name>
+      <name>text update #469</name>
       <pv_name>$(P)$(OUT)INT64_BE_BS.STAT</pv_name>
       <x>207</x>
       <y>428</y>
@@ -2484,7 +2477,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #476</name>
+      <name>text update #473</name>
       <pv_name>$(P)$(OUT)INT64_BE_BS.SEVR</pv_name>
       <x>287</x>
       <y>428</y>
@@ -2507,7 +2500,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #480</name>
+      <name>menu #477</name>
       <pv_name>$(P)$(IN)INT64_BE.SCAN</pv_name>
       <x>607</x>
       <y>400</y>
@@ -2519,7 +2512,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #483</name>
+      <name>text update #480</name>
       <pv_name>$(P)$(IN)INT64_BE</pv_name>
       <x>367</x>
       <y>403</y>
@@ -2543,7 +2536,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #487</name>
+      <name>text entry #484</name>
       <pv_name>$(P)$(OUT)INT64_BE</pv_name>
       <x>122</x>
       <y>400</y>
@@ -2561,7 +2554,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #491</name>
+      <name>text #488</name>
       <text>Int64 BE</text>
       <x>45</x>
       <y>403</y>
@@ -2574,7 +2567,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #494</name>
+      <name>text update #491</name>
       <pv_name>$(P)$(IN)INT64_BE.STAT</pv_name>
       <x>447</x>
       <y>403</y>
@@ -2597,7 +2590,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #498</name>
+      <name>text update #495</name>
       <pv_name>$(P)$(IN)INT64_BE.SEVR</pv_name>
       <x>527</x>
       <y>403</y>
@@ -2620,7 +2613,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #502</name>
+      <name>text update #499</name>
       <pv_name>$(P)$(OUT)INT64_BE.STAT</pv_name>
       <x>207</x>
       <y>403</y>
@@ -2643,7 +2636,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #506</name>
+      <name>text update #503</name>
       <pv_name>$(P)$(OUT)INT64_BE.SEVR</pv_name>
       <x>287</x>
       <y>403</y>
@@ -2666,7 +2659,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #510</name>
+      <name>menu #507</name>
       <pv_name>$(P)$(IN)UINT64_LE.SCAN</pv_name>
       <x>607</x>
       <y>450</y>
@@ -2678,7 +2671,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #513</name>
+      <name>text update #510</name>
       <pv_name>$(P)$(IN)UINT64_LE</pv_name>
       <x>367</x>
       <y>453</y>
@@ -2702,7 +2695,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #517</name>
+      <name>text entry #514</name>
       <pv_name>$(P)$(OUT)UINT64_LE</pv_name>
       <x>122</x>
       <y>450</y>
@@ -2720,7 +2713,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #521</name>
+      <name>text #518</name>
       <text>UInt64 LE</text>
       <x>36</x>
       <y>453</y>
@@ -2733,7 +2726,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #524</name>
+      <name>text update #521</name>
       <pv_name>$(P)$(IN)UINT64_LE.STAT</pv_name>
       <x>447</x>
       <y>453</y>
@@ -2756,7 +2749,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #528</name>
+      <name>text update #525</name>
       <pv_name>$(P)$(IN)UINT64_LE.SEVR</pv_name>
       <x>527</x>
       <y>453</y>
@@ -2779,7 +2772,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #532</name>
+      <name>text update #529</name>
       <pv_name>$(P)$(OUT)UINT64_LE.STAT</pv_name>
       <x>207</x>
       <y>453</y>
@@ -2802,7 +2795,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #536</name>
+      <name>text update #533</name>
       <pv_name>$(P)$(OUT)UINT64_LE.SEVR</pv_name>
       <x>287</x>
       <y>453</y>
@@ -2825,7 +2818,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #540</name>
+      <name>menu #537</name>
       <pv_name>$(P)$(IN)UINT64_LE_BS.SCAN</pv_name>
       <x>607</x>
       <y>475</y>
@@ -2837,7 +2830,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #543</name>
+      <name>text update #540</name>
       <pv_name>$(P)$(IN)UINT64_LE_BS</pv_name>
       <x>367</x>
       <y>478</y>
@@ -2861,7 +2854,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #547</name>
+      <name>text entry #544</name>
       <pv_name>$(P)$(OUT)UINT64_LE_BS</pv_name>
       <x>122</x>
       <y>475</y>
@@ -2879,7 +2872,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #551</name>
+      <name>text #548</name>
       <text>UInt64 LE BS</text>
       <x>9</x>
       <y>478</y>
@@ -2892,7 +2885,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #554</name>
+      <name>text update #551</name>
       <pv_name>$(P)$(IN)UINT64_LE_BS.STAT</pv_name>
       <x>447</x>
       <y>478</y>
@@ -2915,7 +2908,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #558</name>
+      <name>text update #555</name>
       <pv_name>$(P)$(IN)UINT64_LE_BS.SEVR</pv_name>
       <x>527</x>
       <y>478</y>
@@ -2938,7 +2931,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #562</name>
+      <name>text update #559</name>
       <pv_name>$(P)$(OUT)UINT64_LE_BS.STAT</pv_name>
       <x>207</x>
       <y>478</y>
@@ -2961,7 +2954,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #566</name>
+      <name>text update #563</name>
       <pv_name>$(P)$(OUT)UINT64_LE_BS.SEVR</pv_name>
       <x>287</x>
       <y>478</y>
@@ -2984,7 +2977,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #570</name>
+      <name>menu #567</name>
       <pv_name>$(P)$(IN)UINT64_BE_BS.SCAN</pv_name>
       <x>607</x>
       <y>525</y>
@@ -2996,7 +2989,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #573</name>
+      <name>text update #570</name>
       <pv_name>$(P)$(IN)UINT64_BE_BS</pv_name>
       <x>367</x>
       <y>528</y>
@@ -3020,7 +3013,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #577</name>
+      <name>text entry #574</name>
       <pv_name>$(P)$(OUT)UINT64_BE_BS</pv_name>
       <x>122</x>
       <y>525</y>
@@ -3038,7 +3031,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #581</name>
+      <name>text #578</name>
       <text>UInt64 BE BS</text>
       <x>9</x>
       <y>528</y>
@@ -3051,7 +3044,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #584</name>
+      <name>text update #581</name>
       <pv_name>$(P)$(IN)UINT64_BE_BS.STAT</pv_name>
       <x>447</x>
       <y>528</y>
@@ -3074,7 +3067,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #588</name>
+      <name>text update #585</name>
       <pv_name>$(P)$(IN)UINT64_BE_BS.SEVR</pv_name>
       <x>527</x>
       <y>528</y>
@@ -3097,7 +3090,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #592</name>
+      <name>text update #589</name>
       <pv_name>$(P)$(OUT)UINT64_BE_BS.STAT</pv_name>
       <x>207</x>
       <y>528</y>
@@ -3120,7 +3113,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #596</name>
+      <name>text update #593</name>
       <pv_name>$(P)$(OUT)UINT64_BE_BS.SEVR</pv_name>
       <x>287</x>
       <y>528</y>
@@ -3143,7 +3136,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #600</name>
+      <name>menu #597</name>
       <pv_name>$(P)$(IN)UINT64_BE.SCAN</pv_name>
       <x>607</x>
       <y>500</y>
@@ -3155,7 +3148,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #603</name>
+      <name>text update #600</name>
       <pv_name>$(P)$(IN)UINT64_BE</pv_name>
       <x>367</x>
       <y>503</y>
@@ -3179,7 +3172,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #607</name>
+      <name>text entry #604</name>
       <pv_name>$(P)$(OUT)UINT64_BE</pv_name>
       <x>122</x>
       <y>500</y>
@@ -3197,7 +3190,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #611</name>
+      <name>text #608</name>
       <text>UInt64 BE</text>
       <x>36</x>
       <y>503</y>
@@ -3210,7 +3203,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #614</name>
+      <name>text update #611</name>
       <pv_name>$(P)$(IN)UINT64_BE.STAT</pv_name>
       <x>447</x>
       <y>503</y>
@@ -3233,7 +3226,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #618</name>
+      <name>text update #615</name>
       <pv_name>$(P)$(IN)UINT64_BE.SEVR</pv_name>
       <x>527</x>
       <y>503</y>
@@ -3256,7 +3249,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #622</name>
+      <name>text update #619</name>
       <pv_name>$(P)$(OUT)UINT64_BE.STAT</pv_name>
       <x>207</x>
       <y>503</y>
@@ -3279,7 +3272,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #626</name>
+      <name>text update #623</name>
       <pv_name>$(P)$(OUT)UINT64_BE.SEVR</pv_name>
       <x>287</x>
       <y>503</y>
@@ -3302,7 +3295,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #630</name>
+      <name>menu #627</name>
       <pv_name>$(P)$(IN)FLOAT32_LE.SCAN</pv_name>
       <x>607</x>
       <y>550</y>
@@ -3314,7 +3307,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #633</name>
+      <name>text update #630</name>
       <pv_name>$(P)$(IN)FLOAT32_LE</pv_name>
       <x>367</x>
       <y>553</y>
@@ -3338,7 +3331,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #637</name>
+      <name>text entry #634</name>
       <pv_name>$(P)$(OUT)FLOAT32_LE</pv_name>
       <x>122</x>
       <y>550</y>
@@ -3356,7 +3349,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #641</name>
+      <name>text #638</name>
       <text>Float32 LE</text>
       <x>27</x>
       <y>553</y>
@@ -3369,7 +3362,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #644</name>
+      <name>text update #641</name>
       <pv_name>$(P)$(IN)FLOAT32_LE.STAT</pv_name>
       <x>447</x>
       <y>553</y>
@@ -3392,7 +3385,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #648</name>
+      <name>text update #645</name>
       <pv_name>$(P)$(IN)FLOAT32_LE.SEVR</pv_name>
       <x>527</x>
       <y>553</y>
@@ -3415,7 +3408,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #652</name>
+      <name>text update #649</name>
       <pv_name>$(P)$(OUT)FLOAT32_LE.STAT</pv_name>
       <x>207</x>
       <y>553</y>
@@ -3438,7 +3431,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #656</name>
+      <name>text update #653</name>
       <pv_name>$(P)$(OUT)FLOAT32_LE.SEVR</pv_name>
       <x>287</x>
       <y>553</y>
@@ -3461,7 +3454,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #660</name>
+      <name>menu #657</name>
       <pv_name>$(P)$(IN)FLOAT32_LE_BS.SCAN</pv_name>
       <x>607</x>
       <y>575</y>
@@ -3473,7 +3466,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #663</name>
+      <name>text update #660</name>
       <pv_name>$(P)$(IN)FLOAT32_LE_BS</pv_name>
       <x>367</x>
       <y>578</y>
@@ -3497,7 +3490,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #667</name>
+      <name>text entry #664</name>
       <pv_name>$(P)$(OUT)FLOAT32_LE_BS</pv_name>
       <x>122</x>
       <y>575</y>
@@ -3515,7 +3508,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #671</name>
+      <name>text #668</name>
       <text>Float32 LE BS</text>
       <y>578</y>
       <width>117</width>
@@ -3527,7 +3520,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #674</name>
+      <name>text update #671</name>
       <pv_name>$(P)$(IN)FLOAT32_LE_BS.STAT</pv_name>
       <x>447</x>
       <y>578</y>
@@ -3550,7 +3543,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #678</name>
+      <name>text update #675</name>
       <pv_name>$(P)$(IN)FLOAT32_LE_BS.SEVR</pv_name>
       <x>527</x>
       <y>578</y>
@@ -3573,7 +3566,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #682</name>
+      <name>text update #679</name>
       <pv_name>$(P)$(OUT)FLOAT32_LE_BS.STAT</pv_name>
       <x>207</x>
       <y>578</y>
@@ -3596,7 +3589,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #686</name>
+      <name>text update #683</name>
       <pv_name>$(P)$(OUT)FLOAT32_LE_BS.SEVR</pv_name>
       <x>287</x>
       <y>578</y>
@@ -3619,7 +3612,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #690</name>
+      <name>menu #687</name>
       <pv_name>$(P)$(IN)FLOAT32_BE.SCAN</pv_name>
       <x>607</x>
       <y>600</y>
@@ -3631,7 +3624,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #693</name>
+      <name>text update #690</name>
       <pv_name>$(P)$(IN)FLOAT32_BE</pv_name>
       <x>367</x>
       <y>603</y>
@@ -3655,7 +3648,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #697</name>
+      <name>text entry #694</name>
       <pv_name>$(P)$(OUT)FLOAT32_BE</pv_name>
       <x>122</x>
       <y>600</y>
@@ -3673,7 +3666,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #701</name>
+      <name>text #698</name>
       <text>Float32 BE</text>
       <x>27</x>
       <y>603</y>
@@ -3686,7 +3679,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #704</name>
+      <name>text update #701</name>
       <pv_name>$(P)$(IN)FLOAT32_BE.STAT</pv_name>
       <x>447</x>
       <y>603</y>
@@ -3709,7 +3702,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #708</name>
+      <name>text update #705</name>
       <pv_name>$(P)$(IN)FLOAT32_BE.SEVR</pv_name>
       <x>527</x>
       <y>603</y>
@@ -3732,7 +3725,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #712</name>
+      <name>text update #709</name>
       <pv_name>$(P)$(OUT)FLOAT32_BE.STAT</pv_name>
       <x>207</x>
       <y>603</y>
@@ -3755,7 +3748,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #716</name>
+      <name>text update #713</name>
       <pv_name>$(P)$(OUT)FLOAT32_BE.SEVR</pv_name>
       <x>287</x>
       <y>603</y>
@@ -3778,7 +3771,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #720</name>
+      <name>menu #717</name>
       <pv_name>$(P)$(IN)FLOAT32_BE_BS.SCAN</pv_name>
       <x>607</x>
       <y>625</y>
@@ -3790,7 +3783,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #723</name>
+      <name>text update #720</name>
       <pv_name>$(P)$(IN)FLOAT32_BE_BS</pv_name>
       <x>367</x>
       <y>628</y>
@@ -3814,7 +3807,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #727</name>
+      <name>text entry #724</name>
       <pv_name>$(P)$(OUT)FLOAT32_BE_BS</pv_name>
       <x>122</x>
       <y>625</y>
@@ -3832,7 +3825,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #731</name>
+      <name>text #728</name>
       <text>Float32 BE BS</text>
       <y>628</y>
       <width>117</width>
@@ -3844,7 +3837,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #734</name>
+      <name>text update #731</name>
       <pv_name>$(P)$(IN)FLOAT32_BE_BS.STAT</pv_name>
       <x>447</x>
       <y>628</y>
@@ -3867,7 +3860,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #738</name>
+      <name>text update #735</name>
       <pv_name>$(P)$(IN)FLOAT32_BE_BS.SEVR</pv_name>
       <x>527</x>
       <y>628</y>
@@ -3890,7 +3883,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #742</name>
+      <name>text update #739</name>
       <pv_name>$(P)$(OUT)FLOAT32_BE_BS.STAT</pv_name>
       <x>207</x>
       <y>628</y>
@@ -3913,7 +3906,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #746</name>
+      <name>text update #743</name>
       <pv_name>$(P)$(OUT)FLOAT32_BE_BS.SEVR</pv_name>
       <x>287</x>
       <y>628</y>
@@ -3936,7 +3929,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #750</name>
+      <name>menu #747</name>
       <pv_name>$(P)$(IN)FLOAT64_LE.SCAN</pv_name>
       <x>607</x>
       <y>650</y>
@@ -3948,7 +3941,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #753</name>
+      <name>text update #750</name>
       <pv_name>$(P)$(IN)FLOAT64_LE</pv_name>
       <x>367</x>
       <y>653</y>
@@ -3972,7 +3965,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #757</name>
+      <name>text entry #754</name>
       <pv_name>$(P)$(OUT)FLOAT64_LE</pv_name>
       <x>122</x>
       <y>650</y>
@@ -3990,7 +3983,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #761</name>
+      <name>text #758</name>
       <text>Float64 LE</text>
       <x>27</x>
       <y>653</y>
@@ -4003,7 +3996,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #764</name>
+      <name>text update #761</name>
       <pv_name>$(P)$(IN)FLOAT64_LE.STAT</pv_name>
       <x>447</x>
       <y>653</y>
@@ -4026,7 +4019,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #768</name>
+      <name>text update #765</name>
       <pv_name>$(P)$(IN)FLOAT64_LE.SEVR</pv_name>
       <x>527</x>
       <y>653</y>
@@ -4049,7 +4042,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #772</name>
+      <name>text update #769</name>
       <pv_name>$(P)$(OUT)FLOAT64_LE.STAT</pv_name>
       <x>207</x>
       <y>653</y>
@@ -4072,7 +4065,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #776</name>
+      <name>text update #773</name>
       <pv_name>$(P)$(OUT)FLOAT64_LE.SEVR</pv_name>
       <x>287</x>
       <y>653</y>
@@ -4095,7 +4088,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #780</name>
+      <name>menu #777</name>
       <pv_name>$(P)$(IN)FLOAT64_LE_BS.SCAN</pv_name>
       <x>607</x>
       <y>675</y>
@@ -4107,7 +4100,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #783</name>
+      <name>text update #780</name>
       <pv_name>$(P)$(IN)FLOAT64_LE_BS</pv_name>
       <x>367</x>
       <y>678</y>
@@ -4131,7 +4124,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #787</name>
+      <name>text entry #784</name>
       <pv_name>$(P)$(OUT)FLOAT64_LE_BS</pv_name>
       <x>122</x>
       <y>675</y>
@@ -4149,7 +4142,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #791</name>
+      <name>text #788</name>
       <text>Float64 LE BS</text>
       <y>678</y>
       <width>117</width>
@@ -4161,7 +4154,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #794</name>
+      <name>text update #791</name>
       <pv_name>$(P)$(IN)FLOAT64_LE_BS.STAT</pv_name>
       <x>447</x>
       <y>678</y>
@@ -4184,7 +4177,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #798</name>
+      <name>text update #795</name>
       <pv_name>$(P)$(IN)FLOAT64_LE_BS.SEVR</pv_name>
       <x>527</x>
       <y>678</y>
@@ -4207,7 +4200,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #802</name>
+      <name>text update #799</name>
       <pv_name>$(P)$(OUT)FLOAT64_LE_BS.STAT</pv_name>
       <x>207</x>
       <y>678</y>
@@ -4230,7 +4223,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #806</name>
+      <name>text update #803</name>
       <pv_name>$(P)$(OUT)FLOAT64_LE_BS.SEVR</pv_name>
       <x>287</x>
       <y>678</y>
@@ -4253,7 +4246,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #810</name>
+      <name>menu #807</name>
       <pv_name>$(P)$(IN)FLOAT64_BE.SCAN</pv_name>
       <x>607</x>
       <y>700</y>
@@ -4265,7 +4258,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #813</name>
+      <name>text update #810</name>
       <pv_name>$(P)$(IN)FLOAT64_BE</pv_name>
       <x>367</x>
       <y>703</y>
@@ -4289,7 +4282,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #817</name>
+      <name>text entry #814</name>
       <pv_name>$(P)$(OUT)FLOAT64_BE</pv_name>
       <x>122</x>
       <y>700</y>
@@ -4307,7 +4300,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #821</name>
+      <name>text #818</name>
       <text>Float64 BE</text>
       <x>27</x>
       <y>703</y>
@@ -4320,7 +4313,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #824</name>
+      <name>text update #821</name>
       <pv_name>$(P)$(IN)FLOAT64_BE.STAT</pv_name>
       <x>447</x>
       <y>703</y>
@@ -4343,7 +4336,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #828</name>
+      <name>text update #825</name>
       <pv_name>$(P)$(IN)FLOAT64_BE.SEVR</pv_name>
       <x>527</x>
       <y>703</y>
@@ -4366,7 +4359,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #832</name>
+      <name>text update #829</name>
       <pv_name>$(P)$(OUT)FLOAT64_BE.STAT</pv_name>
       <x>207</x>
       <y>703</y>
@@ -4389,7 +4382,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #836</name>
+      <name>text update #833</name>
       <pv_name>$(P)$(OUT)FLOAT64_BE.SEVR</pv_name>
       <x>287</x>
       <y>703</y>
@@ -4412,7 +4405,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #840</name>
+      <name>menu #837</name>
       <pv_name>$(P)$(IN)FLOAT64_BE_BS.SCAN</pv_name>
       <x>607</x>
       <y>725</y>
@@ -4424,7 +4417,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #843</name>
+      <name>text update #840</name>
       <pv_name>$(P)$(IN)FLOAT64_BE_BS</pv_name>
       <x>367</x>
       <y>728</y>
@@ -4448,7 +4441,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #847</name>
+      <name>text entry #844</name>
       <pv_name>$(P)$(OUT)FLOAT64_BE_BS</pv_name>
       <x>122</x>
       <y>725</y>
@@ -4466,7 +4459,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #851</name>
+      <name>text #848</name>
       <text>Float64 BE BS</text>
       <y>728</y>
       <width>117</width>
@@ -4478,7 +4471,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #854</name>
+      <name>text update #851</name>
       <pv_name>$(P)$(IN)FLOAT64_BE_BS.STAT</pv_name>
       <x>447</x>
       <y>728</y>
@@ -4501,7 +4494,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #858</name>
+      <name>text update #855</name>
       <pv_name>$(P)$(IN)FLOAT64_BE_BS.SEVR</pv_name>
       <x>527</x>
       <y>728</y>
@@ -4524,7 +4517,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #862</name>
+      <name>text update #859</name>
       <pv_name>$(P)$(OUT)FLOAT64_BE_BS.STAT</pv_name>
       <x>207</x>
       <y>728</y>
@@ -4547,7 +4540,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #866</name>
+      <name>text update #863</name>
       <pv_name>$(P)$(OUT)FLOAT64_BE_BS.SEVR</pv_name>
       <x>287</x>
       <y>728</y>
@@ -4570,7 +4563,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="combo" version="2.0.0">
-      <name>menu #870</name>
+      <name>menu #867</name>
       <pv_name>$(P)$(IN)INT16SM.SCAN</pv_name>
       <x>607</x>
       <y>100</y>
@@ -4582,7 +4575,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #873</name>
+      <name>text update #870</name>
       <pv_name>$(P)$(IN)INT16SM</pv_name>
       <x>367</x>
       <y>103</y>
@@ -4606,7 +4599,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textentry" version="3.0.0">
-      <name>text entry #877</name>
+      <name>text entry #874</name>
       <pv_name>$(P)$(OUT)INT16SM</pv_name>
       <x>122</x>
       <y>100</y>
@@ -4624,7 +4617,7 @@
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #881</name>
+      <name>text #878</name>
       <text>Int16 SM</text>
       <x>45</x>
       <y>103</y>
@@ -4637,7 +4630,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #884</name>
+      <name>text update #881</name>
       <pv_name>$(P)$(IN)INT16SM.STAT</pv_name>
       <x>447</x>
       <y>103</y>
@@ -4660,7 +4653,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #888</name>
+      <name>text update #885</name>
       <pv_name>$(P)$(IN)INT16SM.SEVR</pv_name>
       <x>527</x>
       <y>103</y>
@@ -4683,7 +4676,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #892</name>
+      <name>text update #889</name>
       <pv_name>$(P)$(OUT)INT16SM.STAT</pv_name>
       <x>207</x>
       <y>103</y>
@@ -4706,7 +4699,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="textupdate" version="2.0.0">
-      <name>text update #896</name>
+      <name>text update #893</name>
       <pv_name>$(P)$(OUT)INT16SM.SEVR</pv_name>
       <x>287</x>
       <y>103</y>
@@ -4729,7 +4722,7 @@
       <horizontal_alignment>2</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #900</name>
+      <name>text #897</name>
       <text>Scan</text>
       <x>652</x>
       <width>40</width>
@@ -4740,7 +4733,7 @@
       <horizontal_alignment>1</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #903</name>
+      <name>text #900</name>
       <text>$(IREC)</text>
       <x>384</x>
       <width>70</width>
@@ -4751,7 +4744,7 @@
       <horizontal_alignment>1</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #906</name>
+      <name>text #903</name>
       <text>$(OREC)</text>
       <x>142</x>
       <width>70</width>
@@ -4762,7 +4755,7 @@
       <horizontal_alignment>1</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #909</name>
+      <name>text #906</name>
       <text>Status</text>
       <x>469</x>
       <width>60</width>
@@ -4773,7 +4766,7 @@
       <horizontal_alignment>1</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #912</name>
+      <name>text #909</name>
       <text>Severity</text>
       <x>539</x>
       <width>80</width>
@@ -4784,7 +4777,7 @@
       <horizontal_alignment>1</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #915</name>
+      <name>text #912</name>
       <text>Status</text>
       <x>229</x>
       <width>60</width>
@@ -4795,7 +4788,7 @@
       <horizontal_alignment>1</horizontal_alignment>
     </widget>
     <widget type="label" version="2.0.0">
-      <name>text #918</name>
+      <name>text #915</name>
       <text>Severity</text>
       <x>299</x>
       <width>80</width>

@@ -3,8 +3,8 @@ beginScreenProperties
 major 4
 minor 0
 release 1
-x 434
-y 121
+x 331
+y 120
 w 725
 h 870
 font "helvetica-medium-r-18.0"
@@ -44,19 +44,6 @@ value {
 }
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 288
-y 818
-w 148
-h 45
-
-beginGroup
-
 # (Text Control)
 object activeXTextDspClass
 beginObjectProperties
@@ -67,7 +54,7 @@ x 291
 y 818
 w 50
 h 20
-controlPv "$(P)A0:PollDelay"
+controlPv "$(P)$(OUT)PollDelay"
 format "decimal"
 font "helvetica-medium-r-12.0"
 fontAlign "left"
@@ -122,11 +109,6 @@ value {
   "More"
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 
 # (Group)
 object activeGroupClass
@@ -5215,18 +5197,6 @@ endGroup
 
 endObjectProperties
 
-# (Group)
-object activeGroupClass
-beginObjectProperties
-major 4
-minor 0
-release 0
-x 288
-y 818
-w 148
-h 45
-
-beginGroup
 
 # (Related Display)
 object relatedDisplayClass
@@ -5257,9 +5227,9 @@ menuLabel {
   2 "I/O Statistics"
 }
 symbols {
-  0 "P=$(P),R=A0:AsynOut"
-  1 "P=$(P),R=A0:AsynIn"
-  2 "P=$(P),R=A0:"
+  0 "P=$(P),R=$(OUT)AsynOut"
+  1 "P=$(P),R=$(OUT)AsynIn"
+  2 "P=$(P),R=$(OUT)"
 }
 replaceSymbols {
   0 1
@@ -5267,11 +5237,6 @@ replaceSymbols {
   2 1
 }
 endObjectProperties
-
-endGroup
-
-endObjectProperties
-
 # (Group)
 object activeGroupClass
 beginObjectProperties
