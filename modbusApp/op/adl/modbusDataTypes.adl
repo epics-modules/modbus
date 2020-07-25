@@ -8,7 +8,7 @@ display {
 		x=331
 		y=120
 		width=725
-		height=870
+		height=880
 	}
 	clr=14
 	bclr=4
@@ -166,562 +166,3422 @@ text {
 	textix="More"
 	align="horiz. centered"
 }
+menu {
+	object {
+		x=617
+		y=85
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT16.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=88
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT16"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=85
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT16"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=73
+		y=88
+		width=54
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="UInt16"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=457
+		y=88
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT16.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=88
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT16.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=88
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT16.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=88
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT16.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=110
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)BCD_UNSIGNED.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=113
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_UNSIGNED"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=110
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)BCD_UNSIGNED"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=37
+		y=113
+		width=90
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="UInt16 BCD"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=457
+		y=113
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_UNSIGNED.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=113
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_UNSIGNED.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=113
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)BCD_UNSIGNED.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=113
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)BCD_UNSIGNED.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=135
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)BCD_SIGNED.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=138
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_SIGNED"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=135
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)BCD_SIGNED"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=46
+		y=138
+		width=81
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Int16 BCD"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=457
+		y=138
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_SIGNED.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=138
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)BCD_SIGNED.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=138
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)BCD_SIGNED.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=138
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)BCD_SIGNED.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=185
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT16.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=188
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT16"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=185
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT16"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=82
+		y=188
+		width=45
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Int16"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=457
+		y=188
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT16.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=188
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT16.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=188
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT16.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=188
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT16.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=210
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT32_LE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=213
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_LE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=210
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT32_LE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=213
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=213
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=213
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT32_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=213
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT32_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=235
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT32_LE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=238
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_LE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=235
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT32_LE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=238
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=238
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=238
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT32_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=238
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT32_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=285
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT32_BE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=288
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_BE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=285
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT32_BE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=288
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=288
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=288
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT32_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=288
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT32_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=260
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT32_BE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=263
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_BE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=260
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT32_BE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=263
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=263
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT32_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=263
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT32_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=263
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT32_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=310
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT32_LE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=313
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_LE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=310
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT32_LE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=313
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=313
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=313
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT32_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=313
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT32_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=335
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT32_LE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=338
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_LE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=335
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT32_LE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=338
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=338
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=338
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT32_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=338
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT32_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=385
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT32_BE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=388
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_BE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=385
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT32_BE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=388
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=388
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=388
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT32_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=388
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT32_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=360
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT32_BE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=363
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_BE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=360
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT32_BE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=363
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=363
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT32_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=363
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT32_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=363
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT32_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=410
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT64_LE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=413
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_LE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=410
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT64_LE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=413
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=413
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=413
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT64_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=413
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT64_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=435
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT64_LE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=438
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_LE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=435
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT64_LE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=438
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=438
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=438
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT64_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=438
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT64_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=485
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT64_BE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=488
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_BE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=485
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT64_BE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=488
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=488
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=488
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT64_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=488
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT64_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=460
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT64_BE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=463
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_BE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=460
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT64_BE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=463
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=463
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT64_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=463
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT64_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=463
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT64_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=510
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT64_LE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=513
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_LE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=510
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT64_LE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=513
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=513
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=513
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT64_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=513
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT64_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=535
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT64_LE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=538
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_LE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=535
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT64_LE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=538
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=538
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=538
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT64_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=538
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT64_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=585
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT64_BE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=588
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_BE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=585
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT64_BE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=588
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=588
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=588
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT64_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=588
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT64_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=560
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)UINT64_BE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=563
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_BE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=560
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)UINT64_BE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=563
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=563
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)UINT64_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=563
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT64_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=563
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)UINT64_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=610
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT32_LE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=613
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_LE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=610
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT32_LE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=613
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=613
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=613
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT32_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=613
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT32_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=635
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT32_LE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=638
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_LE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=635
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT32_LE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=638
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=638
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=638
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT32_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=638
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT32_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=660
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT32_BE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=663
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_BE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=660
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT32_BE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=663
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=663
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=663
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT32_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=663
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT32_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=685
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT32_BE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=688
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_BE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=685
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT32_BE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=688
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=688
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT32_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=688
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT32_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=688
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT32_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=710
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT64_LE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=713
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_LE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=710
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT64_LE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=713
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=713
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=713
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT64_LE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=713
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT64_LE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=735
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT64_LE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=738
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_LE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=735
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT64_LE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=738
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=738
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=738
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT64_LE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=738
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT64_LE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=760
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT64_BE.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=763
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_BE"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=760
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT64_BE"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=763
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=763
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=763
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT64_BE.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=763
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT64_BE.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=785
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)FLOAT64_BE_BS.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=788
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_BE_BS"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=785
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)FLOAT64_BE_BS"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=457
+		y=788
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=788
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)FLOAT64_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=788
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT64_BE_BS.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=788
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)FLOAT64_BE_BS.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+menu {
+	object {
+		x=617
+		y=160
+		width=100
+		height=20
+	}
+	control {
+		chan="$(P)$(IN)INT16SM.SCAN"
+		clr=14
+		bclr=4
+	}
+}
+"text update" {
+	object {
+		x=377
+		y=163
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT16SM"
+		clr=53
+		bclr=2
+	}
+	align="horiz. right"
+	limits {
+	}
+}
+"text entry" {
+	object {
+		x=132
+		y=160
+		width=80
+		height=20
+	}
+	control {
+		chan="$(P)$(OUT)INT16SM"
+		clr=14
+		bclr=51
+	}
+	limits {
+	}
+}
+text {
+	object {
+		x=55
+		y=163
+		width=72
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Int16 SM"
+	align="horiz. right"
+}
+"text update" {
+	object {
+		x=457
+		y=163
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT16SM.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=537
+		y=163
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(IN)INT16SM.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=217
+		y=163
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT16SM.STAT"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+"text update" {
+	object {
+		x=297
+		y=163
+		width=75
+		height=15
+	}
+	monitor {
+		chan="$(P)$(OUT)INT16SM.SEVR"
+		clr=53
+		bclr=2
+	}
+	clrmod="alarm"
+	align="horiz. right"
+	limits {
+	}
+}
+text {
+	object {
+		x=662
+		y=60
+		width=40
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Scan"
+	align="horiz. centered"
+}
+text {
+	object {
+		x=394
+		y=60
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="$(IREC)"
+	align="horiz. centered"
+}
+text {
+	object {
+		x=152
+		y=60
+		width=70
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="$(OREC)"
+	align="horiz. centered"
+}
+text {
+	object {
+		x=479
+		y=60
+		width=60
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Status"
+	align="horiz. centered"
+}
+text {
+	object {
+		x=549
+		y=60
+		width=80
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Severity"
+	align="horiz. centered"
+}
+text {
+	object {
+		x=239
+		y=60
+		width=60
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Status"
+	align="horiz. centered"
+}
+text {
+	object {
+		x=309
+		y=60
+		width=80
+		height=20
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Severity"
+	align="horiz. centered"
+}
 composite {
 	object {
-		x=10
-		y=60
-		width=707
-		height=745
+		x=28
+		y=213
+		width=99
+		height=90
 	}
 	"composite name"=""
 	children {
-		menu {
-			object {
-				x=617
-				y=85
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)UINT16.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=88
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT16"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=85
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)UINT16"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
-				x=73
-				y=88
-				width=54
-				height=15
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="UInt16"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=88
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT16.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=88
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT16.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=88
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT16.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=88
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT16.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=110
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)BCD_UNSIGNED.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=113
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)BCD_UNSIGNED"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=110
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)BCD_UNSIGNED"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=37
-				y=113
-				width=90
-				height=15
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="UInt16 BCD"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=113
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)BCD_UNSIGNED.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=113
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)BCD_UNSIGNED.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=113
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)BCD_UNSIGNED.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=113
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)BCD_UNSIGNED.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=135
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)BCD_SIGNED.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=138
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)BCD_SIGNED"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=135
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)BCD_SIGNED"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=46
-				y=138
-				width=81
-				height=15
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Int16 BCD"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=138
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)BCD_SIGNED.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=138
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)BCD_SIGNED.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=138
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)BCD_SIGNED.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=138
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)BCD_SIGNED.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=185
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT16.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=188
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT16"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=185
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT16"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=82
-				y=188
-				width=45
-				height=15
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Int16"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=188
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT16.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=188
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT16.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=188
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT16.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=188
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT16.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=210
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT32_LE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=213
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_LE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=210
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT32_LE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=55
+				x=28
 				y=213
 				width=72
 				height=15
@@ -731,118 +3591,6 @@ composite {
 			}
 			textix="Int32 LE"
 			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=213
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=213
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=213
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT32_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=213
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT32_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=235
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT32_LE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=238
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_LE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=235
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT32_LE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
 		}
 		text {
 			object {
@@ -857,118 +3605,6 @@ composite {
 			textix="Int32 LE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=238
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=238
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=238
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT32_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=238
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT32_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=285
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT32_BE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=288
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_BE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=285
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT32_BE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
 				x=28
@@ -982,121 +3618,9 @@ composite {
 			textix="Int32 BE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=288
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=288
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=288
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT32_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=288
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT32_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=260
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT32_BE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=263
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_BE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=260
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT32_BE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
-				x=55
+				x=28
 				y=263
 				width=72
 				height=15
@@ -1107,243 +3631,17 @@ composite {
 			textix="Int32 BE"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=263
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=263
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT32_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=263
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT32_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=263
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT32_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=310
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)UINT32_LE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=313
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_LE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=310
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)UINT32_LE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=46
-				y=313
-				width=81
-				height=15
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="UInt32 LE"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=313
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=313
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=313
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT32_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=313
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT32_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=335
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)UINT32_LE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=338
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_LE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=335
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)UINT32_LE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
+	}
+}
+composite {
+	object {
+		x=19
+		y=313
+		width=108
+		height=90
+	}
+	"composite name"=""
+	children {
 		text {
 			object {
 				x=19
@@ -1356,118 +3654,6 @@ composite {
 			}
 			textix="UInt32 LE BS"
 			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=338
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=338
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=338
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT32_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=338
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT32_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=385
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)UINT32_BE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=388
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_BE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=385
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)UINT32_BE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
 		}
 		text {
 			object {
@@ -1482,121 +3668,9 @@ composite {
 			textix="UInt32 BE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=388
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=388
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=388
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT32_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=388
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT32_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=360
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)UINT32_BE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=363
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_BE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=360
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)UINT32_BE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
-				x=46
+				x=19
 				y=363
 				width=81
 				height=15
@@ -1607,121 +3681,33 @@ composite {
 			textix="UInt32 BE"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=363
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=363
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT32_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=363
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT32_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=363
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT32_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=410
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT64_LE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=413
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_LE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=410
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT64_LE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
-				x=55
+				x=19
+				y=313
+				width=81
+				height=15
+			}
+			"basic attribute" {
+				clr=14
+			}
+			textix="UInt32 LE"
+			align="horiz. right"
+		}
+	}
+}
+composite {
+	object {
+		x=28
+		y=413
+		width=99
+		height=90
+	}
+	"composite name"=""
+	children {
+		text {
+			object {
+				x=28
 				y=413
 				width=72
 				height=15
@@ -1731,118 +3717,6 @@ composite {
 			}
 			textix="Int64 LE"
 			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=413
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=413
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=413
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT64_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=413
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT64_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=435
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT64_LE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=438
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_LE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=435
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT64_LE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
 		}
 		text {
 			object {
@@ -1857,118 +3731,6 @@ composite {
 			textix="Int64 LE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=438
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=438
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=438
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT64_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=438
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT64_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=485
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT64_BE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=488
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_BE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=485
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT64_BE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
 				x=28
@@ -1982,121 +3744,9 @@ composite {
 			textix="Int64 BE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=488
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=488
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=488
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT64_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=488
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT64_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=460
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT64_BE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=463
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_BE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=460
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT64_BE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
-				x=55
+				x=28
 				y=463
 				width=72
 				height=15
@@ -2107,121 +3757,20 @@ composite {
 			textix="Int64 BE"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=463
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=463
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT64_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=463
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT64_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=463
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT64_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=510
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)UINT64_LE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=513
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_LE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=510
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)UINT64_LE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
+	}
+}
+composite {
+	object {
+		x=19
+		y=513
+		width=108
+		height=90
+	}
+	"composite name"=""
+	children {
 		text {
 			object {
-				x=46
+				x=19
 				y=513
 				width=81
 				height=15
@@ -2231,118 +3780,6 @@ composite {
 			}
 			textix="UInt64 LE"
 			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=513
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=513
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=513
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT64_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=513
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT64_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=535
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)UINT64_LE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=538
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_LE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=535
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)UINT64_LE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
 		}
 		text {
 			object {
@@ -2357,118 +3794,6 @@ composite {
 			textix="UInt64 LE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=538
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=538
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=538
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT64_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=538
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT64_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=585
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)UINT64_BE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=588
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_BE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=585
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)UINT64_BE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
 				x=19
@@ -2482,121 +3807,9 @@ composite {
 			textix="UInt64 BE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=588
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=588
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=588
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT64_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=588
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT64_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=560
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)UINT64_BE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=563
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_BE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=560
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)UINT64_BE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
-				x=46
+				x=19
 				y=563
 				width=81
 				height=15
@@ -2607,121 +3820,20 @@ composite {
 			textix="UInt64 BE"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=563
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=563
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)UINT64_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=563
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT64_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=563
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)UINT64_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=610
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)FLOAT32_LE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=613
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_LE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=610
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)FLOAT32_LE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
+	}
+}
+composite {
+	object {
+		x=10
+		y=613
+		width=117
+		height=190
+	}
+	"composite name"=""
+	children {
 		text {
 			object {
-				x=37
+				x=10
 				y=613
 				width=90
 				height=15
@@ -2731,118 +3843,6 @@ composite {
 			}
 			textix="Float32 LE"
 			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=613
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=613
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=613
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT32_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=613
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT32_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=635
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)FLOAT32_LE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=638
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_LE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=635
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)FLOAT32_LE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
 		}
 		text {
 			object {
@@ -2857,121 +3857,9 @@ composite {
 			textix="Float32 LE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=638
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=638
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=638
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT32_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=638
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT32_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=660
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)FLOAT32_BE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=663
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_BE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=660
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)FLOAT32_BE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
-				x=37
+				x=10
 				y=663
 				width=90
 				height=15
@@ -2981,118 +3869,6 @@ composite {
 			}
 			textix="Float32 BE"
 			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=663
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=663
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=663
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT32_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=663
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT32_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=685
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)FLOAT32_BE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=688
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_BE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=685
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)FLOAT32_BE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
 		}
 		text {
 			object {
@@ -3107,121 +3883,9 @@ composite {
 			textix="Float32 BE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=688
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=688
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT32_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=688
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT32_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=688
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT32_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=710
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)FLOAT64_LE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=713
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_LE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=710
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)FLOAT64_LE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
-				x=37
+				x=10
 				y=713
 				width=90
 				height=15
@@ -3231,118 +3895,6 @@ composite {
 			}
 			textix="Float64 LE"
 			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=713
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=713
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=713
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT64_LE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=713
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT64_LE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=735
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)FLOAT64_LE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=738
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_LE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=735
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)FLOAT64_LE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
 		}
 		text {
 			object {
@@ -3357,121 +3909,9 @@ composite {
 			textix="Float64 LE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=738
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=738
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=738
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT64_LE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=738
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT64_LE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=760
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)FLOAT64_BE.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=763
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_BE"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=760
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)FLOAT64_BE"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
 		text {
 			object {
-				x=37
+				x=10
 				y=763
 				width=90
 				height=15
@@ -3481,118 +3921,6 @@ composite {
 			}
 			textix="Float64 BE"
 			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=763
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=763
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=763
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT64_BE.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=763
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT64_BE.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=785
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)FLOAT64_BE_BS.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=788
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_BE_BS"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=785
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)FLOAT64_BE_BS"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
 		}
 		text {
 			object {
@@ -3607,289 +3935,41 @@ composite {
 			textix="Float64 BE BS"
 			align="horiz. right"
 		}
-		"text update" {
-			object {
-				x=457
-				y=788
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=788
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)FLOAT64_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=788
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT64_BE_BS.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=788
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)FLOAT64_BE_BS.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		menu {
-			object {
-				x=617
-				y=160
-				width=100
-				height=20
-			}
-			control {
-				chan="$(P)$(IN)INT16SM.SCAN"
-				clr=14
-				bclr=4
-			}
-		}
-		"text update" {
-			object {
-				x=377
-				y=163
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT16SM"
-				clr=53
-				bclr=2
-			}
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text entry" {
-			object {
-				x=132
-				y=160
-				width=80
-				height=20
-			}
-			control {
-				chan="$(P)$(OUT)INT16SM"
-				clr=14
-				bclr=51
-			}
-			limits {
-			}
-		}
-		text {
-			object {
-				x=55
-				y=163
-				width=72
-				height=15
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Int16 SM"
-			align="horiz. right"
-		}
-		"text update" {
-			object {
-				x=457
-				y=163
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT16SM.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=537
-				y=163
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(IN)INT16SM.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=217
-				y=163
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT16SM.STAT"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		"text update" {
-			object {
-				x=297
-				y=163
-				width=75
-				height=15
-			}
-			monitor {
-				chan="$(P)$(OUT)INT16SM.SEVR"
-				clr=53
-				bclr=2
-			}
-			clrmod="alarm"
-			align="horiz. right"
-			limits {
-			}
-		}
-		text {
-			object {
-				x=662
-				y=60
-				width=40
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Scan"
-			align="horiz. centered"
-		}
-		text {
-			object {
-				x=394
-				y=60
-				width=70
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="$(IREC)"
-			align="horiz. centered"
-		}
-		text {
-			object {
-				x=152
-				y=60
-				width=70
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="$(OREC)"
-			align="horiz. centered"
-		}
-		text {
-			object {
-				x=479
-				y=60
-				width=60
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Status"
-			align="horiz. centered"
-		}
-		text {
-			object {
-				x=549
-				y=60
-				width=80
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Severity"
-			align="horiz. centered"
-		}
-		text {
-			object {
-				x=239
-				y=60
-				width=60
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Status"
-			align="horiz. centered"
-		}
-		text {
-			object {
-				x=309
-				y=60
-				width=80
-				height=20
-			}
-			"basic attribute" {
-				clr=14
-			}
-			textix="Severity"
-			align="horiz. centered"
-		}
 	}
+}
+text {
+	object {
+		x=10
+		y=815
+		width=153
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="LE: Little-endian"
+}
+text {
+	object {
+		x=10
+		y=835
+		width=126
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="BE: Big-endian"
+}
+text {
+	object {
+		x=10
+		y=855
+		width=144
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="BS: Byte-swapped"
 }
