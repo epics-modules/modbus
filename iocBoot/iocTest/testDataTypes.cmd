@@ -1,6 +1,12 @@
 < envPaths
 
-# simulator.cmd
+# testDataTypes.cmd
+# This file tests all of the modbus driver data types using the Modbus Slave Simulator program.
+# It loads testDataTypes.substitutions to load records using each of the data types.
+# These use the asynInt32, asynInt64, and asynFloat64 interfaces.
+# The file XXX.mbs is loaded into the Modbus Slave Simulator to see that the values are interpreted
+# correctly by the Modbus slave.
+# The medm file testDataTypes.adl is used to change the output records and display the readback records.
 
 dbLoadDatabase("../../dbd/modbus.dbd")
 modbus_registerRecordDeviceDriver(pdbbase)
@@ -53,26 +59,58 @@ drvModbusAsynConfigure("A0_In_Bits", "sim1", 0, 1,  0, 128, 0, 100, "Simulator")
 # drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
 drvModbusAsynConfigure("A0_Out_Bits", "sim1", 0, 5,  0, 128, 0, 100, "Simulator")
 
-# Access 60 words as outputs.  
+# Word access at Modbus address 100
+# Access 80 words as inputs.  
+# Function code=3
+# default data type unsigned integer.
+# drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
+drvModbusAsynConfigure("A100_In_Word", "sim1", 0, 3, 100, 80, 0, 100, "Simulator")
+
+# Word access at Modbus address 100
+# Access 80 words as outputs.  
 # Either function code=6 (single register) or 16 (multiple registers) can be used, but 16
 # is better because it is "atomic" when writing values longer than 16-bits.
 # Default data type unsigned integer.
 # drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
-drvModbusAsynConfigure("A0_Out_Word", "sim1", 0, 16, 100, 60, 0, 1, "Simulator")
+drvModbusAsynConfigure("A100_Out_Word", "sim1", 0, 16, 100, 80, 0, 1, "Simulator")
 
-# Word access at Modbus address 100
-# Access 60 words as inputs.  
+# Word access at Modbus address 200
+# Access 80 words as inputs.  
 # Function code=3
 # default data type unsigned integer.
 # drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
-drvModbusAsynConfigure("A0_In_Word", "sim1", 0, 3, 100, 60, 0, 100, "Simulator")
+drvModbusAsynConfigure("A200_In_Word", "sim1", 0, 3, 200, 80, 0, 100, "Simulator")
+
+# Word access at Modbus address 200
+# Access 80 words as outputs.  
+# Either function code=6 (single register) or 16 (multiple registers) can be used, but 16
+# is better because it is "atomic" when writing values longer than 16-bits.
+# Default data type unsigned integer.
+# drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
+drvModbusAsynConfigure("A200_Out_Word", "sim1", 0, 16, 200, 80, 0, 1, "Simulator")
+
+# Word access at Modbus address 300
+# Access 80 words as inputs.  
+# Function code=3
+# default data type unsigned integer.
+# drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
+drvModbusAsynConfigure("A300_In_Word", "sim1", 0, 3, 300, 80, 0, 100, "Simulator")
+
+# Word access at Modbus address 300
+# Access 80 words as outputs.  
+# Either function code=6 (single register) or 16 (multiple registers) can be used, but 16
+# is better because it is "atomic" when writing values longer than 16-bits.
+# Default data type unsigned integer.
+# drvModbusAsynConfigure("portName", "tcpPortName", slaveAddress, modbusFunction, modbusStartAddress, modbusLength, dataType, pollMsec, "plcType")
+drvModbusAsynConfigure("A300_Out_Word", "sim1", 0, 16, 300, 80, 0, 1, "Simulator")
+
 
 # Enable ASYN_TRACEIO_HEX on octet server
 asynSetTraceIOMask("sim1",0,4)
 # Enable ASYN_TRACE_ERROR and ASYN_TRACEIO_DRIVER on octet server
 #asynSetTraceMask("sim1",0,9)
 
-dbLoadTemplate("sim1.substitutions")
+dbLoadTemplate("testDataTypes.substitutions")
 
 iocInit
 
