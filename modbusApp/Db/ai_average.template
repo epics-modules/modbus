@@ -3,11 +3,11 @@ record(ai, "$(P)$(R)") {
     field(DTYP,"asynInt32Average")
     field(INP,"@asynMask($(PORT) $(OFFSET) $(BITS))MODBUS_DATA")
     field(LINR,"LINEAR")
-    field(EGUL,"$(EGUL)")
-    field(EGUF,"$(EGUF)")
-    field(HOPR,"$(EGUF)")
-    field(LOPR,"$(EGUL)")
-    field(PREC,"$(PREC)")
+    field(EGUL,"$(EGUL=0)")
+    field(EGUF,"$(EGUF=0)")
+    field(HOPR,"$(EGUF=0)")
+    field(LOPR,"$(EGUL=0)")
+    field(PREC,"$(PREC=0)")
     field(SCAN,"$(SCAN)")
 }
 

@@ -2,8 +2,8 @@
 record(ao, "$(P)$(R)") {
     field(DTYP,"asynFloat64")
     field(OUT,"@asyn($(PORT) $(OFFSET))$(DATA_TYPE)")
-    field(HOPR,"$(HOPR)")
-    field(LOPR,"$(LOPR)")
-    field(PREC,"$(PREC)")
+    field(HOPR,"$(HOPR=0)")
+    field(LOPR,"$(LOPR=0)")
+    field(PREC,"$(PREC=0)")
 }
 
