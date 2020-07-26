@@ -1,6 +1,6 @@
 # modbus: Modbus Support - Release Notes
 
-## Release 3-0 (August 9, 2019)
+## R3-0 (August 9, 2019)
 -   This is a major rewrite of the driver, changing from C to C++
     inheriting from asynPortDriver. The major reason for the change is
     to be able to invoke the class methods such as
@@ -17,7 +17,7 @@
     driver in an IOC.
 -   Added OPI autoconvert files for edm, CSS BOY, and caQtDM.
 
-## Release 2-11  (June 28, 2018)
+## R2-11  (June 28, 2018)
 -   Fixed problem with asynPrintIO. It was printing too few bytes under
     some conditions.
 -   Added a counter of the number of I/O errors since the last
@@ -25,7 +25,7 @@
     returns to normal, and the counter is reset. Thanks to Scott Stubbs
     and Bruce Hill for this.
 
-## Release 2-10-1 (September 15, 2017)
+## R2-10-1 (September 15, 2017)
 -   Previously the Modbus/TCP transaction ID was set to 1 on writes and
     ignored on reads. Now the Modbus transaction ID is incremented by 1
     on each message sent by the driver. On the reply the driver waits
@@ -34,7 +34,7 @@
     robust, especially for Modbus/UDP links. Thanks to Eric Norum for
     this.
 
-## Release 2-10 (September 15, 2017)
+## R2-10 (September 15, 2017)
 -   Added an epicsAtExit handler which stops the poller task. This
     eliminates error messages from the poller task when the IOC exits.
 -   Greatly reduced the number of error messages printed when there are
@@ -44,7 +44,7 @@
     detected, and a single message when the error condition ends. For
     example this is the output from a Koyo PLC with 3 drvModbusAsyn
     input ports that are polling at 10 Hz. The drvAsynIPPort has the
-    asynOption \"disconnectOnReadTimeout\" set to \"Y\" set so that it
+    asynOption `disconnectOnReadTimeout` set to \"Y\" set so that it
     reconnects quickly when the network is reconnected. The Ethernet
     cable was unplugged for about 8 seconds and then plugged back in.
 
@@ -71,7 +71,7 @@
     asynManager::queueLockPort(), which is used by the asynXXXSyncIO
     functions.
 
-## Release 2-9 (August 23, 2016)
+## R2-9 (August 23, 2016)
 -   Added support for specifying absolute Modbus addresses in the asyn
     \"addr\" field. Previously each driver was limited to addressing at
     most 125 registers (read operations) or 123 registers (write
@@ -112,7 +112,7 @@
     communications could cause a crash because of array bounds
     violation.
 
-## Release 2-8 (February 11, 2016)
+## R2-8 (February 11, 2016)
 -   Improved the logic in the poller thread.
     -   Previously there was a call to epicsThreadSleep at the end of
         the poller loop. This meant that the poller always ran at least
@@ -155,11 +155,11 @@
         macro parameter, as with the non-array records in modbus.
 
 
-## Release 2-7-1 (May 6, 2015)
+## R2-7-1 (May 6, 2015)
 -   Minor changes to allow building dynamically on Cygwin.
 
 
-## Release 2-7 (August 19, 2014)
+## R2-7 (August 19, 2014)
 -   Added support for function code 23, Read/Write Multiple Registers.
     Because of the architecture of the EPICS Modbus support, a driver
     that uses function 23 is restricted to being either a read-only
@@ -169,7 +169,7 @@
     function code 23.
 
 
-## Release 2-6 (April 10, 2014)
+## R2-6 (April 10, 2014)
 -   Fixed a problem with function code 6 (write single register) on Wago
     devices when the MASK was not 0x0 or 0xFFFF. In this case a
     read/modify/write operation is required, and the driver was reading
@@ -181,7 +181,7 @@
     plots, and MsPerBin is the time per histogram bin in msec.
 
 
-## Release 2-5 (October 2, 2013)
+## R2-5 (October 2, 2013)
 -   Fixed a mutex issue with the input poller. Previous versions had a
     potential problem with input records which did not use Scan=I/O
     Intr. In this case there was no mutex protecting access to the read
@@ -244,7 +244,7 @@
     ARM architecture with GCC 4.2.1
 
 
-## Release 2-4 (May 22, 2012)
+## R2-4 (May 22, 2012)
 -   Improved support for different Modbus data types.
     -   Added support for 7 new Modbus data types:
         -   16-bit signed integer
@@ -283,12 +283,12 @@
     have their alarm status set correctly.
 
 
-## Release 2-3 (Sept 9, 2011)
+## R2-3 (Sept 9, 2011)
 -   build changes
 -   added .opi files for CSS-BOY
 
 
-## Release 2-2 (March 13, 2011)
+## R2-2 (March 13, 2011)
 -   R2-0 introduced a 20 ms delay before each Modbus write. This was not
     correct, delays should only be needed for serial RTU. The Modicon
     Modbus Protocol Reference Guide says this must be at least 3.5
@@ -314,7 +314,7 @@
     for a 20 ms delay.
 
 
-## Release 2-1 (November 7, 2010)
+## R2-1 (November 7, 2010)
 -   Bug fix. Non-automatic connection to the Modbus server uses
     pasynCommonSyncIO-\>connectDevice(). The pasynUser being used for
     that operation was being created with pasynOctetSyncIO-\>connect().
@@ -330,7 +330,7 @@
     to enable automatic connection to the IP or serial driver.
 
 
-## Release 2-0 (November 26, 2009)
+## R2-0 (November 26, 2009)
 -   Moved the slave address handling from the asynInterpose layer to the
     Modbus driver layer. This was done because handing it in the the
     interpose layer only allowed 1 slave address per asyn serial port or
@@ -342,7 +342,7 @@
     for making these changes.
 
 
-## Release 1-3 (September 19, 2008)
+## R1-3 (September 19, 2008)
 -   Changed modbusInterpose.c to replace pasynOctet-\>writeRaw() and
     pasynOctet-\>readRaw() with pasynOctet-\>write() and
     pasynOctet-\>read(), because the raw routines have been removed in
@@ -351,7 +351,7 @@
     added to asyn in R4-10.
 
 
-## Release 1-2 (September 6, 2007)
+## R1-2 (September 6, 2007)
 -   Fixed bug in computing byteCount in WRITE\_MULTIPLE\_COILS function
     code.
 
@@ -361,5 +361,5 @@ serial port. This is a limitation of the asynInterposeInterface
 architecture used. It is fixed in release 2-0.
 
 
-## Release 1-1 (April 30, 2007)
+## R1-1 (April 30, 2007)
 - Initial release of modbus module.
