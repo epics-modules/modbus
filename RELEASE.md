@@ -44,7 +44,7 @@
     detected, and a single message when the error condition ends. For
     example this is the output from a Koyo PLC with 3 drvModbusAsyn
     input ports that are polling at 10 Hz. The drvAsynIPPort has the
-    asynOption `disconnectOnReadTimeout` set to \"Y\" set so that it
+    asynOption `disconnectOnReadTimeout` set to `Y` set so that it
     reconnects quickly when the network is reconnected. The Ethernet
     cable was unplugged for about 8 seconds and then plugged back in.
 
@@ -60,11 +60,11 @@
     driver to disconnect the port because of the asynOption described
     above. The next 2 errors are from the other two ports which get
     queueRequest timeouts because the port is now disconnected. When the
-    network cable is reconnected each of the ports prints a \"status
-    back to normal\" message.
+    network cable is reconnected each of the ports prints a `status
+    back to normal` message.
 
 -   The example IOC startup scripts now call
-    asynSetOption(\"disconnectOnReadTimeout\", \"Y\"). for TCP ports.
+    asynSetOption(`disconnectOnReadTimeout`, `Y`). for TCP ports.
     This ensures much faster reconnection when the Modbus device comes
     back online if it disconnects. Note that for this to work asyn R4-32
     or later is needed, because of a needed fix to
@@ -73,12 +73,12 @@
 
 ## R2-9 (August 23, 2016)
 -   Added support for specifying absolute Modbus addresses in the asyn
-    \"addr\" field. Previously each driver was limited to addressing at
+    `addr` field. Previously each driver was limited to addressing at
     most 125 registers (read operations) or 123 registers (write
-    operations), and the asyn \"addr\" field specified an offset
+    operations), and the asyn `addr` field specified an offset
     relative to the modbusStartAddress passed as the fifth argument to
     drvAsynModbusConfigure(). Now if the modbusStartAddress=-1 then the
-    driver will use absolute addressing, and the asyn \"addr\" specifies
+    driver will use absolute addressing, and the asyn `addr` specifies
     the absolute Modbus address in the range 0 to 65535. In this case
     the modbusLength argument to drvAsynModbusConfigure() is the maximum
     length required for any single Modbus transaction by that driver.
@@ -118,12 +118,12 @@
         the poller loop. This meant that the poller always ran at least
         once, which might not be desirable. It also meant that one could
         only temporarily disable the poller by calling
-        pasynManager-\>lockPort(), or to make it run infrequently by
+        `pasynManager-\>lockPort()`, or to make it run infrequently by
         setting POLL\_DELAY to a long sleep time. In R2-5 the
         MODBUS\_READ command was added. However, this just did a read
         operation without triggering the poller thread, so records with
         I/O Intr scan would not process. It also required disabling the
-        poller thread with pasynManager-\>LockPort.
+        poller thread with `pasynManager-\>LockPort`.
     -   The poller thread has been changed so that it calls
         epicsEventWait or epicsEventWaitWithTimeout at the beginning of
         the poller loop. If the POLL\_DELAY is \>0 then it calls
@@ -189,11 +189,11 @@
     was reading the Modbus data. It is likely that this problem was
     rarely if ever encountered because input records were almost always
     I/O Intr scanned. The fix was to remove the existing mutex in the
-    driver and to simply call pasynManager-\>lockPort() for the entire
+    driver and to simply call `pasynManager-\>lockPort()` for the entire
     duration of the polling cycle. This fix has a positive side effect:
     it is now possible for external clients, for example other drivers
     that call the Modbus driver, to temporarily disable the poller by
-    calling pasynManager-\>lockPort(). This can be used to allow atomic
+    calling `pasynManager-\>lockPort()`. This can be used to allow atomic
     sequences of Modbus read/write operations with no possibility of
     interference from the poller.
 -   The above fix means that Modbus input drivers can now block on read
@@ -205,8 +205,8 @@
     works to have a very long polling time, but still having one initial
     read cycle and callback on I/O Intr scanned records.
 -   Added a new command to the Modbus driver, which has the drvUser
-    string \"MODBUS\_READ\". This command is implemented on the
-    asynInt32 interface. Calling asynInt32-\>write() with this command
+    string `MODBUS\_READ`. This command is implemented on the
+    asynInt32 interface. Calling `asynInt32-\>write()` with this command
     causes a Modbus I/O cycle for this driver. It will typically be used
     to force a Modbus input driver to do a read operation independent of
     the poller thread.
@@ -216,12 +216,12 @@
     concept is currently being used to have a motor driver that
     communicates through the Modbus driver. It demonstrates two types of
     communication:
-    1.  Using pasynInt32SyncIO calls to make \"synchronous\" calls to
+    1.  Using pasynInt32SyncIO calls to make `synchronous` calls to
         the Modbus driver. These calls are blocking and are queued.
-    2.  Doing an atomic \"read/modify/write\" cycle using the following
-        sequence of operations. This uses pasynManager-\>lockPort to
+    2.  Doing an atomic `read/modify/write` cycle using the following
+        sequence of operations. This uses `pasynManager-\>lockPort` to
         disable the poller and allow this thread to directly call the
-        asynInt32-\>write() and asynInt32-\>read() functions. It uses
+        `asynInt32-\>write()` and `asynInt32-\>read()` functions. It uses
         the following logic:
         -   Lock the output port. Needed because we are directly calling
             the write() function.
@@ -275,7 +275,7 @@
     Modbus write operations to Wago devices was incorrect. This was
     fixed by adding the 0x200 offset to the readback address if the
     plcType argument to drvModbusAsynConfigure contains the substring
-    \"Wago\" (case sensitive).
+    `Wago` (case sensitive).
 -   Added support for passing status information back to device support
     in callbacks for I/O Intr scanned records. Support for this was
     added in asyn R4-19. This means that if the Modbus device
@@ -300,26 +300,23 @@
 
             modbusInterposeConfig("Koyo1",0,5000)
             
-
     should be changed to:
 
             modbusInterposeConfig("Koyo1",0,5000,0)
             
-
     for no delay, or to:
 
             modbusInterposeConfig("Koyo1",0,5000,20)
             
-
     for a 20 ms delay.
 
 
 ## R2-1 (November 7, 2010)
 -   Bug fix. Non-automatic connection to the Modbus server uses
-    pasynCommonSyncIO-\>connectDevice(). The pasynUser being used for
-    that operation was being created with pasynOctetSyncIO-\>connect().
+    `pasynCommonSyncIO-\>connectDevice()`. The pasynUser being used for
+    that operation was being created with `pasynOctetSyncIO-\>connect()`.
     That was always an error, it must be created with
-    pasynCommonSyncIO-\>connect(). This error became serious with asyn
+    `pasynCommonSyncIO-\>connect()`. This error became serious with asyn
     R4-14, and non-automatic connection no longer worked.
 -   Previous releases of modbus recommended setting NoAutoConnect=1 when
     configuring the TCP or serial port. That was probably because of
@@ -343,9 +340,9 @@
 
 
 ## R1-3 (September 19, 2008)
--   Changed modbusInterpose.c to replace pasynOctet-\>writeRaw() and
-    pasynOctet-\>readRaw() with pasynOctet-\>write() and
-    pasynOctet-\>read(), because the raw routines have been removed in
+-   Changed modbusInterpose.c to replace `pasynOctet-\>writeRaw()` and
+    `pasynOctet-\>readRaw()` with `pasynOctet-\>write()` and
+    `pasynOctet-\>read()`, because the raw routines have been removed in
     asyn R4-10.
 -   Changed the driver to use the asynStandardInterfaces interfaces
     added to asyn in R4-10.
