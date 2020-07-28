@@ -19,8 +19,8 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'EPICS Dante'
-copyright = '2019, Mark Rivers'
+project = 'EPICS Modbus'
+copyright = '2020, Mark Rivers'
 author = 'Mark Rivers'
 
 from subprocess import Popen, PIPE
@@ -79,9 +79,9 @@ highlight_language = 'none'
 
 # Breathe configuration
 import os
-#breathe_projects = { "Dante":
+#breathe_projects = { "Modbus":
 #                      os.path.abspath('../doxy_output/xml') }
-#breathe_default_project = "Dante"
+#breathe_default_project = "Modbus"
 #breathe_default_members = ('members', 'undoc-members')
 
 source_encoding = 'utf-8-sig'
@@ -102,7 +102,7 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 # html_theme_options = {}
 html_theme_options = {
     # Navigation bar title. (Default: ``project`` value)
-    'navbar_title': "EPICS Dante",
+    'navbar_title': "EPICS Modbus",
 
     # Tab name for entire site. (Default: "Site")
     'navbar_site_name': "Site",
@@ -189,7 +189,7 @@ html_favicon = 'favicon_t.ico'
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'EPICS-Dantedoc'
+htmlhelp_basename = 'EPICS-Modbusdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -216,7 +216,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'EPICS-Dante.tex', 'EPICS Dante Documentation',
+    (master_doc, 'EPICS-Modbus.tex', 'EPICS Modbus Documentation',
      'Mark Rivers', 'manual'),
 ]
 
@@ -226,7 +226,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'EPIC-Dante', 'EPICS Dante Documentation',
+    (master_doc, 'EPIC-Modbus', 'EPICS Modbus Documentation',
      [author], 1)
 ]
 
@@ -237,8 +237,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'EPICS-Dante', 'EPICS Dante Documentation',
-     author, 'EPICS-Dante', 'EPICS support for Dante x-ray spectrometer',
+    (master_doc, 'EPICS-Modbus', 'EPICS Modbus Documentation',
+     author, 'EPICS-Modbus', 'EPICS support for Modbus protocol',
      'Miscellaneous'),
 ]
 
