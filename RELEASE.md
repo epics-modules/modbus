@@ -46,7 +46,7 @@
   the interpose interface functions.
 - Fixed writing strings with absolute addressing.
 - Fixed the length limit of function codes 1,2,5 and 15. 
-  It was previously allowing allowing 2015 and 1983 bits, rather than 2000 and 1968.
+  It was previously allowing 2015 and 1983 bits, rather than 2000 and 1968.
 - Added support for specifying the maximum length of strings in the drvUser field.
   STRING_HIGH=17 would result in a 16 character long string (plus terminating 0 byte)
 - Handle errors in drvModbusAsynConfigure.
