@@ -12,6 +12,7 @@
     The _LE_BS format is the order in which an IEEE value would be stored on a little-endian machine.
     This is done for backwards compatibility, because that is how _LE has always been stored in
     previous versions of this modbus module.
+
   - INT32_LE_BS    Byte-swapped Int32 little-endian
   - INT32_BE_BS    Byte-swapped Int32 big-endian
   - UINT32_LE      Unsigned Int32 little-endian
