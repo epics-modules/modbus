@@ -352,7 +352,7 @@ of Modbus memory assigned to this port in a single Modbus transaction.
 The values are stored in a buffer in the driver. The delay between polls
 is set when the port driver is created, and can be changed later at
 run-time. The values are read by EPICS using the standard asyn
-interfaces (asynUInt32Digital, asynInt32, asynFloat64, etc.) The values
+interfaces (asynUInt32Digital, asynInt32, asynInt64, asynFloat64, etc.) The values
 that are read are the last stored values from the poller thread. The
 means that EPICS read operations are *asynchronous*, i.e. they can
 block. This is because although they do not directly result in Modbus
@@ -680,7 +680,7 @@ this information to convert the number between EPICS device support and
 Modbus. Data is transferred to and from EPICS device support as
 epicsUInt32, epicsInt32, and epicsFloat64 numbers. Note that the data
 type conversions described in this table only apply for records using
-the asynInt32 or asynFloat64 interfaces, they do not apply when using
+the asynInt32, asynInt64, or asynFloat64 interfaces, they do not apply when using
 the asynUInt32Digital interface. The asynUInt32Digital interface always
 treats the registers as unsigned 16-bit integers.
 
@@ -895,6 +895,7 @@ EPICS device support
 -  asynUInt32Digital
 -  asynInt32
 -  asynInt32Array
+-  asynInt64
 -  asynFloat64
 -  asynOctet
 -  asynCommon
@@ -916,7 +917,7 @@ The **drvUser** parameter is used by the driver to determine what
 command is being sent from device support. The default is MODBUS_DATA,
 which is thus optional in the link specification in device support. If
 no **drvUser** field is specified, or if MODBUS_DATA is specified, then
-the Modbus data type for records using the asynInt32 and asynFloat64
+the Modbus data type for records using the asynInt32, asynInt64, and asynFloat64
 interfaces is the default data type specified in the
 drvModbusAsynConfigure command. Records can override the default Modbus
 data type by specifying datatype-specific **drvUser** field, e.g.
@@ -1125,6 +1126,58 @@ incorrect data.
     - HISTOGRAM_BIN_TIME
     - ao, longout
     - Sets the time per bin in msec in the statistics histogram
+
+asynInt64
+~~~~~~~~~
+
+asynInt64 device support is selected with
+
+::
+
+   field(DTYP,"asynInt64")
+   field(INP,"@asyn(portName,offset,timeout)drvUser")
+       
+Note: when writing 32-bit or 64-bit values function code 16 should be
+used if the device supports it. The write will then be "atomic". If
+function code 6 is used then the data will be written in multiple
+messages, and there will be an short time period in which the device has
+incorrect data.
+
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
+
+  * - Modbus function
+    - Offset type
+    - Data type
+    - drvUser
+    - Records supported
+    - Description
+  * - 1, 2
+    - Bit
+    - Single bit
+    - MODBUS_DATA
+    - ai, longin, int64in
+    - value = (epicsUInt64)Modbus data
+  * - 3, 4, 23
+    - 16-bit words
+    - 16, 32, or 64-bit word
+    - MODBUS_DATA (or datatype-specific value)
+    - ai, longin, int64in
+    - value = (epicsInt64)Modbus data
+  * - 5
+    - Bit
+    - Single bit
+    - MODBUS_DATA
+    - ao, longout, int64out
+    - Modbus write value
+  * - 6, 16, 23
+    - 16-bit words
+    - 16, 32, or 64-bit word
+    - MODBUS_DATA (or datatype-specific value)
+    - ao, longout, int64out
+    - Modbus write value
 
 asynFloat64
 ~~~~~~~~~~~
@@ -1344,53 +1397,59 @@ directory. These include the following.
   * - bi_bit.template
     - asynUInt32Digital support for bi record with discrete inputs or coils. Mask=1.
     - P, R, PORT, OFFSET, ZNAM, ONAM, ZSV, OSV, SCAN
-  * - bi_word.template
-    - asynUInt32Digital support for bi record with register inputs.
-    - P, R, PORT, OFFSET, MASK, ZNAM, ONAM, ZSV, OSV, SCAN
-  * - mbbiDirect.template
-    - asynUInt32Digital support for mbbiDirect record with register inputs.
-    - P, R, PORT, OFFSET, MASK, SCAN
-  * - longin.template
-    - asynUInt32Digital support for longin record with register inputs. Mask=0xFFFF.
-    - P, R, PORT, OFFSET, SCAN
-  * - longinInt32.template
-    - asynInt32 support for longin record with register inputs.
-    - P, R, PORT, OFFSET, SCAN, DATA_TYPE
-  * - intarray_in.template
-    - asynInt32Array support for waveform record with discrete, coil, or register inputs.
-    - P, R, PORT, OFFSET, NELM, SCAN
   * - bo_bit.template
     - asynUInt32Digital support for bo record with coil outputs. Mask=1.
     - P, R, PORT, OFFSET, ZNAM, ONAM
+  * - bi_word.template
+    - asynUInt32Digital support for bi record with register inputs.
+    - P, R, PORT, OFFSET, MASK, ZNAM, ONAM, ZSV, OSV, SCAN
   * - bo_word.template
     - asynUInt32Digital support for bo record with register outputs.
     - P, R, PORT, OFFSET, MASK, ZNAM, ONAM
+  * - mbbiDirect.template
+    - asynUInt32Digital support for mbbiDirect record with register inputs.
+    - P, R, PORT, OFFSET, MASK, SCAN
   * - mbboDirect.template
     - asynUInt32Digital support for mbboDirect record with register outputs.
     - P, R, PORT, OFFSET, MASK
+  * - longin.template
+    - asynUInt32Digital support for longin record with register inputs. Mask=0xFFFF.
+    - P, R, PORT, OFFSET, SCAN
   * - longout.template
     - asynUInt32Digital support for longout record with register outputs. Mask=0xFFFF.
     - P, R, PORT, OFFSET
+  * - longinInt32.template
+    - asynInt32 support for longin record with register inputs.
+    - P, R, PORT, OFFSET, SCAN, DATA_TYPE
   * - longoutInt32.template
     - asynInt32 support for longout record with register outputs.
     - P, R, PORT, OFFSET, DATA_TYPE
-  * - intarray_out.template
-    - asynInt32Array support for waveform record with discrete, coil, or register outputs.
-    - P, R, PORT, OFFSET, NELM
   * - ai.template
     - asynInt32 support for ai record with LINEAR conversion
     - P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN
-  * - aiFloat64.template
-    - asynFloat64 support for ai record
-    - P, R, PORT, OFFSET, LOPR, HOPR, PREC, SCAN, DATA_TYPE
+  * - ao.template
+    - asynInt32 support for ao record with LINEAR conversion
+    - P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC
   * - ai_average.template
     - asynInt32Average support for ai record with LINEAR conversion. This support gets
       callbacks each time the poll thread reads the analog input, and averages readings
       until the record is processed.
     - P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN
-  * - ao.template
-    - asynInt32 support for ao record with LINEAR conversion
-    - P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC
+  * - intarray_in.template
+    - asynInt32Array support for waveform record with discrete, coil, or register inputs.
+    - P, R, PORT, OFFSET, NELM, SCAN
+  * - intarray_out.template
+    - asynInt32Array support for waveform record with discrete, coil, or register outputs.
+    - P, R, PORT, OFFSET, NELM
+  * - int64in.template
+    - asynInt64 support for int64in record with register inputs.
+    - P, R, PORT, OFFSET, SCAN, DATA_TYPE
+  * - int64out.template
+    - asynInt64 support for int64out record with register outputs.
+    - P, R, PORT, OFFSET, DATA_TYPE
+  * - aiFloat64.template
+    - asynFloat64 support for ai record
+    - P, R, PORT, OFFSET, LOPR, HOPR, PREC, SCAN, DATA_TYPE
   * - aoFloat64.template
     - asynFloat64 support for ao record
     - P, R, PORT, OFFSET, LOPR, HOPR, PREC, DATA_TYPE
@@ -1674,7 +1733,7 @@ This test writes and reads each of the supported Modbus numerical data types as 
   * - asynFloat64
     - ao
     - ai
-    - 200
+    - 300
     - ModbusF3_A300_80words.mbs
 
 
