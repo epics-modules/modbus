@@ -35,16 +35,6 @@
   - ZSTRING_HIGH_LOW Zero terminated string data. Two characters are stored in each register, 
     the first in the high byte and the second in the low byte.
   - ZSTRING_LOW_HIGH Zero terminated string data. Two characters are stored in each register, 
-    the first in the low byte and the second in the high byte.
-
-    **Note:** For big-endian formats the _BE format is order in which an IEEE value would
-    be stored on a big-endian machine, and _BE_BS swaps the bytes in each 16-bit word
-    relative to IEEE specification.
-    However, for little-endian formats the _LE format is byte-swapped within each 16-bit word 
-    compared how the IEEE value would be be stored on a little-endian machine.  
-    The _LE_BS format is the order in which an IEEE value would be stored on a little-endian machine.
-    This is done for backwards compatibility, because that is how _LE has always been stored in
-    previous versions of this modbus module.
 - Converted the documentation from HTML to REst, and moved to
   https://epics-modbus.readthedocs.io/en/latest/.
 - Converted the release notes from HTML to Github Markdown and moved to
