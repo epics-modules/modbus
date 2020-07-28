@@ -1,17 +1,10 @@
 # modbus: Modbus Support - Release Notes
 
 ## R3-1 (July XXX, 2020)
--   Added support for 22 new data types including unsigned integers, 
-    64-bit integers, byte-swapped versions of all 32-bit and 64-bit data types,
-    and zero-terminated strings.
-    **Note:** For big-endian formats the _BE format is order in which an IEEE value would
-    be stored on a big-endian machine, and _BE_BS swaps the bytes in each 16-bit word
-    relative to IEEE specification.
-    However, for little-endian formats the _LE format is byte-swapped within each 16-bit word 
-    compared how the IEEE value would be be stored on a little-endian machine.  
-    The _LE_BS format is the order in which an IEEE value would be stored on a little-endian machine.
-    This is done for backwards compatibility, because that is how _LE has always been stored in
-    previous versions of this modbus module.
+- Added support for the asynInt64 interface between device support and the driver.
+- Added support for 22 new data types including unsigned integers, 
+  64-bit integers, byte-swapped versions of all 32-bit and 64-bit data types,
+  and zero-terminated strings.
     - INT32_LE_BS    Byte-swapped Int32 little-endian
     - INT32_BE_BS    Byte-swapped Int32 big-endian
     - UINT32_LE      Unsigned Int32 little-endian
@@ -36,6 +29,14 @@
       the first in the high byte and the second in the low byte.
     - ZSTRING_LOW_HIGH Zero terminated string data. Two characters are stored in each register,
       the first in the low byte and the second in the high byte.
+  **Note:** For big-endian formats the _BE format is order in which an IEEE value would
+  be stored on a big-endian machine, and _BE_BS swaps the bytes in each 16-bit word
+  relative to IEEE specification.
+  However, for little-endian formats the _LE format is byte-swapped within each 16-bit word 
+  compared how the IEEE value would be be stored on a little-endian machine.  
+  The _LE_BS format is the order in which an IEEE value would be stored on a little-endian machine.
+  This is done for backwards compatibility, because that is how _LE has always been stored in
+  previous versions of this modbus module.
 - Converted the documentation from HTML to REst, and moved to
   https://epics-modbus.readthedocs.io/en/latest/.
 - Converted the release notes from HTML to Github Markdown and moved to
