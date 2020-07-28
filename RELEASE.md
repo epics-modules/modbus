@@ -1,6 +1,6 @@
 # modbus: Modbus Support - Release Notes
 
-## R3-1 (July XXX, 2020)
+## R3-1 (July 28, 2020)
 - Added support for the asynInt64 interface between device support and the driver.
 - Added support for 22 new data types including unsigned integers, 
   64-bit integers, byte-swapped versions of all 32-bit and 64-bit data types,
