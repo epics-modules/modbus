@@ -29,6 +29,7 @@
       the first in the high byte and the second in the low byte.
     - ZSTRING_LOW_HIGH Zero terminated string data. Two characters are stored in each register,
       the first in the low byte and the second in the high byte.
+
   **Note:** For big-endian formats the _BE format is order in which an IEEE value would
   be stored on a big-endian machine, and _BE_BS swaps the bytes in each 16-bit word
   relative to IEEE specification.
