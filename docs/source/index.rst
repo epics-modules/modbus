@@ -689,82 +689,116 @@ treats the registers as unsigned 16-bit integers.
   :header-rows: 1
   :widths: auto
 
-  * - modbusDataType value
-    - drvUser field
+  * - drvUser field
     - Description
-  * - 0
-    - UINT16
-    - Unsigned 16-bit binary integers
-  * - 1
-    - INT16SM
+  * - UINT16
+    - Unsigned 16-bit binary integers.
+  * - INT16SM
     - 16-bit binary integers, sign and magnitude format. In this format bit 15 is the
       sign bit, and bits 0-14 are the absolute value of the magnitude of the number. This
       is one of the formats used, for example, by Koyo PLCs for numbers such as ADC conversions.
-  * - 2
-    - BCD_UNSIGNED
+  * - BCD_UNSIGNED
     - Binary coded decimal (BCD), unsigned. This data type is for a 16-bit number consisting
       of 4 4-bit nibbles, each of which encodes a decimal number from 0-9. A BCD number
       can thus store numbers from 0 to 9999. Many PLCs store some numbers in BCD format.
-  * - 3
-    - BCD_SIGNED
+  * - BCD_SIGNED
     - 4-digit binary coded decimal (BCD), signed. This data type is for a 16-bit number
       consisting of 3 4-bit nibbles, and one 3-bit nibble. Bit 15 is a sign bit. Signed
       BCD numbers can hold values from -7999 to +7999. This is one of the formats used
       by Koyo PLCs for numbers such as ADC conversions.
-  * - 4
-    - INT16
+  * - INT16
     - 16-bit signed (2's complement) integers. This data type extends the sign bit when
       converting to epicsInt32.
-  * - 5
-    - INT32_LE
+  * - INT32_LE
     - 32-bit integers, little endian (least significant word at Modbus address N, most
-      significant word at Modbus address N+1)
-  * - 6
-    - INT32_BE
+      significant word at Modbus address N+1).
+  * - INT32_LE_BS
+    - 32-bit integers, little endian (least significant word at Modbus address N, most
+      significant word at Modbus address N+1).  Bytes within each word are swapped.
+  * - INT32_BE
     - 32-bit integers, big endian (most significant word at Modbus address N, least significant
-      word at Modbus address N+1)
-  * - 7
-    - FLOAT32_LE
+      word at Modbus address N+1).
+  * - INT32_BE_BS
+    - 32-bit integers, big endian (most significant word at Modbus address N, least significant
+      word at Modbus address N+1).   Bytes within each word are swapped.
+  * - UINT32_LE
+    - Unsigned 32-bit integers, little endian (least significant word at Modbus address N, most
+      significant word at Modbus address N+1).
+  * - UINT32_LE_BS
+    - Unsigned 32-bit integers, little endian (least significant word at Modbus address N, most
+      significant word at Modbus address N+1).  Bytes within each word are swapped.
+  * - UINT32_BE
+    - Unsigned 32-bit integers, big endian (most significant word at Modbus address N, least significant
+      word at Modbus address N+1).
+  * - UINT32_BE_BS
+    - Unsigned 32-bit integers, big endian (most significant word at Modbus address N, least significant
+      word at Modbus address N+1).   Bytes within each word are swapped.
+  * - INT64_LE
+    - 64-bit integers, little endian (least significant word at Modbus address N, most
+      significant word at Modbus address N+3).
+  * - INT64_LE_BS
+    - 64-bit integers, little endian (least significant word at Modbus address N, most
+      significant word at Modbus address N+3).  Bytes within each word are swapped.
+  * - INT64_BE
+    - 64-bit integers, big endian (most significant word at Modbus address N, least significant
+      word at Modbus address N+3).
+  * - INT64_BE_BS
+    - 64-bit integers, big endian (most significant word at Modbus address N, least significant
+      word at Modbus address N+3).   Bytes within each word are swapped.
+  * - UINT64_LE
+    - Unsigned 64-bit integers, little endian (least significant word at Modbus address N, most
+      significant word at Modbus address N+3).
+  * - UINT64_LE_BS
+    - Unsigned 64-bit integers, little endian (least significant word at Modbus address N, most
+      significant word at Modbus address N+3).  Bytes within each word are swapped.
+  * - UINT64_BE
+    - Unsigned 64-bit integers, big endian (most significant word at Modbus address N, least significant
+      word at Modbus address N+3).
+  * - UINT64_BE_BS
+    - Unsigned 64-bit integers, big endian (most significant word at Modbus address N, least significant
+      word at Modbus address N+3).   Bytes within each word are swapped.
+  * - FLOAT32_LE
     - 32-bit floating point, little endian (least significant word at Modbus address N,
-      most significant word at Modbus address N+1)
-  * - 8
-    - FLOAT32_BE
+      most significant word at Modbus address N+1).
+  * - FLOAT32_LE_BS
+    - 32-bit floating point, little endian (least significant word at Modbus address N,
+      most significant word at Modbus address N+1). Bytes within each word are swapped.
+  * - FLOAT32_BE
     - 32-bit floating point, big endian (most significant word at Modbus address N, least
-      significant word at Modbus address N+1)
-  * - 9
-    - FLOAT64_LE
+      significant word at Modbus address N+1).
+  * - FLOAT32_BE_BS
+    - 32-bit floating point, big endian (most significant word at Modbus address N, least
+      significant word at Modbus address N+1). Bytes within each word are swapped.
+  * - FLOAT64_LE
     - 64-bit floating point, little endian (least significant word at Modbus address N,
-      most significant word at Modbus address N+3)
-  * - 10
-    - FLOAT64_BE
+      most significant word at Modbus address N+3).
+  * - FLOAT64_LE_BS
+    - 64-bit floating point, little endian (least significant word at Modbus address N,
+      most significant word at Modbus address N+3). Bytes within each word are swapped.
+  * - FLOAT64_BE
     - 64-bit floating point, big endian (most significant word at Modbus address N, least
-      significant word at Modbus address N+3)
-  * - 11
-    - STRING_HIGH
+      significant word at Modbus address N+3).
+  * - FLOAT64_BE_BS
+    - 64-bit floating point, big endian (most significant word at Modbus address N, least
+      significant word at Modbus address N+3). Bytes within each word are swapped.
+  * - STRING_HIGH
     - String data. One character is stored in the high byte of each register.
-  * - 12
-    - STRING_LOW
+  * - STRING_LOW
     - String data. One character is stored in the low byte of each register.
-  * - 13
-    - STRING_HIGH_LOW
+  * - STRING_HIGH_LOW
     - String data. Two characters are stored in each register, the first in the high byte
       and the second in the low byte.
-  * - 14
-    - STRING_LOW_HIGH
+  * - STRING_LOW_HIGH
     - String data. Two characters are stored in each register, the first in the low byte
       and the second in the high byte.
-  * - 15
-    - ZSTRING_HIGH
+  * - ZSTRING_HIGH
     - Zero terminated string data. One character is stored in the high byte of each register.
-  * - 16
-    - ZSTRING_LOW
+  * - ZSTRING_LOW
     - Zero terminated string data. One character is stored in the low byte of each register.
-  * - 17
-    - ZSTRING_HIGH_LOW
+  * - ZSTRING_HIGH_LOW
     - Zero terminated string data. Two characters are stored in each register, the first in the high byte
       and the second in the low byte.
-  * - 18
-    - ZSTRING_LOW_HIGH
+  * - ZSTRING_LOW_HIGH
     - Zero terminated string data. Two characters are stored in each register, the first in the low byte
       and the second in the high byte.
 
@@ -774,6 +808,15 @@ no translation is done in this case.
 
 NOTE: the ZSTRING_* types are meant for output records. 
 For input records they are identical to their STRING_* counterparts.
+
+NOTE: For big-endian formats the _BE format is order in which an IEEE value would
+be stored on a big-endian machine, and _BE_BS swaps the bytes in each 16-bit word
+relative to IEEE specification.
+However, for little-endian formats the _LE format is byte-swapped within each 16-bit word 
+compared how the IEEE value would be be stored on a little-endian machine.  
+The _LE_BS format is the order in which an IEEE value would be stored on a little-endian machine.
+This is done for backwards compatibility, because that is how _LE has always been stored in
+previous versions of this modbus module, before the byte-swapped formats were added.
 
 The following is an example ai record using 32-bit floating point
 values:
@@ -953,19 +996,21 @@ asynUInt32Digital device support is selected with
     - 16-bit word
     - MODBUS_DATA
     - bo, mbbo, mbboDirect, longout
-    - If mask==0 or mask==0xFFFF does Modbus write (value), Else does read/modify/write:Sets bits that are set in value and set in mask,, Clears bits that are clear in value and set in mask
+    - If mask==0 or mask==0xFFFF does Modbus write (value). 
+      Else does read/modify/write:Sets bits that are set in value and set in mask.
+      Clears bits that are clear in value and set in mask.
   * - Any
     - NA
     - NA
     - ENABLE_HISTOGRAM
     - bi, mbbi, mbbiDirect, longin
-    - Returns 0/1 if I/O time histogramming is disabled/enabled in driver
+    - Returns 0/1 if I/O time histogramming is disabled/enabled in driver.
   * - Any
     - NA
     - NA
     - ENABLE_HISTOGRAM
     - bo, mbbo, mbboDirect, longout
-    - If value = 0/1 then disable/enable I/O time histogramming in driver, 
+    - If value = 0/1 then disable/enable I/O time histogramming in driver.
 
 asynInt32
 ~~~~~~~~~
@@ -1138,7 +1183,7 @@ incorrect data.
     - POLL_DELAY
     - ai, ao
     - Read or write the delay time in seconds between polls for the read poller thread.
-      If &le;0 then the poller thread does not run periodically, it only runs when it
+      If <=0 then the poller thread does not run periodically, it only runs when it
       is woken up by an epicsEvent signal, which happens when the driver has an asynInt32
       write with the MODBUS_READ drvUser string.
 
@@ -1402,7 +1447,7 @@ The following table explains the macro parameters used in the preceding table.
   * - OSV
     - 1 severity for bi/bo records.
   * - BITS
-    - Number of bits for analog I/O devices. &gt;0=unipolar, &lt;0=bipolar.
+    - Number of bits for analog I/O devices. >0=unipolar, <0=bipolar.
   * - DATA_TYPE
     - drvUser field specifying the Modbus data type. If this field is blank or is MODBUS_DATA
       then the default datatype specified in the drvModbusAsynConfigure command is used.
@@ -1598,13 +1643,40 @@ In practice one would normally only load at most 2 drivers for the C
 control relays, for example function code 1 (read coils), and function
 code 5 (write single coil).
 
-There are other example applications in the iocTest directory, sim*.cmd
-and sim*.substitutions. These examples are used for testing the
-different Modbus data types and other features. I have used them with
+testDataTypes.cmd and testDataTypes.substitutions are used for testing the
+different Modbus data types. 
+The files ModbusF1_A0_128bits.mbs, ModbusF3_A200_80words.mbs, ModbusF3_A200_80words.mbs,
+and ModbusF3_A300_80words.mbs are configuration files for
 the `Modbus Slave <http://www.modbustools.com/modbus_slave.asp>`__
 program, which is an inexpensive Modbus slave emulator.
+This test writes and reads each of the supported Modbus numerical data types as follows:
 
---------------
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
+
+  * - asyn interface
+    - Output record
+    - Input record
+    - Modbus start address
+    - Slave simulator file
+  * - asynInt32
+    - longout
+    - longin
+    - 100
+    - ModbusF3_A100_80words.mbs
+  * - asynInt64
+    - int64out
+    - int64in
+    - 200
+    - ModbusF3_A200_80words.mbs
+  * - asynFloat64
+    - ao
+    - ai
+    - 200
+    - ModbusF3_A300_80words.mbs
+
 
 There is another test application called testClient.cpp which
 demonstrates how to instantiate a drvModbusAsyn object and use it to
@@ -1612,11 +1684,31 @@ perform Modbus I/O to an external device. This example is a pure C++
 application running without an IOC. The same code could be used in a
 driver in an IOC.
 
+
 medm screens
 ------------
 
-**modbus** provides example medm .adl files in the modtcpApp/op/adl
-directory. The following are screen shots of these screens from an IOC
+**modbus** provides example medm .adl files in the modbusApp/op/adl
+directory. 
+
+modbusDataTypes.adl
+~~~~~~~~~~~~~~~~~~~
+The following is a screen shot from an IOC running the testDataTypes.cmd
+and testDataTypes.substitutions files, communicating with a Modbus Slave Simulator.
+These are the ao/ai records using the asynFloat64 interface.
+It shows that the output and input (readback) records agree.
+
+.. figure:: testDataTypes.png
+    :align: center
+
+The following is a screen shot from the Modbus Slave Simulator communicating
+with the ao/ai records shown above.  The values shown in this screen agree
+with this in the medm screen, showing that each Modbus data type is being communicated correctly.
+
+.. figure:: testDataTypesSimulator.png
+    :align: center
+
+The following are screen shots of these screens from an IOC
 controlling a Koyo DL205 PLC.
 
 Koyo1.adl
