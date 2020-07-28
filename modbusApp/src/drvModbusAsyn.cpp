@@ -884,7 +884,7 @@ asynStatus drvModbusAsyn::writeInt64(asynUser *pasynUser, epicsInt64 value)
     int bufferLen=0;
     int i;
     asynStatus status;
-    static const char *functionName = "writeInt32";
+    static const char *functionName = "writeInt64";
 
     if (function == P_Data) {
         pasynManager->getAddr(pasynUser, &offset);
