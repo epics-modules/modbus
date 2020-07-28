@@ -15,26 +15,27 @@
     - INT32_LE_BS    Byte-swapped Int32 little-endian
     - INT32_BE_BS    Byte-swapped Int32 big-endian
     - UINT32_LE      Unsigned Int32 little-endian
-  - UINT32_BE      Unsigned Int32 big-endian
-  - UINT32_LE_BS   Byte-swapped unsigned Int32 little-endian
-  - UINT32_BE_BS   Byte-swapped unsigned Int32 big-endian
-  - INT64_LE       Int64 little-endian
-  - INT64_BE       Int64 big-endian
-  - INT64_LE_BS    Byte-swapped Int64 little-endian
-  - INT64_BE_BS    Byte-swapped Int64 big-endian
-  - UINT64_LE      Unsigned Int64 little-endian
-  - UINT64_BE      Unsigned Int64 big-endian
-  - UINT64_LE_BS   Byte-swapped unsigned Int64 little-endian
-  - UINT64_BE_BS   Byte-swapped unsigned Int64 big-endian
-  - FLOAT32_LE_BS  Byte-swapped Float32 little-endian
-  - FLOAT32_BE_BS  Byte-swapped Float32 big-endian
-  - FLOAT64_LE_BS  Byte-swapped Float64 little-endian
-  - FLOAT64_BE_BS  Byte-swapped Float64 big-endian
-  - ZSTRING_HIGH   Zero terminated string data. One character is stored in the high byte of each register.
-  - ZSTRING_LOW    Zero terminated string data. One character is stored in the low byte of each register.
-  - ZSTRING_HIGH_LOW Zero terminated string data. Two characters are stored in each register, 
-    the first in the high byte and the second in the low byte.
-  - ZSTRING_LOW_HIGH Zero terminated string data. Two characters are stored in each register, 
+    - UINT32_BE      Unsigned Int32 big-endian
+    - UINT32_LE_BS   Byte-swapped unsigned Int32 little-endian
+    - UINT32_BE_BS   Byte-swapped unsigned Int32 big-endian
+    - INT64_LE       Int64 little-endian
+    - INT64_BE       Int64 big-endian
+    - INT64_LE_BS    Byte-swapped Int64 little-endian
+    - INT64_BE_BS    Byte-swapped Int64 big-endian
+    - UINT64_LE      Unsigned Int64 little-endian
+    - UINT64_BE      Unsigned Int64 big-endian
+    - UINT64_LE_BS   Byte-swapped unsigned Int64 little-endian
+    - UINT64_BE_BS   Byte-swapped unsigned Int64 big-endian
+    - FLOAT32_LE_BS  Byte-swapped Float32 little-endian
+    - FLOAT32_BE_BS  Byte-swapped Float32 big-endian
+    - FLOAT64_LE_BS  Byte-swapped Float64 little-endian
+    - FLOAT64_BE_BS  Byte-swapped Float64 big-endian
+    - ZSTRING_HIGH   Zero terminated string data. One character is stored in the high byte of each register.
+    - ZSTRING_LOW    Zero terminated string data. One character is stored in the low byte of each register.
+    - ZSTRING_HIGH_LOW Zero terminated string data. Two characters are stored in each register, 
+      the first in the high byte and the second in the low byte.
+    - ZSTRING_LOW_HIGH Zero terminated string data. Two characters are stored in each register,
+      the first in the low byte and the second in the high byte.
 - Converted the documentation from HTML to REst, and moved to
   https://epics-modbus.readthedocs.io/en/latest/.
 - Converted the release notes from HTML to Github Markdown and moved to
