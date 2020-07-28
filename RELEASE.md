@@ -1,5 +1,65 @@
 # modbus: Modbus Support - Release Notes
 
+## R3-1 (July XXX, 2020)
+-   Added support for 22 new data types including unsigned integers, 
+    64-bit integers, byte-swapped versions of all 32-bit and 64-bit data types,
+    and zero-terminated strings.
+    **Note:** For big-endian formats the _BE format is order in which an IEEE value would
+    be stored on a big-endian machine, and _BE_BS swaps the bytes in each 16-bit word
+    relative to IEEE specification.
+    However, for little-endian formats the _LE format is byte-swapped within each 16-bit word 
+    compared how the IEEE value would be be stored on a little-endian machine.  
+    The _LE_BS format is the order in which an IEEE value would be stored on a little-endian machine.
+    This is done for backwards compatibility, because that is how _LE has always been stored in
+    previous versions of this modbus module.
+  - INT32_LE_BS    Byte-swapped Int32 little-endian
+  - INT32_BE_BS    Byte-swapped Int32 big-endian
+  - UINT32_LE      Unsigned Int32 little-endian
+  - UINT32_BE      Unsigned Int32 big-endian
+  - UINT32_LE_BS   Byte-swapped unsigned Int32 little-endian
+  - UINT32_BE_BS   Byte-swapped unsigned Int32 big-endian
+  - INT64_LE       Int64 little-endian
+  - INT64_BE       Int64 big-endian
+  - INT64_LE_BS    Byte-swapped Int64 little-endian
+  - INT64_BE_BS    Byte-swapped Int64 big-endian
+  - UINT64_LE      Unsigned Int64 little-endian
+  - UINT64_BE      Unsigned Int64 big-endian
+  - UINT64_LE_BS   Byte-swapped unsigned Int64 little-endian
+  - UINT64_BE_BS   Byte-swapped unsigned Int64 big-endian
+  - FLOAT32_LE_BS  Byte-swapped Float32 little-endian
+  - FLOAT32_BE_BS  Byte-swapped Float32 big-endian
+  - FLOAT64_LE_BS  Byte-swapped Float64 little-endian
+  - FLOAT64_BE_BS  Byte-swapped Float64 big-endian
+  - ZSTRING_HIGH   Zero terminated string data. One character is stored in the high byte of each register.
+  - ZSTRING_LOW    Zero terminated string data. One character is stored in the low byte of each register.
+  - ZSTRING_HIGH_LOW Zero terminated string data. Two characters are stored in each register, 
+    the first in the high byte and the second in the low byte.
+  - ZSTRING_LOW_HIGH Zero terminated string data. Two characters are stored in each register, 
+    the first in the low byte and the second in the high byte.
+
+    **Note:** For big-endian formats the _BE format is order in which an IEEE value would
+    be stored on a big-endian machine, and _BE_BS swaps the bytes in each 16-bit word
+    relative to IEEE specification.
+    However, for little-endian formats the _LE format is byte-swapped within each 16-bit word 
+    compared how the IEEE value would be be stored on a little-endian machine.  
+    The _LE_BS format is the order in which an IEEE value would be stored on a little-endian machine.
+    This is done for backwards compatibility, because that is how _LE has always been stored in
+    previous versions of this modbus module.
+- Converted the documentation from HTML to REst, and moved to
+  https://epics-modbus.readthedocs.io/en/latest/.
+- Converted the release notes from HTML to Github Markdown and moved to
+  https://github.com/epics-modules/modbus/blob/master/RELEASE.md.
+- Improved debugging by returning the actual number of bytes transfered in read operations in
+  the interpose interface functions.
+- Fixed writing strings with absolute addressing.
+- Fixed the length limit of function codes 1,2,5 and 15. 
+  It was previously allowing allowing 2015 and 1983 bits, rather than 2000 and 1968.
+- Added support for specifying the maximum length of strings in the drvUser field.
+  STRING_HIGH=17 would result in a 16 character long string (plus terminating 0 byte)
+- Handle errors in drvModbusAsynConfigure.
+
+Thanks to Krisztian Loki from ESS for the ZSTRING support and the last 4 fixes above.
+
 ## R3-0 (August 9, 2019)
 -   This is a major rewrite of the driver, changing from C to C++
     inheriting from asynPortDriver. The major reason for the change is
