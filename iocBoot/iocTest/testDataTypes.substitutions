@@ -101,7 +101,7 @@ file "../../db/longinInt32.template" { pattern
 }
 
 # These are the A200 inputs done with word access using asynInt64 interface
-file "../../db/int64inInt64.template" { pattern
+file "../../db/int64in.template" { pattern
 {P,           R,                  PORT,       OFFSET,   DATA_TYPE,      SCAN}
 {SIM1:,    I64I:UINT16,        A200_In_Word,     0,     UINT16,        "I/O Intr"}
 {SIM1:,    I64I:INT16SM,       A200_In_Word,     1,     INT16SM,       "I/O Intr"}
@@ -223,7 +223,7 @@ file "../../db/poll_delay.template" { pattern
 }
 
 # These are the A200 outputs done with word access on the asynInt64 interface
-file "../../db/int64outInt64.template" { pattern
+file "../../db/int64out.template" { pattern
 {P,           R,                  PORT,        OFFSET,   DATA_TYPE}
 {SIM1:,    I64O:UINT16,        A200_Out_Word,     0,     UINT16}
 {SIM1:,    I64O:INT16SM,       A200_Out_Word,     1,     INT16SM}
