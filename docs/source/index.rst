@@ -458,6 +458,7 @@ TCP/IP
 For TCP/IP use the following standard asyn command:
 
 ::
+
    drvAsynIPPortConfigure(portName, hostInfo, priority, noAutoConnect, noProcessEos)
 
 Documentation on this command can be found in the `asynDriver
@@ -683,150 +684,89 @@ the asynInt32 or asynFloat64 interfaces, they do not apply when using
 the asynUInt32Digital interface. The asynUInt32Digital interface always
 treats the registers as unsigned 16-bit integers.
 
-Supported Modbus data types
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
 
-modbusDataType value
-
-drvUser field
-
-Description
-
-0
-
-UINT16
-
-Unsigned 16-bit binary integers
-
-1
-
-INT16SM
-
-16-bit binary integers, sign and magnitude format. In this format bit 15
-is the sign bit, and bits 0-14 are the absolute value of the magnitude
-of the number. This is one of the formats used, for example, by Koyo
-PLCs for numbers such as ADC conversions.
-
-2
-
-BCD_UNSIGNED
-
-Binary coded decimal (BCD), unsigned. This data type is for a 16-bit
-number consisting of 4 4-bit nibbles, each of which encodes a decimal
-number from 0-9. A BCD number can thus store numbers from 0 to 9999.
-Many PLCs store some numbers in BCD format.
-
-3
-
-BCD_SIGNED
-
-4-digit binary coded decimal (BCD), signed. This data type is for a
-16-bit number consisting of 3 4-bit nibbles, and one 3-bit nibble. Bit
-15 is a sign bit. Signed BCD numbers can hold values from -7999 to
-+7999. This is one of the formats used by Koyo PLCs for numbers such as
-ADC conversions.
-
-4
-
-INT16
-
-16-bit signed (2's complement) integers. This data type extends the sign
-bit when converting to epicsInt32.
-
-5
-
-INT32_LE
-
-32-bit integers, little endian (least significant word at Modbus address
-N, most significant word at Modbus address N+1)
-
-6
-
-INT32_BE
-
-32-bit integers, big endian (most significant word at Modbus address N,
-least significant word at Modbus address N+1)
-
-7
-
-FLOAT32_LE
-
-32-bit floating point, little endian (least significant word at Modbus
-address N, most significant word at Modbus address N+1)
-
-8
-
-FLOAT32_BE
-
-32-bit floating point, big endian (most significant word at Modbus
-address N, least significant word at Modbus address N+1)
-
-9
-
-FLOAT64_LE
-
-64-bit floating point, little endian (least significant word at Modbus
-address N, most significant word at Modbus address N+3)
-
-10
-
-FLOAT64_BE
-
-64-bit floating point, big endian (most significant word at Modbus
-address N, least significant word at Modbus address N+3)
-
-11
-
-STRING_HIGH
-
-String data. One character is stored in the high byte of each register.
-
-12
-
-STRING_LOW
-
-String data. One character is stored in the low byte of each register.
-
-13
-
-STRING_HIGH_LOW
-
-String data. Two characters are stored in each register, the first in
-the high byte and the second in the low byte.
-
-14
-
-STRING_LOW_HIGH
-
-String data. Two characters are stored in each register, the first in
-the low byte and the second in the high byte.
-
-15
-
-ZSTRING_HIGH
-
-Zero terminated string data. One character is stored in the high byte of
-each register.
-
-16
-
-ZSTRING_LOW
-
-Zero terminated string data. One character is stored in the low byte of
-each register.
-
-17
-
-ZSTRING_HIGH_LOW
-
-Zero terminated string data. Two characters are stored in each register,
-the first in the high byte and the second in the low byte.
-
-18
-
-ZSTRING_LOW_HIGH
-
-Zero terminated string data. Two characters are stored in each register,
-the first in the low byte and the second in the high byte.
+  * - modbusDataType value
+    - drvUser field
+    - Description
+  * - 0
+    - UINT16
+    - Unsigned 16-bit binary integers
+  * - 1
+    - INT16SM
+    - 16-bit binary integers, sign and magnitude format. In this format bit 15 is the
+      sign bit, and bits 0-14 are the absolute value of the magnitude of the number. This
+      is one of the formats used, for example, by Koyo PLCs for numbers such as ADC conversions.
+  * - 2
+    - BCD_UNSIGNED
+    - Binary coded decimal (BCD), unsigned. This data type is for a 16-bit number consisting
+      of 4 4-bit nibbles, each of which encodes a decimal number from 0-9. A BCD number
+      can thus store numbers from 0 to 9999. Many PLCs store some numbers in BCD format.
+  * - 3
+    - BCD_SIGNED
+    - 4-digit binary coded decimal (BCD), signed. This data type is for a 16-bit number
+      consisting of 3 4-bit nibbles, and one 3-bit nibble. Bit 15 is a sign bit. Signed
+      BCD numbers can hold values from -7999 to +7999. This is one of the formats used
+      by Koyo PLCs for numbers such as ADC conversions.
+  * - 4
+    - INT16
+    - 16-bit signed (2's complement) integers. This data type extends the sign bit when
+      converting to epicsInt32.
+  * - 5
+    - INT32_LE
+    - 32-bit integers, little endian (least significant word at Modbus address N, most
+      significant word at Modbus address N+1)
+  * - 6
+    - INT32_BE
+    - 32-bit integers, big endian (most significant word at Modbus address N, least significant
+      word at Modbus address N+1)
+  * - 7
+    - FLOAT32_LE
+    - 32-bit floating point, little endian (least significant word at Modbus address N,
+      most significant word at Modbus address N+1)
+  * - 8
+    - FLOAT32_BE
+    - 32-bit floating point, big endian (most significant word at Modbus address N, least
+      significant word at Modbus address N+1)
+  * - 9
+    - FLOAT64_LE
+    - 64-bit floating point, little endian (least significant word at Modbus address N,
+      most significant word at Modbus address N+3)
+  * - 10
+    - FLOAT64_BE
+    - 64-bit floating point, big endian (most significant word at Modbus address N, least
+      significant word at Modbus address N+3)
+  * - 11
+    - STRING_HIGH
+    - String data. One character is stored in the high byte of each register.
+  * - 12
+    - STRING_LOW
+    - String data. One character is stored in the low byte of each register.
+  * - 13
+    - STRING_HIGH_LOW
+    - String data. Two characters are stored in each register, the first in the high byte
+      and the second in the low byte.
+  * - 14
+    - STRING_LOW_HIGH
+    - String data. Two characters are stored in each register, the first in the low byte
+      and the second in the high byte.
+  * - 15
+    - ZSTRING_HIGH
+    - Zero terminated string data. One character is stored in the high byte of each register.
+  * - 16
+    - ZSTRING_LOW
+    - Zero terminated string data. One character is stored in the low byte of each register.
+  * - 17
+    - ZSTRING_HIGH_LOW
+    - Zero terminated string data. Two characters are stored in each register, the first in the high byte
+      and the second in the low byte.
+  * - 18
+    - ZSTRING_LOW_HIGH
+    - Zero terminated string data. Two characters are stored in each register, the first in the low byte
+      and the second in the high byte.
 
 NOTE: if it is desired to transmit BCD numbers untranslated to EPICS
 over the asynInt32 interface, then data type 0 should be used, because
@@ -978,99 +918,54 @@ asynUInt32Digital device support is selected with
 
    field(DTYP,"asynUInt32Digital")
    field(INP,"@asynMask(portName,offset,mask,timeout)drvUser")
-       
 
-asynUInt32Digital Device Support
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
 
-Modbus function
-
-Offset type
-
-Data type
-
-drvUser
-
-Records supported
-
-Description
-
-1, 2
-
-Bit
-
-Single bit
-
-MODBUS_DATA
-
-bi, mbbi, mbbiDirect, longin
-
-| value = (Modbus data & mask)
-| (normally mask=1)
-
-3, 4, 23
-
-16-bit word
-
-16-bit word
-
-MODBUS_DATA
-
-bi, mbbi, mbbiDirect, longin
-
-| value = (Modbus data & mask)
-| (mask selects bits of interest)
-
-5
-
-Bit
-
-Single bit
-
-MODBUS_DATA
-
-bo, mbbo, mbboDirect, longout
-
-| Modbus write (value & mask)
-| (normally mask=1)
-
-6, 16
-
-16-bit word
-
-16-bit word
-
-MODBUS_DATA
-
-bo, mbbo, mbboDirect, longout
-
-| If mask==0 or mask==0xFFFF does Modbus write (value)
-| Else does read/modify/write:
-| Sets bits that are set in value and set in mask,
-| Clears bits that are clear in value and set in mask
-
-Any
-
-NA
-
-NA
-
-ENABLE_HISTOGRAM
-
-bi, mbbi, mbbiDirect, longin
-
-| Returns 0/1 if I/O time histogramming is disabled/enabled in driver
-
-Any
-
-NA
-
-NA
-
-ENABLE_HISTOGRAM
-
-bo, mbbo, mbboDirect, longout
-
-| If value = 0/1 then disable/enable I/O time histogramming in driver
+  * - Modbus function
+    - Offset type
+    - Data type
+    - drvUser
+    - Records supported
+    - Description
+  * - 1, 2
+    - Bit
+    - Single bit
+    - MODBUS_DATA
+    - bi, mbbi, mbbiDirect, longin
+    - value = (Modbus data & mask), (normally mask=1)
+  * - 3, 4, 23
+    - 16-bit word
+    - 16-bit word
+    - MODBUS_DATA
+    - bi, mbbi, mbbiDirect, longin
+    - value = (Modbus data & mask), (mask selects bits of interest)
+  * - 5
+    - Bit
+    - Single bit
+    - MODBUS_DATA
+    - bo, mbbo, mbboDirect, longout
+    - Modbus write (value & mask), (normally mask=1)
+  * - 6, 16
+    - 16-bit word
+    - 16-bit word
+    - MODBUS_DATA
+    - bo, mbbo, mbboDirect, longout
+    - If mask==0 or mask==0xFFFF does Modbus write (value), Else does read/modify/write:Sets bits that are set in value and set in mask,, Clears bits that are clear in value and set in mask
+  * - Any
+    - NA
+    - NA
+    - ENABLE_HISTOGRAM
+    - bi, mbbi, mbbiDirect, longin
+    - Returns 0/1 if I/O time histogramming is disabled/enabled in driver
+  * - Any
+    - NA
+    - NA
+    - ENABLE_HISTOGRAM
+    - bo, mbbo, mbboDirect, longout
+    - If value = 0/1 then disable/enable I/O time histogramming in driver, 
 
 asynInt32
 ~~~~~~~~~
@@ -1107,153 +1002,84 @@ function code 6 is used then the data will be written in multiple
 messages, and there will be an short time period in which the device has
 incorrect data.
 
-asynInt32 Device Support
-
-Modbus function
-
-Offset type
-
-Data type
-
-drvUser
-
-Records supported
-
-Description
-
-1, 2
-
-Bit
-
-Single bit
-
-MODBUS_DATA
-
-ai, bi, mbbi, longin
-
-value = (epicsUInt32)Modbus data
-
-3, 4, 23
-
-16-bit words
-
-16, 32, or 64-bit word
-
-MODBUS_DATA (or datatype-specific value)
-
-ai, mbbi, longin
-
-value = (epicsInt32)Modbus data
-
-5
-
-Bit
-
-Single bit
-
-MODBUS_DATA
-
-ao, bo, mbbo, longout
-
-Modbus write value
-
-6, 16, 23
-
-16-bit words
-
-16, 32, or 64-bit word
-
-MODBUS_DATA (or datatype-specific value)
-
-ao, mbbo, longout
-
-Modbus write value
-
-Any
-
-NA
-
-NA
-
-MODBUS_READ
-
-ao, bo, longout
-
-Writing to a Modbus input driver with this drvUser value will force the
-poller thread to run once immediately, regardless of the value of
-POLL_DELAY.
-
-Any
-
-NA
-
-NA
-
-READ_OK
-
-ai, longin
-
-Returns number of successful read operations on this asyn port
-
-Any
-
-NA
-
-NA
-
-WRITE_OK
-
-ai, longin
-
-Returns number of successful write operations on this asyn port
-
-Any
-
-NA
-
-NA
-
-IO_ERRORS
-
-ai, longin
-
-Returns number of I/O errors on this asyn port
-
-Any
-
-NA
-
-NA
-
-LAST_IO_TIME
-
-ai, longin
-
-Returns number of milliseconds for last I/O operation
-
-Any
-
-NA
-
-NA
-
-MAX_IO_TIME
-
-ai, longin
-
-Returns maximum number of milliseconds for I/O operations
-
-Any
-
-NA
-
-NA
-
-HISTOGRAM_BIN_TIME
-
-ao, longout
-
-Sets the time per bin in msec in the statistics histogram
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
+
+  * - Modbus function
+    - Offset type
+    - Data type
+    - drvUser
+    - Records supported
+    - Description
+  * - 1, 2
+    - Bit
+    - Single bit
+    - MODBUS_DATA
+    - ai, bi, mbbi, longin
+    - value = (epicsUInt32)Modbus data
+  * - 3, 4, 23
+    - 16-bit words
+    - 16, 32, or 64-bit word
+    - MODBUS_DATA (or datatype-specific value)
+    - ai, mbbi, longin
+    - value = (epicsInt32)Modbus data
+  * - 5
+    - Bit
+    - Single bit
+    - MODBUS_DATA
+    - ao, bo, mbbo, longout
+    - Modbus write value
+  * - 6, 16, 23
+    - 16-bit words
+    - 16, 32, or 64-bit word
+    - MODBUS_DATA (or datatype-specific value)
+    - ao, mbbo, longout
+    - Modbus write value
+  * - Any
+    - NA
+    - NA
+    - MODBUS_READ
+    - ao, bo, longout
+    - Writing to a Modbus input driver with this drvUser value will force the poller thread
+      to run once immediately, regardless of the value of POLL_DELAY.
+  * - Any
+    - NA
+    - NA
+    - READ_OK
+    - ai, longin
+    - Returns number of successful read operations on this asyn port
+  * - Any
+    - NA
+    - NA
+    - WRITE_OK
+    - ai, longin
+    - Returns number of successful write operations on this asyn port
+  * - Any
+    - NA
+    - NA
+    - IO_ERRORS
+    - ai, longin
+    - Returns number of I/O errors on this asyn port
+  * - Any
+    - NA
+    - NA
+    - LAST_IO_TIME
+    - ai, longin
+    - Returns number of milliseconds for last I/O operation
+  * - Any
+    - NA
+    - NA
+    - MAX_IO_TIME
+    - ai, longin
+    - Returns maximum number of milliseconds for I/O operations
+  * - Any
+    - NA
+    - NA
+    - HISTOGRAM_BIN_TIME
+    - ao, longout
+    - Sets the time per bin in msec in the statistics histogram
 
 asynFloat64
 ~~~~~~~~~~~
@@ -1271,83 +1097,50 @@ function code 6 is used then the data will be written in multiple
 messages, and there will be an short time period in which the device has
 incorrect data.
 
-asynFloat64 Device Support
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
 
-Modbus function
-
-Offset type
-
-Data type
-
-drvUser
-
-Records supported
-
-Description
-
-1, 2
-
-Bit
-
-Single bit
-
-MODBUS_DATA
-
-ai
-
-value = (epicsFloat64)Modbus data
-
-3, 4, 23
-
-16-bit words
-
-16, 32, or 64-bit word
-
-MODBUS_DATA (or datatype-specific value)
-
-ai
-
-value = (epicsFloat64)Modbus data
-
-5
-
-Bit
-
-Single bit
-
-MODBUS_DATA
-
-ao
-
-Modbus write (epicsUInt16)value
-
-6, 16, 23
-
-16-bit word
-
-16-bit word
-
-MODBUS_DATA (or datatype-specific value)
-
-ao
-
-Modbus write value
-
-Any
-
-NA
-
-NA
-
-POLL_DELAY
-
-ai, ao
-
-Read or write the delay time in seconds between polls for the read
-poller thread. If ≤0 then the poller thread does not run periodically,
-it only runs when it is woken up by an epicsEvent signal, which happens
-when the driver has an asynInt32 write with the MODBUS_READ drvUser
-string.
+  * - Modbus function
+    - Offset type
+    - Data type
+    - drvUser
+    - Records supported
+    - Description
+  * - 1, 2
+    - Bit
+    - Single bit
+    - MODBUS_DATA
+    - ai
+    - value = (epicsFloat64)Modbus data
+  * - 3, 4, 23
+    - 16-bit words
+    - 16, 32, or 64-bit word
+    - MODBUS_DATA (or datatype-specific value)
+    - ai
+    - value = (epicsFloat64)Modbus data
+  * - 5
+    - Bit
+    - Single bit
+    - MODBUS_DATA
+    - ao
+    - Modbus write (epicsUInt16)value
+  * - 6, 16, 23
+    - 16-bit word
+    - 16-bit word
+    - MODBUS_DATA (or datatype-specific value)
+    - ao
+    - Modbus write value
+  * - Any
+    - NA
+    - NA
+    - POLL_DELAY
+    - ai, ao
+    - Read or write the delay time in seconds between polls for the read poller thread.
+      If &le;0 then the poller thread does not run periodically, it only runs when it
+      is woken up by an epicsEvent signal, which happens when the driver has an asynInt32
+      write with the MODBUS_READ drvUser string.
 
 asynInt32Array
 ~~~~~~~~~~~~~~
@@ -1372,93 +1165,55 @@ asynInt32Array device support is used to read or write arrays of up to
 2000 coil values or up to 125 16-bit registers. It is also used to read
 the histogram array of I/O times when histogramming is enabled.
 
-asynInt32Array Device Support
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
 
-Modbus function
-
-Offset type
-
-Data type
-
-drvUser
-
-Records supported
-
-Description
-
-1, 2
-
-Bit
-
-Array of bits
-
-MODBUS_DATA
-
-waveform (input)
-
-value = (epicsInt32)Modbus data[]
-
-3, 4, 23
-
-16-bit word
-
-Array of 16, 32 or 64-bit words
-
-MODBUS_DATA (or datatype-specific value)
-
-waveform (input)
-
-value = (epicsInt32)Modbus data[]
-
-15
-
-Bit
-
-Array of bits
-
-MODBUS_DATA
-
-waveform (output)
-
-Modbus write (epicsUInt16)value[]
-
-16, 23
-
-16-bit word
-
-Array of 16, 32, or 64-bit words
-
-MODBUS_DATA (or datatype-specific value)
-
-waveform (output)
-
-Modbus write value[]
-
-Any
-
-32-bit word
-
-NA
-
-READ_HISTOGRAM
-
-waveform (input)
-
-Returns a histogram array of the I/O times in milliseconds since
-histogramming was last enabled.
-
-Any
-
-32-bit word
-
-NA
-
-HISTOGRAM_TIME_AXIS
-
-waveform (input)
-
-Returns the time axis of the histogram data. Each element is
-HISTOGRAM_BIN_TIME msec.
+  * - Modbus function
+    - Offset type
+    - Data type
+    - drvUser
+    - Records supported
+    - Description
+  * - 1, 2
+    - Bit
+    - Array of bits
+    - MODBUS_DATA
+    - waveform (input)
+    - value = (epicsInt32)Modbus data[]
+  * - 3, 4, 23
+    - 16-bit word
+    - Array of 16, 32 or 64-bit words
+    - MODBUS_DATA (or datatype-specific value)
+    - waveform (input)
+    - value = (epicsInt32)Modbus data[]
+  * - 15
+    - Bit
+    - Array of bits
+    - MODBUS_DATA
+    - waveform (output)
+    - Modbus write (epicsUInt16)value[]
+  * - 16, 23
+    - 16-bit word
+    - Array of 16, 32, or 64-bit words
+    - MODBUS_DATA (or datatype-specific value)
+    - waveform (output)
+    - Modbus write value[]
+  * - Any
+    - 32-bit word
+    - NA
+    - READ_HISTOGRAM
+    - waveform (input)
+    - Returns a histogram array of the I/O times in milliseconds since histogramming was
+      last enabled.
+  * - Any
+    - 32-bit word
+    - NA
+    - HISTOGRAM_TIME_AXIS
+    - waveform (input)
+    - Returns the time axis of the histogram data. Each element is HISTOGRAM_BIN_TIME
+      msec.
 
 asynOctet
 ~~~~~~~~~
@@ -1470,7 +1225,6 @@ asynOctet device support is selected with
    field(DTYP,"asynOctetRead")
    field(INP,"@asyn(portName,offset,timeout)drvUser[=number_of_characters]")
        
-
 or
 
 ::
@@ -1478,21 +1232,20 @@ or
    field(DTYP,"asynOctetWrite")
    field(INP,"@asyn(portName,offset,timeout)drvUser[=number_of_characters]")
        
-
 asynOctet device support is used to read or write strings of up to 250
 characters.
 
 Note: The 0 terminating byte at the end of the string in a waveform
-record or stringout record is **only** written to the Modbus device
-**if** one of the ZSTRING_* drvUser types is used.
+record or stringout record is only written to the Modbus device
+if one of the ZSTRING_* drvUser types is used.
 
-| Note: On input the number of characters read from the Modbus device
-  will be the lesser of:
-| - the number of characters in the record minus the terminating 0 byte
+Note: On input the number of characters read from the Modbus device will be the lesser of:
+
+- The number of characters in the record minus the terminating 0 byte
   (39 for stringin, NELM-1 for waveform) or
-| - the number of characters specified after drvUser (minus the
+- The number of characters specified after drvUser (minus the
   terminating 0 byte) or
-| - the number of characters contained in the registers defined
+- The number of characters contained in the registers defined
   modbusLength argument to drvModbusAsynConfigure (modbusLength or
   modbusLength*2 depending on whether the drvUser field specifies 1 or 2
   characters per register.
@@ -1503,319 +1256,181 @@ string is followed by a 0 byte in the Modbus registers. Generally either
 number_of_characters or NELM in the waveform record should be used to
 define the correct length for the string.
 
-asynOctet Device Support
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
 
-Modbus function
-
-Offset type
-
-Data type
-
-drvUser
-
-Records supported
-
-Description
-
-3, 4, 23
-
-16-bit word
-
-String of characters
-
-STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH
-ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH
-
-waveform (input) or stringin
-
-value = Modbus data[]
-
-16, 23
-
-16-bit word
-
-String of characters
-
-STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH
-ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH
-
-waveform (output) or stringout
-
-Modbus write value[]
+  * - Modbus function
+    - Offset type
+    - Data type
+    - drvUser
+    - Records supported
+    - Description
+  * - 3, 4, 23
+    - 16-bit word
+    - String of characters
+    - STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH</br>
+      ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH
+    - waveform (input) or stringin
+    - value = Modbus data[]
+  * - 16, 23
+    - 16-bit word
+    - String of characters
+    - STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH</br>
+      ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH
+    - waveform (output) or stringout
+    - Modbus write value[]
 
 Template files
 ~~~~~~~~~~~~~~
 
 **modbus** provides example template files in the modbusApp/Db
-directory. These include:
-
-Template Files
-
-Files
-
-Description
-
-Macro arguments
-
-bi_bit.template
-
-asynUInt32Digital support for bi record with discrete inputs or coils.
-Mask=1.
-
-P, R, PORT, OFFSET, ZNAM, ONAM, ZSV, OSV, SCAN
-
-bi_word.template
-
-asynUInt32Digital support for bi record with register inputs.
-
-P, R, PORT, OFFSET, MASK, ZNAM, ONAM, ZSV, OSV, SCAN
-
-mbbiDirect.template
-
-asynUInt32Digital support for mbbiDirect record with register inputs.
-
-P, R, PORT, OFFSET, MASK, SCAN
-
-longin.template
-
-asynUInt32Digital support for longin record with register inputs.
-Mask=0xFFFF.
-
-P, R, PORT, OFFSET, SCAN
-
-longinInt32.template
-
-asynInt32 support for longin record with register inputs.
-
-P, R, PORT, OFFSET, SCAN, DATA_TYPE
-
-intarray_in.template
-
-asynInt32Array support for waveform record with discrete, coil, or
-register inputs.
-
-P, R, PORT, OFFSET, NELM, SCAN
-
-bo_bit.template
-
-asynUInt32Digital support for bo record with coil outputs. Mask=1.
-
-P, R, PORT, OFFSET, ZNAM, ONAM
-
-bo_word.template
-
-asynUInt32Digital support for bo record with register outputs.
-
-P, R, PORT, OFFSET, MASK, ZNAM, ONAM
-
-mbboDirect.template
-
-asynUInt32Digital support for mbboDirect record with register outputs.
-
-P, R, PORT, OFFSET, MASK
-
-longout.template
-
-asynUInt32Digital support for longout record with register outputs.
-Mask=0xFFFF.
-
-P, R, PORT, OFFSET
-
-longoutInt32.template
-
-asynInt32 support for longout record with register outputs.
-
-P, R, PORT, OFFSET, DATA_TYPE
-
-intarray_out.template
-
-asynInt32Array support for waveform record with discrete, coil, or
-register outputs.
-
-P, R, PORT, OFFSET, NELM
-
-ai.template
-
-asynInt32 support for ai record with LINEAR conversion
-
-P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN
-
-aiFloat64.template
-
-asynFloat64 support for ai record
-
-P, R, PORT, OFFSET, LOPR, HOPR, PREC, SCAN, DATA_TYPE
-
-ai_average.template
-
-asynInt32Average support for ai record with LINEAR conversion. This
-support gets callbacks each time the poll thread reads the analog input,
-and averages readings until the record is processed.
-
-P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN
-
-ao.template
-
-asynInt32 support for ao record with LINEAR conversion
-
-P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC
-
-aoFloat64.template
-
-asynFloat64 support for ao record
-
-P, R, PORT, OFFSET, LOPR, HOPR, PREC, DATA_TYPE
-
-stringin.template
-
-asynOctet support for stringin record
-
-P, R, PORT, OFFSET, DATA_TYPE, SCAN
-
-stringout.template
-
-asynOctet support for stringout record
-
-P, R, PORT, OFFSET, DATA_TYPE, INITIAL_READBACK
-
-stringWaveformIn.template
-
-asynOctet input support for waveform record
-
-P, R, PORT, OFFSET, DATA_TYPE, NELM, SCAN
-
-stringWaveformOut.template
-
-asynOctet output support for waveform record
-
-P, R, PORT, OFFSET, DATA_TYPE, NELM, INITIAL_READBACK
-
-asynRecord.template
-
-Support for asyn record. Useful for controlling trace printing, and for
-debugging.
-
-P, R, PORT, ADDR, TMOD, IFACE
-
-poll_delay.template
-
-Support for ao record to control the delay time for the poller thread.
-
-P, R, PORT
-
-poll_trigger.template
-
-Support for bo record to trigger running the poller thread.
-
-P, R, PORT
-
-statistics.template
-
-Support for bo, longin and waveform records to read I/O statistics for
-the port.
-
-P, R, PORT, SCAN
-
-The following table explains the macro parameters used in the preceeding
-table.
-
-Macro Parameters
-
-Macro
-
-Description
-
-P
-
-Prefix for record name. Complete record name is $(P)$(R).
-
-R
-
-Record name. Complete record name is $(P)$(R).
-
-PORT
-
-Port name for **modbus** asyn port.
-
-OFFSET
-
-Offset for Modbus data relative to start address for this port.
-
-MASK
-
-Bit mask used to select data for this record.
-
-ZNAM
-
-String for 0 value for bi/bo records.
-
-ONAM
-
-String for 1 value for bi/bo records.
-
-ZSV
-
-0 severity for bi/bo records.
-
-OSV
-
-1 severity for bi/bo records.
-
-BITS
-
-Number of bits for analog I/O devices. >0=unipolar, <0=bipolar.
-
-DATA_TYPE
-
-drvUser field specifying the Modbus data type. If this field is blank or
-is MODBUS_DATA then the default datatype specified in the
-drvModbusAsynConfigure command is used. Other allowed values are listed
-in the table above (UINT16, INT16SM, BCD_SIGNED, etc.)
-
-EGUL
-
-Engineering value for lower limit of analog device.
-
-EGUF
-
-Engineering value for upper limit of analog device.
-
-LOPR
-
-Lower display limit of analog device.
-
-HOPR
-
-Upper display limit of analog device.
-
-PREC
-
-Number of digits of precision for ai/ao records.
-
-NELM
-
-Number of elements in waveform records.
-
-ADDR
-
-Address for asyn record, same as OFFSET above.
-
-TMOD
-
-Transfer mode for asyn record.
-
-IFACE
-
-asyn interface for asyn record.
-
-SCAN
-
-Scan rate for record (e.g. "1 second", "I/O Intr", etc.).
-
-INITIAL_READBACK
-
-Controls whether an initial readback from the device is done for the
-stringout or string waveform output records.
+directory. These include the following.
+
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
+
+  * - Files
+    - Description
+    - Macro arguments
+  * - bi_bit.template
+    - asynUInt32Digital support for bi record with discrete inputs or coils. Mask=1.
+    - P, R, PORT, OFFSET, ZNAM, ONAM, ZSV, OSV, SCAN
+  * - bi_word.template
+    - asynUInt32Digital support for bi record with register inputs.
+    - P, R, PORT, OFFSET, MASK, ZNAM, ONAM, ZSV, OSV, SCAN
+  * - mbbiDirect.template
+    - asynUInt32Digital support for mbbiDirect record with register inputs.
+    - P, R, PORT, OFFSET, MASK, SCAN
+  * - longin.template
+    - asynUInt32Digital support for longin record with register inputs. Mask=0xFFFF.
+    - P, R, PORT, OFFSET, SCAN
+  * - longinInt32.template
+    - asynInt32 support for longin record with register inputs.
+    - P, R, PORT, OFFSET, SCAN, DATA_TYPE
+  * - intarray_in.template
+    - asynInt32Array support for waveform record with discrete, coil, or register inputs.
+    - P, R, PORT, OFFSET, NELM, SCAN
+  * - bo_bit.template
+    - asynUInt32Digital support for bo record with coil outputs. Mask=1.
+    - P, R, PORT, OFFSET, ZNAM, ONAM
+  * - bo_word.template
+    - asynUInt32Digital support for bo record with register outputs.
+    - P, R, PORT, OFFSET, MASK, ZNAM, ONAM
+  * - mbboDirect.template
+    - asynUInt32Digital support for mbboDirect record with register outputs.
+    - P, R, PORT, OFFSET, MASK
+  * - longout.template
+    - asynUInt32Digital support for longout record with register outputs. Mask=0xFFFF.
+    - P, R, PORT, OFFSET
+  * - longoutInt32.template
+    - asynInt32 support for longout record with register outputs.
+    - P, R, PORT, OFFSET, DATA_TYPE
+  * - intarray_out.template
+    - asynInt32Array support for waveform record with discrete, coil, or register outputs.
+    - P, R, PORT, OFFSET, NELM
+  * - ai.template
+    - asynInt32 support for ai record with LINEAR conversion
+    - P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN
+  * - aiFloat64.template
+    - asynFloat64 support for ai record
+    - P, R, PORT, OFFSET, LOPR, HOPR, PREC, SCAN, DATA_TYPE
+  * - ai_average.template
+    - asynInt32Average support for ai record with LINEAR conversion. This support gets
+      callbacks each time the poll thread reads the analog input, and averages readings
+      until the record is processed.
+    - P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN
+  * - ao.template
+    - asynInt32 support for ao record with LINEAR conversion
+    - P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC
+  * - aoFloat64.template
+    - asynFloat64 support for ao record
+    - P, R, PORT, OFFSET, LOPR, HOPR, PREC, DATA_TYPE
+  * - stringin.template
+    - asynOctet support for stringin record
+    - P, R, PORT, OFFSET, DATA_TYPE, SCAN
+  * - stringout.template
+    - asynOctet support for stringout record
+    - P, R, PORT, OFFSET, DATA_TYPE, INITIAL_READBACK
+  * - stringWaveformIn.template
+    - asynOctet input support for waveform record
+    - P, R, PORT, OFFSET, DATA_TYPE, NELM, SCAN
+  * - stringWaveformOut.template
+    - asynOctet output support for waveform record
+    - P, R, PORT, OFFSET, DATA_TYPE, NELM, INITIAL_READBACK
+  * - asynRecord.template
+    - Support for asyn record. Useful for controlling trace printing, and for debugging.
+    - P, R, PORT, ADDR, TMOD, IFACE
+  * - poll_delay.template
+    - Support for ao record to control the delay time for the poller thread.
+    - P, R, PORT
+  * - poll_trigger.template
+    - Support for bo record to trigger running the poller thread.
+    - P, R, PORT
+  * - statistics.template
+    - Support for bo, longin and waveform records to read I/O statistics for the port.
+    - P, R, PORT, SCAN
+
+The following table explains the macro parameters used in the preceding table.
+
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
+
+  * - Macro
+    - Description
+  * - P
+    - Prefix for record name. Complete record name is $(P)$(R).
+  * - R
+    - Record name. Complete record name is $(P)$(R).
+  * - PORT
+    - Port name for **modbus** asyn port.
+  * - OFFSET
+    - Offset for Modbus data relative to start address for this port.
+  * - MASK
+    - Bit mask used to select data for this record.
+  * - ZNAM
+    - String for 0 value for bi/bo records.
+  * - ONAM
+    - String for 1 value for bi/bo records.
+  * - ZSV
+    - 0 severity for bi/bo records.
+  * - OSV
+    - 1 severity for bi/bo records.
+  * - BITS
+    - Number of bits for analog I/O devices. &gt;0=unipolar, &lt;0=bipolar.
+  * - DATA_TYPE
+    - drvUser field specifying the Modbus data type. If this field is blank or is MODBUS_DATA
+      then the default datatype specified in the drvModbusAsynConfigure command is used.
+      Other allowed values are listed in the table above (UINT16, INT16SM, BCD_SIGNED,
+      etc.)
+  * - EGUL
+    - Engineering value for lower limit of analog device.
+  * - EGUF
+    - Engineering value for upper limit of analog device.
+  * - LOPR
+    - Lower display limit of analog device.
+  * - HOPR
+    - Upper display limit of analog device.
+  * - PREC
+    - Number of digits of precision for ai/ao records.
+  * - NELM
+    - Number of elements in waveform records.
+  * - ADDR
+    - Address for asyn record, same as OFFSET above.
+  * - TMOD
+    - Transfer mode for asyn record.
+  * - IFACE
+    - asyn interface for asyn record.
+  * - SCAN
+    - Scan rate for record (e.g. "1 second", "I/O Intr", etc.).
+  * - INITIAL_READBACK
+    - Controls whether an initial readback from the device is done for the stringout or
+      string waveform output records.
 
 Example Applications
 --------------------
