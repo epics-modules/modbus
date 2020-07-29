@@ -2,4 +2,5 @@
 record(longout,"$(P)$(R)") {
     field(DTYP,"asynInt32")
     field(OUT,"@asyn($(PORT) $(OFFSET))$(DATA_TYPE)")
+    field(PINI,"$(PINI=NO)")
 }
