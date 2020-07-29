@@ -2004,10 +2004,20 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
     readResp = (modbusReadResponse *)modbusReply_;
     if (readResp->fcode & MODBUS_EXCEPTION_FCN) {
         exceptionResp = (modbusExceptionResponse *)modbusReply_;
-        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
-                  "%s::%s port %s Modbus exception=%d\n",
-                  driverName, functionName, this->portName, exceptionResp->exception);
-        status = asynError;
+        if (exceptionResp->exception == 5) {
+            // Exception 5 is a warning that the command will take a long time to execute,
+            // but it is not an error.
+            asynPrint(pasynUserSelf, ASYN_TRACE_WARNING,
+                      "%s::%s port %s Modbus exception=%d\n",
+                      driverName, functionName, this->portName, exceptionResp->exception);
+            status = asynSuccess;
+        }
+        else {
+            asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                      "%s::%s port %s Modbus exception=%d\n",
+                      driverName, functionName, this->portName, exceptionResp->exception);
+            status = asynError;
+        }
         goto done;
     }
 
