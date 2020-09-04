@@ -9,7 +9,6 @@
 #define modbusInterpose_H
 
 #include <shareLib.h>
-#include <epicsExport.h>
 
 typedef enum {
     modbusLinkTCP,

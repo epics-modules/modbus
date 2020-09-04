@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <shareLib.h>
+
 #include <drvAsynIPPort.h>
 #include <asynShellCommands.h>
 

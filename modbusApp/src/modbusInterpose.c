@@ -26,9 +26,10 @@
 #include <epicsThread.h>
 #include "asynDriver.h"
 #include "asynOctet.h"
+
+#include <epicsExport.h>
 #include "modbusInterpose.h"
 #include "modbus.h"
-#include <epicsExport.h>
 
 static char *driver="modbusInterpose";
 
