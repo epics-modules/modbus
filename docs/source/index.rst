@@ -648,10 +648,14 @@ created with the following command:
       are being used, and 100 (for example) if an Int32 waveform record with NELM=100
       is being read or written.
   * - modbusDataType
-    - int
+    - string
     - This sets the default data type for this port. This is the data type used if the
       drvUser field of a record is empty, or if it is MODBUS_DATA. The supported Modbus
-      data types and correponding drvUser fields are described in the table below.
+      data type strings are listed in the table below. This argument can either be one of the
+      strings shown in the table below, and defined in `drvModbusAsyn.h`, or it can be the
+      numeric `modbusDataType_t` enum also defined in `drvModbusAsyn.h`.  The enum values
+      are supported for backwards compatibility, but they are less convenient and understandable
+      then the string equivalents.
   * - pollMsec
     - int
     - Polling delay time in msec for the polling thread for read functions.
@@ -678,7 +682,7 @@ type for particular record can override the default by specifying a
 different data type with the drvUser field in the link. The driver uses
 this information to convert the number between EPICS device support and
 Modbus. Data is transferred to and from EPICS device support as
-epicsUInt32, epicsInt32, and epicsFloat64 numbers. Note that the data
+epicsUInt32, epicsInt32, epicsInt64, and epicsFloat64 numbers. Note that the data
 type conversions described in this table only apply for records using
 the asynInt32, asynInt64, or asynFloat64 interfaces, they do not apply when using
 the asynUInt32Digital interface. The asynUInt32Digital interface always
