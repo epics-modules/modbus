@@ -2865,17 +2865,34 @@ extern "C" {
 asynStatus drvModbusAsynConfigure(const char *portName, const char *octetPortName,
                                   int modbusSlave, int modbusFunction,
                                   int modbusStartAddress, int modbusLength,
-                                  int dataType,
+                                  const char *dataTypeString,
                                   int pollMsec,
                                   char *plcType)
 {
+    int dataType = -1;
+    // The datatype can either be specified as a number (modbusDataType_t enum),
+    // or a string like INT32_LE.
+    if (isdigit(dataTypeString[0])) {
+        dataType = atoi(dataTypeString);
+    } else {
+        int i;
+        for (i=0; i<MAX_MODBUS_DATA_TYPES; i++) {
+            if (epicsStrCaseCmp(dataTypeString, modbusDataTypes[i].dataTypeString) == 0) {
+                dataType = modbusDataTypes[i].dataType;
+            }
+        }
+        if (dataType == -1) {
+            printf("ERROR: drvModbusAsynConfigure unknown dataType: %s\n", dataTypeString);
+            return asynError;
+        }
+    }   
     new drvModbusAsyn(portName, octetPortName,
                       modbusSlave, modbusFunction,
                       modbusStartAddress, modbusLength,
                       (modbusDataType_t)dataType,
                       pollMsec,
                       plcType);
-    return(asynSuccess);
+    return asynSuccess;
 }
 
 /* iocsh functions */
@@ -2886,7 +2903,7 @@ static const iocshArg ConfigureArg2 = {"Modbus slave address", iocshArgInt};
 static const iocshArg ConfigureArg3 = {"Modbus function code", iocshArgInt};
 static const iocshArg ConfigureArg4 = {"Modbus start address", iocshArgInt};
 static const iocshArg ConfigureArg5 = {"Modbus length",        iocshArgInt};
-static const iocshArg ConfigureArg6 = {"Data type",            iocshArgInt};
+static const iocshArg ConfigureArg6 = {"Data type",            iocshArgString};
 static const iocshArg ConfigureArg7 = {"Poll time (msec)",     iocshArgInt};
 static const iocshArg ConfigureArg8 = {"PLC type",             iocshArgString};
 
@@ -2908,7 +2925,7 @@ static const iocshFuncDef drvModbusAsynConfigureFuncDef=
 static void drvModbusAsynConfigureCallFunc(const iocshArgBuf *args)
 {
   drvModbusAsynConfigure(args[0].sval, args[1].sval, args[2].ival, args[3].ival, args[4].ival,
-                         args[5].ival, args[6].ival, args[7].ival, args[8].sval);
+                         args[5].ival, args[6].sval, args[7].ival, args[8].sval);
 }
 
 
