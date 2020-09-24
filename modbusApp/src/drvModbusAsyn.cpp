@@ -474,6 +474,7 @@ void drvModbusAsyn::report(FILE *fp, int details)
         fprintf(fp, "    modbusStartAddress: 0%o\n", modbusStartAddress_);
         fprintf(fp, "    modbusLength:       0%o\n", modbusLength_);
         fprintf(fp, "    absoluteAddressing: %s\n", absoluteAddressing_ ? "true" : "false");
+        fprintf(fp, "    dataType:           %d (%s)\n", dataType_, modbusDataTypes[dataType_].dataTypeString);
         fprintf(fp, "    plcType:            %s\n", plcType_);
         fprintf(fp, "    I/O errors:         %d\n", IOErrors_);
         fprintf(fp, "    Read OK:            %d\n", readOK_);
