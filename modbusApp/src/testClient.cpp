@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
      *                        unsigned int priority, 
      *                        int noAutoConnect,
      *                        int noProcessEos); */
-    drvAsynIPPortConfigure("Koyo1","camaro:502",0,0,1);
+    drvAsynIPPortConfigure("Koyo1","camaro:502",0,0,0);
     asynSetOption("Koyo1", 0, "disconnectOnReadTimeout", "Y");
 
     /* modbusInterposeConfig(const char *portName, 
