@@ -18,7 +18,7 @@ modbus_registerRecordDeviceDriver(pdbbase)
 #                       int noAutoConnect,
 #                       int noProcessEos);
 date
-drvAsynIPPortConfigure("sim1","camaro:502",0,0,1)
+drvAsynIPPortConfigure("sim1","camaro:502",0,0,0)
 date
 #asynSetOption("sim1",0, "disconnectOnReadTimeout", "Y")
 #modbusInterposeConfig(const char *portName,
