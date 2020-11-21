@@ -1,6 +1,6 @@
 # modbus: Modbus Support - Release Notes
 
-## R3-2 (September XXX, 2020)
+## R3-2 (November 21, 2020)
 - Changed the dataType argument to drvModusAsynConfigure(). 
   Previously this was the `int` value corresponding to one of the `modbusDataType_t` enums
   defined `drvModbusAsyn.h`.  This is not very convenient, so the dataType argument was changed
@@ -8,6 +8,16 @@
   strings like `INT32_LE`.  The string comparison is case-insensitive.
 - Improved the drvModbusAsyn::report() function to print the default dataType for the driver.
   The dataType is printed both as the integer enum value and as the corresponding string.
+- Changed the documentation and all example IOCs to set noProcessEos=0 in drvAsynIPPortConfigure()
+  commands, so that the asynInterposeEos interface is used.  Previously it was 1 in most cases.
+  The asynInterposeEos interface handles end-of-string (EOS) processing, which is not needed for Modbus TCP.
+  However, it also handles issuing repeated read requests until the requested number of bytes
+  has been received, which the low-level asyn IP port driver does not do.  
+  Normally Modbus TCP sends responses in a single packet, so this may not be needed, but using 
+  the asynInterpose interface does no harm.
+  However, the asynInterposeEos interface is definitely needed when using drvAsynIPPortConfigure to talk 
+  to a terminal server that is communicating with the Modbus device over Modbus RTU or ASCII, 
+  because then the communication from the device may well be broken up into multiple packets.
 
 ## R3-1 (July 28, 2020)
 - Added support for the asynInt64 interface between device support and the driver.
