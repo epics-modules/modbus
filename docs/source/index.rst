@@ -467,17 +467,26 @@ documentation <https://epics-modules.github.io/master/asyn/R4-40/asynDriver.html
 The following example creates an asyn IP port driver called "Koyo1" on
 port 502 at IP address 164.54.160.158. The default priority is used and
 the noAutoConnect flag is set to 0 so that asynManager will do normal
-automatic connection management. The noProcessEos flag is set to 1
-because Modbus over TCP does not require end-of-string processing.
+automatic connection management. Note that the noProcessEos flag is set to 0
+so it is using the asynInterposeEos interface.  
+The asynInterposeEos interface handles end-of-string (EOS) processing, which is not needed for Modbus TCP.
+However, it also handles issuing repeated read requests until the requested number of bytes
+has been received, which the low-level asyn IP port driver does not do.  
+Normally Modbus TCP sends responses in a single packet, so this may not be needed, but using 
+the asynInterpose interface does no harm.
+However, the asynInterposeEos interface is definitely needed when using drvAsynIPPortConfigure to talk 
+to a terminal server that is communicating with the Modbus device over Modbus RTU or ASCII, 
+because then the communication from the device may well be broken up into multiple packets.
 
 ::
 
-   drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,0,1)
+   drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,0,0)
 
 Serial RTU
 ~~~~~~~~~~
 
-For serial RTU use the following standard asyn commands:
+For serial RTU use the following standard asyn commands
+This is recommended even when using actual:
 
 ::
 
@@ -1602,7 +1611,7 @@ ASCII however).
    #                       unsigned int priority, 
    #                       int noAutoConnect,
    #                       int noProcessEos);
-   drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,0,1)
+   drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,0,0)
    #modbusInterposeConfig(const char *portName, 
    #                      modbusLinkType linkType,
    #                      int timeoutMsec, 
