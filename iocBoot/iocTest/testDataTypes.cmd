@@ -8,8 +8,8 @@
 # correctly by the Modbus slave.
 # The medm file testDataTypes.adl is used to change the output records and display the readback records.
 
-dbLoadDatabase("../../dbd/modbus.dbd")
-modbus_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase("../../dbd/modbusApp.dbd")
+modbusApp_registerRecordDeviceDriver(pdbbase)
 
 # Use the following commands for TCP/IP
 #drvAsynIPPortConfigure(const char *portName,

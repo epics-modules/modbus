@@ -1,7 +1,7 @@
 # Koyo2.cmd
 
-dbLoadDatabase("../../dbd/modbus.dbd")
-modbus_registerRecordDeviceDriver(pdbbase)
+dbLoadDatabase("../../dbd/modbusApp.dbd")
+modbusApp_registerRecordDeviceDriver(pdbbase)
 
 # Use the following commands for TCP/IP
 #drvAsynIPPortConfigure(const char *portName,
