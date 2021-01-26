@@ -6,6 +6,10 @@
   defined `drvModbusAsyn.h`.  This is not very convenient, so the dataType argument was changed
   to a string.  It can now either be the enum value (for backwards compatibility) or one of the
   strings like `INT32_LE`.  The string comparison is case-insensitive.
+  NOTE: When using the iocsh shell this change is backwards compatible, because an unquoted
+  integer can be read as a string.  However, with the vxWorks shell it is not backwards
+  compatible, because string arguments must be quoted, so startup scripts will need to add quotes
+  around the dataType argument.
 - Improved the drvModbusAsyn::report() function to print the default dataType for the driver.
   The dataType is printed both as the integer enum value and as the corresponding string.
 - Changed the documentation and all example IOCs to set noProcessEos=0 in drvAsynIPPortConfigure()
