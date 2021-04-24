@@ -341,6 +341,11 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
                 status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
                                                 pPvt->buffer, nRead, 
                                                 &nbytesActual, eomReason);
+                /* If the returned status is asynTimeout this can be because the interposeEOS
+                 * interface is being used and we received fewer bytes than expected due to a Modbus exception. 
+                 * In this case nbytesActual will be 9 and buffer[7] will have the MODBUS_EXCEPTION_FCN bit set 
+                 * We want to return the data read in this case so the exception can be reported. */
+                if ((nbytesActual == 9) && (pPvt->buffer[7] & MODBUS_EXCEPTION_FCN)) status = asynSuccess;
                 if (status != asynSuccess) {
                     *nbytesTransfered = nbytesActual;
                     return status;
