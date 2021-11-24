@@ -42,7 +42,7 @@ version = '-'.join(release.split('-')[0:2])
 extensions = [
     'sphinx.ext.todo',
 #    'sphinx.ext.githubpages',
-    'm2r',
+    'm2r2',
 #    'breathe',
 #    'linuxdoc.rstFlatTable'
 ]
