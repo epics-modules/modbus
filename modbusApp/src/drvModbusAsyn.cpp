@@ -193,9 +193,9 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
     int maxLength=0;
     static const char *functionName="drvModbusAsyn";
 
-    if (plcType_ == NULL) plcType = "";
+    if (plcType == NULL) plcType = "";
     plcType_ = epicsStrDup(plcType);
-     if (modbusStartAddress == -1) {
+    if (modbusStartAddress == -1) {
         absoluteAddressing_ = true;
     }
 
