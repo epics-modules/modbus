@@ -204,6 +204,7 @@ private:
     char *plcType_;              /* String describing PLC type */
     bool isConnected_;            /* Connection status */
     asynStatus ioStatus_;        /* I/O error status */
+    asynStatus prevIOStatus_;    /* Previous I/O error status */
     asynUser  *pasynUserOctet_;  /* asynUser for asynOctet interface to asyn octet port */
     asynUser  *pasynUserCommon_; /* asynUser for asynCommon interface to asyn octet port */
     asynUser  *pasynUserTrace_;  /* asynUser for asynTrace on this port */
@@ -223,7 +224,6 @@ private:
     bool forceCallback_;
     int readOnceFunction_;
     bool readOnceDone_;
-    asynStatus prevIOStatus_;
     int readOK_;
     int writeOK_;
     int IOErrors_;
