@@ -44,7 +44,7 @@ jobs:
 
     - name: Install packages used by Sphinx
       run: |
-        pip install myst-parser "pygments >=2.7.0" sphinx-bootstrap-theme sphinx-multibuild
+        pip install m2r2 "pygments >=2.7.0" sphinx-bootstrap-theme sphinx-multibuild
 
     - name: Build and Commit
       uses: sphinx-notes/pages@v2
