@@ -909,6 +909,7 @@ EPICS device support
 -  asynInt32Array
 -  asynInt64
 -  asynFloat64
+-  asynFloat64Array
 -  asynOctet
 -  asynCommon
 -  asynDrvUser
@@ -1298,6 +1299,79 @@ the histogram array of I/O times when histogramming is enabled.
     - MODBUS_DATA (or datatype-specific value)
     - waveform (input)
     - value = (epicsInt32)Modbus data[]
+  * - 15
+    - Bit
+    - Array of bits
+    - MODBUS_DATA
+    - waveform (output)
+    - Modbus write (epicsUInt16)value[]
+  * - 16, 23
+    - 16-bit word
+    - Array of 16, 32, or 64-bit words
+    - MODBUS_DATA (or datatype-specific value)
+    - waveform (output)
+    - Modbus write value[]
+  * - Any
+    - 32-bit word
+    - NA
+    - READ_HISTOGRAM
+    - waveform (input)
+    - Returns a histogram array of the I/O times in milliseconds since histogramming was
+      last enabled.
+  * - Any
+    - 32-bit word
+    - NA
+    - HISTOGRAM_TIME_AXIS
+    - waveform (input)
+    - Returns the time axis of the histogram data. Each element is HISTOGRAM_BIN_TIME
+      msec.
+
+asynFloat64Array
+~~~~~~~~~~~~~~~~
+
+asynFloat64Array device support is selected with
+
+::
+
+   field(DTYP,"asynFloat64ArrayIn")
+   field(INP,"@asyn(portName,offset,timeout)drvUser")
+
+
+or
+
+::
+
+   field(DTYP,"asynFloat64ArrayOut")
+   field(INP,"@asyn(portName,offset,timeout)drvUser")
+
+
+asynFloat64Array device support is used to read or write arrays of up to
+2000 coil values or up to 125 16-bit registers. It is also used to read
+the histogram array of I/O times when histogramming is enabled.
+
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
+
+  * - Modbus function
+    - Offset type
+    - Data type
+    - drvUser
+    - Records supported
+    - Description
+  * - 1, 2
+    - Bit
+    - Array of bits
+    - MODBUS_DATA
+    - waveform (input)
+    - value = (epicsFloat64)Modbus data[]
+  * - 3, 4, 23
+    - 16-bit word
+    - Array of 16, 32 or 64-bit words
+    - MODBUS_DATA (or datatype-specific value)
+    - waveform (input)
+    - value = (epicsFloat64)Modbus data[]
   * - 15
     - Bit
     - Array of bits

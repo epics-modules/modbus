@@ -1,0 +1,6 @@
+record(waveform,"$(P)$(R)") {
+    field(DTYP,"asynFloat64ArrayOut")
+    field(INP,"@asyn($(PORT) $(OFFSET=0))MODBUS_DATA")
+    field(FTVL,"DOUBLE")
+    field(NELM,"$(NELM)")
+}
