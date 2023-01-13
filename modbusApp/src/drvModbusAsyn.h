@@ -156,6 +156,10 @@ public:
     virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
     virtual asynStatus readFloat64(asynUser *pasynUser, epicsFloat64 *value);
 
+    /* These functions are in the asynFloat64Array interface */
+    virtual asynStatus readFloat64Array(asynUser *pasynUser, epicsFloat64 *data, size_t maxChans, size_t *nactual);
+    virtual asynStatus writeFloat64Array(asynUser *pasynUser, epicsFloat64 *data, size_t maxChans);
+
     /* These functions are in the asynInt32Array interface */
     virtual asynStatus readInt32Array(asynUser *pasynUser, epicsInt32 *data, size_t maxChans, size_t *nactual);
     virtual asynStatus writeInt32Array(asynUser *pasynUser, epicsInt32 *data, size_t maxChans);
