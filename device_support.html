@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EPICS device support &mdash; EPICS support for Modbus</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/my_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example Applications" href="example_applications.html" />
+    <link rel="prev" title="Creating a modbus port driver" href="creating_driver.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            modbus
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgments.html">Acknowledgments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview of Modbus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="driver_architecture.html">Driver architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_driver.html">Creating a <strong>modbus</strong> port driver</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">EPICS device support</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#asynuint32digital">asynUInt32Digital</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asynint32">asynInt32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asynint64">asynInt64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asynfloat64">asynFloat64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asynint32array">asynInt32Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asynoctet">asynOctet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#template-files">Template files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="example_applications.html">Example Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="medm_screens.html">medm screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debug tracing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">modbus</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">EPICS device support</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/device_support.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="epics-device-support">
+<h1>EPICS device support<a class="headerlink" href="#epics-device-support" title="Permalink to this heading"></a></h1>
+<p><strong>modbus</strong> implements the following standard asyn interfaces:</p>
+<ul class="simple">
+<li><p>asynUInt32Digital</p></li>
+<li><p>asynInt32</p></li>
+<li><p>asynInt32Array</p></li>
+<li><p>asynInt64</p></li>
+<li><p>asynFloat64</p></li>
+<li><p>asynOctet</p></li>
+<li><p>asynCommon</p></li>
+<li><p>asynDrvUser</p></li>
+</ul>
+<p>Because it implements these standard interfaces, EPICS device support is
+done entirely with the generic EPICS device support provided with asyn
+itself. There is no special device support provided as part of
+<strong>modbus</strong>.</p>
+<p>It is necessary to use asyn R4-8 or later, because some minor
+enhancements were made to asyn to support the features required by
+<strong>modbus</strong>.</p>
+<p>The following tables document the asyn interfaces used by the EPICS
+device support.</p>
+<p>The <strong>drvUser</strong> parameter is used by the driver to determine what
+command is being sent from device support. The default is MODBUS_DATA,
+which is thus optional in the link specification in device support. If
+no <strong>drvUser</strong> field is specified, or if MODBUS_DATA is specified, then
+the Modbus data type for records using the asynInt32, asynInt64, and asynFloat64
+interfaces is the default data type specified in the
+drvModbusAsynConfigure command. Records can override the default Modbus
+data type by specifying datatype-specific <strong>drvUser</strong> field, e.g.
+BCD_SIGNED, INT16, FLOAT32_LE, etc.</p>
+<p>The <strong>offset</strong> parameter is used to specify the location of the data for
+a record relative to the starting Modbus address for that driver. This
+<strong>offset</strong> is specified in bits for drivers using Modbus functions 1, 2,
+5, and 15 that control discrete inputs or coils. For example, if the
+Modbus function is 2 and the Modbus starting address is 04000, then
+<strong>offset=2</strong> refers to address 04002. For a Koyo PLC the X inputs are at
+this Modbus starting address for Modbus function 2, so <strong>offset=2</strong> is
+input X2.</p>
+<p>If absolute addressing is being used then the <strong>offset</strong> parameter is an
+absolute 16-bit Modbus address, and is not relative to the starting
+Modbus address, which is -1.</p>
+<p>The <strong>offset</strong> is specified in words for drivers using Modbus functions
+3, 4, 6 and 16 that address input registers or holding registers. For
+example, if the Modbus function is set to 6 and the Modbus address is
+040600 then <strong>offset=2</strong> refers to address 040602. For a Koyo PLC the C
+control relays are accessed as 16-bit words at this Modbus starting
+address for Modbus function 6. <strong>offset=2</strong> will thus write to the third
+16 bit-word, which is coils C40-C57.</p>
+<p>For 32-bit or 64-bit data types (INT32_LE, INT32_BE, FLOAT32_LE,
+FLOAT32_BE) the <strong>offset</strong> specifies the location of the first 16-bit
+register, and the second register is at <strong>offset+1</strong>, etc.</p>
+<p>For string data types (STRING_HIGH, STRING_LOW, STRING_HIGH_LOW,
+STRING_LOW_HIGH, ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW,
+ZSTRING_LOW_HIGH) the <strong>offset</strong> specifies the location of the first
+16-bit register, and the second register is at <strong>offset+1</strong>, etc.</p>
+<section id="asynuint32digital">
+<h2>asynUInt32Digital<a class="headerlink" href="#asynuint32digital" title="Permalink to this heading"></a></h2>
+<p>asynUInt32Digital device support is selected with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynUInt32Digital&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asynMask(portName,offset,mask,timeout)drvUser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modbus function</p></th>
+<th class="head"><p>Offset type</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>drvUser</p></th>
+<th class="head"><p>Records supported</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1, 2</p></td>
+<td><p>Bit</p></td>
+<td><p>Single bit</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>bi, mbbi, mbbiDirect, longin</p></td>
+<td><p>value = (Modbus data &amp; mask), (normally mask=1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>3, 4, 23</p></td>
+<td><p>16-bit word</p></td>
+<td><p>16-bit word</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>bi, mbbi, mbbiDirect, longin</p></td>
+<td><p>value = (Modbus data &amp; mask), (mask selects bits of interest)</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Bit</p></td>
+<td><p>Single bit</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>bo, mbbo, mbboDirect, longout</p></td>
+<td><p>Modbus write (value &amp; mask), (normally mask=1)</p></td>
+</tr>
+<tr class="row-odd"><td><p>6, 16</p></td>
+<td><p>16-bit word</p></td>
+<td><p>16-bit word</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>bo, mbbo, mbboDirect, longout</p></td>
+<td><p>If mask==0 or mask==0xFFFF does Modbus write (value).
+Else does read/modify/write:Sets bits that are set in value and set in mask.
+Clears bits that are clear in value and set in mask.</p></td>
+</tr>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>ENABLE_HISTOGRAM</p></td>
+<td><p>bi, mbbi, mbbiDirect, longin</p></td>
+<td><p>Returns 0/1 if I/O time histogramming is disabled/enabled in driver.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>ENABLE_HISTOGRAM</p></td>
+<td><p>bo, mbbo, mbboDirect, longout</p></td>
+<td><p>If value = 0/1 then disable/enable I/O time histogramming in driver.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="asynint32">
+<h2>asynInt32<a class="headerlink" href="#asynint32" title="Permalink to this heading"></a></h2>
+<p>asynInt32 device support is selected with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynInt32&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asynMask(portName,offset,nbits,timeout)drvUser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The asynMask syntax is used for analog I/O devices, in order to specify
+the number of bits in the device. This is required for Modbus because
+the driver only knows that it is returning a 16-bit register, but not
+the actual number of bits in the device, and hence cannot return
+meaningful data with asynInt32-&gt;getBounds().</p>
+<p>nbits&gt;0 for a unipolar device. For example, nbits=12 means unipolar
+12-bit device, with a range of 0 to 4095. nbits&lt;0 for a bipolar device.
+For example, nbits=-12 means bipolar 12-bit device, with a range of
+-2048 to 2047)</p>
+<p>Note: when writing 32-bit or 64-bit values function code 16 should be
+used if the device supports it. The write will then be “atomic”. If
+function code 6 is used then the data will be written in multiple
+messages, and there will be an short time period in which the device has
+incorrect data.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modbus function</p></th>
+<th class="head"><p>Offset type</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>drvUser</p></th>
+<th class="head"><p>Records supported</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1, 2</p></td>
+<td><p>Bit</p></td>
+<td><p>Single bit</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>ai, bi, mbbi, longin</p></td>
+<td><p>value = (epicsUInt32)Modbus data</p></td>
+</tr>
+<tr class="row-odd"><td><p>3, 4, 23</p></td>
+<td><p>16-bit words</p></td>
+<td><p>16, 32, or 64-bit word</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>ai, mbbi, longin</p></td>
+<td><p>value = (epicsInt32)Modbus data</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Bit</p></td>
+<td><p>Single bit</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>ao, bo, mbbo, longout</p></td>
+<td><p>Modbus write value</p></td>
+</tr>
+<tr class="row-odd"><td><p>6, 16, 23</p></td>
+<td><p>16-bit words</p></td>
+<td><p>16, 32, or 64-bit word</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>ao, mbbo, longout</p></td>
+<td><p>Modbus write value</p></td>
+</tr>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>MODBUS_READ</p></td>
+<td><p>ao, bo, longout</p></td>
+<td><p>Writing to a Modbus input driver with this drvUser value will force the poller thread
+to run once immediately, regardless of the value of POLL_DELAY.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>READ_OK</p></td>
+<td><p>ai, longin</p></td>
+<td><p>Returns number of successful read operations on this asyn port</p></td>
+</tr>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>WRITE_OK</p></td>
+<td><p>ai, longin</p></td>
+<td><p>Returns number of successful write operations on this asyn port</p></td>
+</tr>
+<tr class="row-odd"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>IO_ERRORS</p></td>
+<td><p>ai, longin</p></td>
+<td><p>Returns number of I/O errors on this asyn port</p></td>
+</tr>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>LAST_IO_TIME</p></td>
+<td><p>ai, longin</p></td>
+<td><p>Returns number of milliseconds for last I/O operation</p></td>
+</tr>
+<tr class="row-odd"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>MAX_IO_TIME</p></td>
+<td><p>ai, longin</p></td>
+<td><p>Returns maximum number of milliseconds for I/O operations</p></td>
+</tr>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>HISTOGRAM_BIN_TIME</p></td>
+<td><p>ao, longout</p></td>
+<td><p>Sets the time per bin in msec in the statistics histogram</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="asynint64">
+<h2>asynInt64<a class="headerlink" href="#asynint64" title="Permalink to this heading"></a></h2>
+<p>asynInt64 device support is selected with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynInt64&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note: when writing 32-bit or 64-bit values function code 16 should be
+used if the device supports it. The write will then be “atomic”. If
+function code 6 is used then the data will be written in multiple
+messages, and there will be an short time period in which the device has
+incorrect data.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modbus function</p></th>
+<th class="head"><p>Offset type</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>drvUser</p></th>
+<th class="head"><p>Records supported</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1, 2</p></td>
+<td><p>Bit</p></td>
+<td><p>Single bit</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>ai, longin, int64in</p></td>
+<td><p>value = (epicsUInt64)Modbus data</p></td>
+</tr>
+<tr class="row-odd"><td><p>3, 4, 23</p></td>
+<td><p>16-bit words</p></td>
+<td><p>16, 32, or 64-bit word</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>ai, longin, int64in</p></td>
+<td><p>value = (epicsInt64)Modbus data</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Bit</p></td>
+<td><p>Single bit</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>ao, longout, int64out</p></td>
+<td><p>Modbus write value</p></td>
+</tr>
+<tr class="row-odd"><td><p>6, 16, 23</p></td>
+<td><p>16-bit words</p></td>
+<td><p>16, 32, or 64-bit word</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>ao, longout, int64out</p></td>
+<td><p>Modbus write value</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="asynfloat64">
+<h2>asynFloat64<a class="headerlink" href="#asynfloat64" title="Permalink to this heading"></a></h2>
+<p>asynFloat64 device support is selected with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynFloat64&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note: when writing 32-bit or 64-bit values function code 16 should be
+used if the device supports it. The write will then be “atomic”. If
+function code 6 is used then the data will be written in multiple
+messages, and there will be an short time period in which the device has
+incorrect data.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modbus function</p></th>
+<th class="head"><p>Offset type</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>drvUser</p></th>
+<th class="head"><p>Records supported</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1, 2</p></td>
+<td><p>Bit</p></td>
+<td><p>Single bit</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>ai</p></td>
+<td><p>value = (epicsFloat64)Modbus data</p></td>
+</tr>
+<tr class="row-odd"><td><p>3, 4, 23</p></td>
+<td><p>16-bit words</p></td>
+<td><p>16, 32, or 64-bit word</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>ai</p></td>
+<td><p>value = (epicsFloat64)Modbus data</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Bit</p></td>
+<td><p>Single bit</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>ao</p></td>
+<td><p>Modbus write (epicsUInt16)value</p></td>
+</tr>
+<tr class="row-odd"><td><p>6, 16, 23</p></td>
+<td><p>16-bit word</p></td>
+<td><p>16-bit word</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>ao</p></td>
+<td><p>Modbus write value</p></td>
+</tr>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>NA</p></td>
+<td><p>NA</p></td>
+<td><p>POLL_DELAY</p></td>
+<td><p>ai, ao</p></td>
+<td><p>Read or write the delay time in seconds between polls for the read poller thread.
+If &lt;=0 then the poller thread does not run periodically, it only runs when it
+is woken up by an epicsEvent signal, which happens when the driver has an asynInt32
+write with the MODBUS_READ drvUser string.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="asynint32array">
+<h2>asynInt32Array<a class="headerlink" href="#asynint32array" title="Permalink to this heading"></a></h2>
+<p>asynInt32Array device support is selected with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynInt32ArrayIn&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynInt32ArrayOut&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>asynInt32Array device support is used to read or write arrays of up to
+2000 coil values or up to 125 16-bit registers. It is also used to read
+the histogram array of I/O times when histogramming is enabled.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modbus function</p></th>
+<th class="head"><p>Offset type</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>drvUser</p></th>
+<th class="head"><p>Records supported</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1, 2</p></td>
+<td><p>Bit</p></td>
+<td><p>Array of bits</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>waveform (input)</p></td>
+<td><p>value = (epicsInt32)Modbus data[]</p></td>
+</tr>
+<tr class="row-odd"><td><p>3, 4, 23</p></td>
+<td><p>16-bit word</p></td>
+<td><p>Array of 16, 32 or 64-bit words</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>waveform (input)</p></td>
+<td><p>value = (epicsInt32)Modbus data[]</p></td>
+</tr>
+<tr class="row-even"><td><p>15</p></td>
+<td><p>Bit</p></td>
+<td><p>Array of bits</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>waveform (output)</p></td>
+<td><p>Modbus write (epicsUInt16)value[]</p></td>
+</tr>
+<tr class="row-odd"><td><p>16, 23</p></td>
+<td><p>16-bit word</p></td>
+<td><p>Array of 16, 32, or 64-bit words</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>waveform (output)</p></td>
+<td><p>Modbus write value[]</p></td>
+</tr>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>32-bit word</p></td>
+<td><p>NA</p></td>
+<td><p>READ_HISTOGRAM</p></td>
+<td><p>waveform (input)</p></td>
+<td><p>Returns a histogram array of the I/O times in milliseconds since histogramming was
+last enabled.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Any</p></td>
+<td><p>32-bit word</p></td>
+<td><p>NA</p></td>
+<td><p>HISTOGRAM_TIME_AXIS</p></td>
+<td><p>waveform (input)</p></td>
+<td><p>Returns the time axis of the histogram data. Each element is HISTOGRAM_BIN_TIME
+msec.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="asynoctet">
+<h2>asynOctet<a class="headerlink" href="#asynoctet" title="Permalink to this heading"></a></h2>
+<p>asynOctet device support is selected with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynOctetRead&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser[=number_of_characters]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynOctetWrite&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser[=number_of_characters]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>asynOctet device support is used to read or write strings of up to 250
+characters.</p>
+<p>Note: The 0 terminating byte at the end of the string in a waveform
+record or stringout record is only written to the Modbus device
+if one of the ZSTRING_* drvUser types is used.</p>
+<p>Note: On input the number of characters read from the Modbus device will be the lesser of:</p>
+<ul class="simple">
+<li><p>The number of characters in the record minus the terminating 0 byte
+(39 for stringin, NELM-1 for waveform) or</p></li>
+<li><p>The number of characters specified after drvUser (minus the
+terminating 0 byte) or</p></li>
+<li><p>The number of characters contained in the registers defined
+modbusLength argument to drvModbusAsynConfigure (modbusLength or
+modbusLength*2 depending on whether the drvUser field specifies 1 or 2
+characters per register.</p></li>
+</ul>
+<p>The string will be truncated if any of the characters read from Modbus
+is a 0 byte, but there is no guarantee that the last character in the
+string is followed by a 0 byte in the Modbus registers. Generally either
+number_of_characters or NELM in the waveform record should be used to
+define the correct length for the string.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modbus function</p></th>
+<th class="head"><p>Offset type</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>drvUser</p></th>
+<th class="head"><p>Records supported</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3, 4, 23</p></td>
+<td><p>16-bit word</p></td>
+<td><p>String of characters</p></td>
+<td><p>STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH&lt;/br&gt;
+ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH</p></td>
+<td><p>waveform (input) or stringin</p></td>
+<td><p>value = Modbus data[]</p></td>
+</tr>
+<tr class="row-odd"><td><p>16, 23</p></td>
+<td><p>16-bit word</p></td>
+<td><p>String of characters</p></td>
+<td><p>STRING_HIGH, STRING_LOW, STRING_HIGH_LOW, or STRING_LOW_HIGH&lt;/br&gt;
+ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH</p></td>
+<td><p>waveform (output) or stringout</p></td>
+<td><p>Modbus write value[]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="template-files">
+<h2>Template files<a class="headerlink" href="#template-files" title="Permalink to this heading"></a></h2>
+<p><strong>modbus</strong> provides example template files in the modbusApp/Db
+directory. These include the following.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Files</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Macro arguments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>bi_bit.template</p></td>
+<td><p>asynUInt32Digital support for bi record with discrete inputs or coils. Mask=1.</p></td>
+<td><p>P, R, PORT, OFFSET, ZNAM, ONAM, ZSV, OSV, SCAN</p></td>
+</tr>
+<tr class="row-odd"><td><p>bo_bit.template</p></td>
+<td><p>asynUInt32Digital support for bo record with coil outputs. Mask=1.</p></td>
+<td><p>P, R, PORT, OFFSET, ZNAM, ONAM</p></td>
+</tr>
+<tr class="row-even"><td><p>bi_word.template</p></td>
+<td><p>asynUInt32Digital support for bi record with register inputs.</p></td>
+<td><p>P, R, PORT, OFFSET, MASK, ZNAM, ONAM, ZSV, OSV, SCAN</p></td>
+</tr>
+<tr class="row-odd"><td><p>bo_word.template</p></td>
+<td><p>asynUInt32Digital support for bo record with register outputs.</p></td>
+<td><p>P, R, PORT, OFFSET, MASK, ZNAM, ONAM</p></td>
+</tr>
+<tr class="row-even"><td><p>mbbiDirect.template</p></td>
+<td><p>asynUInt32Digital support for mbbiDirect record with register inputs.</p></td>
+<td><p>P, R, PORT, OFFSET, MASK, SCAN</p></td>
+</tr>
+<tr class="row-odd"><td><p>mbboDirect.template</p></td>
+<td><p>asynUInt32Digital support for mbboDirect record with register outputs.</p></td>
+<td><p>P, R, PORT, OFFSET, MASK</p></td>
+</tr>
+<tr class="row-even"><td><p>longin.template</p></td>
+<td><p>asynUInt32Digital support for longin record with register inputs. Mask=0xFFFF.</p></td>
+<td><p>P, R, PORT, OFFSET, SCAN</p></td>
+</tr>
+<tr class="row-odd"><td><p>longout.template</p></td>
+<td><p>asynUInt32Digital support for longout record with register outputs. Mask=0xFFFF.</p></td>
+<td><p>P, R, PORT, OFFSET</p></td>
+</tr>
+<tr class="row-even"><td><p>longinInt32.template</p></td>
+<td><p>asynInt32 support for longin record with register inputs.</p></td>
+<td><p>P, R, PORT, OFFSET, SCAN, DATA_TYPE</p></td>
+</tr>
+<tr class="row-odd"><td><p>longoutInt32.template</p></td>
+<td><p>asynInt32 support for longout record with register outputs.</p></td>
+<td><p>P, R, PORT, OFFSET, DATA_TYPE</p></td>
+</tr>
+<tr class="row-even"><td><p>ai.template</p></td>
+<td><p>asynInt32 support for ai record with LINEAR conversion</p></td>
+<td><p>P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN</p></td>
+</tr>
+<tr class="row-odd"><td><p>ao.template</p></td>
+<td><p>asynInt32 support for ao record with LINEAR conversion</p></td>
+<td><p>P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC</p></td>
+</tr>
+<tr class="row-even"><td><p>ai_average.template</p></td>
+<td><p>asynInt32Average support for ai record with LINEAR conversion. This support gets
+callbacks each time the poll thread reads the analog input, and averages readings
+until the record is processed.</p></td>
+<td><p>P, R, PORT, OFFSET, BITS, EGUL, EGUF, PREC, SCAN</p></td>
+</tr>
+<tr class="row-odd"><td><p>intarray_in.template</p></td>
+<td><p>asynInt32Array support for waveform record with discrete, coil, or register inputs.</p></td>
+<td><p>P, R, PORT, OFFSET, NELM, SCAN</p></td>
+</tr>
+<tr class="row-even"><td><p>intarray_out.template</p></td>
+<td><p>asynInt32Array support for waveform record with discrete, coil, or register outputs.</p></td>
+<td><p>P, R, PORT, OFFSET, NELM</p></td>
+</tr>
+<tr class="row-odd"><td><p>int64in.template</p></td>
+<td><p>asynInt64 support for int64in record with register inputs.</p></td>
+<td><p>P, R, PORT, OFFSET, SCAN, DATA_TYPE</p></td>
+</tr>
+<tr class="row-even"><td><p>int64out.template</p></td>
+<td><p>asynInt64 support for int64out record with register outputs.</p></td>
+<td><p>P, R, PORT, OFFSET, DATA_TYPE</p></td>
+</tr>
+<tr class="row-odd"><td><p>aiFloat64.template</p></td>
+<td><p>asynFloat64 support for ai record</p></td>
+<td><p>P, R, PORT, OFFSET, LOPR, HOPR, PREC, SCAN, DATA_TYPE</p></td>
+</tr>
+<tr class="row-even"><td><p>aoFloat64.template</p></td>
+<td><p>asynFloat64 support for ao record</p></td>
+<td><p>P, R, PORT, OFFSET, LOPR, HOPR, PREC, DATA_TYPE</p></td>
+</tr>
+<tr class="row-odd"><td><p>stringin.template</p></td>
+<td><p>asynOctet support for stringin record</p></td>
+<td><p>P, R, PORT, OFFSET, DATA_TYPE, SCAN</p></td>
+</tr>
+<tr class="row-even"><td><p>stringout.template</p></td>
+<td><p>asynOctet support for stringout record</p></td>
+<td><p>P, R, PORT, OFFSET, DATA_TYPE, INITIAL_READBACK</p></td>
+</tr>
+<tr class="row-odd"><td><p>stringWaveformIn.template</p></td>
+<td><p>asynOctet input support for waveform record</p></td>
+<td><p>P, R, PORT, OFFSET, DATA_TYPE, NELM, SCAN</p></td>
+</tr>
+<tr class="row-even"><td><p>stringWaveformOut.template</p></td>
+<td><p>asynOctet output support for waveform record</p></td>
+<td><p>P, R, PORT, OFFSET, DATA_TYPE, NELM, INITIAL_READBACK</p></td>
+</tr>
+<tr class="row-odd"><td><p>asynRecord.template</p></td>
+<td><p>Support for asyn record. Useful for controlling trace printing, and for debugging.</p></td>
+<td><p>P, R, PORT, ADDR, TMOD, IFACE</p></td>
+</tr>
+<tr class="row-even"><td><p>poll_delay.template</p></td>
+<td><p>Support for ao record to control the delay time for the poller thread.</p></td>
+<td><p>P, R, PORT</p></td>
+</tr>
+<tr class="row-odd"><td><p>poll_trigger.template</p></td>
+<td><p>Support for bo record to trigger running the poller thread.</p></td>
+<td><p>P, R, PORT</p></td>
+</tr>
+<tr class="row-even"><td><p>statistics.template</p></td>
+<td><p>Support for bo, longin and waveform records to read I/O statistics for the port.</p></td>
+<td><p>P, R, PORT, SCAN</p></td>
+</tr>
+</tbody>
+</table>
+<p>The following table explains the macro parameters used in the preceding table.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Macro</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>P</p></td>
+<td><p>Prefix for record name. Complete record name is $(P)$(R).</p></td>
+</tr>
+<tr class="row-odd"><td><p>R</p></td>
+<td><p>Record name. Complete record name is $(P)$(R).</p></td>
+</tr>
+<tr class="row-even"><td><p>PORT</p></td>
+<td><p>Port name for <strong>modbus</strong> asyn port.</p></td>
+</tr>
+<tr class="row-odd"><td><p>OFFSET</p></td>
+<td><p>Offset for Modbus data relative to start address for this port.</p></td>
+</tr>
+<tr class="row-even"><td><p>MASK</p></td>
+<td><p>Bit mask used to select data for this record.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ZNAM</p></td>
+<td><p>String for 0 value for bi/bo records.</p></td>
+</tr>
+<tr class="row-even"><td><p>ONAM</p></td>
+<td><p>String for 1 value for bi/bo records.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ZSV</p></td>
+<td><p>0 severity for bi/bo records.</p></td>
+</tr>
+<tr class="row-even"><td><p>OSV</p></td>
+<td><p>1 severity for bi/bo records.</p></td>
+</tr>
+<tr class="row-odd"><td><p>BITS</p></td>
+<td><p>Number of bits for analog I/O devices. &gt;0=unipolar, &lt;0=bipolar.</p></td>
+</tr>
+<tr class="row-even"><td><p>DATA_TYPE</p></td>
+<td><p>drvUser field specifying the Modbus data type. If this field is blank or is MODBUS_DATA
+then the default datatype specified in the drvModbusAsynConfigure command is used.
+Other allowed values are listed in the table above (UINT16, INT16SM, BCD_SIGNED,
+etc.)</p></td>
+</tr>
+<tr class="row-odd"><td><p>EGUL</p></td>
+<td><p>Engineering value for lower limit of analog device.</p></td>
+</tr>
+<tr class="row-even"><td><p>EGUF</p></td>
+<td><p>Engineering value for upper limit of analog device.</p></td>
+</tr>
+<tr class="row-odd"><td><p>LOPR</p></td>
+<td><p>Lower display limit of analog device.</p></td>
+</tr>
+<tr class="row-even"><td><p>HOPR</p></td>
+<td><p>Upper display limit of analog device.</p></td>
+</tr>
+<tr class="row-odd"><td><p>PREC</p></td>
+<td><p>Number of digits of precision for ai/ao records.</p></td>
+</tr>
+<tr class="row-even"><td><p>NELM</p></td>
+<td><p>Number of elements in waveform records.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ADDR</p></td>
+<td><p>Address for asyn record, same as OFFSET above.</p></td>
+</tr>
+<tr class="row-even"><td><p>TMOD</p></td>
+<td><p>Transfer mode for asyn record.</p></td>
+</tr>
+<tr class="row-odd"><td><p>IFACE</p></td>
+<td><p>asyn interface for asyn record.</p></td>
+</tr>
+<tr class="row-even"><td><p>SCAN</p></td>
+<td><p>Scan rate for record (e.g. “1 second”, “I/O Intr”, etc.).</p></td>
+</tr>
+<tr class="row-odd"><td><p>INITIAL_READBACK</p></td>
+<td><p>Controls whether an initial readback from the device is done for the stringout or
+string waveform output records.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="creating_driver.html" class="btn btn-neutral float-left" title="Creating a modbus port driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="example_applications.html" class="btn btn-neutral float-right" title="Example Applications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Mark Rivers.
+      <span class="lastupdated">Last updated on 2023-February-27.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

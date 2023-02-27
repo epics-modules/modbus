@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview of Modbus &mdash; EPICS support for Modbus</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/my_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Driver architecture" href="driver_architecture.html" />
+    <link rel="prev" title="Acknowledgments" href="acknowledgments.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            modbus
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgments.html">Acknowledgments</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview of Modbus</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#modbus-communication-links">Modbus communication links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modbus-data-types">Modbus data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modbus-communications">Modbus communications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modbus-function-codes">Modbus function codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modbus-addresses">Modbus addresses</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#discrete-inputs-and-coils">Discrete inputs and coils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#input-registers-and-holding-registers-v-memory">Input registers and holding registers (V memory)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#modbus-data-length-limitations">Modbus data length limitations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#more-information-on-modbus">More information on Modbus</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="driver_architecture.html">Driver architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_driver.html">Creating a <strong>modbus</strong> port driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device_support.html">EPICS device support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_applications.html">Example Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="medm_screens.html">medm screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debug tracing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">modbus</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Overview of Modbus</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/overview.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="overview-of-modbus">
+<h1>Overview of Modbus<a class="headerlink" href="#overview-of-modbus" title="Permalink to this heading"></a></h1>
+<p>MODBUS is an application layer messaging protocol, positioned at level 7
+of the OSI model, that provides client/server communication between
+devices connected on different types of buses or networks. It is
+typically used for communication with I/O systems, including
+Programmable Logic Controllers (PLCs).</p>
+<section id="modbus-communication-links">
+<h2>Modbus communication links<a class="headerlink" href="#modbus-communication-links" title="Permalink to this heading"></a></h2>
+<p>Modbus supports the following 3 communication-link layers:</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Link type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TCP</p></td>
+<td><p>TCP/IP using standard port 502.</p></td>
+</tr>
+<tr class="row-odd"><td><p>RTU</p></td>
+<td><p>RTU is normally run over serial communication links, i.e. RS-232,
+RS-422, or RS-485. RTU uses an additional CRC for packet checking. The
+protocol directly transmits each byte as 8 data bits, so uses “binary”
+rather than ASCII encoding. When using serial links start and end of
+message frames is detected by timing rather than by specific characters.
+RTU can also be run over TCP, though this is less common than the
+standard Modbus TCP without RTU.</p></td>
+</tr>
+<tr class="row-even"><td><p>Serial ASCII</p></td>
+<td><p>Serial protocol, which is normally run over serial communication links,
+i.e. RS-232, RS-422, or RS-485. Serial ASCII uses an additional LRC for
+packet checking. The protocol encodes each byte as 2 ASCII characters.
+The start and end of message frames is detected by specific characters
+(“:” to start a message and CR/LF to end a message). This protocol is
+less efficient than RTU, but may be more reliable in some environments.
+ASCII can also be run over TCP, though this is much less common than the
+standard Modbus TCP.</p></td>
+</tr>
+</tbody>
+</table>
+<p>This <strong>modbus</strong> package supports all of the above Modbus
+communication-link layers.</p>
+</section>
+<section id="modbus-data-types">
+<h2>Modbus data types<a class="headerlink" href="#modbus-data-types" title="Permalink to this heading"></a></h2>
+<p>Modbus provides access to the following 4 types of data:</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Primary tables</p></th>
+<th class="head"><p>Object type</p></th>
+<th class="head"><p>Access</p></th>
+<th class="head"><p>Comments</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Discrete Inputs</p></td>
+<td><p>Single bit</p></td>
+<td><p>Read-Only</p></td>
+<td><p>This type of data can be provided by an I/O system.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Coils</p></td>
+<td><p>Single bit</p></td>
+<td><p>Read-Write</p></td>
+<td><p>This type of data can be alterable by an application program.</p></td>
+</tr>
+<tr class="row-even"><td><p>Input Registers</p></td>
+<td><p>16-bit word</p></td>
+<td><p>Read-Only</p></td>
+<td><p>This type of data can be provided by an I/O system.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Holding Registers</p></td>
+<td><p>16-bit word</p></td>
+<td><p>Read-Write</p></td>
+<td><p>This type of data can be alterable by an application program.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="modbus-communications">
+<h2>Modbus communications<a class="headerlink" href="#modbus-communications" title="Permalink to this heading"></a></h2>
+<p>Modbus communication consists of a <em>request message</em> sent from the
+<em>Modbus client</em> to the <em>Modbus server</em>. The server replies with a
+<em>response message</em>. Modbus request messages contain:</p>
+<ul class="simple">
+<li><p>An 8-bit Modbus function code that describes the type of data
+transfer to be performed.</p></li>
+<li><p>A 16-bit Modbus address that describes the location in the server to
+read or write data from.</p></li>
+<li><p>For write operations, the data to be transferred.</p></li>
+</ul>
+</section>
+<section id="modbus-function-codes">
+<h2>Modbus function codes<a class="headerlink" href="#modbus-function-codes" title="Permalink to this heading"></a></h2>
+<p><strong>modbus</strong> supports the following 9 Modbus function codes:</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Access</p></th>
+<th class="head"><p>Function description</p></th>
+<th class="head"><p>Function code</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bit access</p></td>
+<td><p>Read Coils</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bit access</p></td>
+<td><p>Read Discrete Inputs</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Bit access</p></td>
+<td><p>Write Single Coil</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bit access</p></td>
+<td><p>Write Multiple Coils</p></td>
+<td><p>15</p></td>
+</tr>
+<tr class="row-even"><td><p>16-bit word access</p></td>
+<td><p>Read Input Registers</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>16-bit word access</p></td>
+<td><p>Read Holding Registers</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p>16-bit word access</p></td>
+<td><p>Write Single Register</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-odd"><td><p>16-bit word access</p></td>
+<td><p>Write Multiple Registers</p></td>
+<td><p>16</p></td>
+</tr>
+<tr class="row-even"><td><p>16-bit word access</p></td>
+<td><p>Read/Write Multiple Registers</p></td>
+<td><p>23</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="modbus-addresses">
+<h2>Modbus addresses<a class="headerlink" href="#modbus-addresses" title="Permalink to this heading"></a></h2>
+<p>Modbus addresses are specified by a 16-bit integer address. The location
+of inputs and outputs within the 16-bit address space is not defined by
+the Modbus protocol, it is vendor-specific. The following table lists
+some of the commonly used Modbus addresses for Koyo DL05/06/240/250/260/430/440/450 PLCs.</p>
+<section id="discrete-inputs-and-coils">
+<h3>Discrete inputs and coils<a class="headerlink" href="#discrete-inputs-and-coils" title="Permalink to this heading"></a></h3>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>PLC Memory Type</p></th>
+<th class="head"><p>Modbus start address Decimal (octal)</p></th>
+<th class="head"><p>Function codes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Inputs (X)</p></td>
+<td><p>2048 (04000)</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Special Relays (SP)</p></td>
+<td><p>3072 (06000)</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Outputs (Y)</p></td>
+<td><p>2048 (04000)</p></td>
+<td><p>1, 5, 15</p></td>
+</tr>
+<tr class="row-odd"><td><p>Control Relays (C)</p></td>
+<td><p>3072 (06000)</p></td>
+<td><p>1, 5, 15</p></td>
+</tr>
+<tr class="row-even"><td><p>Timer Contacts (T)</p></td>
+<td><p>6144 (014000)</p></td>
+<td><p>1, 5, 15</p></td>
+</tr>
+<tr class="row-odd"><td><p>Counter Contacts (CT)</p></td>
+<td><p>6400 (014400)</p></td>
+<td><p>1, 5, 15</p></td>
+</tr>
+<tr class="row-even"><td><p>Stage Status Bits (S)</p></td>
+<td><p>6144 (012000)</p></td>
+<td><p>1, 5, 15</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="input-registers-and-holding-registers-v-memory">
+<h3>Input registers and holding registers (V memory)<a class="headerlink" href="#input-registers-and-holding-registers-v-memory" title="Permalink to this heading"></a></h3>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>PLC Memory Type</p></th>
+<th class="head"><p>Modbus start address Decimal (octal)</p></th>
+<th class="head"><p>Function codes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Timer Current Values (TA)</p></td>
+<td><p>0 (00)</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Counter Current Values (CTA)</p></td>
+<td><p>512 (01000)</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>Global Inputs (VGX)</p></td>
+<td><p>16384 (040000)</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Global Outputs (VGY)</p></td>
+<td><p>16512 (040200)</p></td>
+<td><p>3, 6, 16</p></td>
+</tr>
+<tr class="row-even"><td><p>Inputs (VX)</p></td>
+<td><p>16640 (040400)</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>Outputs (VY)</p></td>
+<td><p>16704 (040500)</p></td>
+<td><p>3, 6, 16</p></td>
+</tr>
+<tr class="row-even"><td><p>Control Relays (VC)</p></td>
+<td><p>16768 (040600)</p></td>
+<td><p>3, 6, 16</p></td>
+</tr>
+<tr class="row-odd"><td><p>Stage Status Bits (VS)</p></td>
+<td><p>16896 (041000)</p></td>
+<td><p>3, 6, 16</p></td>
+</tr>
+<tr class="row-even"><td><p>Timer Contacts (VT)</p></td>
+<td><p>16960 (041100)</p></td>
+<td><p>3, 6, 16</p></td>
+</tr>
+<tr class="row-odd"><td><p>Counter Contacts (VCT)</p></td>
+<td><p>16992 (041140)</p></td>
+<td><p>3, 6, 16</p></td>
+</tr>
+<tr class="row-even"><td><p>Special Relays (VSP)</p></td>
+<td><p>17024 (041200)</p></td>
+<td><p>4</p></td>
+</tr>
+</tbody>
+</table>
+<p>Other PLC manufacturers will use different Modbus addresses.</p>
+<p>Note that 16-bit Modbus addresses are commonly specified with an offset
+of 400001 (or 300001). This offset is not used by the <strong>modbus</strong> driver,
+it uses only the 16-bit address, not the offset.</p>
+</section>
+</section>
+<section id="modbus-data-length-limitations">
+<h2>Modbus data length limitations<a class="headerlink" href="#modbus-data-length-limitations" title="Permalink to this heading"></a></h2>
+<p>Modbus read operations are limited to transferring 125 16-bit words or
+2000 bits. Modbus write operations are limited to transferring 123
+16-bit words or 1968 bits.</p>
+</section>
+<section id="more-information-on-modbus">
+<h2>More information on Modbus<a class="headerlink" href="#more-information-on-modbus" title="Permalink to this heading"></a></h2>
+<p>For more information about the Modbus protocol, the official Modbus
+specification can be found <a class="reference external" href="http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf">on the
+Web</a>
+or in the <strong>modbus</strong> documentation directory.
+<a class="reference download internal" download="" href="_downloads/c7a9377b51990ac029036109bef240f5/Modbus_Application_Protocol_V1_1b.pdf"><code class="xref download docutils literal notranslate"><span class="pre">Modbus_Application_Protocol_V1_1b.pdf</span></code></a>.</p>
+<p>The official specification for Modbus over TCP/IP can be found <a class="reference external" href="http://www.modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf">on the
+Web</a>
+or in the <strong>modbus</strong> documentation directory.
+<a class="reference download internal" download="" href="_downloads/6d549abaf5e69a51fb2ca774a4d16aa8/Modbus_Messaging_Implementation_Guide_V1_0b.pdf"><code class="xref download docutils literal notranslate"><span class="pre">Modbus_Messaging_Implementation_Guide_V1_0b.pdf</span></code></a>.</p>
+<p>The official specification for Modbus over serial can be found <a href="#id1"><span class="problematic" id="id2">`on the
+Web &lt;http://www.modbus.org/docs/Modbus_over_serial_line_V1_02.pdf`__</span></a> or
+in the <strong>modbus</strong> documentation directory.
+<a class="reference download internal" download="" href="_downloads/a58a1fbed63cd71e7b59d51af280f83b/Modbus_over_serial_line_V1_02.pdf"><code class="xref download docutils literal notranslate"><span class="pre">Modbus_over_serial_line_V1_02.pdf</span></code></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="acknowledgments.html" class="btn btn-neutral float-left" title="Acknowledgments" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="driver_architecture.html" class="btn btn-neutral float-right" title="Driver architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Mark Rivers.
+      <span class="lastupdated">Last updated on 2023-February-27.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

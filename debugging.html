@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Debug tracing &mdash; EPICS support for Modbus</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/my_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="medm screens" href="medm_screens.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            modbus
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgments.html">Acknowledgments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview of Modbus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="driver_architecture.html">Driver architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating_driver.html">Creating a <strong>modbus</strong> port driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device_support.html">EPICS device support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_applications.html">Example Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="medm_screens.html">medm screens</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Debug tracing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#asynrecord-adl">asynRecord.adl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asynregister-adl">asynRegister.adl</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">modbus</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Debug tracing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/debugging.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="debug-tracing">
+<h1>Debug tracing<a class="headerlink" href="#debug-tracing" title="Permalink to this heading"></a></h1>
+<p>One can obtain diagnostic output for a <strong>modbus</strong> port driver using the
+“dbior” or “asynPrint” commands at the iocsh or vxWorks shell.
+“asynReport” with no arguments will print a brief report for all asyn
+drivers, including the drvAsynIPPort or drvAsynSerialPort driver that
+<strong>modbus</strong> drivers are connected to, and for all <strong>modbus</strong> port
+drivers. For example, a partial output for the Koyo1 application when it
+is connected via TCP is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">epics</span><span class="o">&gt;</span> <span class="n">asynReport</span>
+<span class="n">Koyo1</span> <span class="n">multiDevice</span><span class="p">:</span><span class="n">No</span> <span class="n">canBlock</span><span class="p">:</span><span class="n">Yes</span> <span class="n">autoConnect</span><span class="p">:</span><span class="n">No</span>
+<span class="n">Port</span> <span class="mf">164.54.160.158</span><span class="p">:</span><span class="mi">502</span><span class="p">:</span> <span class="n">Connected</span>
+<span class="n">K1_Xn_Bit</span> <span class="n">multiDevice</span><span class="p">:</span><span class="n">Yes</span> <span class="n">canBlock</span><span class="p">:</span><span class="n">No</span> <span class="n">autoConnect</span><span class="p">:</span><span class="n">Yes</span>
+    <span class="n">addr</span> <span class="mi">0</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+    <span class="n">addr</span> <span class="mi">1</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+    <span class="n">addr</span> <span class="mi">2</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+    <span class="n">addr</span> <span class="mi">3</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+    <span class="n">addr</span> <span class="mi">4</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+    <span class="n">addr</span> <span class="mi">5</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+    <span class="n">addr</span> <span class="mi">6</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+    <span class="n">addr</span> <span class="mi">7</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+<span class="n">modbus</span> <span class="n">port</span><span class="p">:</span> <span class="n">K1_Xn_Bit</span>
+<span class="n">K1_Xn_Word</span> <span class="n">multiDevice</span><span class="p">:</span><span class="n">Yes</span> <span class="n">canBlock</span><span class="p">:</span><span class="n">No</span> <span class="n">autoConnect</span><span class="p">:</span><span class="n">Yes</span>
+    <span class="n">addr</span> <span class="mi">0</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+</pre></div>
+</div>
+<p>To obtain more detailed information, one can request information for a
+specific <strong>modbus</strong> port driver, and output level &gt;0 as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">epics</span><span class="o">&gt;</span> <span class="n">asynReport</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;K1_Xn_Word&quot;</span>
+<span class="n">K1_Xn_Word</span> <span class="n">multiDevice</span><span class="p">:</span><span class="n">Yes</span> <span class="n">canBlock</span><span class="p">:</span><span class="n">No</span> <span class="n">autoConnect</span><span class="p">:</span><span class="n">Yes</span>
+    <span class="n">enabled</span><span class="p">:</span><span class="n">Yes</span> <span class="n">connected</span><span class="p">:</span><span class="n">Yes</span> <span class="n">numberConnects</span> <span class="mi">1</span>
+    <span class="n">nDevices</span> <span class="mi">1</span> <span class="n">nQueued</span> <span class="mi">0</span> <span class="n">blocked</span><span class="p">:</span><span class="n">No</span>
+    <span class="n">asynManagerLock</span><span class="p">:</span><span class="n">No</span> <span class="n">synchronousLock</span><span class="p">:</span><span class="n">No</span>
+    <span class="n">exceptionActive</span><span class="p">:</span><span class="n">No</span> <span class="n">exceptionUsers</span> <span class="mi">0</span> <span class="n">exceptionNotifys</span> <span class="mi">0</span>
+    <span class="n">interfaceList</span>
+        <span class="n">asynCommon</span> <span class="n">pinterface</span> <span class="mh">0x4001d180</span> <span class="n">drvPvt</span> <span class="mh">0x8094f78</span>
+        <span class="n">asynDrvUser</span> <span class="n">pinterface</span> <span class="mh">0x4001d10c</span> <span class="n">drvPvt</span> <span class="mh">0x8094f78</span>
+        <span class="n">asynUInt32Digital</span> <span class="n">pinterface</span> <span class="mh">0x4001d118</span> <span class="n">drvPvt</span> <span class="mh">0x8094f78</span>
+        <span class="n">asynInt32</span> <span class="n">pinterface</span> <span class="mh">0x4001d134</span> <span class="n">drvPvt</span> <span class="mh">0x8094f78</span>
+        <span class="n">asynFloat64</span> <span class="n">pinterface</span> <span class="mh">0x4001d148</span> <span class="n">drvPvt</span> <span class="mh">0x8094f78</span>
+        <span class="n">asynInt32Array</span> <span class="n">pinterface</span> <span class="mh">0x4001d158</span> <span class="n">drvPvt</span> <span class="mh">0x8094f78</span>
+    <span class="n">addr</span> <span class="mi">0</span> <span class="n">autoConnect</span> <span class="n">Yes</span> <span class="n">enabled</span> <span class="n">Yes</span> <span class="n">connected</span> <span class="n">Yes</span> <span class="n">exceptionActive</span> <span class="n">No</span>
+    <span class="n">exceptionActive</span> <span class="n">No</span> <span class="n">exceptionUsers</span> <span class="mi">1</span> <span class="n">exceptionNotifys</span> <span class="mi">0</span>
+    <span class="n">blocked</span> <span class="n">No</span>
+<span class="n">modbus</span> <span class="n">port</span><span class="p">:</span> <span class="n">K1_Xn_Word</span>
+    <span class="n">asyn</span> <span class="n">TCP</span> <span class="n">server</span><span class="p">:</span>    <span class="n">Koyo1</span>
+    <span class="n">modbusFunction</span><span class="p">:</span>     <span class="mi">3</span>
+    <span class="n">modbusStartAddress</span><span class="p">:</span> <span class="mi">040400</span>
+    <span class="n">modbusLength</span><span class="p">:</span>       <span class="mi">010</span>
+    <span class="n">plcType</span><span class="p">:</span>            <span class="n">Koyo</span>
+    <span class="n">I</span><span class="o">/</span><span class="n">O</span> <span class="n">errors</span><span class="p">:</span>         <span class="mi">0</span>
+    <span class="n">Read</span> <span class="n">OK</span><span class="p">:</span>            <span class="mi">5728</span>
+    <span class="n">Write</span> <span class="n">OK</span><span class="p">:</span>           <span class="mi">0</span>
+    <span class="n">pollDelay</span><span class="p">:</span>          <span class="mf">0.100000</span>
+    <span class="n">Time</span> <span class="k">for</span> <span class="n">last</span> <span class="n">I</span><span class="o">/</span><span class="n">O</span>   <span class="mi">3</span> <span class="n">msec</span>
+    <span class="n">Max</span><span class="o">.</span> <span class="n">I</span><span class="o">/</span><span class="n">O</span> <span class="n">time</span><span class="p">:</span>      <span class="mi">12</span> <span class="n">msec</span>
+</pre></div>
+</div>
+<p>To obtain run-time debugging output for a driver use the
+asynSetTraceMask and asynSetTraceIOMask commands. For example the
+following commands will show all I/O to and from the PLC from the
+underlying drvAsynIPPort driver:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">epics</span><span class="o">&gt;</span> <span class="n">asynSetTraceIOMask</span> <span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span>   <span class="c1"># Enable traceIOHex</span>
+<span class="n">epics</span><span class="o">&gt;</span> <span class="n">asynSetTraceMask</span> <span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">9</span>     <span class="c1"># Enable traceError and traceIODriver</span>
+<span class="n">epics</span><span class="o">&gt;</span>
+<span class="mi">2007</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span><span class="mf">45.384</span> <span class="mf">164.54.160.158</span><span class="p">:</span><span class="mi">502</span> <span class="n">write</span> <span class="mi">12</span>
+
+<span class="mi">00</span> <span class="mi">01</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">07</span> <span class="n">ff</span> <span class="mi">02</span> <span class="mi">08</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">20</span>
+<span class="mi">2007</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span><span class="mf">45.390</span> <span class="mf">164.54.160.158</span><span class="p">:</span><span class="mi">502</span> <span class="n">read</span> <span class="mi">13</span>
+
+<span class="mi">00</span> <span class="mi">01</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">07</span> <span class="n">ff</span> <span class="mi">02</span> <span class="mi">04</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>
+<span class="mi">2007</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span><span class="mf">45.424</span> <span class="mf">164.54.160.158</span><span class="p">:</span><span class="mi">502</span> <span class="n">write</span> <span class="mi">12</span>
+
+<span class="mi">00</span> <span class="mi">01</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">07</span> <span class="n">ff</span> <span class="mi">03</span> <span class="mi">41</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">08</span>
+<span class="mi">2007</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span><span class="mf">45.432</span> <span class="mf">164.54.160.158</span><span class="p">:</span><span class="mi">502</span> <span class="n">read</span> <span class="mi">25</span>
+
+<span class="mi">00</span> <span class="mi">01</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">13</span> <span class="n">ff</span> <span class="mi">03</span> <span class="mi">10</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>
+<span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>
+<span class="o">...</span>
+<span class="n">epics</span><span class="o">&gt;</span> <span class="n">asynSetTraceMask</span> <span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>    <span class="c1"># Turn off traceIODriver</span>
+</pre></div>
+</div>
+<p>The following command shows the I/O from a specific <strong>modbus</strong> port
+driver:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">epics</span><span class="o">&gt;</span> <span class="n">asynSetTraceIOMask</span> <span class="s2">&quot;K1_Yn_In_Word&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span>   <span class="c1"># Enable traceIOHex</span>
+<span class="n">epics</span><span class="o">&gt;</span> <span class="n">asynSetTraceMask</span> <span class="s2">&quot;K1_Yn_In_Word&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">9</span>     <span class="c1"># Enable traceError and traceIODriver</span>
+<span class="n">epics</span><span class="o">&gt;</span>
+<span class="mi">2007</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">31.548</span> <span class="n">drvModbusAsyn</span><span class="p">::</span><span class="n">doModbusIO</span> <span class="n">port</span> <span class="n">K1_Yn_In_Word</span> <span class="n">READ_REGISTERS</span>
+<span class="mi">09</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>
+<span class="mi">2007</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">31.656</span> <span class="n">drvModbusAsyn</span><span class="p">::</span><span class="n">doModbusIO</span> <span class="n">port</span> <span class="n">K1_Yn_In_Word</span> <span class="n">READ_REGISTERS</span>
+<span class="mi">09</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>
+<span class="mi">2007</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">31.770</span> <span class="n">drvModbusAsyn</span><span class="p">::</span><span class="n">doModbusIO</span> <span class="n">port</span> <span class="n">K1_Yn_In_Word</span> <span class="n">READ_REGISTERS</span>
+<span class="mi">09</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>
+<span class="mi">2007</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">31.878</span> <span class="n">drvModbusAsyn</span><span class="p">::</span><span class="n">doModbusIO</span> <span class="n">port</span> <span class="n">K1_Yn_In_Word</span> <span class="n">READ_REGISTERS</span>
+<span class="mi">09</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>
+<span class="mi">2007</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="mi">12</span> <span class="mi">17</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">31.987</span> <span class="n">drvModbusAsyn</span><span class="p">::</span><span class="n">doModbusIO</span> <span class="n">port</span> <span class="n">K1_Yn_In_Word</span> <span class="n">READ_REGISTERS</span>
+<span class="mi">09</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span>
+<span class="n">epics</span><span class="o">&gt;</span> <span class="n">asynSetTraceMask</span> <span class="s2">&quot;K1_Yn_In_Word&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span>     <span class="c1"># Disable traceIODriver</span>
+</pre></div>
+</div>
+<p>One can also load an EPICS asyn record on a <strong>modbus</strong> port, and then
+use EPICS channel access to turn debugging output on and off. The
+following medm screen shows how to turn on I/O tracing using this
+method.</p>
+<section id="asynrecord-adl">
+<h2>asynRecord.adl<a class="headerlink" href="#asynrecord-adl" title="Permalink to this heading"></a></h2>
+<p>Using the asynRecord to turn on traceIODriver and traceIOHex for debugging.</p>
+<figure class="align-center">
+<img alt="_images/K1_Yn_In_Word.png" src="_images/K1_Yn_In_Word.png" />
+</figure>
+<p>The asyn record can also be used to perform actual I/O to the PLC.
+For example the following screen shots shows the asyn record being used to control output Y1 on a PLC.
+Note that the ADDR field is set to 1 (to select Y1) and the data set to 1 (to turn on the output).
+Each time the asyn record is processed the value will be sent to the PLC.</p>
+<figure class="align-center">
+<img alt="_images/K1_Yn_Out_Bit_Asyn.png" src="_images/K1_Yn_Out_Bit_Asyn.png" />
+</figure>
+</section>
+<section id="asynregister-adl">
+<h2>asynRegister.adl<a class="headerlink" href="#asynregister-adl" title="Permalink to this heading"></a></h2>
+<p>Using the asynRecord to perform actual I/O to a PLC.
+Note that Interface (IFACE)=asynUInt32Digital, Transfer (TMOD)=Write, and Output (UI32OUT)=1.
+This value will be written to the Y1 output when the record is processed.</p>
+<figure class="align-center">
+<img alt="_images/K1_Yn_Out_Bit_AsynRegister.png" src="_images/K1_Yn_Out_Bit_AsynRegister.png" />
+</figure>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="medm_screens.html" class="btn btn-neutral float-left" title="medm screens" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Mark Rivers.
+      <span class="lastupdated">Last updated on 2023-February-27.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

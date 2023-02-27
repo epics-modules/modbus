@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creating a modbus port driver &mdash; EPICS support for Modbus</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/my_theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="EPICS device support" href="device_support.html" />
+    <link rel="prev" title="Driver architecture" href="driver_architecture.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            modbus
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgments.html">Acknowledgments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview of Modbus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="driver_architecture.html">Driver architecture</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating a <strong>modbus</strong> port driver</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tcp-ip">TCP/IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#serial-rtu">Serial RTU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#serial-ascii">Serial ASCII</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modbusinterposeconfig">modbusInterposeConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#drvmodbusasynconfigure">drvModbusAsynConfigure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modbus-register-data-types">Modbus register data types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#note-for-wago-devices">Note for Wago devices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#number-of-drvasynipport-drivers-for-tcp">Number of drvAsynIPPort drivers for TCP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#number-formats">Number formats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="device_support.html">EPICS device support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example_applications.html">Example Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="medm_screens.html">medm screens</a></li>
+<li class="toctree-l1"><a class="reference internal" href="debugging.html">Debug tracing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">modbus</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Creating a <strong>modbus</strong> port driver</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/creating_driver.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="creating-a-modbus-port-driver">
+<h1>Creating a <strong>modbus</strong> port driver<a class="headerlink" href="#creating-a-modbus-port-driver" title="Permalink to this heading"></a></h1>
+<p>Before <strong>modbus</strong> port drivers can be created, it is necessary to first
+create at least one asyn TCP/IP or serial port driver to communicate
+with the hardware. The commands required depend on the communications
+link being used.</p>
+<section id="tcp-ip">
+<h2>TCP/IP<a class="headerlink" href="#tcp-ip" title="Permalink to this heading"></a></h2>
+<p>For TCP/IP use the following standard asyn command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvAsynIPPortConfigure</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span> <span class="n">hostInfo</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">noAutoConnect</span><span class="p">,</span> <span class="n">noProcessEos</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Documentation on this command can be found in the <a class="reference external" href="https://epics-modules.github.io/master/asyn/R4-40/asynDriver.html#drvAsynIPPort">asynDriver
+documentation</a>.</p>
+<p>The following example creates an asyn IP port driver called “Koyo1” on
+port 502 at IP address 164.54.160.158. The default priority is used and
+the noAutoConnect flag is set to 0 so that asynManager will do normal
+automatic connection management. Note that the noProcessEos flag is set to 0
+so it is using the asynInterposeEos interface.
+The asynInterposeEos interface handles end-of-string (EOS) processing, which is not needed for Modbus TCP.
+However, it also handles issuing repeated read requests until the requested number of bytes
+has been received, which the low-level asyn IP port driver does not do.
+Normally Modbus TCP sends responses in a single packet, so this may not be needed, but using
+the asynInterpose interface does no harm.
+However, the asynInterposeEos interface is definitely needed when using drvAsynIPPortConfigure to talk
+to a terminal server that is communicating with the Modbus device over Modbus RTU or ASCII,
+because then the communication from the device may well be broken up into multiple packets.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvAsynIPPortConfigure</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="s2">&quot;164.54.160.158:502&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="serial-rtu">
+<h2>Serial RTU<a class="headerlink" href="#serial-rtu" title="Permalink to this heading"></a></h2>
+<p>For serial RTU use the following standard asyn commands
+This is recommended even when using actual:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvAsynSerialPortConfigure</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span> <span class="n">ttyName</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">noAutoConnect</span><span class="p">,</span> <span class="n">noProcessEos</span><span class="p">)</span>
+<span class="n">asynSetOption</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Documentation on these commands can be found in the <a class="reference external" href="https://epics-modules.github.io/master/asyn/R4-40/asynDriver.html#drvAsynSerialPort">asynDriver
+documentation</a>.</p>
+<p>The following example creates an asyn local serial port driver called
+“Koyo1” on /dev/ttyS1. The default priority is used and the
+noAutoConnect flag is set to 0 so that asynManager will do normal
+automatic connection management. The noProcessEos flag is set to 0
+because Modbus over serial requires end-of-string processing. The serial
+port parameters are configured to 38400 baud, no parity, 8 data bits, 1
+stop bit.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvAsynSerialPortConfigure</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span> <span class="s2">&quot;/dev/ttyS1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">asynSetOption</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;baud&quot;</span><span class="p">,</span><span class="s2">&quot;38400&quot;</span><span class="p">)</span>
+<span class="n">asynSetOption</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;parity&quot;</span><span class="p">,</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+<span class="n">asynSetOption</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;bits&quot;</span><span class="p">,</span><span class="s2">&quot;8&quot;</span><span class="p">)</span>
+<span class="n">asynSetOption</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;stop&quot;</span><span class="p">,</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="serial-ascii">
+<h2>Serial ASCII<a class="headerlink" href="#serial-ascii" title="Permalink to this heading"></a></h2>
+<p>For serial ASCII use the same commands described above for serial RTU.
+After the asynSetOption commands use the following standard asyn
+commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asynOctetSetOutputEos</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">eos</span><span class="p">)</span>
+<span class="n">asynOctetSetInputEos</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">eos</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Documentation on these commands can be found in the <a class="reference external" href="https://epics-modules.github.io/master/asyn/R4-41/asynDriver.html#DiagnosticAids">asynDriver
+documentation</a>.</p>
+<p>The following example creates an asyn local serial port driver called
+“Koyo1” on /dev/ttyS1. The default priority is used and the
+noAutoConnect flag is set to 0 so that asynManager will do normal
+automatic connection management. The noProcessEos flag is set to 0
+because Modbus over serial requires end-of-string processing. The serial
+port parameters are configured to 38400 baud, no parity, 8 data bits, 1
+stop bit. The input and output end-of-string is set to CR/LF.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvAsynSerialPortConfigure</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span> <span class="s2">&quot;/dev/ttyS1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">asynSetOption</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;baud&quot;</span><span class="p">,</span><span class="s2">&quot;38400&quot;</span><span class="p">)</span>
+<span class="n">asynSetOption</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;parity&quot;</span><span class="p">,</span><span class="s2">&quot;none&quot;</span><span class="p">)</span>
+<span class="n">asynSetOption</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;bits&quot;</span><span class="p">,</span><span class="s2">&quot;8&quot;</span><span class="p">)</span>
+<span class="n">asynSetOption</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;stop&quot;</span><span class="p">,</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+<span class="n">asynOctetSetOutputEos</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">asynOctetSetInputEos</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="modbusinterposeconfig">
+<h2>modbusInterposeConfig<a class="headerlink" href="#modbusinterposeconfig" title="Permalink to this heading"></a></h2>
+<p>After creating the asynIPPort or asynSerialPort driver, the next step is
+to add the asyn “interpose interface” driver. This driver takes the
+device-independent Modbus frames and adds or removes the
+communication-link specific information for the TCP, RTU, or ASCII link
+protocols. The interpose driver is created with the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modbusInterposeConfig</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span>
+                      <span class="n">linkType</span><span class="p">,</span>
+                      <span class="n">timeoutMsec</span><span class="p">,</span>
+                      <span class="n">writeDelayMsec</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>portName</p></td>
+<td><p>string</p></td>
+<td><p>Name of the asynIPPort or asynSerialPort previously created.</p></td>
+</tr>
+<tr class="row-odd"><td><p>linkType</p></td>
+<td><p>int</p></td>
+<td><p>Modbus link layer type:, 0 = TCP/IP, 1 = RTU, 2 = ASCII</p></td>
+</tr>
+<tr class="row-even"><td><p>timeoutMsec</p></td>
+<td><p>int</p></td>
+<td><p>The timeout in milliseconds for write and read operations to the underlying asynOctet
+driver. This value is used in place of the timeout parameter specified in EPICS
+device support. If zero is specified then a default timeout of 2000 milliseconds
+is used.</p></td>
+</tr>
+<tr class="row-odd"><td><p>writeDelayMsec</p></td>
+<td><p>int</p></td>
+<td><p>The delay in milliseconds before each write from EPICS to the device. This is typically
+only needed for Serial RTU devices. The Modicon Modbus Protocol Reference Guide
+says this must be at least 3.5 character times, e.g. about 3.5ms at 9600 baud, for
+Serial RTU. The default is 0.</p></td>
+</tr>
+</tbody>
+</table>
+<p>For the serial ASCII example above, after the asynOctetSetInputEos
+command, the following command would be used. This uses a timeout of 1
+second, and a write delay of 0 ms.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modbusInterposeConfig</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="drvmodbusasynconfigure">
+<h2>drvModbusAsynConfigure<a class="headerlink" href="#drvmodbusasynconfigure" title="Permalink to this heading"></a></h2>
+<p>Once the asyn IP or serial port driver has been created, and the
+modbusInterpose driver has been configured, a <strong>modbus</strong> port driver is
+created with the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvModbusAsynConfigure</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span>
+                       <span class="n">tcpPortName</span><span class="p">,</span>
+                       <span class="n">slaveAddress</span><span class="p">,</span>
+                       <span class="n">modbusFunction</span><span class="p">,</span>
+                       <span class="n">modbusStartAddress</span><span class="p">,</span>
+                       <span class="n">modbusLength</span><span class="p">,</span>
+                       <span class="n">dataType</span><span class="p">,</span>
+                       <span class="n">pollMsec</span><span class="p">,</span>
+                       <span class="n">plcType</span><span class="p">);</span>
+</pre></div>
+</div>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>portName</p></td>
+<td><p>string</p></td>
+<td><p>Name of the <strong>modbus</strong> port to be created.</p></td>
+</tr>
+<tr class="row-odd"><td><p>tcpPortName</p></td>
+<td><p>string</p></td>
+<td><p>Name of the asyn IP or serial port previously created.</p></td>
+</tr>
+<tr class="row-even"><td><p>slaveAddress</p></td>
+<td><p>int</p></td>
+<td><p>The address of the Modbus slave. This must match the configuration of the Modbus
+slave (PLC) for RTU and ASCII. For TCP the slave address is used for the “unit identifier”,
+the last field in the MBAP header. The “unit identifier” is ignored by most PLCs,
+but may be required by some.</p></td>
+</tr>
+<tr class="row-odd"><td><p>modbusFunction</p></td>
+<td><p>int</p></td>
+<td><p>Modbus function code (1, 2, 3, 4, 5, 6, 15, 16, 123 (for 23 read-only), or 223 (for
+23 write-only)).</p></td>
+</tr>
+<tr class="row-even"><td><p>modbusStartAddress</p></td>
+<td><p>int</p></td>
+<td><p>Start address for the Modbus data segment to be accessed. For relative addressing
+this must be in the range 0-65535 decimal, or 0-0177777 octal. For absolute addressing
+this must be set to -1.</p></td>
+</tr>
+<tr class="row-odd"><td><p>modbusLength</p></td>
+<td><p>int</p></td>
+<td><p>The length of the Modbus data segment to be accessed.
+This is specified in bits for Modbus functions 1, 2, 5 and 15.
+It is specified in 16-bit words for Modbus functions 3, 4, 6, 16, or 23.
+Length limit is 2000 for functions 1 and 2, 1968 for functions 5 and 15, 125 for functions 3 and 4,
+and 123 for functions 6, 16, and 23.
+For absolute addressing this must be set to the size of required by the largest
+single Modbus operation that may be used. This would be 1 if all Modbus reads and
+writes are for 16-bit registers, but it would be 4 if 64-bit floats (4 16-bit registers)
+are being used, and 100 (for example) if an Int32 waveform record with NELM=100
+is being read or written.</p></td>
+</tr>
+<tr class="row-even"><td><p>modbusDataType</p></td>
+<td><p>string</p></td>
+<td><p>This sets the default data type for this port. This is the data type used if the
+drvUser field of a record is empty, or if it is MODBUS_DATA. The supported Modbus
+data type strings are listed in the table below. This argument can either be one of the
+strings shown in the table below, and defined in <cite>drvModbusAsyn.h</cite>, or it can be the
+numeric <cite>modbusDataType_t</cite> enum also defined in <cite>drvModbusAsyn.h</cite>.  The enum values
+are supported for backwards compatibility, but they are less convenient and understandable
+then the string equivalents.</p></td>
+</tr>
+<tr class="row-odd"><td><p>pollMsec</p></td>
+<td><p>int</p></td>
+<td><p>Polling delay time in msec for the polling thread for read functions.
+For write functions, a non-zero value means that the Modbus data should, be read once when the port driver is first created.</p></td>
+</tr>
+<tr class="row-even"><td><p>plcType</p></td>
+<td><p>string</p></td>
+<td><p>Type of PLC (e.g. Koyo, Modicon, etc.).
+This parameter is currently used to print information in asynReport.
+It is also used to treat Wago devices specially if the plcType string contains the
+substring “Wago”. See the note below.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="modbus-register-data-types">
+<h2>Modbus register data types<a class="headerlink" href="#modbus-register-data-types" title="Permalink to this heading"></a></h2>
+<p>Modbus function codes 3, 4, 6, and 16 are used to access 16-bit
+registers. The Modbus specification does not define how the data in
+these registers is to be interpreted, for example as signed or unsigned
+numbers, binary coded decimal (BCD) values, etc. In fact many
+manufacturers combine multiple 16-bit registers to encode 32-bit
+integers, 32-bit or 64-bit floats, etc. The following table lists the
+data types supported by <strong>modbus</strong>. The default data type for the port
+is defined with the modbusDataType parameter described above. The data
+type for particular record can override the default by specifying a
+different data type with the drvUser field in the link. The driver uses
+this information to convert the number between EPICS device support and
+Modbus. Data is transferred to and from EPICS device support as
+epicsUInt32, epicsInt32, epicsInt64, and epicsFloat64 numbers. Note that the data
+type conversions described in this table only apply for records using
+the asynInt32, asynInt64, or asynFloat64 interfaces, they do not apply when using
+the asynUInt32Digital interface. The asynUInt32Digital interface always
+treats the registers as unsigned 16-bit integers.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>drvUser field</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>UINT16</p></td>
+<td><p>Unsigned 16-bit binary integers.</p></td>
+</tr>
+<tr class="row-odd"><td><p>INT16SM</p></td>
+<td><p>16-bit binary integers, sign and magnitude format. In this format bit 15 is the
+sign bit, and bits 0-14 are the absolute value of the magnitude of the number. This
+is one of the formats used, for example, by Koyo PLCs for numbers such as ADC conversions.</p></td>
+</tr>
+<tr class="row-even"><td><p>BCD_UNSIGNED</p></td>
+<td><p>Binary coded decimal (BCD), unsigned. This data type is for a 16-bit number consisting
+of 4 4-bit nibbles, each of which encodes a decimal number from 0-9. A BCD number
+can thus store numbers from 0 to 9999. Many PLCs store some numbers in BCD format.</p></td>
+</tr>
+<tr class="row-odd"><td><p>BCD_SIGNED</p></td>
+<td><p>4-digit binary coded decimal (BCD), signed. This data type is for a 16-bit number
+consisting of 3 4-bit nibbles, and one 3-bit nibble. Bit 15 is a sign bit. Signed
+BCD numbers can hold values from -7999 to +7999. This is one of the formats used
+by Koyo PLCs for numbers such as ADC conversions.</p></td>
+</tr>
+<tr class="row-even"><td><p>INT16</p></td>
+<td><p>16-bit signed (2’s complement) integers. This data type extends the sign bit when
+converting to epicsInt32.</p></td>
+</tr>
+<tr class="row-odd"><td><p>INT32_LE</p></td>
+<td><p>32-bit integers, little endian (least significant word at Modbus address N, most
+significant word at Modbus address N+1).</p></td>
+</tr>
+<tr class="row-even"><td><p>INT32_LE_BS</p></td>
+<td><p>32-bit integers, little endian (least significant word at Modbus address N, most
+significant word at Modbus address N+1).  Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>INT32_BE</p></td>
+<td><p>32-bit integers, big endian (most significant word at Modbus address N, least significant
+word at Modbus address N+1).</p></td>
+</tr>
+<tr class="row-even"><td><p>INT32_BE_BS</p></td>
+<td><p>32-bit integers, big endian (most significant word at Modbus address N, least significant
+word at Modbus address N+1).   Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>UINT32_LE</p></td>
+<td><p>Unsigned 32-bit integers, little endian (least significant word at Modbus address N, most
+significant word at Modbus address N+1).</p></td>
+</tr>
+<tr class="row-even"><td><p>UINT32_LE_BS</p></td>
+<td><p>Unsigned 32-bit integers, little endian (least significant word at Modbus address N, most
+significant word at Modbus address N+1).  Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>UINT32_BE</p></td>
+<td><p>Unsigned 32-bit integers, big endian (most significant word at Modbus address N, least significant
+word at Modbus address N+1).</p></td>
+</tr>
+<tr class="row-even"><td><p>UINT32_BE_BS</p></td>
+<td><p>Unsigned 32-bit integers, big endian (most significant word at Modbus address N, least significant
+word at Modbus address N+1).   Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>INT64_LE</p></td>
+<td><p>64-bit integers, little endian (least significant word at Modbus address N, most
+significant word at Modbus address N+3).</p></td>
+</tr>
+<tr class="row-even"><td><p>INT64_LE_BS</p></td>
+<td><p>64-bit integers, little endian (least significant word at Modbus address N, most
+significant word at Modbus address N+3).  Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>INT64_BE</p></td>
+<td><p>64-bit integers, big endian (most significant word at Modbus address N, least significant
+word at Modbus address N+3).</p></td>
+</tr>
+<tr class="row-even"><td><p>INT64_BE_BS</p></td>
+<td><p>64-bit integers, big endian (most significant word at Modbus address N, least significant
+word at Modbus address N+3).   Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>UINT64_LE</p></td>
+<td><p>Unsigned 64-bit integers, little endian (least significant word at Modbus address N, most
+significant word at Modbus address N+3).</p></td>
+</tr>
+<tr class="row-even"><td><p>UINT64_LE_BS</p></td>
+<td><p>Unsigned 64-bit integers, little endian (least significant word at Modbus address N, most
+significant word at Modbus address N+3).  Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>UINT64_BE</p></td>
+<td><p>Unsigned 64-bit integers, big endian (most significant word at Modbus address N, least significant
+word at Modbus address N+3).</p></td>
+</tr>
+<tr class="row-even"><td><p>UINT64_BE_BS</p></td>
+<td><p>Unsigned 64-bit integers, big endian (most significant word at Modbus address N, least significant
+word at Modbus address N+3).   Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>FLOAT32_LE</p></td>
+<td><p>32-bit floating point, little endian (least significant word at Modbus address N,
+most significant word at Modbus address N+1).</p></td>
+</tr>
+<tr class="row-even"><td><p>FLOAT32_LE_BS</p></td>
+<td><p>32-bit floating point, little endian (least significant word at Modbus address N,
+most significant word at Modbus address N+1). Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>FLOAT32_BE</p></td>
+<td><p>32-bit floating point, big endian (most significant word at Modbus address N, least
+significant word at Modbus address N+1).</p></td>
+</tr>
+<tr class="row-even"><td><p>FLOAT32_BE_BS</p></td>
+<td><p>32-bit floating point, big endian (most significant word at Modbus address N, least
+significant word at Modbus address N+1). Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>FLOAT64_LE</p></td>
+<td><p>64-bit floating point, little endian (least significant word at Modbus address N,
+most significant word at Modbus address N+3).</p></td>
+</tr>
+<tr class="row-even"><td><p>FLOAT64_LE_BS</p></td>
+<td><p>64-bit floating point, little endian (least significant word at Modbus address N,
+most significant word at Modbus address N+3). Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>FLOAT64_BE</p></td>
+<td><p>64-bit floating point, big endian (most significant word at Modbus address N, least
+significant word at Modbus address N+3).</p></td>
+</tr>
+<tr class="row-even"><td><p>FLOAT64_BE_BS</p></td>
+<td><p>64-bit floating point, big endian (most significant word at Modbus address N, least
+significant word at Modbus address N+3). Bytes within each word are swapped.</p></td>
+</tr>
+<tr class="row-odd"><td><p>STRING_HIGH</p></td>
+<td><p>String data. One character is stored in the high byte of each register.</p></td>
+</tr>
+<tr class="row-even"><td><p>STRING_LOW</p></td>
+<td><p>String data. One character is stored in the low byte of each register.</p></td>
+</tr>
+<tr class="row-odd"><td><p>STRING_HIGH_LOW</p></td>
+<td><p>String data. Two characters are stored in each register, the first in the high byte
+and the second in the low byte.</p></td>
+</tr>
+<tr class="row-even"><td><p>STRING_LOW_HIGH</p></td>
+<td><p>String data. Two characters are stored in each register, the first in the low byte
+and the second in the high byte.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ZSTRING_HIGH</p></td>
+<td><p>Zero terminated string data. One character is stored in the high byte of each register.</p></td>
+</tr>
+<tr class="row-even"><td><p>ZSTRING_LOW</p></td>
+<td><p>Zero terminated string data. One character is stored in the low byte of each register.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ZSTRING_HIGH_LOW</p></td>
+<td><p>Zero terminated string data. Two characters are stored in each register, the first in the high byte
+and the second in the low byte.</p></td>
+</tr>
+<tr class="row-even"><td><p>ZSTRING_LOW_HIGH</p></td>
+<td><p>Zero terminated string data. Two characters are stored in each register, the first in the low byte
+and the second in the high byte.</p></td>
+</tr>
+</tbody>
+</table>
+<p>NOTE: if it is desired to transmit BCD numbers untranslated to EPICS
+over the asynInt32 interface, then data type 0 should be used, because
+no translation is done in this case.</p>
+<p>NOTE: the ZSTRING_* types are meant for output records.
+For input records they are identical to their STRING_* counterparts.</p>
+<p>NOTE: For big-endian formats the _BE format is order in which an IEEE value would
+be stored on a big-endian machine, and _BE_BS swaps the bytes in each 16-bit word
+relative to IEEE specification.
+However, for little-endian formats the _LE format is byte-swapped within each 16-bit word
+compared how the IEEE value would be be stored on a little-endian machine.
+The _LE_BS format is the order in which an IEEE value would be stored on a little-endian machine.
+This is done for backwards compatibility, because that is how _LE has always been stored in
+previous versions of this modbus module, before the byte-swapped formats were added.</p>
+<p>The following is an example ai record using 32-bit floating point
+values:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ai record template for register inputs</span>
+<span class="n">record</span><span class="p">(</span><span class="n">ai</span><span class="p">,</span> <span class="s2">&quot;$(P)$(R)&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynFloat64&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn($(PORT) $(OFFSET))FLOAT32_LE&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">HOPR</span><span class="p">,</span><span class="s2">&quot;$(HOPR)&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">LOPR</span><span class="p">,</span><span class="s2">&quot;$(LOPR)&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">PREC</span><span class="p">,</span><span class="s2">&quot;$(PREC)&quot;</span><span class="p">)</span>
+    <span class="n">field</span><span class="p">(</span><span class="n">SCAN</span><span class="p">,</span><span class="s2">&quot;$(SCAN)&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="note-for-wago-devices">
+<h2>Note for Wago devices<a class="headerlink" href="#note-for-wago-devices" title="Permalink to this heading"></a></h2>
+<p>This initial read operation is normally done at the same Modbus address
+as the write operations. However, Wago devices are different from other
+Modbus devices because the address to read back a register is not the
+same as the address to write the register. For Wago devices the address
+used to read back the initial value for a Modbus write function must be
+0x200 greater than the address for the write function. This is handled
+by adding this 0x200 offset for the readback address if the plcType
+argument to drvModbusAsynConfigure contains the substring “Wago” (case
+sensitive). Note that this does not affect the address for Wago read
+functions. The user must specify the actual Modbus address for read
+functions.</p>
+</section>
+<section id="number-of-drvasynipport-drivers-for-tcp">
+<h2>Number of drvAsynIPPort drivers for TCP<a class="headerlink" href="#number-of-drvasynipport-drivers-for-tcp" title="Permalink to this heading"></a></h2>
+<p>Each drvAsynIPPort driver creates a separate TCP/IP socket connection to
+the PLC. It is possible to have all of the <strong>modbus</strong> port drivers share
+a single drvAsynIPPort driver. In this case all I/O to the PLC is done
+over a single socket in a “serial” fashion. A transaction for one
+<strong>modbus</strong> driver must complete before a transaction for another
+<strong>modbus</strong> driver can begin. It is also possible to create multiple
+drvAsynIPPort drivers (sockets) to a single PLC and, for example, use a
+different drvAsynIPPort for each <strong>modbus</strong> port. In this case I/O
+operations from multiple <strong>modbus</strong> drivers can proceed in parallel,
+rather than serially. This could improve performance at the expense of
+more CPU load on the IOC and PLC, and more network traffic.</p>
+<p>It is important to note, however, that many PLCs will time out sockets
+after a few seconds of inactivity. This is not a problem with <strong>modbus</strong>
+drivers that use read function codes, because they are polling
+frequently. But <strong>modbus</strong> drivers that use write function codes may
+only do occasional I/O, and hence may time out if they are the only ones
+communicating through a drvAsynIPPort driver. Thus, it is usually
+necessary for <strong>modbus</strong> drivers with write function codes to use the
+same drvAsynIPPort driver (socket) as at least one <strong>modbus</strong> driver
+with a read function code to avoid timeouts.</p>
+<p>The choice of how many drvAsynIPPort drivers to use per PLC will be
+based on empirical performance versus resource usage considerations. In
+general it is probably a good idea to start with one drvAsynIPPort
+server per PLC (e.g. shared by all <strong>modbus</strong> drivers for that PLC) and
+see if this results in satisfactory performance.</p>
+</section>
+<section id="number-formats">
+<h2>Number formats<a class="headerlink" href="#number-formats" title="Permalink to this heading"></a></h2>
+<p>It can be convenient to specify the modbusStartAddress and modbusLength
+in octal, rather than decimal, because this is the convention on most
+PLCs. In the iocsh and vxWorks shells this is done by using a leading 0
+on the number, i.e. 040400 is an octal number.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="driver_architecture.html" class="btn btn-neutral float-left" title="Driver architecture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="device_support.html" class="btn btn-neutral float-right" title="EPICS device support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Mark Rivers.
+      <span class="lastupdated">Last updated on 2023-February-27.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
