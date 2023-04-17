@@ -303,10 +303,10 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
 
     /* If this is an output function do a readOnce operation if required. */
     if (readOnceFunction_ && !absoluteAddressing_ && (pollDelay_ != 0)) {
-         status = doModbusIO(modbusSlave_, readOnceFunction_,
+         ioStatus_ = doModbusIO(modbusSlave_, readOnceFunction_,
                             (modbusStartAddress_ + readbackOffset_),
                             data_, modbusLength_);
-        if (status == asynSuccess) readOnceDone_ = true;
+        if (ioStatus_ == asynSuccess) readOnceDone_ = true;
     }
 
     /* Create the epicsEvent to wake up the readPoller.
