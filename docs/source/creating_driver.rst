@@ -217,8 +217,10 @@ created with the following command:
       data type strings are listed in the table below. This argument can either be one of the
       strings shown in the table below, and defined in `drvModbusAsyn.h`, or it can be the
       numeric `modbusDataType_t` enum also defined in `drvModbusAsyn.h`.  The enum values
-      are supported for backwards compatibility, but they are less convenient and understandable
-      then the string equivalents.
+      are less convenient and understandable then the string equivalents. 
+      NOTE: the enum values changed between R3-0 and R3-1, which may require changes
+      to startup scripts.  INT16 and UINT16 were swapped and everything beyond
+      INT32_LE is different.
   * - pollMsec
     - int
     - Polling delay time in msec for the polling thread for read functions.
@@ -258,8 +260,9 @@ treats the registers as unsigned 16-bit integers.
 
   * - drvUser field
     - Description
-  * - UINT16
-    - Unsigned 16-bit binary integers.
+  * - INT16
+    - 16-bit signed (2's complement) integers. This data type extends the sign bit when
+      converting to epicsInt32.
   * - INT16SM
     - 16-bit binary integers, sign and magnitude format. In this format bit 15 is the
       sign bit, and bits 0-14 are the absolute value of the magnitude of the number. This
@@ -273,9 +276,8 @@ treats the registers as unsigned 16-bit integers.
       consisting of 3 4-bit nibbles, and one 3-bit nibble. Bit 15 is a sign bit. Signed
       BCD numbers can hold values from -7999 to +7999. This is one of the formats used
       by Koyo PLCs for numbers such as ADC conversions.
-  * - INT16
-    - 16-bit signed (2's complement) integers. This data type extends the sign bit when
-      converting to epicsInt32.
+  * - UINT16
+    - Unsigned 16-bit binary integers.
   * - INT32_LE
     - 32-bit integers, little endian (least significant word at Modbus address N, most
       significant word at Modbus address N+1).
