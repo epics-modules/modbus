@@ -11,9 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -87,13 +89,13 @@
            <div itemprop="articleBody">
              
   <section id="creating-a-modbus-port-driver">
-<h1>Creating a <strong>modbus</strong> port driver<a class="headerlink" href="#creating-a-modbus-port-driver" title="Permalink to this heading"></a></h1>
+<h1>Creating a <strong>modbus</strong> port driver<a class="headerlink" href="#creating-a-modbus-port-driver" title="Link to this heading"></a></h1>
 <p>Before <strong>modbus</strong> port drivers can be created, it is necessary to first
 create at least one asyn TCP/IP or serial port driver to communicate
 with the hardware. The commands required depend on the communications
 link being used.</p>
 <section id="tcp-ip">
-<h2>TCP/IP<a class="headerlink" href="#tcp-ip" title="Permalink to this heading"></a></h2>
+<h2>TCP/IP<a class="headerlink" href="#tcp-ip" title="Link to this heading"></a></h2>
 <p>For TCP/IP use the following standard asyn command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvAsynIPPortConfigure</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span> <span class="n">hostInfo</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">noAutoConnect</span><span class="p">,</span> <span class="n">noProcessEos</span><span class="p">)</span>
 </pre></div>
@@ -118,7 +120,7 @@ because then the communication from the device may well be broken up into multip
 </div>
 </section>
 <section id="serial-rtu">
-<h2>Serial RTU<a class="headerlink" href="#serial-rtu" title="Permalink to this heading"></a></h2>
+<h2>Serial RTU<a class="headerlink" href="#serial-rtu" title="Link to this heading"></a></h2>
 <p>For serial RTU use the following standard asyn commands
 This is recommended even when using actual:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvAsynSerialPortConfigure</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span> <span class="n">ttyName</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">noAutoConnect</span><span class="p">,</span> <span class="n">noProcessEos</span><span class="p">)</span>
@@ -143,7 +145,7 @@ stop bit.</p>
 </div>
 </section>
 <section id="serial-ascii">
-<h2>Serial ASCII<a class="headerlink" href="#serial-ascii" title="Permalink to this heading"></a></h2>
+<h2>Serial ASCII<a class="headerlink" href="#serial-ascii" title="Link to this heading"></a></h2>
 <p>For serial ASCII use the same commands described above for serial RTU.
 After the asynSetOption commands use the following standard asyn
 commands:</p>
@@ -171,7 +173,7 @@ stop bit. The input and output end-of-string is set to CR/LF.</p>
 </div>
 </section>
 <section id="modbusinterposeconfig">
-<h2>modbusInterposeConfig<a class="headerlink" href="#modbusinterposeconfig" title="Permalink to this heading"></a></h2>
+<h2>modbusInterposeConfig<a class="headerlink" href="#modbusinterposeconfig" title="Link to this heading"></a></h2>
 <p>After creating the asynIPPort or asynSerialPort driver, the next step is
 to add the asyn “interpose interface” driver. This driver takes the
 device-independent Modbus frames and adds or removes the
@@ -223,7 +225,7 @@ second, and a write delay of 0 ms.</p>
 </div>
 </section>
 <section id="drvmodbusasynconfigure">
-<h2>drvModbusAsynConfigure<a class="headerlink" href="#drvmodbusasynconfigure" title="Permalink to this heading"></a></h2>
+<h2>drvModbusAsynConfigure<a class="headerlink" href="#drvmodbusasynconfigure" title="Link to this heading"></a></h2>
 <p>Once the asyn IP or serial port driver has been created, and the
 modbusInterpose driver has been configured, a <strong>modbus</strong> port driver is
 created with the following command:</p>
@@ -292,8 +294,10 @@ drvUser field of a record is empty, or if it is MODBUS_DATA. The supported Modbu
 data type strings are listed in the table below. This argument can either be one of the
 strings shown in the table below, and defined in <cite>drvModbusAsyn.h</cite>, or it can be the
 numeric <cite>modbusDataType_t</cite> enum also defined in <cite>drvModbusAsyn.h</cite>.  The enum values
-are supported for backwards compatibility, but they are less convenient and understandable
-then the string equivalents.</p></td>
+are less convenient and understandable then the string equivalents.
+NOTE: the enum values changed between R3-0 and R3-1, which may require changes
+to startup scripts.  INT16 and UINT16 were swapped and everything beyond
+INT32_LE is different.</p></td>
 </tr>
 <tr class="row-odd"><td><p>pollMsec</p></td>
 <td><p>int</p></td>
@@ -311,7 +315,7 @@ substring “Wago”. See the note below.</p></td>
 </table>
 </section>
 <section id="modbus-register-data-types">
-<h2>Modbus register data types<a class="headerlink" href="#modbus-register-data-types" title="Permalink to this heading"></a></h2>
+<h2>Modbus register data types<a class="headerlink" href="#modbus-register-data-types" title="Link to this heading"></a></h2>
 <p>Modbus function codes 3, 4, 6, and 16 are used to access 16-bit
 registers. The Modbus specification does not define how the data in
 these registers is to be interpreted, for example as signed or unsigned
@@ -336,8 +340,9 @@ treats the registers as unsigned 16-bit integers.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>UINT16</p></td>
-<td><p>Unsigned 16-bit binary integers.</p></td>
+<tr class="row-even"><td><p>INT16</p></td>
+<td><p>16-bit signed (2’s complement) integers. This data type extends the sign bit when
+converting to epicsInt32.</p></td>
 </tr>
 <tr class="row-odd"><td><p>INT16SM</p></td>
 <td><p>16-bit binary integers, sign and magnitude format. In this format bit 15 is the
@@ -355,9 +360,8 @@ consisting of 3 4-bit nibbles, and one 3-bit nibble. Bit 15 is a sign bit. Signe
 BCD numbers can hold values from -7999 to +7999. This is one of the formats used
 by Koyo PLCs for numbers such as ADC conversions.</p></td>
 </tr>
-<tr class="row-even"><td><p>INT16</p></td>
-<td><p>16-bit signed (2’s complement) integers. This data type extends the sign bit when
-converting to epicsInt32.</p></td>
+<tr class="row-even"><td><p>UINT16</p></td>
+<td><p>Unsigned 16-bit binary integers.</p></td>
 </tr>
 <tr class="row-odd"><td><p>INT32_LE</p></td>
 <td><p>32-bit integers, little endian (least significant word at Modbus address N, most
@@ -513,7 +517,7 @@ values:</p>
 </div>
 </section>
 <section id="note-for-wago-devices">
-<h2>Note for Wago devices<a class="headerlink" href="#note-for-wago-devices" title="Permalink to this heading"></a></h2>
+<h2>Note for Wago devices<a class="headerlink" href="#note-for-wago-devices" title="Link to this heading"></a></h2>
 <p>This initial read operation is normally done at the same Modbus address
 as the write operations. However, Wago devices are different from other
 Modbus devices because the address to read back a register is not the
@@ -527,7 +531,7 @@ functions. The user must specify the actual Modbus address for read
 functions.</p>
 </section>
 <section id="number-of-drvasynipport-drivers-for-tcp">
-<h2>Number of drvAsynIPPort drivers for TCP<a class="headerlink" href="#number-of-drvasynipport-drivers-for-tcp" title="Permalink to this heading"></a></h2>
+<h2>Number of drvAsynIPPort drivers for TCP<a class="headerlink" href="#number-of-drvasynipport-drivers-for-tcp" title="Link to this heading"></a></h2>
 <p>Each drvAsynIPPort driver creates a separate TCP/IP socket connection to
 the PLC. It is possible to have all of the <strong>modbus</strong> port drivers share
 a single drvAsynIPPort driver. In this case all I/O to the PLC is done
@@ -555,7 +559,7 @@ server per PLC (e.g. shared by all <strong>modbus</strong> drivers for that PLC)
 see if this results in satisfactory performance.</p>
 </section>
 <section id="number-formats">
-<h2>Number formats<a class="headerlink" href="#number-formats" title="Permalink to this heading"></a></h2>
+<h2>Number formats<a class="headerlink" href="#number-formats" title="Link to this heading"></a></h2>
 <p>It can be convenient to specify the modbusStartAddress and modbusLength
 in octal, rather than decimal, because this is the convention on most
 PLCs. In the iocsh and vxWorks shells this is done by using a leading 0
@@ -575,7 +579,7 @@ on the number, i.e. 040400 is an octal number.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2023, Mark Rivers.
-      <span class="lastupdated">Last updated on 2023-April-17.
+      <span class="lastupdated">Last updated on 2023-September-20.
       </span></p>
   </div>
 

@@ -11,9 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -85,7 +87,7 @@
            <div itemprop="articleBody">
              
   <section id="epics-device-support">
-<h1>EPICS device support<a class="headerlink" href="#epics-device-support" title="Permalink to this heading"></a></h1>
+<h1>EPICS device support<a class="headerlink" href="#epics-device-support" title="Link to this heading"></a></h1>
 <p><strong>modbus</strong> implements the following standard asyn interfaces:</p>
 <ul class="simple">
 <li><p>asynUInt32Digital</p></li>
@@ -141,7 +143,7 @@ STRING_LOW_HIGH, ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW,
 ZSTRING_LOW_HIGH) the <strong>offset</strong> specifies the location of the first
 16-bit register, and the second register is at <strong>offset+1</strong>, etc.</p>
 <section id="asynuint32digital">
-<h2>asynUInt32Digital<a class="headerlink" href="#asynuint32digital" title="Permalink to this heading"></a></h2>
+<h2>asynUInt32Digital<a class="headerlink" href="#asynuint32digital" title="Link to this heading"></a></h2>
 <p>asynUInt32Digital device support is selected with</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynUInt32Digital&quot;</span><span class="p">)</span>
 <span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asynMask(portName,offset,mask,timeout)drvUser&quot;</span><span class="p">)</span>
@@ -206,7 +208,7 @@ Clears bits that are clear in value and set in mask.</p></td>
 </table>
 </section>
 <section id="asynint32">
-<h2>asynInt32<a class="headerlink" href="#asynint32" title="Permalink to this heading"></a></h2>
+<h2>asynInt32<a class="headerlink" href="#asynint32" title="Link to this heading"></a></h2>
 <p>asynInt32 device support is selected with</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynInt32&quot;</span><span class="p">)</span>
 <span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
@@ -323,7 +325,7 @@ to run once immediately, regardless of the value of POLL_DELAY.</p></td>
 </table>
 </section>
 <section id="asynint64">
-<h2>asynInt64<a class="headerlink" href="#asynint64" title="Permalink to this heading"></a></h2>
+<h2>asynInt64<a class="headerlink" href="#asynint64" title="Link to this heading"></a></h2>
 <p>asynInt64 device support is selected with</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynInt64&quot;</span><span class="p">)</span>
 <span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
@@ -377,7 +379,7 @@ incorrect data.</p>
 </table>
 </section>
 <section id="asynfloat64">
-<h2>asynFloat64<a class="headerlink" href="#asynfloat64" title="Permalink to this heading"></a></h2>
+<h2>asynFloat64<a class="headerlink" href="#asynfloat64" title="Link to this heading"></a></h2>
 <p>asynFloat64 device support is selected with</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynFloat64&quot;</span><span class="p">)</span>
 <span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
@@ -441,7 +443,7 @@ write with the MODBUS_READ drvUser string.</p></td>
 </table>
 </section>
 <section id="asynint32array">
-<h2>asynInt32Array<a class="headerlink" href="#asynint32array" title="Permalink to this heading"></a></h2>
+<h2>asynInt32Array<a class="headerlink" href="#asynint32array" title="Link to this heading"></a></h2>
 <p>asynInt32Array device support is selected with</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynInt32ArrayIn&quot;</span><span class="p">)</span>
 <span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
@@ -514,7 +516,7 @@ msec.</p></td>
 </table>
 </section>
 <section id="asynoctet">
-<h2>asynOctet<a class="headerlink" href="#asynoctet" title="Permalink to this heading"></a></h2>
+<h2>asynOctet<a class="headerlink" href="#asynoctet" title="Link to this heading"></a></h2>
 <p>asynOctet device support is selected with</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynOctetRead&quot;</span><span class="p">)</span>
 <span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser[=number_of_characters]&quot;</span><span class="p">)</span>
@@ -577,7 +579,7 @@ ZSTRING_HIGH, ZSTRING_LOW, ZSTRING_HIGH_LOW, or ZSTRING_LOW_HIGH</p></td>
 </table>
 </section>
 <section id="template-files">
-<h2>Template files<a class="headerlink" href="#template-files" title="Permalink to this heading"></a></h2>
+<h2>Template files<a class="headerlink" href="#template-files" title="Link to this heading"></a></h2>
 <p><strong>modbus</strong> provides example template files in the modbusApp/Db
 directory. These include the following.</p>
 <table class="table-bordered table-striped table-hover docutils align-default">
@@ -795,7 +797,7 @@ string waveform output records.</p></td>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2023, Mark Rivers.
-      <span class="lastupdated">Last updated on 2023-April-17.
+      <span class="lastupdated">Last updated on 2023-September-20.
       </span></p>
   </div>
 

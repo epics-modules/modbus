@@ -11,9 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -79,7 +81,7 @@
            <div itemprop="articleBody">
              
   <section id="debug-tracing">
-<h1>Debug tracing<a class="headerlink" href="#debug-tracing" title="Permalink to this heading"></a></h1>
+<h1>Debug tracing<a class="headerlink" href="#debug-tracing" title="Link to this heading"></a></h1>
 <p>One can obtain diagnostic output for a <strong>modbus</strong> port driver using the
 “dbior” or “asynPrint” commands at the iocsh or vxWorks shell.
 “asynReport” with no arguments will print a brief report for all asyn
@@ -183,7 +185,7 @@ use EPICS channel access to turn debugging output on and off. The
 following medm screen shows how to turn on I/O tracing using this
 method.</p>
 <section id="asynrecord-adl">
-<h2>asynRecord.adl<a class="headerlink" href="#asynrecord-adl" title="Permalink to this heading"></a></h2>
+<h2>asynRecord.adl<a class="headerlink" href="#asynrecord-adl" title="Link to this heading"></a></h2>
 <p>Using the asynRecord to turn on traceIODriver and traceIOHex for debugging.</p>
 <figure class="align-center">
 <img alt="_images/K1_Yn_In_Word.png" src="_images/K1_Yn_In_Word.png" />
@@ -197,7 +199,7 @@ Each time the asyn record is processed the value will be sent to the PLC.</p>
 </figure>
 </section>
 <section id="asynregister-adl">
-<h2>asynRegister.adl<a class="headerlink" href="#asynregister-adl" title="Permalink to this heading"></a></h2>
+<h2>asynRegister.adl<a class="headerlink" href="#asynregister-adl" title="Link to this heading"></a></h2>
 <p>Using the asynRecord to perform actual I/O to a PLC.
 Note that Interface (IFACE)=asynUInt32Digital, Transfer (TMOD)=Write, and Output (UI32OUT)=1.
 This value will be written to the Y1 output when the record is processed.</p>
@@ -218,7 +220,7 @@ This value will be written to the Y1 output when the record is processed.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2023, Mark Rivers.
-      <span class="lastupdated">Last updated on 2023-April-17.
+      <span class="lastupdated">Last updated on 2023-September-20.
       </span></p>
   </div>
 

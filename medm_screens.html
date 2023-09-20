@@ -11,9 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -86,11 +88,11 @@
            <div itemprop="articleBody">
              
   <section id="medm-screens">
-<h1>medm screens<a class="headerlink" href="#medm-screens" title="Permalink to this heading"></a></h1>
+<h1>medm screens<a class="headerlink" href="#medm-screens" title="Link to this heading"></a></h1>
 <p><strong>modbus</strong> provides example medm .adl files in the modbusApp/op/adl
 directory.</p>
 <section id="modbusdatatypes-adl">
-<h2>modbusDataTypes.adl<a class="headerlink" href="#modbusdatatypes-adl" title="Permalink to this heading"></a></h2>
+<h2>modbusDataTypes.adl<a class="headerlink" href="#modbusdatatypes-adl" title="Link to this heading"></a></h2>
 <p>The following is a screen shot from an IOC running the testDataTypes.cmd
 and testDataTypes.substitutions files, communicating with a Modbus Slave Simulator.
 These are the ao/ai records using the asynFloat64 interface.
@@ -108,14 +110,14 @@ with this in the medm screen, showing that each Modbus data type is being commun
 controlling a Koyo DL205 PLC.</p>
 </section>
 <section id="koyo1-adl">
-<h2>Koyo1.adl<a class="headerlink" href="#koyo1-adl" title="Permalink to this heading"></a></h2>
+<h2>Koyo1.adl<a class="headerlink" href="#koyo1-adl" title="Link to this heading"></a></h2>
 <p>Top level medm screen for the Koyo1 example application.</p>
 <figure class="align-center">
 <img alt="_images/Koyo1.png" src="_images/Koyo1.png" />
 </figure>
 </section>
 <section id="koyo-8inputs-adl">
-<h2>Koyo_8inputs.adl<a class="headerlink" href="#koyo-8inputs-adl" title="Permalink to this heading"></a></h2>
+<h2>Koyo_8inputs.adl<a class="headerlink" href="#koyo-8inputs-adl" title="Link to this heading"></a></h2>
 <p>Inputs X0-X7 read as discrete inputs (function code 1).</p>
 <figure class="align-center">
 <img alt="_images/K1_Xn_Bit.png" src="_images/K1_Xn_Bit.png" />
@@ -126,7 +128,7 @@ controlling a Koyo DL205 PLC.</p>
 </figure>
 </section>
 <section id="koyo-8outputs-adl">
-<h2>Koyo_8outputs.adl<a class="headerlink" href="#koyo-8outputs-adl" title="Permalink to this heading"></a></h2>
+<h2>Koyo_8outputs.adl<a class="headerlink" href="#koyo-8outputs-adl" title="Link to this heading"></a></h2>
 <p>Outputs Y0-Y7 written using register access (function code 6).</p>
 <figure class="align-center">
 <img alt="_images/K1_Yn_Out_Word.png" src="_images/K1_Yn_Out_Word.png" />
@@ -137,7 +139,7 @@ controlling a Koyo DL205 PLC.</p>
 </figure>
 </section>
 <section id="modbusarray-adl">
-<h2>modbusArray.adl<a class="headerlink" href="#modbusarray-adl" title="Permalink to this heading"></a></h2>
+<h2>modbusArray.adl<a class="headerlink" href="#modbusarray-adl" title="Link to this heading"></a></h2>
 <p>Inputs C0-C377 read using a waveform record and coil access (function code 1).</p>
 <figure class="align-center">
 <img alt="_images/K1_Cn_In_Bit_Array.png" src="_images/K1_Cn_In_Bit_Array.png" />
@@ -148,7 +150,7 @@ controlling a Koyo DL205 PLC.</p>
 </figure>
 </section>
 <section id="modbusstatistics-adl">
-<h2>modbusStatistics.adl<a class="headerlink" href="#modbusstatistics-adl" title="Permalink to this heading"></a></h2>
+<h2>modbusStatistics.adl<a class="headerlink" href="#modbusstatistics-adl" title="Link to this heading"></a></h2>
 <p>I/O statistics for the Modbus driver that is reading inputs X0-X37 using register access (function code 3).
 The histogram is the number of events versus TCP/IP write/read cycle time in msec.</p>
 <figure class="align-center">
@@ -156,14 +158,14 @@ The histogram is the number of events versus TCP/IP write/read cycle time in mse
 </figure>
 </section>
 <section id="koyo2-adl">
-<h2>Koyo2.adl<a class="headerlink" href="#koyo2-adl" title="Permalink to this heading"></a></h2>
+<h2>Koyo2.adl<a class="headerlink" href="#koyo2-adl" title="Link to this heading"></a></h2>
 <p>Top level medm screen for the Koyo2 example application.</p>
 <figure class="align-center">
 <img alt="_images/Koyo2.png" src="_images/Koyo2.png" />
 </figure>
 </section>
 <section id="koyo-4adc-adl">
-<h2>Koyo_4ADC.adl<a class="headerlink" href="#koyo-4adc-adl" title="Permalink to this heading"></a></h2>
+<h2>Koyo_4ADC.adl<a class="headerlink" href="#koyo-4adc-adl" title="Link to this heading"></a></h2>
 <p>4 ADC inputs from a 13-bit bipolar ADC.</p>
 <figure class="align-center">
 <img alt="_images/K2_ADCs.png" src="_images/K2_ADCs.png" />
@@ -183,7 +185,7 @@ The histogram is the number of events versus TCP/IP write/read cycle time in mse
 
   <div role="contentinfo">
     <p>&#169; Copyright 2023, Mark Rivers.
-      <span class="lastupdated">Last updated on 2023-April-17.
+      <span class="lastupdated">Last updated on 2023-September-20.
       </span></p>
   </div>
 

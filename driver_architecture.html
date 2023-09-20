@@ -11,9 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -82,7 +84,7 @@
            <div itemprop="articleBody">
              
   <section id="driver-architecture">
-<h1>Driver architecture<a class="headerlink" href="#driver-architecture" title="Permalink to this heading"></a></h1>
+<h1>Driver architecture<a class="headerlink" href="#driver-architecture" title="Link to this heading"></a></h1>
 <p><strong>CAUTION:</strong> <strong>modbus</strong> can provide access to all of the I/O and memory
 of the PLC. In fact, it is not even necessary to run a ladder logic
 program in the PLC at all. The PLC can be used as a “dumb” I/O
@@ -152,7 +154,7 @@ address any Modbus memory location.</p>
 3, 4), write function codes (5, 6, 15, 16), and read/write function
 codes (23).</p>
 <section id="modbus-read-functions">
-<h2>Modbus read functions<a class="headerlink" href="#modbus-read-functions" title="Permalink to this heading"></a></h2>
+<h2>Modbus read functions<a class="headerlink" href="#modbus-read-functions" title="Link to this heading"></a></h2>
 <p>For read function codes (when absolute addressing is not being used) the
 driver spawns a poller thread. The poller thread reads the entire block
 of Modbus memory assigned to this port in a single Modbus transaction.
@@ -183,7 +185,7 @@ once with relative Modbus addressing. For this reason absolute Modbus
 addressing with read functions should normally be avoided.</p>
 </section>
 <section id="modbus-write-functions">
-<h2>Modbus write functions<a class="headerlink" href="#modbus-write-functions" title="Permalink to this heading"></a></h2>
+<h2>Modbus write functions<a class="headerlink" href="#modbus-write-functions" title="Link to this heading"></a></h2>
 <p>For write function codes the driver does not itself create a separate
 thread. Rather the driver does the Modbus I/O immediately in response to
 the write operations on the standard asyn interfaces. This means that
@@ -208,7 +210,7 @@ writes to the device. The modbusInterposeConfig function allows one to
 specify a write delay in msec before each write.</p>
 </section>
 <section id="modbus-write-read-functions">
-<h2>Modbus write/read functions<a class="headerlink" href="#modbus-write-read-functions" title="Permalink to this heading"></a></h2>
+<h2>Modbus write/read functions<a class="headerlink" href="#modbus-write-read-functions" title="Link to this heading"></a></h2>
 <p>Modbus function code 23 allows for writing a set of registers and
 reading a set of registers in a single operation. The read operation is
 performed after the write operation, and the register range to be read
@@ -233,7 +235,7 @@ device.</p></li>
 </ul>
 </section>
 <section id="platform-independence">
-<h2>Platform independence<a class="headerlink" href="#platform-independence" title="Permalink to this heading"></a></h2>
+<h2>Platform independence<a class="headerlink" href="#platform-independence" title="Link to this heading"></a></h2>
 <p><strong>modbus</strong> should run on all EPICS platforms. It has been tested on
 linux-x86, linux-x86_64, vxWorks-ppc32, win32-x86, windows-x64, (native
 Windows with Microsoft Visual Studio C++ compiler).</p>
@@ -257,7 +259,7 @@ have the appropriate architecture dependent code added.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2023, Mark Rivers.
-      <span class="lastupdated">Last updated on 2023-April-17.
+      <span class="lastupdated">Last updated on 2023-September-20.
       </span></p>
   </div>
 

@@ -11,9 +11,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -89,14 +91,14 @@
            <div itemprop="articleBody">
              
   <section id="overview-of-modbus">
-<h1>Overview of Modbus<a class="headerlink" href="#overview-of-modbus" title="Permalink to this heading"></a></h1>
+<h1>Overview of Modbus<a class="headerlink" href="#overview-of-modbus" title="Link to this heading"></a></h1>
 <p>MODBUS is an application layer messaging protocol, positioned at level 7
 of the OSI model, that provides client/server communication between
 devices connected on different types of buses or networks. It is
 typically used for communication with I/O systems, including
 Programmable Logic Controllers (PLCs).</p>
 <section id="modbus-communication-links">
-<h2>Modbus communication links<a class="headerlink" href="#modbus-communication-links" title="Permalink to this heading"></a></h2>
+<h2>Modbus communication links<a class="headerlink" href="#modbus-communication-links" title="Link to this heading"></a></h2>
 <p>Modbus supports the following 3 communication-link layers:</p>
 <table class="table-bordered table-striped table-hover docutils align-default">
 <thead>
@@ -133,7 +135,7 @@ standard Modbus TCP.</p></td>
 communication-link layers.</p>
 </section>
 <section id="modbus-data-types">
-<h2>Modbus data types<a class="headerlink" href="#modbus-data-types" title="Permalink to this heading"></a></h2>
+<h2>Modbus data types<a class="headerlink" href="#modbus-data-types" title="Link to this heading"></a></h2>
 <p>Modbus provides access to the following 4 types of data:</p>
 <table class="table-bordered table-striped table-hover docutils align-default">
 <thead>
@@ -168,7 +170,7 @@ communication-link layers.</p>
 </table>
 </section>
 <section id="modbus-communications">
-<h2>Modbus communications<a class="headerlink" href="#modbus-communications" title="Permalink to this heading"></a></h2>
+<h2>Modbus communications<a class="headerlink" href="#modbus-communications" title="Link to this heading"></a></h2>
 <p>Modbus communication consists of a <em>request message</em> sent from the
 <em>Modbus client</em> to the <em>Modbus server</em>. The server replies with a
 <em>response message</em>. Modbus request messages contain:</p>
@@ -181,7 +183,7 @@ read or write data from.</p></li>
 </ul>
 </section>
 <section id="modbus-function-codes">
-<h2>Modbus function codes<a class="headerlink" href="#modbus-function-codes" title="Permalink to this heading"></a></h2>
+<h2>Modbus function codes<a class="headerlink" href="#modbus-function-codes" title="Link to this heading"></a></h2>
 <p><strong>modbus</strong> supports the following 9 Modbus function codes:</p>
 <table class="table-bordered table-striped table-hover docutils align-default">
 <thead>
@@ -231,13 +233,13 @@ read or write data from.</p></li>
 </table>
 </section>
 <section id="modbus-addresses">
-<h2>Modbus addresses<a class="headerlink" href="#modbus-addresses" title="Permalink to this heading"></a></h2>
+<h2>Modbus addresses<a class="headerlink" href="#modbus-addresses" title="Link to this heading"></a></h2>
 <p>Modbus addresses are specified by a 16-bit integer address. The location
 of inputs and outputs within the 16-bit address space is not defined by
 the Modbus protocol, it is vendor-specific. The following table lists
 some of the commonly used Modbus addresses for Koyo DL05/06/240/250/260/430/440/450 PLCs.</p>
 <section id="discrete-inputs-and-coils">
-<h3>Discrete inputs and coils<a class="headerlink" href="#discrete-inputs-and-coils" title="Permalink to this heading"></a></h3>
+<h3>Discrete inputs and coils<a class="headerlink" href="#discrete-inputs-and-coils" title="Link to this heading"></a></h3>
 <table class="table-bordered table-striped table-hover docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>PLC Memory Type</p></th>
@@ -278,7 +280,7 @@ some of the commonly used Modbus addresses for Koyo DL05/06/240/250/260/430/440/
 </table>
 </section>
 <section id="input-registers-and-holding-registers-v-memory">
-<h3>Input registers and holding registers (V memory)<a class="headerlink" href="#input-registers-and-holding-registers-v-memory" title="Permalink to this heading"></a></h3>
+<h3>Input registers and holding registers (V memory)<a class="headerlink" href="#input-registers-and-holding-registers-v-memory" title="Link to this heading"></a></h3>
 <table class="table-bordered table-striped table-hover docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>PLC Memory Type</p></th>
@@ -340,13 +342,13 @@ it uses only the 16-bit address, not the offset.</p>
 </section>
 </section>
 <section id="modbus-data-length-limitations">
-<h2>Modbus data length limitations<a class="headerlink" href="#modbus-data-length-limitations" title="Permalink to this heading"></a></h2>
+<h2>Modbus data length limitations<a class="headerlink" href="#modbus-data-length-limitations" title="Link to this heading"></a></h2>
 <p>Modbus read operations are limited to transferring 125 16-bit words or
 2000 bits. Modbus write operations are limited to transferring 123
 16-bit words or 1968 bits.</p>
 </section>
 <section id="more-information-on-modbus">
-<h2>More information on Modbus<a class="headerlink" href="#more-information-on-modbus" title="Permalink to this heading"></a></h2>
+<h2>More information on Modbus<a class="headerlink" href="#more-information-on-modbus" title="Link to this heading"></a></h2>
 <p>For more information about the Modbus protocol, the official Modbus
 specification can be found <a class="reference external" href="http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf">on the
 Web</a>
@@ -375,7 +377,7 @@ in the <strong>modbus</strong> documentation directory.
 
   <div role="contentinfo">
     <p>&#169; Copyright 2023, Mark Rivers.
-      <span class="lastupdated">Last updated on 2023-April-17.
+      <span class="lastupdated">Last updated on 2023-September-20.
       </span></p>
   </div>
 
