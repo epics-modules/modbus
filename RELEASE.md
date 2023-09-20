@@ -6,6 +6,8 @@
   defined `drvModbusAsyn.h`.  This is not very convenient, so the dataType argument was changed
   to a string.  It can now either be the enum value (for backwards compatibility) or one of the
   strings like `INT32_LE`.  The string comparison is case-insensitive.
+  Use of the strings is strongly encouraged, since it will help avoid issues with 
+  backwards compatibility of enum values as happened in R3-1.
   NOTE: When using the iocsh shell this change is backwards compatible, because an unquoted
   integer can be read as a string.  However, with the vxWorks shell it is not backwards
   compatible, because string arguments must be quoted, so startup scripts will need to add quotes
@@ -53,6 +55,10 @@
     - ZSTRING_LOW_HIGH Zero terminated string data. Two characters are stored in each register,
       the first in the low byte and the second in the high byte.
 
+  **Note:** The enum values for the datatypes are not backwards compatible.
+  INT16 and UINT16 were swapped and everything beyond INT32_LE is different.
+  This may require changes to startup scripts.  
+  
   **Note:** For big-endian formats the _BE format is order in which an IEEE value would
   be stored on a big-endian machine, and _BE_BS swaps the bytes in each 16-bit word
   relative to IEEE specification.
