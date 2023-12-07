@@ -1,5 +1,14 @@
 # modbus: Modbus Support - Release Notes
 
+## R3-3 (December 7, 2023)
+- Moved the documentation from https://epics-modbus.readthedocs.io/en/latest/
+  to Github pages, https://epics-modules.github.io/modbus.
+- Renamed the application dbd file from modbus.dbd to modbusApp.dbd to reduce confusion.
+- Fix Modbus exception reporting when the asynInterposeEos interface is being used.
+- Initialize ioStatus_ to asynError so that readInt32, readFloat64, etc. will
+  return an error if the first poll of the device is not complete.
+  This correctly sets STAT and SEVR in records with PINI=YES and long poll intervals on the driver.
+
 ## R3-2 (November 21, 2020)
 - Changed the dataType argument to drvModusAsynConfigure(). 
   Previously this was the `int` value corresponding to one of the `modbusDataType_t` enums
