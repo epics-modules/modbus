@@ -231,7 +231,7 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
             break;
         case MODBUS_READ_HOLDING_REGISTERS:
         case MODBUS_READ_INPUT_REGISTERS:
-        case MODBUS_READ_SLAVE_ID:
+        case MODBUS_REPORT_SLAVE_ID:
         case MODBUS_READ_INPUT_REGISTERS_F23:
             maxLength = MAX_READ_WORDS;
             needReadThread = 1;
@@ -530,7 +530,7 @@ asynStatus drvModbusAsyn::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *va
             case MODBUS_READ_DISCRETE_INPUTS:
             case MODBUS_READ_HOLDING_REGISTERS:
             case MODBUS_READ_INPUT_REGISTERS:
-            case MODBUS_READ_SLAVE_ID:
+            case MODBUS_REPORT_SLAVE_ID:
             case MODBUS_READ_INPUT_REGISTERS_F23:
                 *value = data_[offset];
                 if ((mask != 0 ) && (mask != 0xFFFF)) *value &= mask;
@@ -681,7 +681,7 @@ asynStatus drvModbusAsyn::readInt32 (asynUser *pasynUser, epicsInt32 *value)
                 break;
             case MODBUS_READ_HOLDING_REGISTERS:
             case MODBUS_READ_INPUT_REGISTERS:
-            case MODBUS_READ_SLAVE_ID:
+            case MODBUS_REPORT_SLAVE_ID:
             case MODBUS_READ_INPUT_REGISTERS_F23:
                 status = readPlcInt32(dataType, offset, value, &bufferLen);
                 if (status != asynSuccess) return status;
@@ -1817,9 +1817,8 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
             requestSize = sizeof(modbusReadRequest);
             /* The -1 below is because the modbusReadResponse struct already has 1 byte of data */
             replySize = sizeof(modbusReadResponse) - 1 + len*2;
-            break;
-            
-        case MODBUS_READ_SLAVE_ID:
+            break;   
+        case MODBUS_REPORT_SLAVE_ID:
             readReq = (modbusReadRequest *)modbusRequest_;
             readReq->slave = slave;
             readReq->fcode = function;
@@ -1827,8 +1826,7 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
             //requestSize = sizeof(modbusReadRequest);
             /* The -1 below is because the modbusReadResponse struct already has 1 byte of data */
             replySize = sizeof(modbusReadResponse) - 1 + len;
-            break;
-            
+            break; 
         case MODBUS_READ_INPUT_REGISTERS_F23:
             readWriteMultipleReq = (modbusReadWriteMultipleRequest *)modbusRequest_;
             readWriteMultipleReq->slave = slave;
@@ -2087,8 +2085,7 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
                         "%s::%s port %s READ_REGISTERS\n",
                         driverName, functionName, this->portName);
             break;
-            
-        case MODBUS_READ_SLAVE_ID:
+        case MODBUS_REPORT_SLAVE_ID:
             readOK_++;
             setIntegerParam(P_ReadOK, readOK_);
             readResp = (modbusReadResponse *)modbusReply_;
@@ -2111,7 +2108,6 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
                         "%s::%s port %s READ_REGISTERS\n",
                         driverName, functionName, this->portName);
             break;
-
         /* We don't do anything with responses to writes for now.
          * Could add error checking. */
         case MODBUS_WRITE_SINGLE_COIL:
