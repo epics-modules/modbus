@@ -72,7 +72,7 @@ enabled as described above then the doModbusIO() function can also
 address any Modbus memory location.
 
 The behavior of the port driver differs for read function codes (1, 2,
-3, 4), write function codes (5, 6, 15, 16), and read/write function
+3, 4), write function codes (5, 6, 15, 16, 17), and read/write function
 codes (23).
 
 Modbus read functions
