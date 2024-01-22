@@ -191,7 +191,7 @@ created with the following command:
       but may be required by some.
   * - modbusFunction
     - int
-    - Modbus function code (1, 2, 3, 4, 5, 6, 15, 16, 123 (for 23 read-only), or 223 (for
+    - Modbus function code (1, 2, 3, 4, 5, 6, 15, 16, 17, 123 (for 23 read-only), or 223 (for
       23 write-only)).
   * - modbusStartAddress
     - int
@@ -202,9 +202,9 @@ created with the following command:
     - int
     - The length of the Modbus data segment to be accessed. 
       This is specified in bits for Modbus functions 1, 2, 5 and 15.
-      It is specified in 16-bit words for Modbus functions 3, 4, 6, 16, or 23.
+      It is specified in 16-bit words for Modbus functions 3, 4, 6, 16, 17, or 23.
       Length limit is 2000 for functions 1 and 2, 1968 for functions 5 and 15, 125 for functions 3 and 4, 
-      and 123 for functions 6, 16, and 23.
+      and 123 for functions 6, 16, 17, and 23.
       For absolute addressing this must be set to the size of required by the largest
       single Modbus operation that may be used. This would be 1 if all Modbus reads and
       writes are for 16-bit registers, but it would be 4 if 64-bit floats (4 16-bit registers)
