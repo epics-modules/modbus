@@ -123,6 +123,9 @@ Modbus function codes
   * - 16-bit word access
     - Write Multiple Registers
     - 16
+  * - Byte access (vendor defined)
+    - Report Slave ID
+    - 17
   * - 16-bit word access
     - Read/Write Multiple Registers
     - 23
@@ -242,7 +245,7 @@ or in the **modbus** documentation directory.
 :download:`Modbus_Messaging_Implementation_Guide_V1_0b.pdf`.
 
 The official specification for Modbus over serial can be found `on the
-Web <http://www.modbus.org/docs/Modbus_over_serial_line_V1_02.pdf`__ or
+Web <http://www.modbus.org/docs/Modbus_over_serial_line_V1_02.pdf>`__ or
 in the **modbus** documentation directory.
 :download:`Modbus_over_serial_line_V1_02.pdf`.
 
