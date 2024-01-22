@@ -1,18 +1,17 @@
 # asyn record for the underlying asyn octet port
 file "$(ASYN)/db/asynRecord.db" { pattern
-{P,           R,       PORT,      ADDR,   IMAX,    OMAX}
+{P,                R,            PORT,      ADDR,   IMAX,    OMAX}
 {Modicon984:    OctetAsyn,    Modicon984,     0,      80,      80}
 }
 
 # read byte#1 out of 9 bytes from Modicon-984 response 
 file "../../db/longin.template" { pattern
-{P,           R,         PORT,             OFFSET,   SCAN}
-{Modicon984:,    SlaveID_Byte1,     Mod984_slaveID,     0,        "I/O Intr"}
+{P,                R,                 PORT,        OFFSET,         SCAN}
+{Modicon984:,    SlaveID_Byte1,   Mod984_slaveID,     0,        "I/O Intr"}
 }
 
 # read byte#7 out of 9 bytes from Modicon-984 response
 file "../../db/mbbiDirect.template" { pattern
-{P,           R,       PORT,           OFFSET,  MASK,   SCAN}
-{Modicon984:,    SlaveID_Byte7,     Mod984_slaveID,      6,         0xFF,    "I/O Intr"}
+{P,                    R,            PORT,         OFFSET,       MASK,      SCAN}
+{Modicon984:,    SlaveID_Byte7,  Mod984_slaveID,      6,         0xFF,    "I/O Intr"}
 }
-
