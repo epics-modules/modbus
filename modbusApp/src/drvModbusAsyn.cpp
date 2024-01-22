@@ -1823,7 +1823,6 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
             readReq->slave = slave;
             readReq->fcode = function;
             requestSize = 2;
-            //requestSize = sizeof(modbusReadRequest);
             /* The -1 below is because the modbusReadResponse struct already has 1 byte of data */
             replySize = sizeof(modbusReadResponse) - 1 + len;
             break; 
@@ -2092,7 +2091,6 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
             nread = readResp->byteCount;
             pCharIn = (epicsUInt8 *)&readResp->data;
             /* Check to make sure we got back the expected number of words */
-            
             if ((int)nread != len) {
                 asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
                           "%s::%s, port %s expected %d words, actually received %d\n",
@@ -2105,7 +2103,7 @@ asynStatus drvModbusAsyn::doModbusIO(int slave, int function, int start,
             }
             asynPrintIO(pasynUserSelf, ASYN_TRACEIO_DRIVER,
                         (char *)data, nread,
-                        "%s::%s port %s READ_REGISTERS\n",
+                        "%s::%s port %s REPORT_SLAVE_ID\n",
                         driverName, functionName, this->portName);
             break;
         /* We don't do anything with responses to writes for now.
