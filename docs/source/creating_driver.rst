@@ -208,7 +208,7 @@ created with the following command:
       For absolute addressing this must be set to the size of required by the largest
       single Modbus operation that may be used. This would be 1 if all Modbus reads and
       writes are for 16-bit registers, but it would be 4 if 64-bit floats (4 16-bit registers)
-      are being used, and 100 (for example) if an Int32 waveform record with NELM=100
+      are being used, and 100 (for example) if an Int32 waveform record with NELM=50
       is being read or written.
   * - modbusDataType
     - string
