@@ -64,7 +64,7 @@ ASCII however).
     #                       int noProcessEos);
     drvAsynIPPortConfigure("Koyo1","164.54.160.158:502",0,0,0)
     asynSetOption("Koyo1",0, "disconnectOnReadTimeout", "Y")
-    m#modbusInterposeConfig(const char *portName, 
+    #modbusInterposeConfig(const char *portName, 
     #                      modbusLinkType linkType,
     #                      int timeoutMsec, 
     #                      int writeDelayMsec)
