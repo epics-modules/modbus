@@ -21,6 +21,12 @@ Modbus supports the following 3 communication-link layers:
      - Description
    * - TCP
      - TCP/IP using standard port 502.
+   * - UDP
+     - UDP/IP using standard port 502. The use of UDP/IP is not part of the MODBUS
+     - standard but is useful for FPGAs with Ethernet in firmware which may provide
+     - support only for UDP.  The only difference between TCP and UDP operation is
+     - that when using UDP a missing reply packet is not considered to
+     - be an error until the transaction has been attempted 5 times.
    * - RTU
      - RTU is normally run over serial communication links, i.e. RS-232,
        RS-422, or RS-485. RTU uses an additional CRC for packet checking. The

@@ -2,14 +2,14 @@ Creating a **modbus** port driver
 ---------------------------------
 
 Before **modbus** port drivers can be created, it is necessary to first
-create at least one asyn TCP/IP or serial port driver to communicate
+create at least one asyn TCP/IP, UDP/IP or serial port driver to communicate
 with the hardware. The commands required depend on the communications
 link being used.
 
-TCP/IP
-~~~~~~
+TCP/IP UDP/IP
+~~~~~~~~~~~~~
 
-For TCP/IP use the following standard asyn command:
+For TCP/IP or UDP/IP use the following standard asyn command:
 
 ::
 
@@ -31,6 +31,7 @@ the asynInterpose interface does no harm.
 However, the asynInterposeEos interface is definitely needed when using drvAsynIPPortConfigure to talk 
 to a terminal server that is communicating with the Modbus device over Modbus RTU or ASCII, 
 because then the communication from the device may well be broken up into multiple packets.
+To use UDP rather than TCP, add " UDP" after the host name/number and optional port number.
 
 ::
 
@@ -105,7 +106,7 @@ modbusInterposeConfig
 After creating the asynIPPort or asynSerialPort driver, the next step is
 to add the asyn "interpose interface" driver. This driver takes the
 device-independent Modbus frames and adds or removes the
-communication-link specific information for the TCP, RTU, or ASCII link
+communication-link specific information for the TCP, UDP, RTU, or ASCII link
 protocols. The interpose driver is created with the command:
 
 ::
@@ -128,7 +129,7 @@ protocols. The interpose driver is created with the command:
     - Name of the asynIPPort or asynSerialPort previously created.
   * - linkType
     - int
-    - Modbus link layer type:, 0 = TCP/IP, 1 = RTU, 2 = ASCII
+    - Modbus link layer type:, 0 = TCP/IP, 1 = RTU, 2 = ASCII, 3 = UDP/IP
   * - timeoutMsec
     - int
     - The timeout in milliseconds for write and read operations to the underlying asynOctet
@@ -186,7 +187,7 @@ created with the following command:
   * - slaveAddress
     - int
     - The address of the Modbus slave. This must match the configuration of the Modbus
-      slave (PLC) for RTU and ASCII. For TCP the slave address is used for the "unit identifier",
+      slave (PLC) for RTU and ASCII. For TCP or UDP the slave address is used for the "unit identifier",
       the last field in the MBAP header. The "unit identifier" is ignored by most PLCs,
       but may be required by some.
   * - modbusFunction

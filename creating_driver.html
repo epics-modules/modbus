@@ -49,7 +49,7 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview of Modbus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="driver_architecture.html">Driver architecture</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creating a <strong>modbus</strong> port driver</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#tcp-ip">TCP/IP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tcp-ip-udp-ip">TCP/IP UDP/IP</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#serial-rtu">Serial RTU</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#serial-ascii">Serial ASCII</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#modbusinterposeconfig">modbusInterposeConfig</a></li>
@@ -93,12 +93,12 @@
   <section id="creating-a-modbus-port-driver">
 <h1>Creating a <strong>modbus</strong> port driver<a class="headerlink" href="#creating-a-modbus-port-driver" title="Link to this heading"></a></h1>
 <p>Before <strong>modbus</strong> port drivers can be created, it is necessary to first
-create at least one asyn TCP/IP or serial port driver to communicate
+create at least one asyn TCP/IP, UDP/IP or serial port driver to communicate
 with the hardware. The commands required depend on the communications
 link being used.</p>
-<section id="tcp-ip">
-<h2>TCP/IP<a class="headerlink" href="#tcp-ip" title="Link to this heading"></a></h2>
-<p>For TCP/IP use the following standard asyn command:</p>
+<section id="tcp-ip-udp-ip">
+<h2>TCP/IP UDP/IP<a class="headerlink" href="#tcp-ip-udp-ip" title="Link to this heading"></a></h2>
+<p>For TCP/IP or UDP/IP use the following standard asyn command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvAsynIPPortConfigure</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span> <span class="n">hostInfo</span><span class="p">,</span> <span class="n">priority</span><span class="p">,</span> <span class="n">noAutoConnect</span><span class="p">,</span> <span class="n">noProcessEos</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -116,7 +116,8 @@ Normally Modbus TCP sends responses in a single packet, so this may not be neede
 the asynInterpose interface does no harm.
 However, the asynInterposeEos interface is definitely needed when using drvAsynIPPortConfigure to talk
 to a terminal server that is communicating with the Modbus device over Modbus RTU or ASCII,
-because then the communication from the device may well be broken up into multiple packets.</p>
+because then the communication from the device may well be broken up into multiple packets.
+To use UDP rather than TCP, add “ UDP” after the host name/number and optional port number.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">drvAsynIPPortConfigure</span><span class="p">(</span><span class="s2">&quot;Koyo1&quot;</span><span class="p">,</span><span class="s2">&quot;164.54.160.158:502&quot;</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -179,7 +180,7 @@ stop bit. The input and output end-of-string is set to CR/LF.</p>
 <p>After creating the asynIPPort or asynSerialPort driver, the next step is
 to add the asyn “interpose interface” driver. This driver takes the
 device-independent Modbus frames and adds or removes the
-communication-link specific information for the TCP, RTU, or ASCII link
+communication-link specific information for the TCP, UDP, RTU, or ASCII link
 protocols. The interpose driver is created with the command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modbusInterposeConfig</span><span class="p">(</span><span class="n">portName</span><span class="p">,</span>
                       <span class="n">linkType</span><span class="p">,</span>
@@ -201,7 +202,7 @@ protocols. The interpose driver is created with the command:</p>
 </tr>
 <tr class="row-odd"><td><p>linkType</p></td>
 <td><p>int</p></td>
-<td><p>Modbus link layer type:, 0 = TCP/IP, 1 = RTU, 2 = ASCII</p></td>
+<td><p>Modbus link layer type:, 0 = TCP/IP, 1 = RTU, 2 = ASCII, 3 = UDP/IP</p></td>
 </tr>
 <tr class="row-even"><td><p>timeoutMsec</p></td>
 <td><p>int</p></td>
@@ -261,7 +262,7 @@ created with the following command:</p>
 <tr class="row-even"><td><p>slaveAddress</p></td>
 <td><p>int</p></td>
 <td><p>The address of the Modbus slave. This must match the configuration of the Modbus
-slave (PLC) for RTU and ASCII. For TCP the slave address is used for the “unit identifier”,
+slave (PLC) for RTU and ASCII. For TCP or UDP the slave address is used for the “unit identifier”,
 the last field in the MBAP header. The “unit identifier” is ignored by most PLCs,
 but may be required by some.</p></td>
 </tr>
@@ -581,7 +582,7 @@ on the number, i.e. 040400 is an octal number.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2023, Mark Rivers.
-      <span class="lastupdated">Last updated on 2024-March-25.
+      <span class="lastupdated">Last updated on 2024-April-16.
       </span></p>
   </div>
 
