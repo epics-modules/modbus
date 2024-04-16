@@ -4,7 +4,7 @@
  * Modbus interpose interfaces for asyn.  The Modbus driver builds Modbus frames
  * and sends them to the drvAsynIPPort or drvAsynSerialPort drivers.  This
  * file implements the interpose interface that adds the required header information
- * for TCP, RTU serial or ASCII serial before sending the frame to the underlying
+ * for TCP, UDP, RTU serial or ASCII serial before sending the frame to the underlying
  * driver.  It removes header information from the response frame before returning it
  * to the Modbus driver.
  *
@@ -89,7 +89,9 @@ typedef struct modbusPvt {
     modbusLinkType linkType;
     asynUser       *pasynUser;
     int            transactionId;
+    size_t         nWritten;
     char           buffer[MAX_MODBUS_FRAME_SIZE];
+    char           rxBuffer[MAX_MODBUS_FRAME_SIZE];
 } modbusPvt;
     
 /* asynOctet methods */
@@ -247,6 +249,7 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
 
     switch(pPvt->linkType) {
         case modbusLinkTCP:
+        case modbusLinkUDP:
             /* Build the MBAP header */
             pPvt->transactionId = (pPvt->transactionId + 1) & 0xFFFF;
             mbapHeader.transactId    = htons(pPvt->transactionId);
@@ -264,6 +267,7 @@ static asynStatus writeIt(void *ppvt, asynUser *pasynUser,
             status = pPvt->pasynOctet->write(pPvt->octetPvt, pasynUser,
                                              pPvt->buffer, nWrite, 
                                              &nbytesActual);
+            pPvt->nWritten = nWrite;
             *nbytesTransfered = (nbytesActual > numchars) ? numchars : nbytesActual;
             break;
 
@@ -328,6 +332,7 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
     unsigned char LRC;
     int i;
     char *pin;
+    int retries = 0;
 
     pasynUser->timeout = pPvt->timeout;
 
@@ -336,31 +341,39 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
     
     switch(pPvt->linkType) {
         case modbusLinkTCP:
+        case modbusLinkUDP:
             nRead = maxchars + mbapSize + 1;
             for (;;) {
                 status = pPvt->pasynOctet->read(pPvt->octetPvt, pasynUser,
-                                                pPvt->buffer, nRead, 
+                                                pPvt->rxBuffer, nRead, 
                                                 &nbytesActual, eomReason);
                 /* If the returned status is asynTimeout this can be because the interposeEOS
                  * interface is being used and we received fewer bytes than expected due to a Modbus exception. 
-                 * In this case nbytesActual will be 9 and buffer[7] will have the MODBUS_EXCEPTION_FCN bit set 
+                 * In this case nbytesActual will be 9 and rxBuffer[7] will have the MODBUS_EXCEPTION_FCN bit set 
                  * We want to return the data read in this case so the exception can be reported. */
-                if ((nbytesActual == 9) && (pPvt->buffer[7] & MODBUS_EXCEPTION_FCN)) status = asynSuccess;
+                if ((nbytesActual == 9) && (pPvt->rxBuffer[7] & MODBUS_EXCEPTION_FCN)) status = asynSuccess;
                 if (status != asynSuccess) {
+                    if ((pPvt->linkType == modbusLinkUDP) && (++retries < 5)) {
+                        size_t nResent;
+                        pPvt->pasynOctet->write(pPvt->octetPvt, pasynUser,
+                                                pPvt->buffer, pPvt->nWritten, 
+                                                &nResent);
+                        continue;
+                    }
                     *nbytesTransfered = nbytesActual;
                     return status;
                 }
                 if (nbytesActual >= 2) {
-                    int id = ((pPvt->buffer[0] & 0xFF)<<8)|(pPvt->buffer[1]&0xFF);
+                    int id = ((pPvt->rxBuffer[0] & 0xFF)<<8)|(pPvt->rxBuffer[1]&0xFF);
                     if (id == pPvt->transactionId) break;
                 }
             }
             /* Copy bytes beyond mbapHeader to output buffer */
             nRead = nbytesActual;
             nRead = nRead - mbapSize - 1;
-            if (nRead < 0) nRead = 0;
+            if ((int)nRead < 0) nRead = 0;
             if (nRead > maxchars) nRead = maxchars;
-            if (nRead > 0) memcpy(data, pPvt->buffer + mbapSize + 1, nRead);
+            if (nRead > 0) memcpy(data, pPvt->rxBuffer + mbapSize + 1, nRead);
             if(nRead<maxchars) data[nRead] = 0; /*null terminate string if room*/
             *nbytesTransfered = nRead;
             break;
@@ -386,7 +399,7 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             /* Copy bytes beyond address to output buffer */
             nRead = nbytesActual;
             nRead = nRead - 3;
-            if (nRead < 0) nRead = 0;
+            if ((int)nRead < 0) nRead = 0;
             if (nRead > maxchars) nRead = maxchars;
             if (nRead > 0) memcpy(data, pPvt->buffer + 1, nRead);
             if (nRead<maxchars) data[nRead] = 0; /*null terminate string if room*/
@@ -423,7 +436,7 @@ static asynStatus readIt(void *ppvt, asynUser *pasynUser,
             /* The buffer now contains binary data, but the first byte is address.  
              * and last byte is LRC; Copy over buffer so first byte is function code */
             nRead = nRead - 2;
-            if (nRead < 0) nRead = 0;
+            if ((int)nRead < 0) nRead = 0;
             if (nRead > maxchars) nRead = maxchars;
             if (nRead > 0) memmove(data, data + 1, nRead);
             if (nRead<maxchars) data[nRead] = 0; /*null terminate string if room*/

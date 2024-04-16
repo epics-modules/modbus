@@ -13,7 +13,8 @@
 typedef enum {
     modbusLinkTCP,
     modbusLinkRTU,
-    modbusLinkASCII
+    modbusLinkASCII,
+    modbusLinkUDP
 } modbusLinkType;
 
 #ifdef __cplusplus
