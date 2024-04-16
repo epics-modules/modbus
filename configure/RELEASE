@@ -19,7 +19,7 @@ ASYN=$(SUPPORT)/asyn-4-43
 #INSTALL_LOCATION_APP=<fullpathname>
 
 # EPICS_BASE usually appears last so other apps can override stuff:
-EPICS_BASE=/corvette/usr/local/epics-devel/base-7.0.7
+EPICS_BASE=/corvette/usr/local/epics-devel/base-7.0.8
 
 #Capfast users may need the following definitions
 #CAPFAST_TEMPLATES=
