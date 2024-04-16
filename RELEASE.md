@@ -1,11 +1,18 @@
 # modbus: Modbus Support - Release Notes
 
-## R3-4 (January XXX, 2024)
+## R3-4 (April XXX, 2024)
 - Added support for Modbus function 17, which is called Report Slave ID.
   The Modbus specification says this is only supported for serial RTU and
   serial ASCII communications.  It reports the Run Indicator Status byte,
   and additional vendor defined data.
   Thanks to Najm us Saqib from LBNL for this.
+- Added support for UDP/IP using standard port 502.
+  The use of UDP/IP is not part of the MODBUS standard but is useful for FPGAs
+  with Ethernet in firmware which may provide support only for UDP.
+  The only difference between TCP and UDP operation is that when using UDP
+  a missing reply packet is not considered to be an error until the transaction
+  has been attempted 5 times.
+  Thanks to Eric Norum for this.
 
 ## R3-3 (December 7, 2023)
 - Moved the documentation from https://epics-modbus.readthedocs.io/en/latest/
