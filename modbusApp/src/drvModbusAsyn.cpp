@@ -517,7 +517,7 @@ asynStatus drvModbusAsyn::readUInt32Digital(asynUser *pasynUser, epicsUInt32 *va
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
             ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                   offset, data_, modbusLength_);
+                                   offset, data_, std::min(1, modbusLength_));
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
             readOnceDone_ = true;
@@ -667,7 +667,7 @@ asynStatus drvModbusAsyn::readInt32 (asynUser *pasynUser, epicsInt32 *value)
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
             ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                        offset, data_, modbusLength_);
+                                        offset, data_, std::min(2, modbusLength_));
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
             readOnceDone_ = true;
@@ -828,7 +828,7 @@ asynStatus drvModbusAsyn::readInt64 (asynUser *pasynUser, epicsInt64 *value)
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
             ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                   offset, data_, modbusLength_);
+                                   offset, data_, std::min(4, modbusLength_));
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
             readOnceDone_ = true;
@@ -974,7 +974,7 @@ asynStatus drvModbusAsyn::readFloat64 (asynUser *pasynUser, epicsFloat64 *value)
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
             ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                        offset, data_, modbusLength_);
+                                        offset, data_, std::min(4, modbusLength_));
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
             readOnceDone_ = true;
@@ -1291,7 +1291,7 @@ asynStatus drvModbusAsyn::readInt32Array (asynUser *pasynUser, epicsInt32 *data,
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
             ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                   offset, data_, modbusLength_);
+                                   offset, data_, std::min(maxChans, static_cast<size_t>(modbusLength_)));
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
         } else {
@@ -1461,7 +1461,7 @@ asynStatus drvModbusAsyn::readOctet(asynUser *pasynUser, char *data, size_t maxC
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
             ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                   offset, data_, modbusLength_);
+                                   offset, data_, std::min(maxChars, static_cast<size_t>(modbusLength_)));
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
         } else {
