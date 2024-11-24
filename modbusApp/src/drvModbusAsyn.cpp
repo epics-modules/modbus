@@ -150,8 +150,8 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
 
    : asynPortDriver(portName,
                     1, /* maxAddr */
-                    asynInt32Mask | asynUInt32DigitalMask | asynInt64Mask | asynFloat64Mask | asynInt32ArrayMask | asynOctetMask | asynDrvUserMask, /* Interface mask */
-                    asynInt32Mask | asynUInt32DigitalMask | asynInt64Mask | asynFloat64Mask | asynInt32ArrayMask | asynOctetMask,                   /* Interrupt mask */
+                    asynInt32Mask | asynUInt32DigitalMask | asynInt64Mask | asynFloat64Mask | asynInt32ArrayMask| asynFloat64ArrayMask | asynOctetMask | asynDrvUserMask, /* Interface mask */
+                    asynInt32Mask | asynUInt32DigitalMask | asynInt64Mask | asynFloat64Mask | asynInt32ArrayMask| asynFloat64ArrayMask | asynOctetMask,                   /* Interrupt mask */
                     ASYN_CANBLOCK | ASYN_MULTIDEVICE, /* asynFlags */
                     1, /* Autoconnect */
                     0, /* Default priority */
@@ -1097,6 +1097,180 @@ asynStatus drvModbusAsyn::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 
 
 /*
+**  asynFloat64Array support
+*/
+asynStatus drvModbusAsyn::readFloat64Array (asynUser *pasynUser, epicsFloat64 *data, size_t maxChans, size_t *nactual)
+{
+    modbusDataType_t dataType = getDataType(pasynUser);
+    int function = pasynUser->reason;
+    int offset;
+    size_t i;
+    int bufferLen;
+    int modbusFunction;
+    asynStatus status;
+    static const char *functionName="readFloat64Array";
+
+    for (i=0; i<maxChans && offset<modbusLength_; i++) {
+        errlogPrintf("data[%d] = %d\n", offset, data_[offset]);
+        offset++;
+    }
+
+    *nactual = 0;
+    pasynManager->getAddr(pasynUser, &offset);
+    if (function == P_Data) {
+        if (absoluteAddressing_) {
+            /* If absolute addressing then there is no poller running */
+            if (checkModbusFunction(&modbusFunction)) return asynError;
+            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
+                                   offset, data_, modbusLength_);
+            if (ioStatus_ != asynSuccess) return(ioStatus_);
+            offset = 0;
+        } else {
+            if (ioStatus_ != asynSuccess) return(ioStatus_);
+        }
+        switch(modbusFunction_) {
+            case MODBUS_READ_COILS:
+            case MODBUS_READ_DISCRETE_INPUTS:
+                for (i=0; i<maxChans && offset<modbusLength_; i++) {
+                    data[i] = data_[offset];
+                    offset++;
+                }
+                break;
+            case MODBUS_READ_HOLDING_REGISTERS:
+            case MODBUS_READ_INPUT_REGISTERS:
+            case MODBUS_READ_INPUT_REGISTERS_F23:
+                for (i=0; i<maxChans && offset<modbusLength_; i++) {
+                    status = readPlcFloat(dataType, offset, &data[i], &bufferLen);
+                    if (status) return status;
+                    offset += bufferLen;
+                }
+                break;
+
+            case MODBUS_WRITE_SINGLE_COIL:
+            case MODBUS_WRITE_MULTIPLE_COILS:
+                if (!readOnceDone_) return asynError;
+                for (i=0; i<maxChans && offset<modbusLength_; i++) {
+                    data[i] = data_[offset];
+                    offset++;
+                }
+                break;
+            case MODBUS_WRITE_SINGLE_REGISTER:
+            case MODBUS_WRITE_MULTIPLE_REGISTERS:
+            case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
+                if (!readOnceDone_) return asynError;
+                for (i=0; i<maxChans && offset<modbusLength_; i++) {
+                    status = readPlcFloat(dataType, offset, &data[i], &bufferLen);
+                    if (status) return status;
+                    offset += bufferLen;
+                }
+                break;
+
+            default:
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                          "%s::%s port %s invalid request for Modbus"
+                          " function %d\n",
+                          driverName, functionName, this->portName, modbusFunction_);
+                return asynError;
+        }
+        asynPrintIO(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+                    (char *)data_, i*2,
+                    "%s::%sArray port %s, function=0x%x\n",
+                    driverName, functionName, this->portName, modbusFunction_);
+    }
+    else if (function == P_ReadHistogram) {
+        for (i=0; i<maxChans && i<HISTOGRAM_LENGTH; i++) {
+            data[i] = timeHistogram_[i];
+        }
+    }
+
+    else if (function == P_HistogramTimeAxis) {
+        for (i=0; i<maxChans && i<HISTOGRAM_LENGTH; i++) {
+            data[i] = histogramTimeAxis_[i];
+        }
+    }
+    else {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s::%s port %s invalid pasynUser->reason %d\n",
+                  driverName, functionName, this->portName, pasynUser->reason);
+        return asynError;
+    }
+
+    *nactual = i;
+    return asynSuccess;
+}
+
+asynStatus drvModbusAsyn::writeFloat64Array(asynUser *pasynUser, epicsFloat64 *data, size_t maxChans)
+{
+    modbusDataType_t dataType = getDataType(pasynUser);
+    int function = pasynUser->reason;
+    int modbusAddress;
+    epicsUInt16 *dataAddress;
+    int nwrite=0;
+    size_t i;
+    int offset;
+    int outIndex;
+    int bufferLen;
+    asynStatus status;
+    static const char *functionName="writeFloat64Array";
+
+    pasynManager->getAddr(pasynUser, &offset);
+    if (absoluteAddressing_) {
+        modbusAddress = offset;
+        dataAddress = data_;
+        outIndex = 0;
+    } else {
+        modbusAddress = modbusStartAddress_ + offset;
+        dataAddress = data_ + offset;
+        outIndex = offset;
+    }
+    if (function == P_Data) {
+        switch(modbusFunction_) {
+            case MODBUS_WRITE_MULTIPLE_COILS:
+                /* Need to copy data to local buffer to convert to epicsUInt16 */
+                for (i=0; i<maxChans && outIndex<modbusLength_; i++) {
+                    data_[outIndex] = data[i];
+                    outIndex++;
+                    nwrite++;
+                }
+                status = doModbusIO(modbusSlave_, modbusFunction_,
+                                    modbusAddress, dataAddress, nwrite);
+                if (status != asynSuccess) return(status);
+                break;
+            case MODBUS_WRITE_MULTIPLE_REGISTERS:
+            case MODBUS_WRITE_MULTIPLE_REGISTERS_F23:
+                for (i=0; i<maxChans && outIndex<modbusLength_; i++) {
+                    status = writePlcFloat(dataType, outIndex, data[i], &data_[outIndex], &bufferLen);
+                    if (status != asynSuccess) return(status);
+                    outIndex += bufferLen;
+                    nwrite += bufferLen;
+                }
+                status = doModbusIO(modbusSlave_, modbusFunction_,
+                                    modbusAddress, dataAddress, nwrite);
+                if (status != asynSuccess) return(status);
+                break;
+            default:
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                          "%s::%s port %s invalid request for Modbus"
+                          " function %d\n",
+                          driverName, functionName, this->portName, modbusFunction_);
+                return asynError;
+        }
+        asynPrintIO(pasynUserSelf, ASYN_TRACEIO_DRIVER,
+                    (char *)data_, nwrite*2,
+                    "%s::%s port %s, function=0x%x\n",
+                    driverName, functionName, this->portName, modbusFunction_);
+    }
+    else {
+        asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                  "%s::%s port %s invalid pasynUser->reason %d\n",
+                  driverName, functionName, this->portName, pasynUser->reason);
+        return asynError;
+    }
+    return asynSuccess;
+}
+
+
+/*
 **  asynInt32Array support
 */
 asynStatus drvModbusAsyn::readInt32Array (asynUser *pasynUser, epicsInt32 *data, size_t maxChans, size_t *nactual)
@@ -1434,13 +1608,16 @@ void drvModbusAsyn::readPoller()
     epicsFloat64 float64Value;
     modbusDataType_t dataType;
     char stringBuffer[MAX_READ_WORDS * 2];
-    epicsUInt16 *prevData;    /* Previous contents of memory buffer */
-    epicsInt32 *int32Data;    /* Buffer used for asynInt32Array callbacks */
+    epicsUInt16 *prevData;     /* Previous contents of memory buffer */
+    epicsInt32 *int32Data;     /* Buffer used for asynInt32Array callbacks */
+    epicsFloat64 *float64Data; /* Buffer used for asynFloat64Array callbacks */
     static const char *functionName="readPoller";
 
     prevData = (epicsUInt16 *) callocMustSucceed(modbusLength_, sizeof(epicsUInt16),
                                  "drvModbusAsyn::readPoller");
     int32Data = (epicsInt32 *) callocMustSucceed(modbusLength_, sizeof(epicsInt32),
+                                 "drvModbusAsyn::readPoller");
+    float64Data = (epicsFloat64 *) callocMustSucceed(modbusLength_, sizeof(epicsFloat64),
                                  "drvModbusAsyn::readPoller");
 
     lock();
@@ -1675,6 +1852,40 @@ void drvModbusAsyn::readPoller()
             }
             pasynManager->interruptEnd(asynStdInterfaces.int32ArrayInterruptPvt);
         }
+
+        /* See if there are any asynFloat64Array callbacks registered to be called.
+         * These are called even if the data has not changed, because we could be doing
+         * ADC averaging */
+        pasynManager->interruptStart(asynStdInterfaces.float64ArrayInterruptPvt, &pclientList);
+        pnode = (interruptNode *)ellFirst(pclientList);
+        while (pnode) {
+            asynFloat64ArrayInterrupt *pFloat64Array;
+            pFloat64Array = (asynFloat64ArrayInterrupt *)pnode->drvPvt;
+            pasynUser = pFloat64Array->pasynUser;
+            if (pasynUser->reason != P_Data) {
+                asynPrint(pasynUserSelf, ASYN_TRACE_ERROR,
+                          "%s::%s port %s invalid pasynUser->reason %d\n",
+                          driverName, functionName, this->portName, pasynUser->reason);
+                break;
+            }
+            /* Need to copy data to epicsFloat64 buffer for callback */
+            pasynManager->getAddr(pasynUser, &offset);
+            dataType = getDataType(pasynUser);
+            for (i=0; i<modbusLength_ && offset < modbusLength_; i++) {
+                readPlcFloat(dataType, offset, &float64Data[i], &bufferLen);
+                offset += bufferLen;
+            }
+            /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
+            pasynUser->auxStatus = ioStatus_;
+            asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
+                      "%s::%s, calling client %p"
+                      "callback=%p\n",
+                       driverName, functionName, pFloat64Array, pFloat64Array->callback);
+            pFloat64Array->callback(pFloat64Array->userPvt, pasynUser,
+                                  float64Data, i);
+            pnode = (interruptNode *)ellNext(&pnode->node);
+        }
+        pasynManager->interruptEnd(asynStdInterfaces.float64ArrayInterruptPvt);
 
         /* See if there are any asynOctet callbacks registered to be called
          * when data changes.  These callbacks only happen if any data in this port has changed */
