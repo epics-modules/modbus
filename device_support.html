@@ -53,6 +53,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#asynint64">asynInt64</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#asynfloat64">asynFloat64</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#asynint32array">asynInt32Array</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#asynfloat64array">asynFloat64Array</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#asynoctet">asynOctet</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#template-files">Template files</a></li>
 </ul>
@@ -95,6 +96,7 @@
 <li><p>asynInt32Array</p></li>
 <li><p>asynInt64</p></li>
 <li><p>asynFloat64</p></li>
+<li><p>asynFloat64Array</p></li>
 <li><p>asynOctet</p></li>
 <li><p>asynCommon</p></li>
 <li><p>asynDrvUser</p></li>
@@ -481,6 +483,78 @@ the histogram array of I/O times when histogramming is enabled.</p>
 <td><p>MODBUS_DATA (or datatype-specific value)</p></td>
 <td><p>waveform (input)</p></td>
 <td><p>value = (epicsInt32)Modbus data[]</p></td>
+</tr>
+<tr class="row-even"><td><p>15</p></td>
+<td><p>Bit</p></td>
+<td><p>Array of bits</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>waveform (output)</p></td>
+<td><p>Modbus write (epicsUInt16)value[]</p></td>
+</tr>
+<tr class="row-odd"><td><p>16, 23</p></td>
+<td><p>16-bit word</p></td>
+<td><p>Array of 16, 32, or 64-bit words</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>waveform (output)</p></td>
+<td><p>Modbus write value[]</p></td>
+</tr>
+<tr class="row-even"><td><p>Any</p></td>
+<td><p>32-bit word</p></td>
+<td><p>NA</p></td>
+<td><p>READ_HISTOGRAM</p></td>
+<td><p>waveform (input)</p></td>
+<td><p>Returns a histogram array of the I/O times in milliseconds since histogramming was
+last enabled.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Any</p></td>
+<td><p>32-bit word</p></td>
+<td><p>NA</p></td>
+<td><p>HISTOGRAM_TIME_AXIS</p></td>
+<td><p>waveform (input)</p></td>
+<td><p>Returns the time axis of the histogram data. Each element is HISTOGRAM_BIN_TIME
+msec.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="asynfloat64array">
+<h2>asynFloat64Array<a class="headerlink" href="#asynfloat64array" title="Link to this heading"></a></h2>
+<p>asynFloat64Array device support is selected with</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynFloat64ArrayIn&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">field</span><span class="p">(</span><span class="n">DTYP</span><span class="p">,</span><span class="s2">&quot;asynFloat64ArrayOut&quot;</span><span class="p">)</span>
+<span class="n">field</span><span class="p">(</span><span class="n">INP</span><span class="p">,</span><span class="s2">&quot;@asyn(portName,offset,timeout)drvUser&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>asynFloat64Array device support is used to read or write arrays of up to
+2000 coil values or up to 125 16-bit registers.</p>
+<table class="table-bordered table-striped table-hover docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Modbus function</p></th>
+<th class="head"><p>Offset type</p></th>
+<th class="head"><p>Data type</p></th>
+<th class="head"><p>drvUser</p></th>
+<th class="head"><p>Records supported</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1, 2</p></td>
+<td><p>Bit</p></td>
+<td><p>Array of bits</p></td>
+<td><p>MODBUS_DATA</p></td>
+<td><p>waveform (input)</p></td>
+<td><p>value = (epicsFloat64)Modbus data[]</p></td>
+</tr>
+<tr class="row-odd"><td><p>3, 4, 23</p></td>
+<td><p>16-bit word</p></td>
+<td><p>Array of 16, 32 or 64-bit words</p></td>
+<td><p>MODBUS_DATA (or datatype-specific value)</p></td>
+<td><p>waveform (input)</p></td>
+<td><p>value = (epicsFloat64)Modbus data[]</p></td>
 </tr>
 <tr class="row-even"><td><p>15</p></td>
 <td><p>Bit</p></td>
