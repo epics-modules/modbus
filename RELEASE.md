@@ -1,6 +1,6 @@
 # modbus: Modbus Support - Release Notes
 
-## R3-4 (April XXX, 2024)
+## R3-4 (November XXX, 2024)
 - Added support for Modbus function 17, which is called Report Slave ID.
   The Modbus specification says this is only supported for serial RTU and
   serial ASCII communications.  It reports the Run Indicator Status byte,
@@ -13,7 +13,13 @@
   a missing reply packet is not considered to be an error until the transaction
   has been attempted 5 times.
   Thanks to Eric Norum for this.
-
+- Added support for asynFloat64Array, which allows reading and writing 64-bit
+  floating point arrays.  Thanks to Andre (NomAnor) for this.
+- Fixed absolute addressing so it only reads and writes the required number of registers.
+  Previously it was always reading or writing the user-specified maximum number,
+  which could cause errors if the read or write included non-existent registers.
+  Thanks to Andre (NomAnor) for this.
+  
 ## R3-3 (December 7, 2023)
 - Moved the documentation from https://epics-modbus.readthedocs.io/en/latest/
   to Github pages, https://epics-modules.github.io/modbus.
