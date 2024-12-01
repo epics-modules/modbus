@@ -239,10 +239,10 @@ Modbus read operations are limited to transferring 125 16-bit words or
 Modbus exceptions
 ~~~~~~~~~~~~~~~~~
 
-If a Modbus requests is determined to be invalid by the server, it returns
+If a Modbus request is determined to be invalid by the server, it returns
 a Modbus exception message.
-The modbus driver will print an error message if an exception is returned.
-The following table describes the possible Modbus exceptions.
+The Modbus driver will print an error message if an exception is returned.
+The following table describes the Modbus exception codes.
 
 Modbus exception codes
 ______________________
