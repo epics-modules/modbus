@@ -1,6 +1,6 @@
 # modbus: Modbus Support - Release Notes
 
-## R3-4 (November XXX, 2024)
+## R3-4 (December 1, 2024)
 - Added support for Modbus function 17, which is called Report Slave ID.
   The Modbus specification says this is only supported for serial RTU and
   serial ASCII communications.  It reports the Run Indicator Status byte,
@@ -19,7 +19,8 @@
   Previously it was always reading or writing the user-specified maximum number,
   which could cause errors if the read or write included non-existent registers.
   Thanks to Andre (NomAnor) for this.
-  
+- Added documentation for Modbus exceptions.
+
 ## R3-3 (December 7, 2023)
 - Moved the documentation from https://epics-modbus.readthedocs.io/en/latest/
   to Github pages, https://epics-modules.github.io/modbus.
