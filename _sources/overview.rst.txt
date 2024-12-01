@@ -82,8 +82,8 @@ Modbus provides access to the following 4 types of data:
 Modbus communications
 ~~~~~~~~~~~~~~~~~~~~~
 
-Modbus communication consists of a *request message* sent from the
-*Modbus client* to the *Modbus server*. The server replies with a
+Modbus communication consists of a *request message* sent from a
+*Modbus master* (client) to a *Modbus slave* (server). The server replies with a
 *response message*. Modbus request messages contain:
 
 -  An 8-bit Modbus function code that describes the type of data
@@ -235,6 +235,82 @@ Modbus data length limitations
 Modbus read operations are limited to transferring 125 16-bit words or
 2000 bits. Modbus write operations are limited to transferring 123
 16-bit words or 1968 bits.
+
+Modbus exceptions
+~~~~~~~~~~~~~~~~~
+
+If a Modbus requests is determined to be invalid by the server, it returns
+a Modbus exception message.
+The modbus driver will print an error message if an exception is returned.
+The following table describes the possible Modbus exceptions.
+
+Modbus exception codes
+______________________
+
+.. cssclass:: table-bordered table-striped table-hover
+.. list-table::
+  :header-rows: 1
+  :widths: auto
+
+  * - Exception code
+    - Name
+    - Meaning
+  * - 0x01
+    - Illegal Function
+    - The function code received in the query is not an allowable action for the slave.
+      This may be because the function code is only applicable to newer devices,
+      and was not implemented in the unit selected.
+      It could also indicate that the slave is in the wrong state to process a request of this type,
+      for example because it is unconfigured and is being asked to return register values.
+  * - 0x02
+    - Illegal Data Address
+    - The data address received in the query is not an allowable address for the slave.
+      More specifically, the combination of reference number and transfer length is invalid.
+      For a controller with 100 registers, a request with offset 96 and length 4 would succeed,
+      a request with offset 96 and length 5 will generate exception 02.
+  * - 0x03
+    - Illegal Data Value
+    - A value contained in the query data field is not an allowable value for the slave.
+      This indicates a fault in the structure of remainder of a complex request,
+      such as that the implied length is incorrect.
+      It specifically does NOT mean that a data item submitted for storage in a register has a value
+      outside the expectation of the application program, since the MODBUS protocol is unaware of the
+      significance of any particular value of any particular register.
+  * - 0x04
+    - Slave Device Failure
+    - An unrecoverable error occurred while the slave was attempting to perform the requested action.
+  * - 0x05
+    - Acknowledge
+    - Specialized use in conjunction with programming commands.
+      The slave has accepted the request and is processing it, but a long duration of time will be required to do so.
+      This response is returned to prevent a timeout error from occurring in the master.
+      The master can next issue a Poll Program Complete message to determine if processing is completed.
+      NOTE: The EPICS Modbus driver does not print an error message for this response, since it is not really an error.
+  * - 0x06
+    - Slave Device Busy
+    - Specialized use in conjunction with programming commands.
+      The slave is engaged in processing a long-duration program command.
+      The master should retransmit the message later when the slave is free.
+  * - 0x07
+    - Negative Acknowledge
+    - The slave cannot perform the program function received in the query.
+      This code is returned for an unsuccessful programming request using function code 13 or 14 decimal.
+      The master should request diagnostic or error information from the slave.
+  * - 0x08
+    - Memory Parity Error
+    - Specialized use in conjunction with function codes 20 and 21 and reference type 6,
+      to indicate that the extended file area failed to pass a consistency check.
+      The slave attempted to read extended memory or record file, but detected a parity error in memory.
+      The master can retry the request, but service may be required on the slave device.
+  * - 0x0A
+    - Gateway Path Unavailable
+    - Specialized use in conjunction with gateways, indicates that the gateway was unable to allocate an
+      internal communication path from the input port to the output port for processing the request.
+      Usually means the gateway is misconfigured or overloaded.
+  * - 0x0B
+    - Gateway Target Device Failed to Respond
+    - Specialized use in conjunction with gateways, indicates that no response was obtained from the target device.
+      Usually means that the device is not present on the network.
 
 More information on Modbus
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
