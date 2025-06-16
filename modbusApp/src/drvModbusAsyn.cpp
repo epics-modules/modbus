@@ -43,6 +43,12 @@
 #include "modbus.h"
 #include "drvModbusAsyn.h"
 
+// Windows can define macros min() and max() that interfere with std::min() and std::max()
+#ifdef _WIN32
+  #undef min
+  #undef max
+#endif
+
 /* Defined constants */
 
 #define MAX_READ_WORDS       125        /* Modbus limit on number of words to read */
@@ -1110,11 +1116,6 @@ asynStatus drvModbusAsyn::readFloat64Array (asynUser *pasynUser, epicsFloat64 *d
     asynStatus status;
     static const char *functionName="readFloat64Array";
 
-    for (i=0; i<maxChans && offset<modbusLength_; i++) {
-        errlogPrintf("data[%d] = %d\n", offset, data_[offset]);
-        offset++;
-    }
-
     *nactual = 0;
     pasynManager->getAddr(pasynUser, &offset);
     if (function == P_Data) {
@@ -1228,7 +1229,7 @@ asynStatus drvModbusAsyn::writeFloat64Array(asynUser *pasynUser, epicsFloat64 *d
             case MODBUS_WRITE_MULTIPLE_COILS:
                 /* Need to copy data to local buffer to convert to epicsUInt16 */
                 for (i=0; i<maxChans && outIndex<modbusLength_; i++) {
-                    data_[outIndex] = data[i];
+                    data_[outIndex] = (epicsUInt16)data[i];
                     outIndex++;
                     nwrite++;
                 }
@@ -1291,7 +1292,7 @@ asynStatus drvModbusAsyn::readInt32Array (asynUser *pasynUser, epicsInt32 *data,
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
             ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                   offset, data_, std::min(maxChans, static_cast<size_t>(modbusLength_)));
+                                   offset, data_, std::min((int)maxChans, modbusLength_));
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
         } else {
@@ -1461,7 +1462,7 @@ asynStatus drvModbusAsyn::readOctet(asynUser *pasynUser, char *data, size_t maxC
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
             ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                   offset, data_, std::min(maxChars, static_cast<size_t>(modbusLength_)));
+                                   offset, data_, std::min((int)maxChars, modbusLength_));
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
         } else {
