@@ -42,6 +42,7 @@
 #define MODBUS_BCD_UNSIGNED_STRING      "BCD_UNSIGNED"
 #define MODBUS_BCD_SIGNED_STRING        "BCD_SIGNED"
 #define MODBUS_UINT16_STRING            "UINT16"
+#define MODBUS_UINT16_BS_STRING         "UINT16_BS"
 #define MODBUS_INT32_LE_STRING          "INT32_LE"
 #define MODBUS_INT32_LE_BS_STRING       "INT32_LE_BS"
 #define MODBUS_INT32_BE_STRING          "INT32_BE"
@@ -83,6 +84,7 @@ typedef enum {
     dataTypeBCDUnsigned,
     dataTypeBCDSigned,
     dataTypeUInt16,
+    dataTypeUInt16BS,
     dataTypeInt32LE,
     dataTypeInt32LEBS,
     dataTypeInt32BE,

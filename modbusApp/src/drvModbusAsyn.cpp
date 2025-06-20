@@ -90,6 +90,7 @@ static modbusDataTypeStruct modbusDataTypes[MAX_MODBUS_DATA_TYPES] = {
     {dataTypeBCDUnsigned,    MODBUS_BCD_UNSIGNED_STRING},
     {dataTypeBCDSigned,      MODBUS_BCD_SIGNED_STRING},
     {dataTypeUInt16,         MODBUS_UINT16_STRING},
+    {dataTypeUInt16BS,       MODBUS_UINT16_BS_STRING},
     {dataTypeInt32LE,        MODBUS_INT32_LE_STRING},
     {dataTypeInt32LEBS,      MODBUS_INT32_LE_BS_STRING},
     {dataTypeInt32BE,        MODBUS_INT32_BE_STRING},
@@ -2454,6 +2455,10 @@ asynStatus drvModbusAsyn::readPlcInt64(modbusDataType_t dataType, int offset, ep
             i64Result = ui16Value;
             break;
 
+        case dataTypeUInt16BS:
+            i64Result = bswap16(ui16Value);
+            break;
+
         case dataTypeInt16SM:
             i64Result = ui16Value;
             if (i64Result & signMask) {
@@ -2616,6 +2621,10 @@ asynStatus drvModbusAsyn::writePlcInt64(modbusDataType_t dataType, int offset, e
         case dataTypeUInt16:
             buffer[0] = (epicsUInt16)value;
             break;
+        
+        case dataTypeUInt16BS:
+            buffer[0] = bswap16((epicsUInt16)value);
+            break; 
 
         case dataTypeInt16SM:
             ui16Value = (epicsUInt16)value;
@@ -2767,6 +2776,7 @@ asynStatus drvModbusAsyn::readPlcFloat(modbusDataType_t dataType, int offset, ep
 
     switch (dataType) {
         case dataTypeUInt16:
+        case dataTypeUInt16BS:
         case dataTypeInt16SM:
         case dataTypeBCDSigned:
         case dataTypeBCDUnsigned:
@@ -2893,6 +2903,7 @@ asynStatus drvModbusAsyn::writePlcFloat(modbusDataType_t dataType, int offset, e
 
     switch (dataType) {
         case dataTypeUInt16:
+        case dataTypeUInt16BS: 
         case dataTypeInt16SM:
         case dataTypeBCDSigned:
         case dataTypeBCDUnsigned:
