@@ -279,6 +279,9 @@ treats the registers as unsigned 16-bit integers.
       by Koyo PLCs for numbers such as ADC conversions.
   * - UINT16
     - Unsigned 16-bit binary integers.
+  * - UINT16_BS
+    - Unsigned 16-bit binary integers.The high-order 8-bit byte and low-order 8-bit byte 
+      within the 16-bit register are swapped.
   * - INT32_LE
     - 32-bit integers, little endian (least significant word at Modbus address N, most
       significant word at Modbus address N+1).
