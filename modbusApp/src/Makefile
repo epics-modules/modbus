@@ -72,6 +72,11 @@ modbusApp_DBD += sscanSupport.dbd
 PROD_LIBS += sscan
 endif
 
+ifdef RECCASTER
+modbusApp_DBD += reccaster.dbd
+PROD_LIBS += reccaster
+endif
+
 PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 PROD_SYS_LIBS_solaris += socket
