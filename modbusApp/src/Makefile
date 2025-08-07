@@ -68,8 +68,8 @@ PROD_LIBS += busy
 endif
 
 ifdef SSCAN
-  modbusApp_DBD += sscanSupport.dbd
-  PROD_LIBS += sscan
+modbusApp_DBD += sscanSupport.dbd
+PROD_LIBS += sscan
 endif
 
 PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
