@@ -46,6 +46,32 @@ testClient_SRCS += testClient.cpp
 
 PROD_LIBS += modbus
 PROD_LIBS += asyn
+
+ifdef CALC
+modbusApp_DBD += calc.dbd calcSupport.dbd
+PROD_LIBS += calc
+endif
+
+ifdef AUTOSAVE
+modbusApp_DBD += asSupport.dbd
+PROD_LIBS += autosave
+endif
+
+ifdef DEVIOCSTATS
+modbusApp_DBD += iocAdmin.dbd
+PROD_LIBS += devIocStats
+endif
+
+ifdef BUSY
+modbusApp_DBD += busyRecord.dbd busySupport.dbd
+PROD_LIBS += busy
+endif
+
+ifdef SSCAN
+  modbusApp_DBD += sscanSupport.dbd
+  PROD_LIBS += sscan
+endif
+
 PROD_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 PROD_SYS_LIBS_solaris += socket
