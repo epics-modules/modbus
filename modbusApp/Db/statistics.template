@@ -64,3 +64,10 @@ record(longin,"$(P)$(R)MaxIOTime") {
     field(DTYP,"asynInt32")
     field(INP,"@asyn($(PORT) 0)MAX_IO_TIME")
 }
+
+record(bo, "$(P)$(R)ResetStatistics") {
+    field(DTYP,"asynInt32")
+    field(OUT,"@asyn($(PORT) 0)RESET_STATISTICS")
+    field(ZNAM, "Done")
+    field(ONAM, "Reset")
+}
