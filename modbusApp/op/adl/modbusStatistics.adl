@@ -1,14 +1,14 @@
 
 file {
-	name="/home/epics/devel/modbus/modbusApp/op/adl/modbusStatistics.adl"
-	version=030107
+	name="/home/epics/devel/modbus-3-4/modbusApp/op/adl/modbusStatistics.adl"
+	version=030117
 }
 display {
 	object {
 		x=730
 		y=50
 		width=560
-		height=375
+		height=395
 	}
 	clr=14
 	bclr=4
@@ -107,6 +107,7 @@ display {
 		ydata="$(P)$(R)Hist"
 		data_clr=54
 		yaxis=0
+		yside=0
 	}
 }
 "choice button" {
@@ -354,4 +355,31 @@ composite {
 	}
 	limits {
 	}
+}
+text {
+	object {
+		x=10
+		y=369
+		width=153
+		height=15
+	}
+	"basic attribute" {
+		clr=14
+	}
+	textix="Reset statistics:"
+}
+"message button" {
+	object {
+		x=168
+		y=368
+		width=80
+		height=18
+	}
+	control {
+		chan="$(P)$(R)ResetStatistics"
+		clr=14
+		bclr=51
+	}
+	label="Reset"
+	press_msg="1"
 }

@@ -222,12 +222,9 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
     createParam(MODBUS_IO_ERRORS_STRING,            asynParamInt32,       &P_IOErrors);
     createParam(MODBUS_LAST_IO_TIME_STRING,         asynParamInt32,       &P_LastIOTime);
     createParam(MODBUS_MAX_IO_TIME_STRING,          asynParamInt32,       &P_MaxIOTime);
+    createParam(MODBUS_RESET_STATISTICS_STRING,     asynParamInt32,       &P_ResetStatistics);
 
-    setIntegerParam(P_ReadOK, 0);
-    setIntegerParam(P_WriteOK, 0);
-    setIntegerParam(P_IOErrors, 0);
-    setIntegerParam(P_LastIOTime, 0);
-    setIntegerParam(P_MaxIOTime, 0);
+    resetStatistics();
 
     switch(modbusFunction_) {
         case MODBUS_READ_COILS:
@@ -334,6 +331,24 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
     epicsAtExit(modbusExitCallback, this);
 
     initialized_ = true;
+}
+
+void drvModbusAsyn::resetStatistics()
+{
+    readOK_          = 0;
+    writeOK_         = 0;
+    IOErrors_        = 0;
+    currentIOErrors_ = 0;
+    maxIOMsec_       = 0;
+    lastIOMsec_      = 0;
+    setIntegerParam(P_ReadOK,     0);
+    setIntegerParam(P_WriteOK,    0);
+    setIntegerParam(P_IOErrors,   0);
+    setIntegerParam(P_LastIOTime, 0);
+    setIntegerParam(P_MaxIOTime,  0);
+    for (int i=0; i<HISTOGRAM_LENGTH; i++) {
+        timeHistogram_[i] = 0;
+    }
 }
 
 
@@ -801,11 +816,16 @@ asynStatus drvModbusAsyn::writeInt32(asynUser *pasynUser, epicsInt32 value)
             histogramTimeAxis_[i] = i *histogramMsPerBin_;
         }
     }
+    else if (function == P_ResetStatistics) {
+        resetStatistics();
+    }
     else {
         return asynPortDriver::writeInt32(pasynUser, value);
     }
+    callParamCallbacks();
     return asynSuccess;
 }
+
 
 /*
 **  asynInt64 support

@@ -7,7 +7,7 @@
             <x>730</x>
             <y>50</y>
             <width>560</width>
-            <height>375</height>
+            <height>395</height>
         </rect>
     </property>
     <property name="styleSheet">
@@ -84,6 +84,16 @@ caChoice &gt; QPushButton {
       text-align: left;
       padding: 1px;
 }
+
+/* when font specified, no font sizing is done any more,  font: 10pt; is not bad. You could Enable this when you converted from .adl files
+caRelatedDisplay  &gt; QPushButton {
+font: 10pt;
+}
+
+caShellCommand  &gt; QPushButton {
+font: 10pt;
+}
+*/
 
 caSlider::groove:horizontal {
 border: 1px solid #bbb;
@@ -882,6 +892,81 @@ border-radius: 2px;
                 <enum>decimal</enum>
             </property>
         </widget>
+        <widget class="caLabel" name="caLabel_8">
+            <property name="frameShape">
+                <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="0">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="text">
+                <string>Reset statistics:</string>
+            </property>
+            <property name="fontScaleMode">
+                <enum>ESimpleLabel::WidthAndHeight</enum>
+            </property>
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>369</y>
+                    <width>153</width>
+                    <height>15</height>
+                </rect>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignAbsolute|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="caMessageButton" name="caMessageButton_0">
+            <property name="geometry">
+                <rect>
+                    <x>168</x>
+                    <y>368</y>
+                    <width>80</width>
+                    <height>18</height>
+                </rect>
+            </property>
+            <property name="fontScaleMode">
+                <enum>EPushButton::WidthAndHeight</enum>
+            </property>
+            <property name="channel">
+                <string>$(P)$(R)ResetStatistics</string>
+            </property>
+            <property name="foreground">
+                <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+            <property name="background">
+                <color alpha="255">
+                    <red>115</red>
+                    <green>223</green>
+                    <blue>255</blue>
+                </color>
+            </property>
+            <property name="label">
+                <string>Reset</string>
+            </property>
+            <property name="pressMessage">
+                <string>1</string>
+            </property>
+            <property name="colorMode">
+                <enum>caMessageButton::Static</enum>
+            </property>
+        </widget>
         <zorder>caLabel_0</zorder>
         <zorder>caLabel_1</zorder>
         <zorder>caLabel_2</zorder>
@@ -893,6 +978,7 @@ border-radius: 2px;
         <zorder>caFrame_2</zorder>
         <zorder>caLabel_7</zorder>
         <zorder>caFrame_0</zorder>
+        <zorder>caLabel_8</zorder>
         <zorder>caCartesianPlot_0</zorder>
         <zorder>caChoice_0</zorder>
         <zorder>caMenu_0</zorder>
@@ -902,6 +988,7 @@ border-radius: 2px;
         <zorder>caLineEdit_3</zorder>
         <zorder>caLineEdit_4</zorder>
         <zorder>caTextEntry_0</zorder>
+        <zorder>caMessageButton_0</zorder>
     </widget>
 </widget>
 </ui>

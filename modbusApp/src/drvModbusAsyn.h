@@ -34,6 +34,8 @@
 #define MODBUS_IO_ERRORS_STRING           "IO_ERRORS"
 #define MODBUS_LAST_IO_TIME_STRING        "LAST_IO_TIME"
 #define MODBUS_MAX_IO_TIME_STRING         "MAX_IO_TIME"
+#define MODBUS_RESET_STATISTICS_STRING    "RESET_STATISTICS"
+
 
 // These are the data type strings that are used in the drvUser parameter
 // They are not registered with asynPortDriver
@@ -185,6 +187,7 @@ public:
     asynStatus readPlcString (modbusDataType_t dataType, int offset, char *value, size_t maxChars, int *bufferLen);
     asynStatus writePlcString(modbusDataType_t dataType, int offset, const char *value, size_t maxChars, size_t *nActual, int *bufferLen);
     bool modbusExiting_;
+    void resetStatistics();
 
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
@@ -200,6 +203,7 @@ protected:
     int P_IOErrors;
     int P_LastIOTime;
     int P_MaxIOTime;
+    int P_ResetStatistics;
 
 private:
     /* Our data */
