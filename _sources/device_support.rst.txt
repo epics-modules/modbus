@@ -238,6 +238,12 @@ incorrect data.
     - HISTOGRAM_BIN_TIME
     - ao, longout
     - Sets the time per bin in msec in the statistics histogram
+  * - Any
+    - NA
+    - NA
+    - RESET_STATISTICS
+    - bo
+    - Resets all the I/O statistics on this asyn port.
 
 asynInt64
 ~~~~~~~~~
