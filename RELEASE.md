@@ -1,5 +1,17 @@
 # modbus: Modbus Support - Release Notes
 
+## R3-5 (September XXX, 2026)
+- Added support for resetting the I/O statistics for a driver.
+  Added ResetStatistics record to modbusStatistics.template, 
+  and added this PV to the modbusStatistics OPI screens.
+  This is useful for resetting the I/O statistics when a
+  device comes back online.
+- Fix problem with std::min() and std::max() on Windows.
+- Remove debugging output from readFloat64Array().
+- Change Modbus addresses and offsets from octal to decimal in diagnostic output.
+- Added optional DESC macro to all databases.
+- Add new mbbi.template and mbbo.template database files.
+
 ## R3-4 (December 1, 2024)
 - Added support for Modbus function 17, which is called Report Slave ID.
   The Modbus specification says this is only supported for serial RTU and
