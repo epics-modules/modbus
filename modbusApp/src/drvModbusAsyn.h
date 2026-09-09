@@ -173,7 +173,7 @@ public:
     /* These are the methods that are new to this class */
     void readPoller();
     modbusDataType_t getDataType(asynUser *pasynUser);
-    int getStringLen(asynUser *pasynUser, size_t maxChars);
+    int getTypeLen(asynUser *pasynUser, size_t maxChars);
     bool isZeroTerminatedString(modbusDataType_t dataType);
     asynStatus checkOffset(int offset);
     asynStatus checkModbusFunction(int *modbusFunction);

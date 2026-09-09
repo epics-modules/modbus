@@ -77,6 +77,7 @@
 typedef struct {
     modbusDataType_t dataType;
     const char *dataTypeString;
+    int dataTypeLen; // Length in words required for the type
 } modbusDataTypeStruct;
 
 struct modbusDrvUser_t {
@@ -85,43 +86,43 @@ struct modbusDrvUser_t {
 };
 
 static modbusDataTypeStruct modbusDataTypes[MAX_MODBUS_DATA_TYPES] = {
-    {dataTypeInt16,          MODBUS_INT16_STRING},
-    {dataTypeInt16SM,        MODBUS_INT16_SM_STRING},
-    {dataTypeBCDUnsigned,    MODBUS_BCD_UNSIGNED_STRING},
-    {dataTypeBCDSigned,      MODBUS_BCD_SIGNED_STRING},
-    {dataTypeUInt16,         MODBUS_UINT16_STRING},
-    {dataTypeInt32LE,        MODBUS_INT32_LE_STRING},
-    {dataTypeInt32LEBS,      MODBUS_INT32_LE_BS_STRING},
-    {dataTypeInt32BE,        MODBUS_INT32_BE_STRING},
-    {dataTypeInt32BEBS,      MODBUS_INT32_BE_BS_STRING},
-    {dataTypeUInt32LE,       MODBUS_UINT32_LE_STRING},
-    {dataTypeUInt32LEBS,     MODBUS_UINT32_LE_BS_STRING},
-    {dataTypeUInt32BE,       MODBUS_UINT32_BE_STRING},
-    {dataTypeUInt32BEBS,     MODBUS_UINT32_BE_BS_STRING},
-    {dataTypeInt64LE,        MODBUS_INT64_LE_STRING},
-    {dataTypeInt64LEBS,      MODBUS_INT64_LE_BS_STRING},
-    {dataTypeInt64BE,        MODBUS_INT64_BE_STRING},
-    {dataTypeInt64BEBS,      MODBUS_INT64_BE_BS_STRING},
-    {dataTypeUInt64LE,       MODBUS_UINT64_LE_STRING},
-    {dataTypeUInt64LEBS,     MODBUS_UINT64_LE_BS_STRING},
-    {dataTypeUInt64BE,       MODBUS_UINT64_BE_STRING},
-    {dataTypeUInt64BEBS,     MODBUS_UINT64_BE_BS_STRING},
-    {dataTypeFloat32LE,      MODBUS_FLOAT32_LE_STRING},
-    {dataTypeFloat32LEBS,    MODBUS_FLOAT32_LE_BS_STRING},
-    {dataTypeFloat32BE,      MODBUS_FLOAT32_BE_STRING},
-    {dataTypeFloat32BEBS,    MODBUS_FLOAT32_BE_BS_STRING},
-    {dataTypeFloat64LE,      MODBUS_FLOAT64_LE_STRING},
-    {dataTypeFloat64LEBS,    MODBUS_FLOAT64_LE_BS_STRING},
-    {dataTypeFloat64BE,      MODBUS_FLOAT64_BE_STRING},
-    {dataTypeFloat64BEBS,    MODBUS_FLOAT64_BE_BS_STRING},
-    {dataTypeStringHigh,     MODBUS_STRING_HIGH_STRING},
-    {dataTypeStringLow,      MODBUS_STRING_LOW_STRING},
-    {dataTypeStringHighLow,  MODBUS_STRING_HIGH_LOW_STRING},
-    {dataTypeStringLowHigh,  MODBUS_STRING_LOW_HIGH_STRING},
-    {dataTypeZStringHigh,    MODBUS_ZSTRING_HIGH_STRING},
-    {dataTypeZStringLow,     MODBUS_ZSTRING_LOW_STRING},
-    {dataTypeZStringHighLow, MODBUS_ZSTRING_HIGH_LOW_STRING},
-    {dataTypeZStringLowHigh, MODBUS_ZSTRING_LOW_HIGH_STRING},
+    {dataTypeInt16,          MODBUS_INT16_STRING,             1},
+    {dataTypeInt16SM,        MODBUS_INT16_SM_STRING,          1},
+    {dataTypeBCDUnsigned,    MODBUS_BCD_UNSIGNED_STRING,      1},
+    {dataTypeBCDSigned,      MODBUS_BCD_SIGNED_STRING,        1},
+    {dataTypeUInt16,         MODBUS_UINT16_STRING,            1},
+    {dataTypeInt32LE,        MODBUS_INT32_LE_STRING,          2},
+    {dataTypeInt32LEBS,      MODBUS_INT32_LE_BS_STRING,       2},
+    {dataTypeInt32BE,        MODBUS_INT32_BE_STRING,          2},
+    {dataTypeInt32BEBS,      MODBUS_INT32_BE_BS_STRING,       2},
+    {dataTypeUInt32LE,       MODBUS_UINT32_LE_STRING,         2},
+    {dataTypeUInt32LEBS,     MODBUS_UINT32_LE_BS_STRING,      2},
+    {dataTypeUInt32BE,       MODBUS_UINT32_BE_STRING,         2},
+    {dataTypeUInt32BEBS,     MODBUS_UINT32_BE_BS_STRING,      2},
+    {dataTypeInt64LE,        MODBUS_INT64_LE_STRING,          4},
+    {dataTypeInt64LEBS,      MODBUS_INT64_LE_BS_STRING,       4},
+    {dataTypeInt64BE,        MODBUS_INT64_BE_STRING,          4},
+    {dataTypeInt64BEBS,      MODBUS_INT64_BE_BS_STRING,       4},
+    {dataTypeUInt64LE,       MODBUS_UINT64_LE_STRING,         4},
+    {dataTypeUInt64LEBS,     MODBUS_UINT64_LE_BS_STRING,      4},
+    {dataTypeUInt64BE,       MODBUS_UINT64_BE_STRING,         4},
+    {dataTypeUInt64BEBS,     MODBUS_UINT64_BE_BS_STRING,      4},
+    {dataTypeFloat32LE,      MODBUS_FLOAT32_LE_STRING,        2},
+    {dataTypeFloat32LEBS,    MODBUS_FLOAT32_LE_BS_STRING,     2},
+    {dataTypeFloat32BE,      MODBUS_FLOAT32_BE_STRING,        2},
+    {dataTypeFloat32BEBS,    MODBUS_FLOAT32_BE_BS_STRING,     2},
+    {dataTypeFloat64LE,      MODBUS_FLOAT64_LE_STRING,        4},
+    {dataTypeFloat64LEBS,    MODBUS_FLOAT64_LE_BS_STRING,     4},
+    {dataTypeFloat64BE,      MODBUS_FLOAT64_BE_STRING,        4},
+    {dataTypeFloat64BEBS,    MODBUS_FLOAT64_BE_BS_STRING,     4},
+    {dataTypeStringHigh,     MODBUS_STRING_HIGH_STRING,      -1},
+    {dataTypeStringLow,      MODBUS_STRING_LOW_STRING,       -1},
+    {dataTypeStringHighLow,  MODBUS_STRING_HIGH_LOW_STRING,  -1},
+    {dataTypeStringLowHigh,  MODBUS_STRING_LOW_HIGH_STRING,  -1},
+    {dataTypeZStringHigh,    MODBUS_ZSTRING_HIGH_STRING,     -1},
+    {dataTypeZStringLow,     MODBUS_ZSTRING_LOW_STRING,      -1},
+    {dataTypeZStringHighLow, MODBUS_ZSTRING_HIGH_LOW_STRING, -1},
+    {dataTypeZStringLowHigh, MODBUS_ZSTRING_LOW_HIGH_STRING, -1},
 };
 
 static EPICS_ALWAYS_INLINE epicsUInt16 bswap16(epicsUInt16 value)
@@ -286,6 +287,13 @@ drvModbusAsyn::drvModbusAsyn(const char *portName, const char *octetPortName,
     drvUser_ = (modbusDrvUser_t *) callocMustSucceed(1, sizeof(modbusDrvUser_t), functionName);
     drvUser_->dataType = dataType_;
     drvUser_->len = -1;
+    for (int i=0; i<MAX_MODBUS_DATA_TYPES; i++) {
+        if (modbusDataTypes[i].dataType == dataType_) {
+            drvUser_->len = modbusDataTypes[i].dataTypeLen;
+            break;
+        }
+    }
+
 
     /* Connect to asyn octet port with asynOctetSyncIO */
     status = pasynOctetSyncIO->connect(octetPortName, 0, &pasynUserOctet_, 0);
@@ -398,7 +406,7 @@ asynStatus drvModbusAsyn::drvUserCreate(asynUser *pasynUser,
                 return asynError;
             }
             modbusDataType_t dataType = modbusDataTypes[i].dataType;
-            int len = -1;
+            int len = modbusDataTypes[i].dataTypeLen;
             if (equal_sign) {
                 switch (dataType) {
                     case dataTypeStringHigh:
@@ -668,6 +676,7 @@ asynStatus drvModbusAsyn::writeUInt32Digital(asynUser *pasynUser, epicsUInt32 va
 asynStatus drvModbusAsyn::readInt32 (asynUser *pasynUser, epicsInt32 *value)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
+    int const maxLen = getTypeLen(pasynUser, modbusLength_);
     int offset;
     asynStatus status;
     int bufferLen;
@@ -687,8 +696,7 @@ asynStatus drvModbusAsyn::readInt32 (asynUser *pasynUser, epicsInt32 *value)
         if (absoluteAddressing_) {
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
-            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                        offset, data_, std::min(2, modbusLength_));
+            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction, offset, data_, maxLen);
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
             readOnceDone_ = true;
@@ -834,6 +842,7 @@ asynStatus drvModbusAsyn::writeInt32(asynUser *pasynUser, epicsInt32 value)
 asynStatus drvModbusAsyn::readInt64 (asynUser *pasynUser, epicsInt64 *value)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
+    int const maxLen = getTypeLen(pasynUser, modbusLength_);
     int offset;
     asynStatus status;
     int bufferLen;
@@ -853,8 +862,7 @@ asynStatus drvModbusAsyn::readInt64 (asynUser *pasynUser, epicsInt64 *value)
         if (absoluteAddressing_) {
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
-            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                   offset, data_, std::min(4, modbusLength_));
+            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction, offset, data_, maxLen);
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
             readOnceDone_ = true;
@@ -980,6 +988,7 @@ asynStatus drvModbusAsyn::writeInt64(asynUser *pasynUser, epicsInt64 value)
 asynStatus drvModbusAsyn::readFloat64 (asynUser *pasynUser, epicsFloat64 *value)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
+    int const maxLen = getTypeLen(pasynUser, modbusLength_);
     int offset;
     int bufferLen;
     int modbusFunction;
@@ -999,8 +1008,7 @@ asynStatus drvModbusAsyn::readFloat64 (asynUser *pasynUser, epicsFloat64 *value)
         if (absoluteAddressing_) {
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
-            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                        offset, data_, std::min(4, modbusLength_));
+            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction, offset, data_, maxLen);
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
             readOnceDone_ = true;
@@ -1128,6 +1136,7 @@ asynStatus drvModbusAsyn::writeFloat64 (asynUser *pasynUser, epicsFloat64 value)
 asynStatus drvModbusAsyn::readFloat64Array (asynUser *pasynUser, epicsFloat64 *data, size_t maxChans, size_t *nactual)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
+    int const maxLen = std::min((int)maxChans*getTypeLen(pasynUser, 4), modbusLength_);
     int function = pasynUser->reason;
     int offset;
     size_t i;
@@ -1142,8 +1151,7 @@ asynStatus drvModbusAsyn::readFloat64Array (asynUser *pasynUser, epicsFloat64 *d
         if (absoluteAddressing_) {
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
-            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                   offset, data_, modbusLength_);
+            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction, offset, data_, maxLen);
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
         } else {
@@ -1297,6 +1305,7 @@ asynStatus drvModbusAsyn::writeFloat64Array(asynUser *pasynUser, epicsFloat64 *d
 asynStatus drvModbusAsyn::readInt32Array (asynUser *pasynUser, epicsInt32 *data, size_t maxChans, size_t *nactual)
 {
     modbusDataType_t dataType = getDataType(pasynUser);
+    int const maxLen = std::min((int)maxChans*getTypeLen(pasynUser, 2), modbusLength_);
     int function = pasynUser->reason;
     int offset;
     size_t i;
@@ -1311,8 +1320,7 @@ asynStatus drvModbusAsyn::readInt32Array (asynUser *pasynUser, epicsInt32 *data,
         if (absoluteAddressing_) {
             /* If absolute addressing then there is no poller running */
             if (checkModbusFunction(&modbusFunction)) return asynError;
-            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction,
-                                   offset, data_, std::min((int)maxChans, modbusLength_));
+            ioStatus_ = doModbusIO(modbusSlave_, modbusFunction, offset, data_, maxLen);
             if (ioStatus_ != asynSuccess) return(ioStatus_);
             offset = 0;
         } else {
@@ -1473,7 +1481,7 @@ asynStatus drvModbusAsyn::readOctet(asynUser *pasynUser, char *data, size_t maxC
     int modbusFunction;
     static const char *functionName="readOctet";
 
-    maxChars = getStringLen(pasynUser, maxChars);
+    maxChars = getTypeLen(pasynUser, maxChars);
 
     *nactual = 0;
     pasynManager->getAddr(pasynUser, &offset);
@@ -1538,17 +1546,17 @@ asynStatus drvModbusAsyn::writeOctet (asynUser *pasynUser, const char *data, siz
 
     if (isZeroTerminatedString(dataType)) {
         /* Create a local copy that is guaranteed to have a terminating zero */
-        strncpy(zeroData, data, getStringLen(pasynUser, maxChars));
+        strncpy(zeroData, data, getTypeLen(pasynUser, maxChars));
         data = zeroData;
         /* Account for the terminating zero character */
-        newMaxChars = getStringLen(pasynUser, maxChars + 1);
+        newMaxChars = getTypeLen(pasynUser, maxChars + 1);
         /* Check if the string needs to be truncated */
         if (newMaxChars > maxChars)
             zeroData[maxChars] = '\0';
         else
             zeroData[newMaxChars - 1] = '\0';
     } else {
-        newMaxChars = getStringLen(pasynUser, maxChars);
+        newMaxChars = getTypeLen(pasynUser, maxChars);
     }
 
     pasynManager->getAddr(pasynUser, &offset);
@@ -1931,7 +1939,7 @@ void drvModbusAsyn::readPoller()
                               driverName, functionName, this->portName, offset, modbusLength_);
                     break;
                 }
-                readPlcString(dataType, offset, stringBuffer, getStringLen(pasynUser, sizeof(stringBuffer)), &bufferLen);
+                readPlcString(dataType, offset, stringBuffer, getTypeLen(pasynUser, sizeof(stringBuffer)), &bufferLen);
                 /* Set the status flag in pasynUser so I/O Intr scanned records can set alarm status */
                 pasynUser->auxStatus = ioStatus_;
                 asynPrint(pasynUserSelf, ASYN_TRACE_FLOW,
@@ -2384,7 +2392,7 @@ modbusDataType_t drvModbusAsyn::getDataType(asynUser *pasynUser)
     return dataType;
 }
 
-int drvModbusAsyn::getStringLen(asynUser *pasynUser, size_t maxLen)
+int drvModbusAsyn::getTypeLen(asynUser *pasynUser, size_t maxLen)
 {
     size_t len = maxLen;
 
